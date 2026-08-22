@@ -333,3 +333,97 @@ button {
     padding: 14px 10px;
   }
 }
+/* Registration Page */
+
+.page-header {
+  padding: 70px 0 50px;
+  background: var(--blue-black);
+  color: var(--white);
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(36px, 6vw, 56px);
+  line-height: 1.1;
+}
+
+.page-header p {
+  max-width: 600px;
+  margin: 18px 0 0;
+  color: #d8e2ef;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.registration-options {
+  padding: 70px 0;
+  background: var(--soft-gray);
+}
+
+.registration-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.registration-card {
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 8px 30px rgba(16, 26, 43, 0.06);
+}
+
+.registration-number {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  background: var(--light-green);
+  color: var(--blue-black);
+  font-weight: 800;
+}
+
+.registration-card h2 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.registration-card > p {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.registration-card ul {
+  margin: 24px 0;
+  padding-left: 20px;
+  color: var(--text-muted);
+  line-height: 2;
+}
+
+.registration-card .button {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .registration-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    padding: 55px 0 40px;
+  }
+
+  .registration-options {
+    padding: 45px 0;
+  }
+
+  .registration-card {
+    padding: 25px;
+  }
+}
