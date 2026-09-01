@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Registration System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8fb;
+            color: #102a43;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #071a2b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #52606d;
+            margin-bottom: 25px;
+        }
+
+        .welcome-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 12px;
+            background: #168aad;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0f7290;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #7b8794;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🏫 School Registration</h1>
+    </header>
+
+    <main>
+        <div class="welcome-card">
+            <h2>Welcome</h2>
+            <p>
+                Welcome to the School Registration System.
+            </p>
+
+            <button class="btn" onclick="showMessage()">
+                🎓 Student Registration
+            </button>
+
+            <button class="btn" onclick="showMessage()">
+                🔎 Check Registration Status
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        School Registration System
+    </footer>
+
+    <script>
+        function showMessage() {
+            alert("This section will be built next.");
+        }
+    </script>
+
+</body>
+</html>
