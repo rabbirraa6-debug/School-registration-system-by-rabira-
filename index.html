@@ -51,21 +51,29 @@
             padding-bottom: 82px;
         }
 
-        button {
+        body.sidebar-open {
+            overflow: hidden;
+        }
+
+        button,
+        a {
             font: inherit;
         }
 
-        button:focus-visible {
+        button:focus-visible,
+        a:focus-visible {
             outline: 3px solid rgba(22, 138, 173, 0.28);
             outline-offset: 2px;
         }
 
-        /* Header */
+        /* =========================
+           HEADER
+        ========================= */
 
         header {
             background: var(--navy);
             color: white;
-            padding: 22px 20px;
+            padding: 17px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -77,13 +85,48 @@
             gap: 13px;
         }
 
+        .menu-button {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.09);
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            flex-shrink: 0;
+
+            transition:
+                background-color 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .menu-button:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .menu-button:active {
+            transform: scale(0.96);
+        }
+
+        .menu-button svg {
+            width: 21px;
+            height: 21px;
+        }
+
         .brand-icon {
             width: 42px;
             height: 42px;
             border-radius: 11px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             background: rgba(255, 255, 255, 0.09);
             color: #8ed8eb;
             flex-shrink: 0;
@@ -92,6 +135,10 @@
         .brand-icon svg {
             width: 23px;
             height: 23px;
+        }
+
+        .brand-text {
+            min-width: 0;
         }
 
         .brand-text h1 {
@@ -107,7 +154,268 @@
             font-size: 12px;
         }
 
-        /* Main */
+        /* =========================
+           SIDEBAR OVERLAY
+        ========================= */
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+
+            background: rgba(7, 26, 43, 0.42);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 0.28s ease,
+                visibility 0.28s ease;
+
+            backdrop-filter: blur(2px);
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            z-index: 100;
+
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            width: min(310px, 86vw);
+
+            background: var(--surface);
+
+            box-shadow: 10px 0 35px rgba(7, 26, 43, 0.16);
+
+            transform: translateX(-105%);
+
+            transition:
+                transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+
+            display: flex;
+            flex-direction: column;
+
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            background: var(--navy);
+            color: white;
+
+            padding: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .sidebar-brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.1);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #8ed8eb;
+        }
+
+        .sidebar-brand-text h2 {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .sidebar-brand-text p {
+            margin-top: 2px;
+            color: #b9e8f5;
+            font-size: 11px;
+        }
+
+        .close-sidebar {
+            width: 38px;
+            height: 38px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            transition: background-color 0.18s ease;
+        }
+
+        .close-sidebar:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .sidebar-content {
+            padding: 20px 16px;
+            flex: 1;
+        }
+
+        .sidebar-section-title {
+            padding: 0 8px;
+            margin-bottom: 9px;
+
+            color: var(--muted-light);
+
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 25px;
+        }
+
+        .sidebar-link {
+            width: 100%;
+            min-height: 48px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: transparent;
+            color: var(--text);
+
+            text-decoration: none;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 10px 12px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.18s ease,
+                color 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .sidebar-link:hover {
+            background: var(--sky-light);
+            color: var(--sky);
+            transform: translateX(2px);
+        }
+
+        .sidebar-link svg {
+            width: 19px;
+            height: 19px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-link .arrow {
+            margin-left: auto;
+            width: 16px;
+            height: 16px;
+            opacity: 0.45;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 8px 8px 22px;
+        }
+
+        /* Social links */
+
+        .social-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .social-link {
+            min-height: 44px;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            background: white;
+            color: var(--muted);
+
+            text-decoration: none;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            transition:
+                background-color 0.18s ease,
+                color 0.18s ease,
+                border-color 0.18s ease;
+        }
+
+        .social-link:hover {
+            background: var(--sky-light);
+            color: var(--sky);
+            border-color: #b8e3ed;
+        }
+
+        .social-link svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .sidebar-footer {
+            padding: 15px 20px 20px;
+
+            border-top: 1px solid var(--border);
+
+            color: var(--muted-light);
+            font-size: 11px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
 
         main {
             max-width: 680px;
@@ -133,7 +441,9 @@
             line-height: 1.6;
         }
 
-        /* Cards */
+        /* =========================
+           CARDS
+        ========================= */
 
         .card {
             background: var(--surface);
@@ -155,9 +465,11 @@
             width: 42px;
             height: 42px;
             border-radius: 11px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             flex-shrink: 0;
         }
 
@@ -176,11 +488,6 @@
             color: var(--green);
         }
 
-        .card-icon.navy {
-            background: #e9eef3;
-            color: var(--navy);
-        }
-
         .card h3 {
             font-size: 16px;
             line-height: 1.3;
@@ -195,13 +502,17 @@
             margin-bottom: 17px;
         }
 
-        /* Buttons */
+        /* =========================
+           BUTTONS
+        ========================= */
 
         .action-button {
             width: 100%;
             min-height: 46px;
+
             border: 1px solid transparent;
             border-radius: 10px;
+
             padding: 12px 15px;
 
             display: flex;
@@ -211,6 +522,7 @@
 
             font-size: 14px;
             font-weight: 600;
+
             cursor: pointer;
 
             transition:
@@ -249,20 +561,13 @@
             background: #d8f1e3;
         }
 
-        .staff {
-            background: var(--navy);
-            color: white;
-        }
-
-        .staff:hover {
-            background: var(--navy-light);
-        }
-
         .action-button:active {
             transform: translateY(0);
         }
 
-        /* Footer */
+        /* =========================
+           FOOTER
+        ========================= */
 
         footer {
             text-align: center;
@@ -271,11 +576,14 @@
             padding: 10px 20px 24px;
         }
 
-        /* Bottom navigation */
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
 
         .bottom-nav {
             position: fixed;
             z-index: 20;
+
             left: 0;
             right: 0;
             bottom: 0;
@@ -288,6 +596,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+
             gap: 8px;
 
             box-shadow: 0 -5px 20px rgba(7, 26, 43, 0.07);
@@ -299,20 +608,22 @@
 
             border: none;
             border-radius: 11px;
-            background: transparent;
 
+            background: transparent;
             color: var(--muted);
 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
             gap: 4px;
 
             font-size: 11px;
             font-weight: 600;
 
             cursor: pointer;
+
             transition:
                 color 0.18s ease,
                 background-color 0.18s ease;
@@ -333,11 +644,18 @@
             color: var(--sky);
         }
 
-        /* Responsive */
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
         @media (min-width: 700px) {
+
             body {
                 padding-bottom: 25px;
+            }
+
+            .header-inner {
+                max-width: 720px;
             }
 
             main {
@@ -347,9 +665,11 @@
             .bottom-nav {
                 position: static;
                 height: auto;
+
                 border-top: none;
                 box-shadow: none;
                 background: transparent;
+
                 margin: 0 auto;
                 padding: 0 20px 20px;
             }
@@ -359,7 +679,29 @@
             }
         }
 
+        @media (max-width: 520px) {
+
+            .brand-text h1 {
+                font-size: 17px;
+            }
+
+            .brand-text p {
+                font-size: 11px;
+            }
+
+            .header-inner {
+                gap: 9px;
+            }
+
+            .menu-button,
+            .brand-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
         @media (max-width: 380px) {
+
             main {
                 padding-left: 14px;
                 padding-right: 14px;
@@ -376,43 +718,269 @@
             .nav-item {
                 width: 80px;
             }
+
+            .sidebar {
+                width: 88vw;
+            }
+        }
+
+        /* Prevent text selection on interface controls */
+        button,
+        .sidebar-link,
+        .social-link,
+        .nav-item,
+        .brand-icon,
+        .card-icon {
+            user-select: none;
         }
     </style>
 </head>
 
 <body>
 
+<!-- =========================
+     SIDEBAR OVERLAY
+========================= -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+    onclick="closeSidebar()"
+></div>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+    aria-label="Site menu"
+>
+
+    <div class="sidebar-header">
+
+        <div class="sidebar-brand">
+
+            <div class="sidebar-brand-icon">
+                <i data-lucide="school"></i>
+            </div>
+
+            <div class="sidebar-brand-text">
+                <h2>School Registration</h2>
+                <p>Management System</p>
+            </div>
+
+        </div>
+
+        <button
+            class="close-sidebar"
+            onclick="closeSidebar()"
+            type="button"
+            aria-label="Close menu"
+        >
+            <i data-lucide="x"></i>
+        </button>
+
+    </div>
+
+
+    <div class="sidebar-content">
+
+        <div class="sidebar-section-title">
+            Staff Access
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="admin-login.html"
+                class="sidebar-link"
+                onclick="closeSidebar()"
+            >
+                <i data-lucide="shield-check"></i>
+
+                <span>Admin Login</span>
+
+                <i
+                    class="arrow"
+                    data-lucide="chevron-right"
+                ></i>
+            </a>
+
+
+            <a
+                href="login.html"
+                class="sidebar-link"
+                onclick="closeSidebar()"
+            >
+                <i data-lucide="users"></i>
+
+                <span>Staff Login</span>
+
+                <i
+                    class="arrow"
+                    data-lucide="chevron-right"
+                ></i>
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-divider"></div>
+
+
+        <div class="sidebar-section-title">
+            Information
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="info.html"
+                class="sidebar-link"
+                onclick="closeSidebar()"
+            >
+                <i data-lucide="info"></i>
+
+                <span>School Information</span>
+
+                <i
+                    class="arrow"
+                    data-lucide="chevron-right"
+                ></i>
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-divider"></div>
+
+
+        <div class="sidebar-section-title">
+            Follow Us
+        </div>
+
+        <div class="social-links">
+
+            <!-- Replace # with your real social media links later -->
+
+            <a
+                href="#"
+                class="social-link"
+                aria-label="Facebook"
+            >
+                <i data-lucide="facebook"></i>
+                <span>Facebook</span>
+            </a>
+
+            <a
+                href="#"
+                class="social-link"
+                aria-label="Instagram"
+            >
+                <i data-lucide="instagram"></i>
+                <span>Instagram</span>
+            </a>
+
+            <a
+                href="#"
+                class="social-link"
+                aria-label="Telegram"
+            >
+                <i data-lucide="send"></i>
+                <span>Telegram</span>
+            </a>
+
+            <a
+                href="#"
+                class="social-link"
+                aria-label="Website"
+            >
+                <i data-lucide="globe"></i>
+                <span>Website</span>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-footer">
+        School Registration &amp; Management System
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
+
     <div class="header-inner">
+
+        <button
+            class="menu-button"
+            onclick="openSidebar()"
+            type="button"
+            aria-label="Open menu"
+            aria-controls="sidebar"
+        >
+            <i data-lucide="menu"></i>
+        </button>
+
 
         <div class="brand-icon" aria-hidden="true">
             <i data-lucide="school"></i>
         </div>
 
+
         <div class="brand-text">
+
             <h1>School Registration</h1>
-            <p>Student &amp; School Management System</p>
+
+            <p>
+                Student &amp; School Management System
+            </p>
+
         </div>
 
     </div>
+
 </header>
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
 
 <main>
 
     <section class="welcome">
+
         <h2>Welcome</h2>
 
         <p>
             Register for the new school year or check
             the status of your registration.
         </p>
+
     </section>
+
+
+    <!-- Student Registration -->
 
     <section class="card">
 
         <div class="card-header">
 
-            <div class="card-icon blue" aria-hidden="true">
+            <div
+                class="card-icon blue"
+                aria-hidden="true"
+            >
                 <i data-lucide="graduation-cap"></i>
             </div>
 
@@ -422,27 +990,38 @@
 
         </div>
 
+
         <p>
             New and returning students can begin their
             registration process here.
         </p>
+
 
         <button
             class="action-button primary"
             onclick="openRegistration()"
             type="button"
         >
+
             <i data-lucide="arrow-right"></i>
+
             <span>Start Registration</span>
+
         </button>
 
     </section>
+
+
+    <!-- Registration Status -->
 
     <section class="card">
 
         <div class="card-header">
 
-            <div class="card-icon green" aria-hidden="true">
+            <div
+                class="card-icon green"
+                aria-hidden="true"
+            >
                 <i data-lucide="clipboard-check"></i>
             </div>
 
@@ -452,59 +1031,43 @@
 
         </div>
 
+
         <p>
             Check your registration and payment progress
             using your student information.
         </p>
+
 
         <button
             class="action-button secondary"
             onclick="openStatus()"
             type="button"
         >
+
             <i data-lucide="search"></i>
+
             <span>Check Status</span>
-        </button>
 
-    </section>
-
-    <section class="card">
-
-        <div class="card-header">
-
-            <div class="card-icon navy" aria-hidden="true">
-                <i data-lucide="shield-check"></i>
-            </div>
-
-            <div>
-                <h3>School Staff</h3>
-            </div>
-
-        </div>
-
-        <p>
-            Authorized teachers and administrators can
-            access the school management system.
-        </p>
-
-        <button
-            class="action-button staff"
-            onclick="openStaffLogin()"
-            type="button"
-        >
-            <i data-lucide="log-in"></i>
-            <span>Staff Login</span>
         </button>
 
     </section>
 
 </main>
 
+
 <footer>
     School Registration System
 </footer>
 
-<nav class="bottom-nav" aria-label="Main navigation">
+
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
+
+<nav
+    class="bottom-nav"
+    aria-label="Main navigation"
+>
 
     <button
         class="nav-item active"
@@ -512,9 +1075,13 @@
         type="button"
         aria-label="Home"
     >
+
         <i data-lucide="house"></i>
+
         <span>Home</span>
+
     </button>
+
 
     <button
         class="nav-item"
@@ -522,9 +1089,13 @@
         type="button"
         aria-label="Register"
     >
+
         <i data-lucide="file-plus-2"></i>
+
         <span>Register</span>
+
     </button>
+
 
     <button
         class="nav-item"
@@ -532,31 +1103,100 @@
         type="button"
         aria-label="Check registration status"
     >
+
         <i data-lucide="search-check"></i>
+
         <span>Status</span>
+
     </button>
 
 </nav>
 
+
 <script>
-    function openRegistration() {
-        window.location.href = "register.html";
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    function openSidebar() {
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        const overlay =
+            document.getElementById("sidebarOverlay");
+
+        sidebar.classList.add("active");
+
+        overlay.classList.add("active");
+
+        document.body.classList.add("sidebar-open");
+
     }
+
+
+    function closeSidebar() {
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        const overlay =
+            document.getElementById("sidebarOverlay");
+
+        sidebar.classList.remove("active");
+
+        overlay.classList.remove("active");
+
+        document.body.classList.remove("sidebar-open");
+
+    }
+
+
+    /* Close sidebar with Escape */
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+
+            closeSidebar();
+
+        }
+
+    });
+
+
+    /* =========================
+       PAGE NAVIGATION
+    ========================= */
+
+    function openRegistration() {
+
+        window.location.href = "register.html";
+
+    }
+
 
     function openStatus() {
+
         window.location.href = "status.html";
+
     }
 
-    function openStaffLogin() {
-        window.location.href = "login.html";
-    }
 
     function goHome() {
+
         window.location.href = "index.html";
+
     }
 
-    // Activate Lucide icons
+
+    /* =========================
+       LUCIDE ICONS
+    ========================= */
+
     lucide.createIcons();
+
 </script>
 
 </body>
