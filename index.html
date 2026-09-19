@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>School Registration System</title>
 
     <style>
@@ -15,98 +16,229 @@
         body {
             font-family: Arial, sans-serif;
             background: #f4f8fb;
-            color: #102a43;
+            color: #071a2b;
             min-height: 100vh;
+            padding-bottom: 80px;
         }
 
         header {
             background: #071a2b;
             color: white;
-            padding: 20px;
+            padding: 22px 18px;
             text-align: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        header p {
+            margin-top: 6px;
+            color: #b9e8f5;
+            font-size: 13px;
         }
 
         main {
-            padding: 30px 20px;
+            max-width: 600px;
+            margin: auto;
+            padding: 25px 18px;
+        }
+
+        .welcome {
             text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 12px;
-        }
-
-        p {
-            color: #52606d;
             margin-bottom: 25px;
         }
 
-        .welcome-card {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px 20px;
-            border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        .welcome h2 {
+            font-size: 26px;
+            margin-bottom: 8px;
         }
 
-        .btn {
-            display: block;
+        .welcome p {
+            color: #52606d;
+            line-height: 1.5;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 20px rgba(7, 26, 43, 0.08);
+        }
+
+        .card h3 {
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #627d98;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        button {
             width: 100%;
-            padding: 15px;
-            margin-top: 12px;
             border: none;
             border-radius: 12px;
-            background: #168aad;
-            color: white;
-            font-size: 16px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
             cursor: pointer;
         }
 
-        .btn:hover {
-            background: #0f7290;
+        .primary {
+            background: #168aad;
+            color: white;
+        }
+
+        .secondary {
+            background: #dff6e8;
+            color: #176b45;
+        }
+
+        .staff {
+            background: #071a2b;
+            color: white;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-top: 1px solid #d9e2ec;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-item {
+            background: none;
+            color: #627d98;
+            width: auto;
+            padding: 6px 15px;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #168aad;
         }
 
         footer {
             text-align: center;
-            padding: 25px;
-            color: #7b8794;
-            font-size: 14px;
+            color: #829ab1;
+            font-size: 12px;
+            padding: 20px;
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>🏫 School Registration</h1>
-    </header>
+<header>
+    <h1>🏫 School Registration</h1>
+    <p>Student & School Management System</p>
+</header>
 
-    <main>
-        <div class="welcome-card">
-            <h2>Welcome</h2>
-            <p>
-                Welcome to the School Registration System.
-            </p>
+<main>
 
-            <button class="btn" onclick="showMessage()">
-                🎓 Student Registration
-            </button>
+    <section class="welcome">
+        <h2>Welcome 👋</h2>
+        <p>
+            Register for the new school year or check
+            the status of your registration.
+        </p>
+    </section>
 
-            <button class="btn" onclick="showMessage()">
-                🔎 Check Registration Status
-            </button>
-        </div>
-    </main>
+    <section class="card">
+        <h3>🎓 Student Registration</h3>
 
-    <footer>
-        School Registration System
-    </footer>
+        <p>
+            New and returning students can begin their
+            registration process here.
+        </p>
 
-    <script>
-        function showMessage() {
-            alert("This section will be built next.");
-        }
-    </script>
+        <button class="primary" onclick="openRegistration()">
+            Start Registration
+        </button>
+    </section>
+
+    <section class="card">
+        <h3>🔎 Check Registration Status</h3>
+
+        <p>
+            Check your registration and payment progress
+            using your student information.
+        </p>
+
+        <button class="secondary" onclick="openStatus()">
+            Check Status
+        </button>
+    </section>
+
+    <section class="card">
+        <h3>👨‍🏫 School Staff</h3>
+
+        <p>
+            Authorized teachers and administrators can
+            access the school management system.
+        </p>
+
+        <button class="staff" onclick="openStaffLogin()">
+            Staff Login
+        </button>
+    </section>
+
+</main>
+
+<footer>
+    School Registration System
+</footer>
+
+<nav class="bottom-nav">
+
+    <button class="nav-item active" onclick="goHome()">
+        🏠<br>Home
+    </button>
+
+    <button class="nav-item" onclick="openRegistration()">
+        📝<br>Register
+    </button>
+
+    <button class="nav-item" onclick="openStatus()">
+        🔎<br>Status
+    </button>
+
+</nav>
+
+<script>
+
+    function openRegistration() {
+        window.location.href = "register.html";
+    }
+
+    function openStatus() {
+        window.location.href = "status.html";
+    }
+
+    function openStaffLogin() {
+        window.location.href = "login.html";
+    }
+
+    function goHome() {
+        window.location.href = "index.html";
+    }
+
+</script>
 
 </body>
 </html>
