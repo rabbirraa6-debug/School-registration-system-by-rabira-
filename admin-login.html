@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login | School Registration System</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -36,6 +37,11 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      user-select: none;
+    }
+
+    input {
+      user-select: text;
     }
 
     header {
@@ -195,6 +201,17 @@
       margin-bottom: 16px;
     }
 
+    .success-message {
+      display: none;
+      background: #eefbf4;
+      border: 1px solid #b7e4ca;
+      color: var(--green);
+      padding: 11px 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
     .login-button {
       width: 100%;
       height: 50px;
@@ -218,6 +235,11 @@
 
     .login-button:active {
       transform: scale(0.99);
+    }
+
+    .login-button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
     .security-note {
@@ -270,177 +292,383 @@
 
 <body>
 
-  <header>
-    <div class="header-icon">
-      <i data-lucide="shield-check"></i>
+<header>
+  <div class="header-icon">
+    <i data-lucide="shield-check"></i>
+  </div>
+
+  <div>
+    <h1>School Registration System</h1>
+    <p>Administration</p>
+  </div>
+</header>
+
+<main>
+
+  <section class="login-card">
+
+    <div class="login-heading">
+
+      <div class="login-icon">
+        <i data-lucide="shield-check" size="30"></i>
+      </div>
+
+      <h2>Administrator Login</h2>
+
+      <p>
+        Sign in to manage teachers, classes, students and school settings.
+      </p>
+
+      <div class="admin-badge">
+        <i data-lucide="lock-keyhole" size="13"></i>
+        Restricted Access
+      </div>
+
     </div>
 
-    <div>
-      <h1>School Registration System</h1>
-      <p>Administration</p>
-    </div>
-  </header>
+    <div id="errorMessage" class="error-message"></div>
 
-  <main>
+    <div id="successMessage" class="success-message"></div>
 
-    <section class="login-card">
+    <form id="adminLoginForm">
 
-      <div class="login-heading">
+      <div class="field">
 
-        <div class="login-icon">
-          <i data-lucide="shield-check" size="30"></i>
-        </div>
+        <label for="username">Admin Username</label>
 
-        <h2>Administrator Login</h2>
+        <div class="input-wrapper">
 
-        <p>
-          Sign in to manage teachers, classes, students and school settings.
-        </p>
+          <i class="input-icon" data-lucide="user"></i>
 
-        <div class="admin-badge">
-          <i data-lucide="lock-keyhole" size="13"></i>
-          Restricted Access
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter admin username"
+            autocomplete="username"
+            required
+          >
+
         </div>
 
       </div>
 
-      <div id="errorMessage" class="error-message"></div>
+      <div class="field">
 
-      <form onsubmit="handleAdminLogin(event)">
+        <label for="pin">6-Digit PIN</label>
 
-        <div class="field">
+        <div class="input-wrapper">
 
-          <label for="username">Admin Username</label>
+          <i class="input-icon" data-lucide="key-round"></i>
 
-          <div class="input-wrapper">
-
-            <i class="input-icon" data-lucide="user"></i>
-
-            <input
-              type="text"
-              id="username"
-              placeholder="Enter admin username"
-              autocomplete="username"
-              required
-            >
-
-          </div>
+          <input
+            type="password"
+            id="pin"
+            placeholder="••••••"
+            inputmode="numeric"
+            maxlength="6"
+            pattern="[0-9]{6}"
+            autocomplete="current-password"
+            required
+          >
 
         </div>
 
-        <div class="field">
-
-          <label for="pin">6-Digit PIN</label>
-
-          <div class="input-wrapper">
-
-            <i class="input-icon" data-lucide="key-round"></i>
-
-            <input
-              type="password"
-              id="pin"
-              placeholder="••••••"
-              inputmode="numeric"
-              maxlength="6"
-              pattern="[0-9]{6}"
-              autocomplete="current-password"
-              required
-            >
-
-          </div>
-
-          <div class="pin-note">
-            Enter the administrator's 6-digit security PIN.
-          </div>
-
-        </div>
-
-        <button type="submit" class="login-button">
-
-          <i data-lucide="log-in" size="18"></i>
-
-          Sign In
-
-        </button>
-
-      </form>
-
-      <div class="security-note">
-
-        <i data-lucide="shield-check" size="18"></i>
-
-        <div>
-          Administrator access is restricted to authorized school
-          administration personnel.
+        <div class="pin-note">
+          Enter the administrator's 6-digit security PIN.
         </div>
 
       </div>
 
-      <button class="back-button" onclick="goHome()">
-        Back to Home
+      <button type="submit" class="login-button" id="loginButton">
+
+        <i data-lucide="log-in" size="18"></i>
+
+        <span id="loginButtonText">Sign In</span>
+
       </button>
 
-    </section>
+    </form>
 
-  </main>
+    <div class="security-note">
 
-  <script>
+      <i data-lucide="shield-check" size="18"></i>
 
-    const pinInput = document.getElementById("pin");
+      <div>
+        Administrator access is restricted to authorized school
+        administration personnel.
+      </div>
 
-    pinInput.addEventListener("input", function () {
+    </div>
 
-      this.value = this.value
-        .replace(/\D/g, "")
-        .slice(0, 6);
+    <button class="back-button" onclick="goHome()">
+      Back to Home
+    </button>
 
-    });
+  </section>
 
-    function handleAdminLogin(event) {
+</main>
 
-      event.preventDefault();
+<script>
 
-      const username =
-        document.getElementById("username").value.trim();
+  /* ================================
+     SUPABASE CONNECTION
+  ================================= */
 
-      const pin =
-        document.getElementById("pin").value.trim();
+  const SUPABASE_URL =
+    "https://goongxvoooiwsesqoptz.supabase.co";
 
-      const errorMessage =
-        document.getElementById("errorMessage");
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
 
-      errorMessage.style.display = "none";
+  const { createClient } = supabase;
 
-      if (!username || !/^\d{6}$/.test(pin)) {
+  const db = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
-        errorMessage.textContent =
-          "Please enter an admin username and a valid 6-digit PIN.";
 
-        errorMessage.style.display = "block";
+  /* ================================
+     ELEMENTS
+  ================================= */
 
-        return;
-      }
+  const form =
+    document.getElementById("adminLoginForm");
+
+  const usernameInput =
+    document.getElementById("username");
+
+  const pinInput =
+    document.getElementById("pin");
+
+  const errorMessage =
+    document.getElementById("errorMessage");
+
+  const successMessage =
+    document.getElementById("successMessage");
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const loginButtonText =
+    document.getElementById("loginButtonText");
+
+
+  /* ================================
+     PIN INPUT
+  ================================= */
+
+  pinInput.addEventListener("input", function () {
+
+    this.value = this.value
+      .replace(/\D/g, "")
+      .slice(0, 6);
+
+  });
+
+
+  /* ================================
+     SHOW ERROR
+  ================================= */
+
+  function showError(message) {
+
+    successMessage.style.display = "none";
+
+    errorMessage.textContent = message;
+
+    errorMessage.style.display = "block";
+
+  }
+
+
+  /* ================================
+     LOGIN
+  ================================= */
+
+  async function handleAdminLogin(event) {
+
+    event.preventDefault();
+
+    errorMessage.style.display = "none";
+    successMessage.style.display = "none";
+
+    const username =
+      usernameInput.value.trim().toLowerCase();
+
+    const pin =
+      pinInput.value.trim();
+
+    if (!username) {
+
+      showError("Please enter the admin username.");
+
+      return;
+
+    }
+
+    if (!/^\d{6}$/.test(pin)) {
+
+      showError("Please enter a valid 6-digit PIN.");
+
+      return;
+
+    }
+
+
+    loginButton.disabled = true;
+
+    loginButtonText.textContent = "Signing In...";
+
+
+    try {
 
       /*
-        Supabase authentication will be connected later.
+        Our visible login uses:
 
-        No administrator username or PIN is stored
-        inside this public HTML file.
+        username: admin
+
+        Supabase internally uses:
+        admin@school.local
       */
 
-      errorMessage.textContent =
-        "Admin authentication will be connected to Supabase later.";
+      const authEmail =
+        username + "@school.local";
 
-      errorMessage.style.display = "block";
+
+      /* Sign in with Supabase Auth */
+
+      const { data, error } =
+        await db.auth.signInWithPassword({
+
+          email: authEmail,
+
+          password: pin
+
+        });
+
+
+      if (error) {
+
+        console.error(error);
+
+        showError(
+          "Invalid administrator username or PIN."
+        );
+
+        return;
+
+      }
+
+
+      if (!data.user) {
+
+        showError(
+          "Authentication failed. Please try again."
+        );
+
+        return;
+
+      }
+
+
+      /* Verify that this Auth user is actually an admin */
+
+      const { data: adminRecord, error: adminError } =
+        await db
+          .from("admins")
+          .select("id, auth_user_id, name, username")
+          .eq("auth_user_id", data.user.id)
+          .eq("username", username)
+          .maybeSingle();
+
+
+      if (adminError) {
+
+        console.error(adminError);
+
+        await db.auth.signOut();
+
+        showError(
+          "Could not verify administrator access."
+        );
+
+        return;
+
+      }
+
+
+      if (!adminRecord) {
+
+        await db.auth.signOut();
+
+        showError(
+          "This account is authenticated but does not have administrator access."
+        );
+
+        return;
+
+      }
+
+
+      /* Successful login */
+
+      successMessage.textContent =
+        "Login successful. Opening administrator dashboard...";
+
+      successMessage.style.display = "block";
+
+
+      setTimeout(function () {
+
+        window.location.href = "admin.html";
+
+      }, 700);
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showError(
+        "Unable to connect to the authentication service."
+      );
+
+    } finally {
+
+      loginButton.disabled = false;
+
+      loginButtonText.textContent = "Sign In";
+
     }
 
-    function goHome() {
-      window.location.href = "index.html";
-    }
+  }
 
-    lucide.createIcons();
 
-  </script>
+  form.addEventListener(
+    "submit",
+    handleAdminLogin
+  );
+
+
+  /* ================================
+     HOME
+  ================================= */
+
+  function goHome() {
+
+    window.location.href = "index.html";
+
+  }
+
+
+  /* ================================
+     ICONS
+  ================================= */
+
+  lucide.createIcons();
+
+</script>
 
 </body>
 </html>
