@@ -9,592 +9,703 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    html, body {
-        min-height: 100%;
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f4f7fb;
-        color: #172033;
-    }
+html,
+body {
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
 
-    body {
-        overflow-x: hidden;
-        user-select: none;
-    }
+body {
+    overflow-x: hidden;
+    user-select: none;
+}
 
-    input, select, button {
-        font: inherit;
-    }
+input,
+select,
+button {
+    font: inherit;
+}
 
-    input, select {
-        user-select: text;
-    }
+input,
+select {
+    user-select: text;
+}
 
-    button {
-        border: 0;
-        cursor: pointer;
+button {
+    border: 0;
+    cursor: pointer;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 270px;
+    height: 100vh;
+    background: #101827;
+    color: white;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.school-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: #07111f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.school-name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.school-subtitle {
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.nav {
+    padding: 18px 12px;
+}
+
+.nav-label {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 12px 9px;
+    text-transform: uppercase;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 4px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 9px;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.nav a:hover {
+    background: #1b2638;
+    color: white;
+}
+
+.nav a.active {
+    background: #172f49;
+    color: #7dd3fc;
+}
+
+.nav a i {
+    width: 18px;
+    height: 18px;
+}
+
+.sidebar-bottom {
+    margin-top: 20px;
+    padding: 15px 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-bottom a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.sidebar-bottom a:hover {
+    background: #1b2638;
+    color: white;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    margin-left: 270px;
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 76px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+}
+
+.menu-btn {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    background: #f1f5f9;
+    color: #172033;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-heading > i {
+    color: #0284c7;
+}
+
+.page-heading h1 {
+    font-size: 20px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    color: #0369a1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-text strong {
+    display: block;
+    font-size: 13px;
+}
+
+.profile-text span {
+    display: block;
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+    padding: 28px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.intro {
+    margin-bottom: 24px;
+}
+
+.intro h2 {
+    font-size: 25px;
+    margin-bottom: 7px;
+}
+
+.intro p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* =========================
+   DEBUG / ERROR PANEL
+========================= */
+
+.status-panel {
+    display: none;
+    margin-bottom: 20px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.status-panel.show {
+    display: block;
+}
+
+.status-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.status-title i {
+    width: 18px;
+    height: 18px;
+}
+
+.status-message {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #475569;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.status-panel.loading {
+    border-color: #bae6fd;
+    background: #f0f9ff;
+}
+
+.status-panel.error {
+    border-color: #fecaca;
+    background: #fff7f7;
+}
+
+.status-panel.error .status-title {
+    color: #b91c1c;
+}
+
+.status-panel.success {
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+}
+
+.status-panel.success .status-title {
+    color: #166534;
+}
+
+/* =========================
+   YEAR
+========================= */
+
+.year-panel {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.year-info {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.year-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #ecfdf5;
+    color: #059669;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.year-info strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.year-info span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.year-select {
+    min-width: 190px;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: white;
+    color: #172033;
+    outline: none;
+}
+
+.year-select:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
+}
+
+.year-select:disabled {
+    background: #f8fafc;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* =========================
+   GRADES
+========================= */
+
+.grades {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.grade-row {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    transition: border-color 0.2s ease;
+}
+
+.grade-row:hover {
+    border-color: #bae6fd;
+}
+
+.grade-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.grade-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+}
+
+.grade-number {
+    width: 43px;
+    height: 43px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #0369a1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.grade-title h3 {
+    font-size: 16px;
+}
+
+.grade-title p {
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.add-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    background: #0284c7;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: 0.2s ease;
+}
+
+.add-btn:hover {
+    background: #0369a1;
+    transform: translateY(-1px);
+}
+
+.add-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.sections-area {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.empty-sections {
+    color: #94a3b8;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.section-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.section-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 11px;
+    border: 1px solid #dbeafe;
+    background: #f8fbff;
+    border-radius: 8px;
+    color: #075985;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.section-item i {
+    width: 15px;
+    height: 15px;
+    color: #0284c7;
+}
+
+.section-delete {
+    width: 25px;
+    height: 25px;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-delete:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* =========================
+   NOTICE
+========================= */
+
+.notice {
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #166534;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.notice i {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 35px;
+    color: #64748b;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+}
+
+.loading i {
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.5);
+    z-index: 900;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    background: #101827;
+    color: white;
+    padding: 13px 16px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    opacity: 0;
+    transform: translateY(15px);
+    pointer-events: none;
+    transition: 0.25s ease;
+    z-index: 2000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast i {
+    color: #4ade80;
+    width: 17px;
+    height: 17px;
+}
+
+.toast.error i {
+    color: #fb7185;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 850px) {
 
     .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 270px;
-        height: 100vh;
-        background: #101827;
-        color: white;
-        z-index: 1000;
-        overflow-y: auto;
-        transition: transform 0.3s ease;
+        transform: translateX(-105%);
     }
 
-    .sidebar-header {
-        height: 76px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 0 22px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .school-logo {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        background: #38bdf8;
-        color: #07111f;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .school-name {
-        font-size: 15px;
-        font-weight: 700;
-        line-height: 1.3;
-    }
-
-    .school-subtitle {
-        color: #94a3b8;
-        font-size: 11px;
-        margin-top: 3px;
-    }
-
-    .nav {
-        padding: 18px 12px;
-    }
-
-    .nav-label {
-        color: #64748b;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        padding: 0 12px 9px;
-        text-transform: uppercase;
-    }
-
-    .nav a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px;
-        margin-bottom: 4px;
-        color: #cbd5e1;
-        text-decoration: none;
-        border-radius: 9px;
-        font-size: 14px;
-        transition: 0.2s ease;
-    }
-
-    .nav a:hover {
-        background: #1b2638;
-        color: white;
-    }
-
-    .nav a.active {
-        background: #172f49;
-        color: #7dd3fc;
-    }
-
-    .nav a i {
-        width: 18px;
-        height: 18px;
-    }
-
-    .sidebar-bottom {
-        margin-top: 20px;
-        padding: 15px 12px;
-        border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .sidebar-bottom a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px;
-        color: #cbd5e1;
-        text-decoration: none;
-        border-radius: 9px;
-        font-size: 14px;
-    }
-
-    .sidebar-bottom a:hover {
-        background: #1b2638;
-        color: white;
+    .sidebar.open {
+        transform: translateX(0);
     }
 
     .main {
-        margin-left: 270px;
-        min-height: 100vh;
-    }
-
-    .topbar {
-        height: 76px;
-        background: white;
-        border-bottom: 1px solid #e2e8f0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 28px;
+        margin-left: 0;
     }
 
     .menu-btn {
-        display: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 9px;
-        background: #f1f5f9;
-        color: #172033;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .page-heading {
         display: flex;
-        align-items: center;
-        gap: 12px;
     }
 
-    .page-heading i {
-        color: #0284c7;
-    }
-
-    .page-heading h1 {
-        font-size: 20px;
-    }
-
-    .admin-profile {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .profile-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: #e0f2fe;
-        color: #0369a1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .profile-text strong {
+    .overlay.show {
         display: block;
-        font-size: 13px;
     }
 
-    .profile-text span {
-        display: block;
-        color: #64748b;
-        font-size: 11px;
-        margin-top: 2px;
+    .topbar {
+        padding: 0 16px;
     }
 
     .content {
-        padding: 28px;
-        max-width: 1200px;
-        margin: auto;
+        padding: 20px 15px;
     }
 
-    .intro {
-        margin-bottom: 24px;
+    .page-heading h1 {
+        display: none;
     }
+}
 
-    .intro h2 {
-        font-size: 25px;
-        margin-bottom: 7px;
-    }
+@media (max-width: 600px) {
 
-    .intro p {
-        color: #64748b;
-        font-size: 14px;
+    .admin-profile .profile-text {
+        display: none;
     }
 
     .year-panel {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 18px;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
-    .year-info {
-        display: flex;
-        align-items: center;
-        gap: 13px;
-    }
-
-    .year-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
-        background: #ecfdf5;
-        color: #059669;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .year-info strong {
-        display: block;
-        font-size: 14px;
-        margin-bottom: 3px;
-    }
-
-    .year-info span {
-        color: #64748b;
-        font-size: 12px;
+        align-items: stretch;
+        flex-direction: column;
     }
 
     .year-select {
-        min-width: 190px;
-        padding: 10px 12px;
-        border: 1px solid #cbd5e1;
-        border-radius: 8px;
-        background: white;
-        color: #172033;
-        outline: none;
-    }
-
-    .year-select:focus {
-        border-color: #38bdf8;
-        box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
-    }
-
-    .year-select:disabled {
-        background: #f8fafc;
-        color: #94a3b8;
-        cursor: not-allowed;
-    }
-
-    .grades {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
+        width: 100%;
     }
 
     .grade-row {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 18px;
-        transition: border-color 0.2s ease;
-    }
-
-    .grade-row:hover {
-        border-color: #bae6fd;
-    }
-
-    .grade-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-    }
-
-    .grade-title {
-        display: flex;
-        align-items: center;
-        gap: 13px;
-        min-width: 0;
-    }
-
-    .grade-number {
-        width: 43px;
-        height: 43px;
-        border-radius: 10px;
-        background: #eff6ff;
-        color: #0369a1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 14px;
-        flex-shrink: 0;
-    }
-
-    .grade-title h3 {
-        font-size: 16px;
+        padding: 15px;
     }
 
     .grade-title p {
-        color: #64748b;
-        font-size: 12px;
-        margin-top: 3px;
-    }
-
-    .add-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 9px;
-        background: #0284c7;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        transition: 0.2s ease;
-    }
-
-    .add-btn:hover {
-        background: #0369a1;
-        transform: translateY(-1px);
-    }
-
-    .add-btn:disabled {
-        opacity: 0.55;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .sections-area {
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px solid #f1f5f9;
-    }
-
-    .empty-sections {
-        color: #94a3b8;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        gap: 7px;
-    }
-
-    .section-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 9px;
-    }
-
-    .section-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 9px 11px;
-        border: 1px solid #dbeafe;
-        background: #f8fbff;
-        border-radius: 8px;
-        color: #075985;
-        font-size: 13px;
-        font-weight: 600;
-    }
-
-    .section-item i {
-        width: 15px;
-        height: 15px;
-        color: #0284c7;
-    }
-
-    .section-delete {
-        width: 25px;
-        height: 25px;
-        border-radius: 6px;
-        background: transparent;
-        color: #94a3b8;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .section-delete:hover {
-        background: #fee2e2;
-        color: #dc2626;
-    }
-
-    .section-delete:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    .notice {
-        margin-top: 20px;
-        padding: 14px 16px;
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        border-radius: 10px;
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        color: #166534;
-        font-size: 12px;
-        line-height: 1.5;
-    }
-
-    .notice i {
-        flex-shrink: 0;
-        width: 17px;
-        height: 17px;
-        margin-top: 1px;
-    }
-
-    .loading {
-        color: #64748b;
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 0;
-    }
-
-    .error-box {
-        background: #fff7ed;
-        border: 1px solid #fed7aa;
-        color: #9a3412;
-        border-radius: 10px;
-        padding: 14px 16px;
-        font-size: 13px;
-        line-height: 1.5;
-        margin-bottom: 15px;
-        display: none;
-    }
-
-    .overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(15,23,42,0.5);
-        z-index: 900;
+        font-size: 11px;
     }
 
     .toast {
-        position: fixed;
-        right: 24px;
-        bottom: 24px;
-        background: #101827;
-        color: white;
-        padding: 13px 16px;
-        border-radius: 9px;
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        font-size: 13px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-        opacity: 0;
-        transform: translateY(15px);
-        pointer-events: none;
-        transition: 0.25s ease;
-        z-index: 2000;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        justify-content: center;
     }
-
-    .toast.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .toast i {
-        color: #4ade80;
-        width: 17px;
-        height: 17px;
-    }
-
-    .toast.error i {
-        color: #fb7185;
-    }
-
-    @media (max-width: 850px) {
-        .sidebar {
-            transform: translateX(-105%);
-        }
-
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .main {
-            margin-left: 0;
-        }
-
-        .menu-btn {
-            display: flex;
-        }
-
-        .overlay.show {
-            display: block;
-        }
-
-        .topbar {
-            padding: 0 16px;
-        }
-
-        .content {
-            padding: 20px 15px;
-        }
-
-        .page-heading h1 {
-            display: none;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .admin-profile .profile-text {
-            display: none;
-        }
-
-        .year-panel {
-            align-items: stretch;
-            flex-direction: column;
-        }
-
-        .year-select {
-            width: 100%;
-        }
-
-        .grade-row {
-            padding: 15px;
-        }
-
-        .grade-title p {
-            font-size: 11px;
-        }
-
-        .toast {
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-            justify-content: center;
-        }
-    }
+}
 </style>
 </head>
 
 <body>
 
-<!-- Sidebar -->
+<!-- =========================
+     SIDEBAR
+========================= -->
+
 <aside class="sidebar" id="sidebar">
 
     <div class="sidebar-header">
+
         <div class="school-logo">
             <i data-lucide="school"></i>
         </div>
@@ -603,6 +714,7 @@
             <div class="school-name">School Management</div>
             <div class="school-subtitle">Administration Panel</div>
         </div>
+
     </div>
 
     <nav class="nav">
@@ -647,25 +759,34 @@
     </nav>
 
     <div class="sidebar-bottom">
+
         <a href="admin-login.html">
             <i data-lucide="log-out"></i>
             <span>Logout</span>
         </a>
+
     </div>
 
 </aside>
 
 <div class="overlay" id="overlay"></div>
 
-<!-- Main -->
+
+<!-- =========================
+     MAIN
+========================= -->
+
 <main class="main">
 
-    <!-- Topbar -->
     <header class="topbar">
 
         <div class="page-heading">
 
-            <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+            <button
+                class="menu-btn"
+                id="menuBtn"
+                aria-label="Open menu"
+            >
                 <i data-lucide="menu"></i>
             </button>
 
@@ -690,19 +811,52 @@
 
     </header>
 
-    <!-- Content -->
+
     <section class="content">
 
         <div class="intro">
+
             <h2>Manage Classes</h2>
+
             <p>
                 Create and organize school sections for each grade and school year.
             </p>
+
         </div>
 
-        <div class="error-box" id="errorBox"></div>
 
-        <!-- School Year -->
+        <!-- STATUS PANEL -->
+
+        <div
+            class="status-panel"
+            id="statusPanel"
+        >
+
+            <div class="status-title">
+
+                <i
+                    data-lucide="loader-circle"
+                    id="statusIcon"
+                ></i>
+
+                <span id="statusTitle">
+                    Connecting...
+                </span>
+
+            </div>
+
+            <div
+                class="status-message"
+                id="statusMessage"
+            >
+                Starting connection...
+            </div>
+
+        </div>
+
+
+        <!-- SCHOOL YEAR -->
+
         <div class="year-panel">
 
             <div class="year-info">
@@ -712,27 +866,51 @@
                 </div>
 
                 <div>
+
                     <strong>School Year</strong>
-                    <span>Classes created here belong to the selected school year.</span>
+
+                    <span>
+                        Classes created here belong to the selected school year.
+                    </span>
+
                 </div>
 
             </div>
 
-            <select class="year-select" id="schoolYear" disabled>
-                <option>Loading...</option>
+            <select
+                class="year-select"
+                id="schoolYear"
+                disabled
+            >
+
+                <option>
+                    Loading...
+                </option>
+
             </select>
 
         </div>
 
-        <!-- Grades -->
-        <div class="grades" id="gradesContainer">
+
+        <!-- GRADES -->
+
+        <div
+            class="grades"
+            id="gradesContainer"
+        >
 
             <div class="loading">
+
                 <i data-lucide="loader-circle"></i>
-                <span>Loading classes...</span>
+
+                <span>
+                    Connecting to database...
+                </span>
+
             </div>
 
         </div>
+
 
         <div class="notice">
 
@@ -750,54 +928,95 @@
 
 </main>
 
-<!-- Toast -->
-<div class="toast" id="toast">
-    <i data-lucide="check-circle-2" id="toastIcon"></i>
-    <span id="toastMessage">Class created successfully.</span>
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+>
+
+    <i
+        data-lucide="check-circle-2"
+        id="toastIcon"
+    ></i>
+
+    <span id="toastMessage">
+        Done.
+    </span>
+
 </div>
+
 
 <script>
 
 /* =========================================================
-   SUPABASE
+   SUPABASE CONNECTION
 ========================================================= */
 
-const SUPABASE_URL = "https://goongxvoooiwsesqoptz.supabase.co";
+const SUPABASE_URL =
+    "https://goongxvoooiwsesqoptz.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
 
-const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+const supabase =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
 
 /* =========================================================
    SIDEBAR
 ========================================================= */
 
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const menuBtn = document.getElementById("menuBtn");
+const sidebar =
+    document.getElementById("sidebar");
+
+const overlay =
+    document.getElementById("overlay");
+
+const menuBtn =
+    document.getElementById("menuBtn");
+
 
 menuBtn.addEventListener("click", () => {
+
     sidebar.classList.add("open");
+
     overlay.classList.add("show");
+
 });
 
-overlay.addEventListener("click", closeSidebar);
+
+overlay.addEventListener(
+    "click",
+    closeSidebar
+);
+
 
 function closeSidebar() {
+
     sidebar.classList.remove("open");
+
     overlay.classList.remove("show");
+
 }
 
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        closeSidebar();
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Escape") {
+
+            closeSidebar();
+
+        }
+
     }
-});
+);
 
 
 /* =========================================================
@@ -805,36 +1024,43 @@ document.addEventListener("keydown", function(event) {
 ========================================================= */
 
 const gradeConfig = [
+
     {
         key: "9",
         name: "Grade 9",
         description: "New student grade"
     },
+
     {
         key: "10",
         name: "Grade 10",
         description: "Returning students"
     },
+
     {
         key: "11NS",
         name: "Grade 11 NS",
         description: "Natural Sciences"
     },
+
     {
         key: "11SS",
         name: "Grade 11 SS",
         description: "Social Sciences"
     },
+
     {
         key: "12NS",
         name: "Grade 12 NS",
         description: "Natural Sciences"
     },
+
     {
         key: "12SS",
         name: "Grade 12 SS",
         description: "Social Sciences"
     }
+
 ];
 
 
@@ -843,32 +1069,110 @@ const gradeConfig = [
 ========================================================= */
 
 let schoolYears = [];
+
 let selectedSchoolYearId = null;
 
 let gradesFromDatabase = [];
+
 let classesFromDatabase = [];
 
 
 /* =========================================================
-   HELPERS
+   STATUS DISPLAY
 ========================================================= */
 
-function normalize(value) {
-    if (value === null || value === undefined) {
-        return "";
+function setStatus(
+    title,
+    message,
+    type = "loading"
+) {
+
+    const panel =
+        document.getElementById("statusPanel");
+
+    const titleElement =
+        document.getElementById("statusTitle");
+
+    const messageElement =
+        document.getElementById("statusMessage");
+
+    const icon =
+        document.getElementById("statusIcon");
+
+
+    panel.className =
+        "status-panel show " + type;
+
+
+    titleElement.textContent =
+        title;
+
+    messageElement.textContent =
+        message;
+
+
+    if (type === "error") {
+
+        icon.setAttribute(
+            "data-lucide",
+            "circle-alert"
+        );
+
+    } else if (type === "success") {
+
+        icon.setAttribute(
+            "data-lucide",
+            "circle-check"
+        );
+
+    } else {
+
+        icon.setAttribute(
+            "data-lucide",
+            "loader-circle"
+        );
+
     }
 
-    return String(value).trim().toLowerCase();
+
+    lucide.createIcons();
+
 }
 
 
-/*
-   The database may use different descriptive column names
-   depending on how the table was created.
+function hideStatus() {
 
-   These helpers allow the UI to read common versions
-   without changing the database.
-*/
+    const panel =
+        document.getElementById("statusPanel");
+
+    panel.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalize(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* =========================================================
+   SCHOOL YEAR LABEL
+========================================================= */
 
 function getSchoolYearLabel(year) {
 
@@ -880,8 +1184,13 @@ function getSchoolYearLabel(year) {
         year.title ??
         `School Year ${year.id}`
     );
+
 }
 
+
+/* =========================================================
+   GRADE LABEL
+========================================================= */
 
 function getGradeLabel(grade) {
 
@@ -893,41 +1202,42 @@ function getGradeLabel(grade) {
         grade.code ??
         ""
     );
+
 }
 
 
-/*
-   Convert database grade into the UI grade key.
-
-   Examples:
-   9       → 9
-   Grade 9 → 9
-   11 NS   → 11NS
-   11NS    → 11NS
-*/
+/* =========================================================
+   GET UI GRADE KEY
+========================================================= */
 
 function getGradeKey(grade) {
 
-    const raw = normalize(
-        grade.name ??
-        grade.grade_name ??
-        grade.label ??
-        grade.code ??
-        ""
-    );
+    const raw =
+        normalize(
+            grade.name ??
+            grade.grade_name ??
+            grade.label ??
+            grade.code ??
+            ""
+        );
 
-    const compact = raw
-        .replace("grade", "")
-        .replace(/\s+/g, "")
-        .replace("-", "");
+
+    const compact =
+        raw
+            .replace("grade", "")
+            .replace(/\s+/g, "")
+            .replace("-", "");
+
 
     if (compact === "9") {
         return "9";
     }
 
+
     if (compact === "10") {
         return "10";
     }
+
 
     if (
         compact === "11ns" ||
@@ -935,8 +1245,11 @@ function getGradeKey(grade) {
         compact === "11naturalscience" ||
         compact === "11naturalsciences"
     ) {
+
         return "11NS";
+
     }
+
 
     if (
         compact === "11ss" ||
@@ -944,8 +1257,11 @@ function getGradeKey(grade) {
         compact === "11socialscience" ||
         compact === "11socialsciences"
     ) {
+
         return "11SS";
+
     }
+
 
     if (
         compact === "12ns" ||
@@ -953,8 +1269,11 @@ function getGradeKey(grade) {
         compact === "12naturalscience" ||
         compact === "12naturalsciences"
     ) {
+
         return "12NS";
+
     }
+
 
     if (
         compact === "12ss" ||
@@ -962,88 +1281,129 @@ function getGradeKey(grade) {
         compact === "12socialscience" ||
         compact === "12socialsciences"
     ) {
+
         return "12SS";
+
     }
 
+
     return null;
+
 }
 
 
-/*
-   The current database design may store 11NS/11SS
-   under grade 11 and 12NS/12SS under grade 12.
-
-   This function chooses the correct grade record.
-*/
+/* =========================================================
+   FIND DATABASE GRADE
+========================================================= */
 
 function findDatabaseGrade(uiGradeKey) {
 
-    const exact = gradesFromDatabase.find(
-        grade => getGradeKey(grade) === uiGradeKey
-    );
+    const exact =
+        gradesFromDatabase.find(
+            grade =>
+                getGradeKey(grade) === uiGradeKey
+        );
+
 
     if (exact) {
         return exact;
     }
 
-    if (uiGradeKey === "11NS" || uiGradeKey === "11SS") {
 
-        return gradesFromDatabase.find(grade => {
+    /*
+       Your existing database has:
 
-            const label = normalize(getGradeLabel(grade))
-                .replace("grade", "")
-                .replace(/\s+/g, "");
+       9
+       10
+       11
+       12
 
-            return label === "11";
+       So 11NS / 11SS may both use grade 11,
+       and 12NS / 12SS may both use grade 12.
+    */
 
-        });
+    if (
+        uiGradeKey === "11NS" ||
+        uiGradeKey === "11SS"
+    ) {
+
+        return gradesFromDatabase.find(
+            grade => {
+
+                const label =
+                    normalize(
+                        getGradeLabel(grade)
+                    )
+                    .replace("grade", "")
+                    .replace(/\s+/g, "");
+
+                return label === "11";
+
+            }
+        );
 
     }
 
-    if (uiGradeKey === "12NS" || uiGradeKey === "12SS") {
 
-        return gradesFromDatabase.find(grade => {
+    if (
+        uiGradeKey === "12NS" ||
+        uiGradeKey === "12SS"
+    ) {
 
-            const label = normalize(getGradeLabel(grade))
-                .replace("grade", "")
-                .replace(/\s+/g, "");
+        return gradesFromDatabase.find(
+            grade => {
 
-            return label === "12";
+                const label =
+                    normalize(
+                        getGradeLabel(grade)
+                    )
+                    .replace("grade", "")
+                    .replace(/\s+/g, "");
 
-        });
+                return label === "12";
+
+            }
+        );
 
     }
 
-    return gradesFromDatabase.find(grade => {
 
-        const label = normalize(getGradeLabel(grade))
-            .replace("grade", "")
-            .replace(/\s+/g, "");
+    return gradesFromDatabase.find(
+        grade => {
 
-        return label === uiGradeKey.toLowerCase();
+            const label =
+                normalize(
+                    getGradeLabel(grade)
+                )
+                .replace("grade", "")
+                .replace(/\s+/g, "");
 
-    });
+            return (
+                label ===
+                uiGradeKey.toLowerCase()
+            );
+
+        }
+    );
+
 }
 
 
-/*
-   Determine which UI grade a database class belongs to.
-
-   The class name itself is also used because:
-   11NSA → 11NS
-   11SSB → 11SS
-   12NSA → 12NS
-   12SSB → 12SS
-*/
+/* =========================================================
+   CLASS → UI GRADE
+========================================================= */
 
 function getClassGradeKey(classRow) {
 
-    const className = normalize(
-        classRow.name ??
-        classRow.class_name ??
-        classRow.section ??
-        ""
-    ).replace(/\s+/g, "");
+    const className =
+        normalize(
+            classRow.name ??
+            classRow.class_name ??
+            classRow.section ??
+            ""
+        )
+        .replace(/\s+/g, "");
+
 
     if (className.startsWith("11ns")) {
         return "11NS";
@@ -1070,6 +1430,7 @@ function getClassGradeKey(classRow) {
     }
 
     return null;
+
 }
 
 
@@ -1079,81 +1440,149 @@ function getClassGradeKey(classRow) {
 
 async function loadSchoolYears() {
 
-    const select = document.getElementById("schoolYear");
+    setStatus(
+        "Step 1 of 3",
+        "Loading school years from Supabase..."
+    );
 
-    select.disabled = true;
 
-    const { data, error } = await supabase
-        .from("school_years")
-        .select("*")
-        .order("id", { ascending: true });
+    const result =
+        await supabase
+            .from("school_years")
+            .select("*")
+            .order("id", {
+                ascending: true
+            });
 
-    if (error) {
 
-        showError(
-            "Could not load school years. " + error.message
+    console.log(
+        "school_years result:",
+        result
+    );
+
+
+    if (result.error) {
+
+        setStatus(
+            "School year query failed",
+            "Supabase returned this error:\n\n" +
+            result.error.message +
+            "\n\nCode: " +
+            (result.error.code || "none"),
+            "error"
         );
 
         return false;
+
     }
 
-    schoolYears = data || [];
+
+    schoolYears =
+        result.data || [];
+
+
+    console.log(
+        "School years:",
+        schoolYears
+    );
+
+
+    const select =
+        document.getElementById(
+            "schoolYear"
+        );
+
 
     select.innerHTML = "";
 
-    if (schoolYears.length === 0) {
+
+    if (
+        schoolYears.length === 0
+    ) {
 
         select.innerHTML =
             `<option value="">No school year found</option>`;
 
-        showError(
-            "No school year exists in the database yet."
+
+        setStatus(
+            "No school years found",
+            "The connection worked, but the school_years table returned 0 rows.",
+            "error"
         );
 
+
         return false;
+
     }
 
 
-    schoolYears.forEach(year => {
+    schoolYears.forEach(
+        year => {
 
-        const option = document.createElement("option");
-
-        option.value = year.id;
-        option.textContent = getSchoolYearLabel(year);
-
-        select.appendChild(option);
-
-    });
+            const option =
+                document.createElement(
+                    "option"
+                );
 
 
-    /*
-       Prefer the active school year.
-    */
+            option.value =
+                year.id;
 
-    let activeYear = schoolYears.find(
-        year =>
-            year.active === true ||
-            year.is_active === true ||
-            year.status === "active"
+
+            option.textContent =
+                getSchoolYearLabel(year);
+
+
+            select.appendChild(
+                option
+            );
+
+        }
     );
 
 
-    /*
-       If no active flag is available, use the first
-       school year returned by the database.
-    */
+    let activeYear =
+        schoolYears.find(
+            year =>
+                year.active === true ||
+                year.is_active === true ||
+                normalize(
+                    year.status
+                ) === "active"
+        );
+
 
     if (!activeYear) {
-        activeYear = schoolYears[0];
+
+        activeYear =
+            schoolYears[0];
+
     }
 
-    selectedSchoolYearId = activeYear.id;
 
-    select.value = String(selectedSchoolYearId);
+    selectedSchoolYearId =
+        activeYear.id;
 
-    select.disabled = false;
+
+    select.value =
+        String(
+            selectedSchoolYearId
+        );
+
+
+    select.disabled =
+        false;
+
+
+    setStatus(
+        "Step 1 complete",
+        "School years loaded successfully.",
+        "success"
+    );
+
 
     return true;
+
 }
 
 
@@ -1163,23 +1592,79 @@ async function loadSchoolYears() {
 
 async function loadGrades() {
 
-    const { data, error } = await supabase
-        .from("grades")
-        .select("*")
-        .order("id", { ascending: true });
+    setStatus(
+        "Step 2 of 3",
+        "Loading grades from Supabase..."
+    );
 
-    if (error) {
 
-        showError(
-            "Could not load grades. " + error.message
+    const result =
+        await supabase
+            .from("grades")
+            .select("*")
+            .order("id", {
+                ascending: true
+            });
+
+
+    console.log(
+        "grades result:",
+        result
+    );
+
+
+    if (result.error) {
+
+        setStatus(
+            "Grade query failed",
+            "Supabase returned this error:\n\n" +
+            result.error.message +
+            "\n\nCode: " +
+            (result.error.code || "none"),
+            "error"
         );
 
+
         return false;
+
     }
 
-    gradesFromDatabase = data || [];
+
+    gradesFromDatabase =
+        result.data || [];
+
+
+    console.log(
+        "Grades:",
+        gradesFromDatabase
+    );
+
+
+    if (
+        gradesFromDatabase.length === 0
+    ) {
+
+        setStatus(
+            "No grades found",
+            "The connection worked, but the grades table returned 0 rows.",
+            "error"
+        );
+
+
+        return false;
+
+    }
+
+
+    setStatus(
+        "Step 2 complete",
+        "Grades loaded successfully.",
+        "success"
+    );
+
 
     return true;
+
 }
 
 
@@ -1189,12 +1674,17 @@ async function loadGrades() {
 
 async function loadClasses() {
 
-    const container =
-        document.getElementById("gradesContainer");
+    setStatus(
+        "Step 3 of 3",
+        "Loading classes from Supabase..."
+    );
 
-    if (!selectedSchoolYearId) {
-        return;
-    }
+
+    const container =
+        document.getElementById(
+            "gradesContainer"
+        );
+
 
     container.innerHTML = `
         <div class="loading">
@@ -1203,184 +1693,294 @@ async function loadClasses() {
         </div>
     `;
 
+
     lucide.createIcons();
 
 
-    const { data, error } = await supabase
-        .from("classes")
-        .select("*")
-        .eq("school_year_id", selectedSchoolYearId)
-        .order("id", { ascending: true });
+    if (
+        !selectedSchoolYearId
+    ) {
 
-
-    if (error) {
-
-        showError(
-            "Could not load classes. " + error.message
+        setStatus(
+            "No school year selected",
+            "There is no selected school year to load classes for.",
+            "error"
         );
+
+
+        return false;
+
+    }
+
+
+    const result =
+        await supabase
+            .from("classes")
+            .select("*")
+            .eq(
+                "school_year_id",
+                selectedSchoolYearId
+            )
+            .order("id", {
+                ascending: true
+            });
+
+
+    console.log(
+        "classes result:",
+        result
+    );
+
+
+    if (result.error) {
+
+        setStatus(
+            "Class query failed",
+            "Supabase returned this error:\n\n" +
+            result.error.message +
+            "\n\nCode: " +
+            (result.error.code || "none") +
+            "\n\nHint: " +
+            (result.error.hint || "none"),
+            "error"
+        );
+
 
         classesFromDatabase = [];
 
         renderGrades();
 
-        return;
+        return false;
+
     }
 
 
-    classesFromDatabase = data || [];
+    classesFromDatabase =
+        result.data || [];
 
-    hideError();
+
+    console.log(
+        "Classes:",
+        classesFromDatabase
+    );
+
 
     renderGrades();
+
+
+    setStatus(
+        "Connected",
+        "School years, grades, and classes loaded successfully.",
+        "success"
+    );
+
+
+    return true;
+
 }
 
 
 /* =========================================================
-   RENDER GRADES
+   RENDER
 ========================================================= */
 
 function renderGrades() {
 
     const container =
-        document.getElementById("gradesContainer");
+        document.getElementById(
+            "gradesContainer"
+        );
+
 
     container.innerHTML = "";
 
 
-    gradeConfig.forEach(grade => {
+    gradeConfig.forEach(
+        grade => {
 
-        const sections = classesFromDatabase
-            .filter(
-                classRow =>
-                    getClassGradeKey(classRow) === grade.key
-            )
-            .sort((a, b) => {
+            const sections =
+                classesFromDatabase
+                    .filter(
+                        classRow =>
+                            getClassGradeKey(
+                                classRow
+                            ) === grade.key
+                    )
+                    .sort(
+                        (a, b) => {
 
-                const aName =
-                    a.name ??
-                    a.class_name ??
-                    a.section ??
-                    "";
+                            const aName =
+                                a.name ??
+                                a.class_name ??
+                                a.section ??
+                                "";
 
-                const bName =
-                    b.name ??
-                    b.class_name ??
-                    b.section ??
-                    "";
+                            const bName =
+                                b.name ??
+                                b.class_name ??
+                                b.section ??
+                                "";
 
-                return aName.localeCompare(
-                    bName,
-                    undefined,
-                    { numeric: true }
+                            return aName.localeCompare(
+                                bName,
+                                undefined,
+                                {
+                                    numeric: true
+                                }
+                            );
+
+                        }
+                    );
+
+
+            const row =
+                document.createElement(
+                    "div"
                 );
-            });
 
 
-        const row = document.createElement("div");
+            row.className =
+                "grade-row";
 
-        row.className = "grade-row";
 
+            row.innerHTML = `
 
-        row.innerHTML = `
-            <div class="grade-header">
+                <div class="grade-header">
 
-                <div class="grade-title">
+                    <div class="grade-title">
 
-                    <div class="grade-number">
-                        ${grade.key}
+                        <div class="grade-number">
+                            ${grade.key}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                ${grade.name}
+                            </h3>
+
+                            <p>
+                                ${grade.description}
+                            </p>
+
+                        </div>
+
                     </div>
 
-                    <div>
-                        <h3>${grade.name}</h3>
-                        <p>${grade.description}</p>
-                    </div>
+                    <button
+                        class="add-btn"
+                        onclick="createSection('${grade.key}')"
+                        title="Create next section"
+                        aria-label="Create next section"
+                    >
+                        <i data-lucide="plus"></i>
+                    </button>
 
                 </div>
 
-                <button
-                    class="add-btn"
-                    onclick="createSection('${grade.key}')"
-                    title="Create next section"
-                    aria-label="Create next section"
-                >
-                    <i data-lucide="plus"></i>
-                </button>
 
-            </div>
+                <div class="sections-area">
 
-            <div class="sections-area">
+                    ${
+                        sections.length === 0
 
-                ${
-                    sections.length === 0
+                        ?
 
-                    ?
+                        `
+                        <div class="empty-sections">
 
-                    `
-                    <div class="empty-sections">
-                        <i data-lucide="folder-open"></i>
-                        <span>No sections created yet.</span>
-                    </div>
-                    `
+                            <i data-lucide="folder-open"></i>
 
-                    :
+                            <span>
+                                No sections created yet.
+                            </span>
 
-                    `
-                    <div class="section-list">
+                        </div>
+                        `
 
-                        ${sections.map(section => {
+                        :
 
-                            const sectionName =
-                                section.name ??
-                                section.class_name ??
-                                section.section ??
-                                "Unnamed";
+                        `
+                        <div class="section-list">
 
-                            return `
+                            ${sections
+                                .map(
+                                    section => {
 
-                                <div class="section-item">
+                                        const name =
+                                            section.name ??
+                                            section.class_name ??
+                                            section.section ??
+                                            "Unnamed";
 
-                                    <i data-lucide="school"></i>
+                                        return `
 
-                                    <span>${escapeHtml(sectionName)}</span>
+                                            <div
+                                                class="section-item"
+                                            >
 
-                                    <button
-                                        class="section-delete"
-                                        onclick="removeSection('${section.id}', '${escapeHtml(sectionName).replace(/'/g, "\\'")}')"
-                                        title="Remove ${escapeHtml(sectionName)}"
-                                        aria-label="Remove ${escapeHtml(sectionName)}"
-                                    >
-                                        <i data-lucide="x"></i>
-                                    </button>
+                                                <i
+                                                    data-lucide="school"
+                                                ></i>
 
-                                </div>
+                                                <span>
+                                                    ${escapeHtml(name)}
+                                                </span>
 
-                            `;
+                                                <button
+                                                    class="section-delete"
+                                                    onclick="removeSection('${section.id}', '${escapeAttribute(name)}')"
+                                                    title="Remove ${escapeHtml(name)}"
+                                                    aria-label="Remove ${escapeHtml(name)}"
+                                                >
 
-                        }).join("")}
+                                                    <i
+                                                        data-lucide="x"
+                                                    ></i>
 
-                    </div>
-                    `
-                }
+                                                </button>
 
-            </div>
-        `;
+                                            </div>
 
-        container.appendChild(row);
+                                        `;
 
-    });
+                                    }
+                                )
+                                .join("")
+                            }
+
+                        </div>
+                        `
+                    }
+
+                </div>
+            `;
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
 
 
     lucide.createIcons();
+
 }
 
 
 /* =========================================================
-   CREATE NEXT SECTION
+   CREATE SECTION
 ========================================================= */
 
-async function createSection(gradeKey) {
+async function createSection(
+    gradeKey
+) {
 
-    if (!selectedSchoolYearId) {
+    if (
+        !selectedSchoolYearId
+    ) {
 
         showToast(
             "Select a school year first.",
@@ -1388,11 +1988,14 @@ async function createSection(gradeKey) {
         );
 
         return;
+
     }
 
 
     const databaseGrade =
-        findDatabaseGrade(gradeKey);
+        findDatabaseGrade(
+            gradeKey
+        );
 
 
     if (!databaseGrade) {
@@ -1403,18 +2006,17 @@ async function createSection(gradeKey) {
         );
 
         return;
+
     }
 
 
-    /*
-       Get current classes for this grade.
-    */
-
-    const existingSections =
+    const existingNames =
         classesFromDatabase
             .filter(
                 classRow =>
-                    getClassGradeKey(classRow) === gradeKey
+                    getClassGradeKey(
+                        classRow
+                    ) === gradeKey
             )
             .map(
                 classRow =>
@@ -1426,31 +2028,33 @@ async function createSection(gradeKey) {
             .filter(Boolean);
 
 
-    /*
-       Find the first unused letter.
+    let newSection =
+        "";
 
-       9A → 9B → 9C
-       10A → 10B → 10C
-       11NSA → 11NSB → 11NSC
-       11SSA → 11SSB → 11SSC
-    */
 
-    let letterCode = 65;
-    let newSection = "";
-
-    while (letterCode <= 90) {
+    for (
+        let letterCode = 65;
+        letterCode <= 90;
+        letterCode++
+    ) {
 
         const candidate =
             `${gradeKey}${String.fromCharCode(letterCode)}`;
 
-        if (!existingSections.includes(candidate)) {
 
-            newSection = candidate;
+        if (
+            !existingNames.includes(
+                candidate
+            )
+        ) {
+
+            newSection =
+                candidate;
+
             break;
 
         }
 
-        letterCode++;
     }
 
 
@@ -1462,103 +2066,205 @@ async function createSection(gradeKey) {
         );
 
         return;
+
     }
 
 
+    setStatus(
+        "Creating class",
+        `Creating ${newSection} in Supabase...`
+    );
+
+
     /*
-       Insert directly into Supabase.
+       This matches the classes structure
+       we established earlier:
+
+       school_year_id
+       grade_id
+       name
+       capacity
+       active
     */
 
     const insertData = {
-        school_year_id: selectedSchoolYearId,
-        grade_id: databaseGrade.id,
-        name: newSection,
-        capacity: null,
-        active: true
+
+        school_year_id:
+            selectedSchoolYearId,
+
+        grade_id:
+            databaseGrade.id,
+
+        name:
+            newSection,
+
+        capacity:
+            null,
+
+        active:
+            true
+
     };
 
 
-    const { data, error } = await supabase
-        .from("classes")
-        .insert(insertData)
-        .select()
-        .single();
+    console.log(
+        "Class insert:",
+        insertData
+    );
 
 
-    if (error) {
+    const result =
+        await supabase
+            .from("classes")
+            .insert(
+                insertData
+            )
+            .select()
+            .single();
 
-        console.error("Create class error:", error);
+
+    console.log(
+        "Create class result:",
+        result
+    );
+
+
+    if (result.error) {
+
+        setStatus(
+            "Class creation failed",
+            "Supabase returned this error:\n\n" +
+            result.error.message +
+            "\n\nCode: " +
+            (result.error.code || "none") +
+            "\n\nHint: " +
+            (result.error.hint || "none"),
+            "error"
+        );
+
 
         showToast(
-            "Could not create class: " + error.message,
+            "Class could not be created.",
             true
         );
 
+
         return;
+
     }
 
 
-    /*
-       Add returned row locally so the UI updates
-       immediately.
-    */
+    classesFromDatabase.push(
+        result.data
+    );
 
-    classesFromDatabase.push(data);
 
     renderGrades();
+
+
+    setStatus(
+        "Class created",
+        `${newSection} was successfully saved to Supabase.`,
+        "success"
+    );
+
 
     showToast(
         `${newSection} created successfully.`
     );
+
 }
 
 
 /* =========================================================
-   REMOVE CLASS
+   DELETE SECTION
 ========================================================= */
 
-async function removeSection(classId, sectionName) {
+async function removeSection(
+    classId,
+    sectionName
+) {
 
-    const confirmed = confirm(
-        `Remove class ${sectionName}?`
-    );
+    const confirmed =
+        confirm(
+            `Remove class ${sectionName}?`
+        );
+
 
     if (!confirmed) {
         return;
     }
 
 
-    const { error } = await supabase
-        .from("classes")
-        .delete()
-        .eq("id", classId);
+    setStatus(
+        "Removing class",
+        `Removing ${sectionName} from Supabase...`
+    );
 
 
-    if (error) {
+    const result =
+        await supabase
+            .from("classes")
+            .delete()
+            .eq(
+                "id",
+                classId
+            );
 
-        console.error("Delete class error:", error);
+
+    console.log(
+        "Delete class result:",
+        result
+    );
+
+
+    if (result.error) {
+
+        setStatus(
+            "Class removal failed",
+            "Supabase returned this error:\n\n" +
+            result.error.message +
+            "\n\nCode: " +
+            (result.error.code || "none") +
+            "\n\nHint: " +
+            (result.error.hint || "none"),
+            "error"
+        );
+
 
         showToast(
-            "Could not remove class: " + error.message,
+            "Class could not be removed.",
             true
         );
 
+
         return;
+
     }
 
 
     classesFromDatabase =
         classesFromDatabase.filter(
             classRow =>
-                String(classRow.id) !== String(classId)
+                String(classRow.id) !==
+                String(classId)
         );
 
 
     renderGrades();
 
+
+    setStatus(
+        "Class removed",
+        `${sectionName} was removed successfully.`,
+        "success"
+    );
+
+
     showToast(
         `${sectionName} removed successfully.`
     );
+
 }
 
 
@@ -1567,23 +2273,30 @@ async function removeSection(classId, sectionName) {
 ========================================================= */
 
 document
-    .getElementById("schoolYear")
+    .getElementById(
+        "schoolYear"
+    )
     .addEventListener(
         "change",
         async function() {
 
-            selectedSchoolYearId = this.value;
+            selectedSchoolYearId =
+                this.value;
 
-            hideError();
+
+            const option =
+                this.options[
+                    this.selectedIndex
+                ];
+
 
             await loadClasses();
 
-            const selectedOption =
-                this.options[this.selectedIndex];
 
             showToast(
-                `Viewing ${selectedOption.textContent}.`
+                `Viewing ${option.textContent}.`
             );
+
         }
     );
 
@@ -1592,79 +2305,120 @@ document
    TOAST
 ========================================================= */
 
-function showToast(message, isError = false) {
+function showToast(
+    message,
+    isError = false
+) {
 
     const toast =
-        document.getElementById("toast");
+        document.getElementById(
+            "toast"
+        );
 
-    const toastMessage =
-        document.getElementById("toastMessage");
+    const messageElement =
+        document.getElementById(
+            "toastMessage"
+        );
 
-    const toastIcon =
-        document.getElementById("toastIcon");
+    const icon =
+        document.getElementById(
+            "toastIcon"
+        );
 
 
-    toastMessage.textContent = message;
+    messageElement.textContent =
+        message;
 
-    toast.classList.toggle("error", isError);
 
-    toastIcon.setAttribute(
+    toast.classList.toggle(
+        "error",
+        isError
+    );
+
+
+    icon.setAttribute(
         "data-lucide",
         isError
             ? "alert-circle"
             : "check-circle-2"
     );
 
+
     lucide.createIcons();
 
-    toast.classList.add("show");
 
-    clearTimeout(window.toastTimer);
+    toast.classList.add(
+        "show"
+    );
 
-    window.toastTimer = setTimeout(() => {
 
-        toast.classList.remove("show");
+    clearTimeout(
+        window.toastTimer
+    );
 
-    }, 3000);
+
+    window.toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3000
+        );
+
 }
 
 
 /* =========================================================
-   ERROR MESSAGE
+   ESCAPE HTML
 ========================================================= */
 
-function showError(message) {
-
-    const box =
-        document.getElementById("errorBox");
-
-    box.textContent = message;
-
-    box.style.display = "block";
-}
-
-
-function hideError() {
-
-    const box =
-        document.getElementById("errorBox");
-
-    box.style.display = "none";
-}
-
-
-/* =========================================================
-   HTML ESCAPE
-========================================================= */
-
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function escapeAttribute(
+    value
+) {
+
+    return String(value)
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        );
+
 }
 
 
@@ -1674,43 +2428,122 @@ function escapeHtml(value) {
 
 async function initializePage() {
 
+    console.log(
+        "=== CLASSES PAGE START ==="
+    );
+
+
+    setStatus(
+        "Connecting",
+        "Connecting to Supabase..."
+    );
+
+
     try {
+
+        /*
+           STEP 1
+        */
+
+        console.log(
+            "STEP 1: Loading school years..."
+        );
+
 
         const yearsLoaded =
             await loadSchoolYears();
 
+
         if (!yearsLoaded) {
-            renderGrades();
+
+            console.log(
+                "STOPPED AT STEP 1"
+            );
+
             return;
+
         }
+
+
+        /*
+           STEP 2
+        */
+
+        console.log(
+            "STEP 2: Loading grades..."
+        );
 
 
         const gradesLoaded =
             await loadGrades();
 
+
         if (!gradesLoaded) {
-            renderGrades();
+
+            console.log(
+                "STOPPED AT STEP 2"
+            );
+
             return;
+
         }
 
 
-        await loadClasses();
+        /*
+           STEP 3
+        */
 
-    } catch (error) {
+        console.log(
+            "STEP 3: Loading classes..."
+        );
+
+
+        const classesLoaded =
+            await loadClasses();
+
+
+        if (!classesLoaded) {
+
+            console.log(
+                "STOPPED AT STEP 3"
+            );
+
+            return;
+
+        }
+
+
+        console.log(
+            "=== ALL STEPS COMPLETE ==="
+        );
+
+    }
+
+    catch (error) {
 
         console.error(
-            "Page initialization error:",
+            "INITIALIZATION ERROR:",
             error
         );
 
-        showError(
-            "Something went wrong while loading the classes page."
+
+        setStatus(
+            "Unexpected error",
+            "JavaScript error:\n\n" +
+            error.message,
+            "error"
         );
 
     }
 
 }
 
+
+/* =========================================================
+   START
+========================================================= */
+
+lucide.createIcons();
 
 initializePage();
 
