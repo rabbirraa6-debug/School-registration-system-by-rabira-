@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07111f">
+
+  <title>Teachers | School Administration</title>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f8fc;
+      color: #0b1728;
+    }
+
+    body {
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 270px;
+      height: 100vh;
+      background: #07111f;
+      color: white;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      box-shadow: 8px 0 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .sidebar-header {
+      height: 78px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .school-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #38bdf8;
+      color: #07111f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .school-title {
+      min-width: 0;
+    }
+
+    .school-title strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .school-title span {
+      display: block;
+      margin-top: 3px;
+      color: #8da2b8;
+      font-size: 11px;
+    }
+
+    .sidebar-close {
+      display: none;
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: #a9bacd;
+      padding: 7px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 18px 12px;
+      overflow-y: auto;
+    }
+
+    .nav-label {
+      padding: 8px 12px;
+      color: #71869c;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #b8c7d8;
+      padding: 12px 13px;
+      margin-bottom: 4px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      transition: 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: white;
+    }
+
+    .nav-item.active {
+      background: #12314b;
+      color: white;
+    }
+
+    .nav-item.active svg {
+      color: #38bdf8;
+    }
+
+    .sidebar-footer {
+      padding: 14px 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logout-btn {
+      width: 100%;
+      border: 0;
+      background: rgba(239,68,68,0.08);
+      color: #fca5a5;
+      padding: 12px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239,68,68,0.16);
+    }
+
+    /* =========================
+       OVERLAY
+    ========================= */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3,10,18,0.55);
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s ease;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      min-height: 100vh;
+      margin-left: 270px;
+    }
+
+    .topbar {
+      height: 78px;
+      background: white;
+      border-bottom: 1px solid #e5edf5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid #dce7f1;
+      background: white;
+      border-radius: 10px;
+      align-items: center;
+      justify-content: center;
+      color: #0b1728;
+    }
+
+    .page-heading h1 {
+      font-size: 22px;
+      color: #07111f;
+    }
+
+    .page-heading p {
+      color: #6b7d90;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #e0f2fe;
+      color: #0369a1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-info strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .admin-info span {
+      display: block;
+      color: #7b8da0;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content {
+      padding: 28px;
+      max-width: 1500px;
+      margin: auto;
+    }
+
+    .page-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 22px;
+    }
+
+    .page-description h2 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .page-description p {
+      color: #708397;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .primary-btn {
+      border: 0;
+      background: #0b1728;
+      color: white;
+      padding: 11px 16px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      transition: 0.2s ease;
+    }
+
+    .primary-btn:hover {
+      background: #12314b;
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       TOOLBAR
+    ========================= */
+
+    .toolbar {
+      background: white;
+      border: 1px solid #e1eaf2;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 420px;
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8496a8;
+      width: 16px;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #dce6ef;
+      border-radius: 9px;
+      outline: none;
+      padding: 0 12px 0 38px;
+      color: #0b1728;
+      background: #fbfdff;
+      user-select: text;
+    }
+
+    .search-box input:focus {
+      border-color: #38bdf8;
+    }
+
+    .status-filter {
+      height: 40px;
+      border: 1px solid #dce6ef;
+      border-radius: 9px;
+      background: white;
+      padding: 0 12px;
+      color: #34475a;
+      outline: none;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-card {
+      background: white;
+      border: 1px solid #e1eaf2;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th {
+      background: #f7fafc;
+      color: #64788c;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: left;
+      padding: 13px 16px;
+      border-bottom: 1px solid #e5edf4;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 15px 16px;
+      border-bottom: 1px solid #edf2f6;
+      font-size: 12px;
+      color: #304256;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .empty-row td {
+      padding: 65px 20px;
+      white-space: normal;
+    }
+
+    .empty-state {
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 14px;
+      border-radius: 16px;
+      background: #f0f7fb;
+      color: #4d7a96;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .empty-state h3 {
+      font-size: 15px;
+      color: #1c2c3d;
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      max-width: 390px;
+      margin: auto;
+      color: #7b8da0;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3,10,18,0.58);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.25s ease;
+    }
+
+    .modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      transform: translateY(15px);
+      transition: 0.25s ease;
+    }
+
+    .modal.show .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #e7eef4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 17px;
+    }
+
+    .modal-header p {
+      color: #7b8da0;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .close-modal {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      background: #f1f5f8;
+      color: #52667a;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #34475a;
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      height: 43px;
+      border: 1px solid #dce6ef;
+      border-radius: 9px;
+      padding: 0 12px;
+      outline: none;
+      background: white;
+      color: #0b1728;
+      user-select: text;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #38bdf8;
+    }
+
+    .pin-input {
+      letter-spacing: 5px;
+      font-weight: 700;
+    }
+
+    .form-help {
+      display: block;
+      margin-top: 6px;
+      color: #8495a6;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .modal-footer {
+      padding: 15px 20px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .secondary-btn {
+      border: 1px solid #d9e4ed;
+      background: white;
+      color: #405367;
+      padding: 10px 15px;
+      border-radius: 9px;
+      font-size: 12px;
+    }
+
+    .secondary-btn:hover {
+      background: #f5f8fa;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 760px) {
+
+      .sidebar {
+        transform: translateX(-105%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-close {
+        display: flex;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .menu-btn {
+        display: flex;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .admin-info {
+        display: none;
+      }
+
+      .content {
+        padding: 18px 14px 30px;
+      }
+
+      .page-actions {
+        align-items: flex-start;
+      }
+
+      .page-description h2 {
+        font-size: 17px;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        max-width: none;
+      }
+
+      .status-filter {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .page-actions {
+        flex-direction: column;
+      }
+
+      .primary-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .page-heading h1 {
+        font-size: 18px;
+      }
+
+      .page-heading p {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+
+      <div class="school-icon">
+        <i data-lucide="school"></i>
+      </div>
+
+      <div class="school-title">
+        <strong>School Management</strong>
+        <span>Administration Portal</span>
+      </div>
+
+      <button
+        class="sidebar-close"
+        onclick="closeSidebar()"
+        aria-label="Close menu"
+      >
+        <i data-lucide="x"></i>
+      </button>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-label">Main</div>
+
+      <button class="nav-item" onclick="goTo('admin.html')">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Overview</span>
+      </button>
+
+      <button class="nav-item active">
+        <i data-lucide="users"></i>
+        <span>Teachers</span>
+      </button>
+
+      <button class="nav-item" onclick="goTo('classes.html')">
+        <i data-lucide="school"></i>
+        <span>Classes</span>
+      </button>
+
+      <button class="nav-item" onclick="goTo('students.html')">
+        <i data-lucide="graduation-cap"></i>
+        <span>Students</span>
+      </button>
+
+
+      <div class="nav-label">Management</div>
+
+      <button class="nav-item" onclick="goTo('school-years.html')">
+        <i data-lucide="calendar-days"></i>
+        <span>School Years</span>
+      </button>
+
+      <button class="nav-item" onclick="goTo('registrations.html')">
+        <i data-lucide="clipboard-list"></i>
+        <span>Registrations</span>
+      </button>
+
+      <button class="nav-item" onclick="goTo('payments.html')">
+        <i data-lucide="credit-card"></i>
+        <span>Payments</span>
+      </button>
+
+      <button class="nav-item" onclick="goTo('reports.html')">
+        <i data-lucide="bar-chart-3"></i>
+        <span>Reports</span>
+      </button>
+
+
+      <div class="nav-label">System</div>
+
+      <button class="nav-item" onclick="goTo('settings.html')">
+        <i data-lucide="settings"></i>
+        <span>Settings</span>
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+      <button class="logout-btn" onclick="logout()">
+        <i data-lucide="log-out"></i>
+        <span>Log Out</span>
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- OVERLAY -->
+
+  <div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()"
+  ></div>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          class="menu-btn"
+          onclick="openSidebar()"
+          aria-label="Open menu"
+        >
+          <i data-lucide="menu"></i>
+        </button>
+
+        <div class="page-heading">
+          <h1>Teachers</h1>
+          <p>Manage school staff accounts and assignments</p>
+        </div>
+
+      </div>
+
+
+      <div class="admin-profile">
+
+        <div class="admin-avatar">
+          <i data-lucide="shield-check"></i>
+        </div>
+
+        <div class="admin-info">
+          <strong>Administrator</strong>
+          <span>Admin Account</span>
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+      <!-- PAGE HEADER -->
+
+      <div class="page-actions">
+
+        <div class="page-description">
+
+          <h2>Teacher Accounts</h2>
+
+          <p>
+            Create teacher accounts, manage access,
+            and assign teachers to their classes.
+          </p>
+
+        </div>
+
+        <button
+          class="primary-btn"
+          onclick="openTeacherModal()"
+        >
+          <i data-lucide="user-plus"></i>
+          Add Teacher
+        </button>
+
+      </div>
+
+
+      <!-- TOOLBAR -->
+
+      <div class="toolbar">
+
+        <div class="search-box">
+
+          <i data-lucide="search"></i>
+
+          <input
+            type="search"
+            id="teacherSearch"
+            placeholder="Search teachers..."
+            oninput="searchTeachers()"
+          >
+
+        </div>
+
+
+        <select
+          class="status-filter"
+          id="statusFilter"
+          onchange="filterTeachers()"
+        >
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="disabled">Disabled</option>
+        </select>
+
+      </div>
+
+
+      <!-- TEACHER TABLE -->
+
+      <div class="table-card">
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>No.</th>
+                <th>Username</th>
+                <th>Assigned Class</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="teacherTableBody">
+
+              <!--
+                Real teacher records will be loaded
+                from Supabase later.
+              -->
+
+              <tr class="empty-row">
+
+                <td colspan="5">
+
+                  <div class="empty-state">
+
+                    <div class="empty-icon">
+                      <i data-lucide="users-round"></i>
+                    </div>
+
+                    <h3>No teacher accounts yet</h3>
+
+                    <p>
+                      Teacher accounts created by the administrator
+                      will appear here.
+                    </p>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ADD TEACHER MODAL -->
+
+  <div class="modal" id="teacherModal">
+
+    <div class="modal-card">
+
+      <div class="modal-header">
+
+        <div>
+          <h2>Create Teacher Account</h2>
+
+          <p>
+            Set the teacher's login credentials and class assignment.
+          </p>
+        </div>
+
+        <button
+          class="close-modal"
+          onclick="closeTeacherModal()"
+          aria-label="Close"
+        >
+          <i data-lucide="x"></i>
+        </button>
+
+      </div>
+
+
+      <form onsubmit="createTeacher(event)">
+
+        <div class="modal-body">
+
+          <div class="form-group">
+
+            <label for="teacherUsername">
+              Username
+            </label>
+
+            <input
+              type="text"
+              id="teacherUsername"
+              placeholder="Enter teacher username"
+              autocomplete="off"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="teacherPin">
+              6-Digit PIN
+            </label>
+
+            <input
+              type="password"
+              id="teacherPin"
+              class="pin-input"
+              placeholder="••••••"
+              inputmode="numeric"
+              maxlength="6"
+              autocomplete="new-password"
+              required
+            >
+
+            <span class="form-help">
+              The administrator creates the PIN.
+              The teacher keeps this PIN until the administrator changes it.
+            </span>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="teacherClass">
+              Assign Class
+            </label>
+
+            <select id="teacherClass" required>
+
+              <option value="">
+                Select a class
+              </option>
+
+              <!--
+                Real classes will be loaded from Supabase later.
+              -->
+
+            </select>
+
+            <span class="form-help">
+              Only classes created by the administrator will appear here.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="secondary-btn"
+            onclick="closeTeacherModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+          >
+            <i data-lucide="user-plus"></i>
+            Create Teacher
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    function openSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+      document
+        .getElementById("overlay")
+        .classList.add("show");
+
+    }
+
+
+    function closeSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+      document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+    }
+
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    function goTo(page) {
+      window.location.href = page;
+    }
+
+
+    /* =========================
+       TEACHER MODAL
+    ========================= */
+
+    function openTeacherModal() {
+
+      document
+        .getElementById("teacherModal")
+        .classList.add("show");
+
+    }
+
+
+    function closeTeacherModal() {
+
+      document
+        .getElementById("teacherModal")
+        .classList.remove("show");
+
+    }
+
+
+    /* =========================
+       PIN INPUT
+    ========================= */
+
+    document
+      .getElementById("teacherPin")
+      .addEventListener("input", function() {
+
+        this.value = this.value
+          .replace(/\D/g, "")
+          .slice(0, 6);
+
+      });
+
+
+    /* =========================
+       CREATE TEACHER
+    ========================= */
+
+    function createTeacher(event) {
+
+      event.preventDefault();
+
+      const username =
+        document
+          .getElementById("teacherUsername")
+          .value
+          .trim();
+
+      const pin =
+        document
+          .getElementById("teacherPin")
+          .value
+          .trim();
+
+      const selectedClass =
+        document
+          .getElementById("teacherClass")
+          .value;
+
+
+      if (!username) {
+        alert("Please enter a username.");
+        return;
+      }
+
+
+      if (!/^\d{6}$/.test(pin)) {
+        alert("The PIN must contain exactly 6 digits.");
+        return;
+      }
+
+
+      if (!selectedClass) {
+        alert("Please select a class.");
+        return;
+      }
+
+
+      /*
+        Database connection will be added later.
+
+        No teacher is actually created yet.
+      */
+
+      alert(
+        "Teacher account form is ready. " +
+        "Database connection will be added later."
+      );
+
+      closeTeacherModal();
+
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    function searchTeachers() {
+
+      /*
+        Real search will query Supabase later.
+      */
+
+    }
+
+
+    function filterTeachers() {
+
+      /*
+        Real filtering will use database records later.
+      */
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    function logout() {
+
+      const confirmed = confirm(
+        "Are you sure you want to log out?"
+      );
+
+      if (confirmed) {
+        window.location.href = "admin-login.html";
+      }
+
+    }
+
+
+    /* =========================
+       ESC KEY
+    ========================= */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Escape") {
+
+          closeSidebar();
+          closeTeacherModal();
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       CLOSE MODAL BY BACKDROP
+    ========================= */
+
+    document
+      .getElementById("teacherModal")
+      .addEventListener("click", function(event) {
+
+        if (event.target === this) {
+          closeTeacherModal();
+        }
+
+      });
+
+
+    /* =========================
+       ICONS
+    ========================= */
+
+    lucide.createIcons();
+
+  </script>
+
+</body>
+</html>
