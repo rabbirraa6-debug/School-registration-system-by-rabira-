@@ -9,6 +9,9 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Supabase JavaScript Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -29,6 +32,8 @@
             --text: #102a43;
             --muted: #627d98;
             --muted-light: #829ab1;
+            --danger: #b42318;
+            --danger-light: #fef3f2;
         }
 
         html {
@@ -358,8 +363,6 @@
             margin: 8px 8px 22px;
         }
 
-        /* Social links */
-
         .social-links {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -439,6 +442,55 @@
             color: var(--muted);
             font-size: 14px;
             line-height: 1.6;
+        }
+
+        /* =========================
+           DATABASE STATUS
+        ========================= */
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+
+            padding: 10px 13px;
+            margin-bottom: 16px;
+
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .connection-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted-light);
+            flex-shrink: 0;
+        }
+
+        .connection-status.connected {
+            color: var(--green);
+            background: var(--green-light);
+            border-color: #cdebdc;
+        }
+
+        .connection-status.connected .connection-dot {
+            background: var(--green);
+        }
+
+        .connection-status.error {
+            color: var(--danger);
+            background: var(--danger-light);
+            border-color: #fecdca;
+        }
+
+        .connection-status.error .connection-dot {
+            background: var(--danger);
         }
 
         /* =========================
@@ -725,6 +777,7 @@
         }
 
         /* Prevent text selection on interface controls */
+
         button,
         .sidebar-link,
         .social-link,
@@ -864,8 +917,6 @@
 
         <div class="social-links">
 
-            <!-- Replace # with your real social media links later -->
-
             <a
                 href="#"
                 class="social-link"
@@ -969,6 +1020,20 @@
         </p>
 
     </section>
+
+
+    <!-- Supabase Connection Status -->
+
+    <div
+        class="connection-status"
+        id="connectionStatus"
+    >
+        <span class="connection-dot"></span>
+
+        <span id="connectionText">
+            Connecting to school database...
+        </span>
+    </div>
 
 
     <!-- Student Registration -->
@@ -1115,9 +1180,141 @@
 
 <script>
 
-    /* =========================
+    /* =====================================================
+       SUPABASE CONFIGURATION
+       =====================================================
+
+       Replace ONLY these two values with your own
+       Supabase project information.
+
+       Use:
+       1. Project URL
+       2. Publishable key
+
+       NEVER put the Supabase secret/service_role key here.
+    */
+
+    const SUPABASE_URL = "https://goongxvoooiwsesqoptz.supabase.co/rest/v1/";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
+
+
+    /* =====================================================
+       CREATE SUPABASE CLIENT
+       ===================================================== */
+
+    let supabaseClient = null;
+
+
+    try {
+
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
+
+    } catch (error) {
+
+        console.error(
+            "Supabase client could not be created:",
+            error
+        );
+
+    }
+
+
+    /* =====================================================
+       TEST REAL DATABASE CONNECTION
+       ===================================================== */
+
+    async function testSupabaseConnection() {
+
+        const status =
+            document.getElementById("connectionStatus");
+
+        const text =
+            document.getElementById("connectionText");
+
+
+        if (!supabaseClient) {
+
+            status.classList.add("error");
+
+            text.textContent =
+                "Supabase client could not be initialized.";
+
+            return;
+
+        }
+
+
+        try {
+
+            /*
+             * This performs a REAL request to Supabase.
+             *
+             * We are reading the grades table because
+             * your school database already contains it.
+             */
+
+            const { data, error } =
+                await supabaseClient
+                    .from("grades")
+                    .select("id")
+                    .limit(1);
+
+
+            if (error) {
+
+                console.error(
+                    "Supabase database error:",
+                    error
+                );
+
+                status.classList.add("error");
+
+                text.textContent =
+                    "Database connection failed.";
+
+                return;
+
+            }
+
+
+            console.log(
+                "Supabase connection successful.",
+                data
+            );
+
+
+            status.classList.add("connected");
+
+            text.textContent =
+                "School database connected";
+
+
+        } catch (error) {
+
+            console.error(
+                "Supabase connection test failed:",
+                error
+            );
+
+            status.classList.add("error");
+
+            text.textContent =
+                "Unable to connect to school database.";
+
+        }
+
+    }
+
+
+    /* =====================================================
        SIDEBAR
-    ========================= */
+       ===================================================== */
 
     function openSidebar() {
 
@@ -1155,47 +1352,62 @@
 
     /* Close sidebar with Escape */
 
-    document.addEventListener("keydown", function(event) {
+    document.addEventListener(
+        "keydown",
+        function(event) {
 
-        if (event.key === "Escape") {
+            if (event.key === "Escape") {
 
-            closeSidebar();
+                closeSidebar();
+
+            }
 
         }
+    );
 
-    });
 
-
-    /* =========================
+    /* =====================================================
        PAGE NAVIGATION
-    ========================= */
+       ===================================================== */
 
     function openRegistration() {
 
-        window.location.href = "register.html";
+        window.location.href =
+            "register.html";
 
     }
 
 
     function openStatus() {
 
-        window.location.href = "status.html";
+        window.location.href =
+            "status.html";
 
     }
 
 
     function goHome() {
 
-        window.location.href = "index.html";
+        window.location.href =
+            "index.html";
 
     }
 
 
-    /* =========================
-       LUCIDE ICONS
-    ========================= */
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
 
-    lucide.createIcons();
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            lucide.createIcons();
+
+            testSupabaseConnection();
+
+        }
+    );
 
 </script>
 
