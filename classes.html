@@ -6,6 +6,7 @@
 <title>Classes | School Management System</title>
 
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
     * {
@@ -129,6 +130,22 @@
         margin-top: 20px;
         padding: 15px 12px;
         border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-bottom a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        color: #cbd5e1;
+        text-decoration: none;
+        border-radius: 9px;
+        font-size: 14px;
+    }
+
+    .sidebar-bottom a:hover {
+        background: #1b2638;
+        color: white;
     }
 
     .main {
@@ -275,6 +292,12 @@
         box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
     }
 
+    .year-select:disabled {
+        background: #f8fafc;
+        color: #94a3b8;
+        cursor: not-allowed;
+    }
+
     .grades {
         display: flex;
         flex-direction: column;
@@ -349,6 +372,12 @@
         transform: translateY(-1px);
     }
 
+    .add-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
+    }
+
     .sections-area {
         margin-top: 15px;
         padding-top: 15px;
@@ -404,6 +433,11 @@
         color: #dc2626;
     }
 
+    .section-delete:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
     .notice {
         margin-top: 20px;
         padding: 14px 16px;
@@ -423,6 +457,27 @@
         width: 17px;
         height: 17px;
         margin-top: 1px;
+    }
+
+    .loading {
+        color: #64748b;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 0;
+    }
+
+    .error-box {
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        color: #9a3412;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        display: none;
     }
 
     .overlay {
@@ -462,6 +517,10 @@
         color: #4ade80;
         width: 17px;
         height: 17px;
+    }
+
+    .toast.error i {
+        color: #fb7185;
     }
 
     @media (max-width: 850px) {
@@ -570,19 +629,9 @@
             <span>Students</span>
         </a>
 
-        <a href="school-years.html">
-            <i data-lucide="calendar-days"></i>
-            <span>School Years</span>
-        </a>
-
         <a href="registrations.html">
             <i data-lucide="clipboard-list"></i>
             <span>Registrations</span>
-        </a>
-
-        <a href="payments.html">
-            <i data-lucide="credit-card"></i>
-            <span>Payments</span>
         </a>
 
         <a href="reports.html">
@@ -598,16 +647,7 @@
     </nav>
 
     <div class="sidebar-bottom">
-        <a href="admin-login.html" style="
-            display:flex;
-            align-items:center;
-            gap:12px;
-            padding:12px;
-            color:#cbd5e1;
-            text-decoration:none;
-            border-radius:9px;
-            font-size:14px;
-        ">
+        <a href="admin-login.html">
             <i data-lucide="log-out"></i>
             <span>Logout</span>
         </a>
@@ -660,6 +700,8 @@
             </p>
         </div>
 
+        <div class="error-box" id="errorBox"></div>
+
         <!-- School Year -->
         <div class="year-panel">
 
@@ -676,16 +718,21 @@
 
             </div>
 
-            <select class="year-select" id="schoolYear">
-
-                <option value="2026-2027">2026–2027</option>
-
+            <select class="year-select" id="schoolYear" disabled>
+                <option>Loading...</option>
             </select>
 
         </div>
 
         <!-- Grades -->
-        <div class="grades" id="gradesContainer"></div>
+        <div class="grades" id="gradesContainer">
+
+            <div class="loading">
+                <i data-lucide="loader-circle"></i>
+                <span>Loading classes...</span>
+            </div>
+
+        </div>
 
         <div class="notice">
 
@@ -705,282 +752,967 @@
 
 <!-- Toast -->
 <div class="toast" id="toast">
-    <i data-lucide="check-circle-2"></i>
+    <i data-lucide="check-circle-2" id="toastIcon"></i>
     <span id="toastMessage">Class created successfully.</span>
 </div>
 
 <script>
 
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
-    const menuBtn = document.getElementById("menuBtn");
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-    menuBtn.addEventListener("click", () => {
-        sidebar.classList.add("open");
-        overlay.classList.add("show");
-    });
+const SUPABASE_URL = "https://goongxvoooiwsesqoptz.supabase.co";
 
-    overlay.addEventListener("click", closeSidebar);
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
 
-    function closeSidebar() {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("show");
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const menuBtn = document.getElementById("menuBtn");
+
+menuBtn.addEventListener("click", () => {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+});
+
+overlay.addEventListener("click", closeSidebar);
+
+function closeSidebar() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeSidebar();
+    }
+});
+
+
+/* =========================================================
+   GRADE CONFIGURATION
+========================================================= */
+
+const gradeConfig = [
+    {
+        key: "9",
+        name: "Grade 9",
+        description: "New student grade"
+    },
+    {
+        key: "10",
+        name: "Grade 10",
+        description: "Returning students"
+    },
+    {
+        key: "11NS",
+        name: "Grade 11 NS",
+        description: "Natural Sciences"
+    },
+    {
+        key: "11SS",
+        name: "Grade 11 SS",
+        description: "Social Sciences"
+    },
+    {
+        key: "12NS",
+        name: "Grade 12 NS",
+        description: "Natural Sciences"
+    },
+    {
+        key: "12SS",
+        name: "Grade 12 SS",
+        description: "Social Sciences"
+    }
+];
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let schoolYears = [];
+let selectedSchoolYearId = null;
+
+let gradesFromDatabase = [];
+let classesFromDatabase = [];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function normalize(value) {
+    if (value === null || value === undefined) {
+        return "";
     }
 
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") {
-            closeSidebar();
-        }
+    return String(value).trim().toLowerCase();
+}
+
+
+/*
+   The database may use different descriptive column names
+   depending on how the table was created.
+
+   These helpers allow the UI to read common versions
+   without changing the database.
+*/
+
+function getSchoolYearLabel(year) {
+
+    return (
+        year.name ??
+        year.school_year ??
+        year.year ??
+        year.label ??
+        year.title ??
+        `School Year ${year.id}`
+    );
+}
+
+
+function getGradeLabel(grade) {
+
+    return (
+        grade.name ??
+        grade.grade_name ??
+        grade.label ??
+        grade.title ??
+        grade.code ??
+        ""
+    );
+}
+
+
+/*
+   Convert database grade into the UI grade key.
+
+   Examples:
+   9       → 9
+   Grade 9 → 9
+   11 NS   → 11NS
+   11NS    → 11NS
+*/
+
+function getGradeKey(grade) {
+
+    const raw = normalize(
+        grade.name ??
+        grade.grade_name ??
+        grade.label ??
+        grade.code ??
+        ""
+    );
+
+    const compact = raw
+        .replace("grade", "")
+        .replace(/\s+/g, "")
+        .replace("-", "");
+
+    if (compact === "9") {
+        return "9";
+    }
+
+    if (compact === "10") {
+        return "10";
+    }
+
+    if (
+        compact === "11ns" ||
+        compact === "11natural" ||
+        compact === "11naturalscience" ||
+        compact === "11naturalsciences"
+    ) {
+        return "11NS";
+    }
+
+    if (
+        compact === "11ss" ||
+        compact === "11social" ||
+        compact === "11socialscience" ||
+        compact === "11socialsciences"
+    ) {
+        return "11SS";
+    }
+
+    if (
+        compact === "12ns" ||
+        compact === "12natural" ||
+        compact === "12naturalscience" ||
+        compact === "12naturalsciences"
+    ) {
+        return "12NS";
+    }
+
+    if (
+        compact === "12ss" ||
+        compact === "12social" ||
+        compact === "12socialscience" ||
+        compact === "12socialsciences"
+    ) {
+        return "12SS";
+    }
+
+    return null;
+}
+
+
+/*
+   The current database design may store 11NS/11SS
+   under grade 11 and 12NS/12SS under grade 12.
+
+   This function chooses the correct grade record.
+*/
+
+function findDatabaseGrade(uiGradeKey) {
+
+    const exact = gradesFromDatabase.find(
+        grade => getGradeKey(grade) === uiGradeKey
+    );
+
+    if (exact) {
+        return exact;
+    }
+
+    if (uiGradeKey === "11NS" || uiGradeKey === "11SS") {
+
+        return gradesFromDatabase.find(grade => {
+
+            const label = normalize(getGradeLabel(grade))
+                .replace("grade", "")
+                .replace(/\s+/g, "");
+
+            return label === "11";
+
+        });
+
+    }
+
+    if (uiGradeKey === "12NS" || uiGradeKey === "12SS") {
+
+        return gradesFromDatabase.find(grade => {
+
+            const label = normalize(getGradeLabel(grade))
+                .replace("grade", "")
+                .replace(/\s+/g, "");
+
+            return label === "12";
+
+        });
+
+    }
+
+    return gradesFromDatabase.find(grade => {
+
+        const label = normalize(getGradeLabel(grade))
+            .replace("grade", "")
+            .replace(/\s+/g, "");
+
+        return label === uiGradeKey.toLowerCase();
+
+    });
+}
+
+
+/*
+   Determine which UI grade a database class belongs to.
+
+   The class name itself is also used because:
+   11NSA → 11NS
+   11SSB → 11SS
+   12NSA → 12NS
+   12SSB → 12SS
+*/
+
+function getClassGradeKey(classRow) {
+
+    const className = normalize(
+        classRow.name ??
+        classRow.class_name ??
+        classRow.section ??
+        ""
+    ).replace(/\s+/g, "");
+
+    if (className.startsWith("11ns")) {
+        return "11NS";
+    }
+
+    if (className.startsWith("11ss")) {
+        return "11SS";
+    }
+
+    if (className.startsWith("12ns")) {
+        return "12NS";
+    }
+
+    if (className.startsWith("12ss")) {
+        return "12SS";
+    }
+
+    if (className.startsWith("9")) {
+        return "9";
+    }
+
+    if (className.startsWith("10")) {
+        return "10";
+    }
+
+    return null;
+}
+
+
+/* =========================================================
+   LOAD SCHOOL YEARS
+========================================================= */
+
+async function loadSchoolYears() {
+
+    const select = document.getElementById("schoolYear");
+
+    select.disabled = true;
+
+    const { data, error } = await supabase
+        .from("school_years")
+        .select("*")
+        .order("id", { ascending: true });
+
+    if (error) {
+
+        showError(
+            "Could not load school years. " + error.message
+        );
+
+        return false;
+    }
+
+    schoolYears = data || [];
+
+    select.innerHTML = "";
+
+    if (schoolYears.length === 0) {
+
+        select.innerHTML =
+            `<option value="">No school year found</option>`;
+
+        showError(
+            "No school year exists in the database yet."
+        );
+
+        return false;
+    }
+
+
+    schoolYears.forEach(year => {
+
+        const option = document.createElement("option");
+
+        option.value = year.id;
+        option.textContent = getSchoolYearLabel(year);
+
+        select.appendChild(option);
+
     });
 
 
     /*
-        Grade configuration.
-
-        The database will later provide the actual classes.
-        For now, the page starts completely empty.
+       Prefer the active school year.
     */
 
-    const gradeConfig = [
-        {
-            id: "9",
-            name: "Grade 9",
-            description: "New student grade"
-        },
-        {
-            id: "10",
-            name: "Grade 10",
-            description: "Returning students"
-        },
-        {
-            id: "11NS",
-            name: "Grade 11 NS",
-            description: "Natural Sciences"
-        },
-        {
-            id: "11SS",
-            name: "Grade 11 SS",
-            description: "Social Sciences"
-        },
-        {
-            id: "12NS",
-            name: "Grade 12 NS",
-            description: "Natural Sciences"
-        },
-        {
-            id: "12SS",
-            name: "Grade 12 SS",
-            description: "Social Sciences"
-        }
-    ];
+    let activeYear = schoolYears.find(
+        year =>
+            year.active === true ||
+            year.is_active === true ||
+            year.status === "active"
+    );
 
 
     /*
-        Temporary browser-only state.
-
-        Nothing here is fake database data.
-        It only demonstrates the class creation interface.
-
-        Supabase persistence will replace this later.
+       If no active flag is available, use the first
+       school year returned by the database.
     */
 
-    const classesByGrade = {
-        "9": [],
-        "10": [],
-        "11NS": [],
-        "11SS": [],
-        "12NS": [],
-        "12SS": []
-    };
+    if (!activeYear) {
+        activeYear = schoolYears[0];
+    }
+
+    selectedSchoolYearId = activeYear.id;
+
+    select.value = String(selectedSchoolYearId);
+
+    select.disabled = false;
+
+    return true;
+}
 
 
-    function renderGrades() {
+/* =========================================================
+   LOAD GRADES
+========================================================= */
 
-        const container = document.getElementById("gradesContainer");
+async function loadGrades() {
 
-        container.innerHTML = "";
+    const { data, error } = await supabase
+        .from("grades")
+        .select("*")
+        .order("id", { ascending: true });
 
-        gradeConfig.forEach(grade => {
+    if (error) {
 
-            const sections = classesByGrade[grade.id];
+        showError(
+            "Could not load grades. " + error.message
+        );
 
-            const row = document.createElement("div");
+        return false;
+    }
 
-            row.className = "grade-row";
+    gradesFromDatabase = data || [];
 
-            row.innerHTML = `
-                <div class="grade-header">
+    return true;
+}
 
-                    <div class="grade-title">
 
-                        <div class="grade-number">
-                            ${grade.id}
-                        </div>
+/* =========================================================
+   LOAD CLASSES
+========================================================= */
 
-                        <div>
-                            <h3>${grade.name}</h3>
-                            <p>${grade.description}</p>
-                        </div>
+async function loadClasses() {
 
+    const container =
+        document.getElementById("gradesContainer");
+
+    if (!selectedSchoolYearId) {
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="loading">
+            <i data-lucide="loader-circle"></i>
+            <span>Loading classes...</span>
+        </div>
+    `;
+
+    lucide.createIcons();
+
+
+    const { data, error } = await supabase
+        .from("classes")
+        .select("*")
+        .eq("school_year_id", selectedSchoolYearId)
+        .order("id", { ascending: true });
+
+
+    if (error) {
+
+        showError(
+            "Could not load classes. " + error.message
+        );
+
+        classesFromDatabase = [];
+
+        renderGrades();
+
+        return;
+    }
+
+
+    classesFromDatabase = data || [];
+
+    hideError();
+
+    renderGrades();
+}
+
+
+/* =========================================================
+   RENDER GRADES
+========================================================= */
+
+function renderGrades() {
+
+    const container =
+        document.getElementById("gradesContainer");
+
+    container.innerHTML = "";
+
+
+    gradeConfig.forEach(grade => {
+
+        const sections = classesFromDatabase
+            .filter(
+                classRow =>
+                    getClassGradeKey(classRow) === grade.key
+            )
+            .sort((a, b) => {
+
+                const aName =
+                    a.name ??
+                    a.class_name ??
+                    a.section ??
+                    "";
+
+                const bName =
+                    b.name ??
+                    b.class_name ??
+                    b.section ??
+                    "";
+
+                return aName.localeCompare(
+                    bName,
+                    undefined,
+                    { numeric: true }
+                );
+            });
+
+
+        const row = document.createElement("div");
+
+        row.className = "grade-row";
+
+
+        row.innerHTML = `
+            <div class="grade-header">
+
+                <div class="grade-title">
+
+                    <div class="grade-number">
+                        ${grade.key}
                     </div>
 
-                    <button
-                        class="add-btn"
-                        onclick="createSection('${grade.id}')"
-                        title="Create next section"
-                        aria-label="Create next section"
-                    >
-                        <i data-lucide="plus"></i>
-                    </button>
+                    <div>
+                        <h3>${grade.name}</h3>
+                        <p>${grade.description}</p>
+                    </div>
 
                 </div>
 
-                <div class="sections-area">
+                <button
+                    class="add-btn"
+                    onclick="createSection('${grade.key}')"
+                    title="Create next section"
+                    aria-label="Create next section"
+                >
+                    <i data-lucide="plus"></i>
+                </button>
 
-                    ${
-                        sections.length === 0
+            </div>
 
-                        ?
+            <div class="sections-area">
 
-                        `
-                        <div class="empty-sections">
-                            <i data-lucide="folder-open"></i>
-                            <span>No sections created yet.</span>
-                        </div>
-                        `
+                ${
+                    sections.length === 0
 
-                        :
+                    ?
 
-                        `
-                        <div class="section-list">
+                    `
+                    <div class="empty-sections">
+                        <i data-lucide="folder-open"></i>
+                        <span>No sections created yet.</span>
+                    </div>
+                    `
 
-                            ${sections.map((section, index) => `
+                    :
+
+                    `
+                    <div class="section-list">
+
+                        ${sections.map(section => {
+
+                            const sectionName =
+                                section.name ??
+                                section.class_name ??
+                                section.section ??
+                                "Unnamed";
+
+                            return `
 
                                 <div class="section-item">
 
                                     <i data-lucide="school"></i>
 
-                                    <span>${section}</span>
+                                    <span>${escapeHtml(sectionName)}</span>
 
                                     <button
                                         class="section-delete"
-                                        onclick="removeSection('${grade.id}', ${index})"
-                                        title="Remove ${section}"
-                                        aria-label="Remove ${section}"
+                                        onclick="removeSection('${section.id}', '${escapeHtml(sectionName).replace(/'/g, "\\'")}')"
+                                        title="Remove ${escapeHtml(sectionName)}"
+                                        aria-label="Remove ${escapeHtml(sectionName)}"
                                     >
                                         <i data-lucide="x"></i>
                                     </button>
 
                                 </div>
 
-                            `).join("")}
+                            `;
 
-                        </div>
-                        `
-                    }
+                        }).join("")}
 
-                </div>
-            `;
+                    </div>
+                    `
+                }
 
-            container.appendChild(row);
+            </div>
+        `;
 
-        });
+        container.appendChild(row);
 
-        lucide.createIcons();
-    }
+    });
 
 
-    function createSection(gradeId) {
+    lucide.createIcons();
+}
 
-        const sections = classesByGrade[gradeId];
 
-        /*
-            Sections are created sequentially:
-            9A → 9B → 9C
-            10A → 10B → 10C
-            11NSA → 11NSB → 11NSC
-            etc.
-        */
+/* =========================================================
+   CREATE NEXT SECTION
+========================================================= */
 
-        const nextLetter = String.fromCharCode(
-            65 + sections.length
-        );
+async function createSection(gradeKey) {
 
-        const newSection = `${gradeId}${nextLetter}`;
-
-        sections.push(newSection);
-
-        renderGrades();
+    if (!selectedSchoolYearId) {
 
         showToast(
-            `${newSection} created for ${document.getElementById("schoolYear").value}.`
+            "Select a school year first.",
+            true
         );
+
+        return;
     }
 
 
-    function removeSection(gradeId, index) {
+    const databaseGrade =
+        findDatabaseGrade(gradeKey);
 
-        const section = classesByGrade[gradeId][index];
 
-        const confirmed = confirm(
-            `Remove class ${section}?`
+    if (!databaseGrade) {
+
+        showToast(
+            `Grade ${gradeKey} was not found in the database.`,
+            true
         );
 
-        if (!confirmed) {
-            return;
+        return;
+    }
+
+
+    /*
+       Get current classes for this grade.
+    */
+
+    const existingSections =
+        classesFromDatabase
+            .filter(
+                classRow =>
+                    getClassGradeKey(classRow) === gradeKey
+            )
+            .map(
+                classRow =>
+                    classRow.name ??
+                    classRow.class_name ??
+                    classRow.section ??
+                    ""
+            )
+            .filter(Boolean);
+
+
+    /*
+       Find the first unused letter.
+
+       9A → 9B → 9C
+       10A → 10B → 10C
+       11NSA → 11NSB → 11NSC
+       11SSA → 11SSB → 11SSC
+    */
+
+    let letterCode = 65;
+    let newSection = "";
+
+    while (letterCode <= 90) {
+
+        const candidate =
+            `${gradeKey}${String.fromCharCode(letterCode)}`;
+
+        if (!existingSections.includes(candidate)) {
+
+            newSection = candidate;
+            break;
+
         }
 
-        classesByGrade[gradeId].splice(index, 1);
-
-        renderGrades();
-
-        showToast(`${section} removed.`);
+        letterCode++;
     }
 
 
-    function showToast(message) {
+    if (!newSection) {
 
-        const toast = document.getElementById("toast");
-        const toastMessage = document.getElementById("toastMessage");
+        showToast(
+            "No more section letters are available.",
+            true
+        );
 
-        toastMessage.textContent = message;
-
-        toast.classList.add("show");
-
-        clearTimeout(window.toastTimer);
-
-        window.toastTimer = setTimeout(() => {
-            toast.classList.remove("show");
-        }, 2600);
+        return;
     }
 
 
-    document.getElementById("schoolYear").addEventListener(
+    /*
+       Insert directly into Supabase.
+    */
+
+    const insertData = {
+        school_year_id: selectedSchoolYearId,
+        grade_id: databaseGrade.id,
+        name: newSection,
+        capacity: null,
+        active: true
+    };
+
+
+    const { data, error } = await supabase
+        .from("classes")
+        .insert(insertData)
+        .select()
+        .single();
+
+
+    if (error) {
+
+        console.error("Create class error:", error);
+
+        showToast(
+            "Could not create class: " + error.message,
+            true
+        );
+
+        return;
+    }
+
+
+    /*
+       Add returned row locally so the UI updates
+       immediately.
+    */
+
+    classesFromDatabase.push(data);
+
+    renderGrades();
+
+    showToast(
+        `${newSection} created successfully.`
+    );
+}
+
+
+/* =========================================================
+   REMOVE CLASS
+========================================================= */
+
+async function removeSection(classId, sectionName) {
+
+    const confirmed = confirm(
+        `Remove class ${sectionName}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const { error } = await supabase
+        .from("classes")
+        .delete()
+        .eq("id", classId);
+
+
+    if (error) {
+
+        console.error("Delete class error:", error);
+
+        showToast(
+            "Could not remove class: " + error.message,
+            true
+        );
+
+        return;
+    }
+
+
+    classesFromDatabase =
+        classesFromDatabase.filter(
+            classRow =>
+                String(classRow.id) !== String(classId)
+        );
+
+
+    renderGrades();
+
+    showToast(
+        `${sectionName} removed successfully.`
+    );
+}
+
+
+/* =========================================================
+   SCHOOL YEAR CHANGE
+========================================================= */
+
+document
+    .getElementById("schoolYear")
+    .addEventListener(
         "change",
-        function() {
+        async function() {
 
-            /*
-                Later this will reload classes from Supabase
-                for the selected school year.
+            selectedSchoolYearId = this.value;
 
-                For now the browser state is reset.
-            */
+            hideError();
 
-            Object.keys(classesByGrade).forEach(key => {
-                classesByGrade[key] = [];
-            });
+            await loadClasses();
 
-            renderGrades();
+            const selectedOption =
+                this.options[this.selectedIndex];
 
             showToast(
-                `Viewing ${this.value}.`
+                `Viewing ${selectedOption.textContent}.`
             );
         }
     );
 
 
-    // Initial page render
-    renderGrades();
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message, isError = false) {
+
+    const toast =
+        document.getElementById("toast");
+
+    const toastMessage =
+        document.getElementById("toastMessage");
+
+    const toastIcon =
+        document.getElementById("toastIcon");
+
+
+    toastMessage.textContent = message;
+
+    toast.classList.toggle("error", isError);
+
+    toastIcon.setAttribute(
+        "data-lucide",
+        isError
+            ? "alert-circle"
+            : "check-circle-2"
+    );
+
+    lucide.createIcons();
+
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+function showError(message) {
+
+    const box =
+        document.getElementById("errorBox");
+
+    box.textContent = message;
+
+    box.style.display = "block";
+}
+
+
+function hideError() {
+
+    const box =
+        document.getElementById("errorBox");
+
+    box.style.display = "none";
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initializePage() {
+
+    try {
+
+        const yearsLoaded =
+            await loadSchoolYears();
+
+        if (!yearsLoaded) {
+            renderGrades();
+            return;
+        }
+
+
+        const gradesLoaded =
+            await loadGrades();
+
+        if (!gradesLoaded) {
+            renderGrades();
+            return;
+        }
+
+
+        await loadClasses();
+
+    } catch (error) {
+
+        console.error(
+            "Page initialization error:",
+            error
+        );
+
+        showError(
+            "Something went wrong while loading the classes page."
+        );
+
+    }
+
+}
+
+
+initializePage();
 
 </script>
 
