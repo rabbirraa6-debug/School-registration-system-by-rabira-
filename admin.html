@@ -7,7 +7,6 @@
 
   <title>Admin Dashboard | School Registration System</title>
 
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -38,14 +37,6 @@
 
     button {
       cursor: pointer;
-    }
-
-    /* =========================
-       APP
-    ========================= */
-
-    .app {
-      min-height: 100vh;
     }
 
     /* =========================
@@ -493,6 +484,7 @@
     }
 
     @media (max-width: 760px) {
+
       .sidebar {
         transform: translateX(-105%);
       }
@@ -537,6 +529,7 @@
     }
 
     @media (max-width: 520px) {
+
       .quick-grid {
         grid-template-columns: 1fr;
       }
@@ -561,6 +554,7 @@
   <div class="app">
 
     <!-- SIDEBAR -->
+
     <aside class="sidebar" id="sidebar">
 
       <div class="sidebar-header">
@@ -574,70 +568,116 @@
           <span>Administration Portal</span>
         </div>
 
-        <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+        <button
+          class="sidebar-close"
+          onclick="closeSidebar()"
+          aria-label="Close menu"
+        >
           <i data-lucide="x"></i>
         </button>
 
       </div>
 
+
       <nav class="sidebar-nav">
 
         <div class="nav-label">Main</div>
 
-        <button class="nav-item active" onclick="selectPage(this, 'Overview')">
+        <button
+          class="nav-item active"
+          onclick="selectPage(this, 'Overview')"
+        >
           <i data-lucide="layout-dashboard"></i>
           <span>Overview</span>
         </button>
 
-        <button class="nav-item" onclick="selectPage(this, 'Teachers')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'Teachers')"
+        >
           <i data-lucide="users"></i>
           <span>Teachers</span>
         </button>
 
-        <button class="nav-item" onclick="selectPage(this, 'Classes')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'Classes')"
+        >
           <i data-lucide="school"></i>
           <span>Classes</span>
         </button>
 
-        <button class="nav-item" onclick="selectPage(this, 'Students')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'Students')"
+        >
           <i data-lucide="graduation-cap"></i>
           <span>Students</span>
         </button>
 
+
         <div class="nav-label">Management</div>
 
-        <button class="nav-item" onclick="selectPage(this, 'School Years')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'School Years')"
+        >
           <i data-lucide="calendar-days"></i>
           <span>School Years</span>
         </button>
 
-        <button class="nav-item" onclick="selectPage(this, 'Registrations')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'Registrations')"
+        >
           <i data-lucide="clipboard-list"></i>
           <span>Registrations</span>
         </button>
 
-        <button class="nav-item" onclick="selectPage(this, 'Payments')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'Payments')"
+        >
           <i data-lucide="credit-card"></i>
           <span>Payments</span>
         </button>
 
-        <button class="nav-item" onclick="selectPage(this, 'Reports')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'Reports')"
+        >
           <i data-lucide="bar-chart-3"></i>
           <span>Reports</span>
         </button>
 
+
         <div class="nav-label">System</div>
 
-        <button class="nav-item" onclick="selectPage(this, 'Settings')">
+
+        <button
+          class="nav-item"
+          onclick="selectPage(this, 'Settings')"
+        >
           <i data-lucide="settings"></i>
           <span>Settings</span>
         </button>
 
       </nav>
 
+
       <div class="sidebar-footer">
 
-        <button class="logout-btn" onclick="logout()">
+        <button
+          class="logout-btn"
+          onclick="logout()"
+        >
           <i data-lucide="log-out"></i>
           <span>Log Out</span>
         </button>
@@ -646,27 +686,49 @@
 
     </aside>
 
+
     <!-- OVERLAY -->
-    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <div
+      class="overlay"
+      id="overlay"
+      onclick="closeSidebar()"
+    ></div>
+
 
     <!-- MAIN -->
+
     <main class="main">
 
       <!-- TOP BAR -->
+
       <header class="topbar">
 
         <div class="topbar-left">
 
-          <button class="menu-btn" onclick="openSidebar()" aria-label="Open menu">
+          <button
+            class="menu-btn"
+            onclick="openSidebar()"
+            aria-label="Open menu"
+          >
             <i data-lucide="menu"></i>
           </button>
 
+
           <div class="page-heading">
-            <h1 id="pageTitle">Admin Dashboard</h1>
-            <p>School administration and management</p>
+
+            <h1 id="pageTitle">
+              Admin Dashboard
+            </h1>
+
+            <p>
+              School administration and management
+            </p>
+
           </div>
 
         </div>
+
 
         <div class="admin-profile">
 
@@ -683,81 +745,177 @@
 
       </header>
 
+
       <!-- CONTENT -->
+
       <section class="content">
 
         <!-- WELCOME -->
+
         <div class="welcome">
 
           <div class="welcome-text">
-            <h2>Welcome to the Administration Portal</h2>
+
+            <h2>
+              Welcome to the Administration Portal
+            </h2>
+
             <p>
-              Manage teachers, classes, students, registrations,
-              payments and school information from one place.
+              Manage teachers, classes, students,
+              registrations, payments and school
+              information from one place.
             </p>
+
           </div>
+
 
           <div class="year-badge">
-            <span>Active School Year</span>
-            <strong>2026–2027</strong>
+
+            <span>
+              Active School Year
+            </span>
+
+            <strong>
+              2026–2027
+            </strong>
+
           </div>
 
         </div>
 
-        <!-- QUICK ACTIONS -->
+
+        <!-- QUICK MANAGEMENT -->
+
         <div class="section-title">
-          <h2>Quick Management</h2>
-          <span>Choose a section to manage</span>
+
+          <h2>
+            Quick Management
+          </h2>
+
+          <span>
+            Choose a section to manage
+          </span>
+
         </div>
+
 
         <div class="quick-grid">
 
-          <button class="quick-card" onclick="openSection('Teachers')">
+          <button
+            class="quick-card"
+            onclick="openSection('Teachers')"
+          >
+
             <div class="quick-icon">
               <i data-lucide="users"></i>
             </div>
-            <h3>Teachers</h3>
-            <p>Create and manage teacher accounts and class assignments.</p>
+
+            <h3>
+              Teachers
+            </h3>
+
+            <p>
+              Create and manage teacher accounts
+              and class assignments.
+            </p>
+
           </button>
 
-          <button class="quick-card" onclick="openSection('Classes')">
+
+          <button
+            class="quick-card"
+            onclick="openSection('Classes')"
+          >
+
             <div class="quick-icon">
               <i data-lucide="school"></i>
             </div>
-            <h3>Classes</h3>
-            <p>Create sections and organize classes for each school year.</p>
+
+            <h3>
+              Classes
+            </h3>
+
+            <p>
+              Create sections and organize classes
+              for each school year.
+            </p>
+
           </button>
 
-          <button class="quick-card" onclick="openSection('Students')">
+
+          <button
+            class="quick-card"
+            onclick="openSection('Students')"
+          >
+
             <div class="quick-icon">
               <i data-lucide="graduation-cap"></i>
             </div>
-            <h3>Students</h3>
-            <p>View and manage student records added by school staff.</p>
+
+            <h3>
+              Students
+            </h3>
+
+            <p>
+              View and manage student records
+              added by school staff.
+            </p>
+
           </button>
 
-          <button class="quick-card" onclick="openSection('Reports')">
+
+          <button
+            class="quick-card"
+            onclick="openSection('Reports')"
+          >
+
             <div class="quick-icon">
               <i data-lucide="bar-chart-3"></i>
             </div>
-            <h3>Reports</h3>
-            <p>Review registration, payment and school management reports.</p>
+
+            <h3>
+              Reports
+            </h3>
+
+            <p>
+              Review registration, payment and
+              school management reports.
+            </p>
+
           </button>
 
         </div>
 
+
         <!-- CURRENT ACTIVITY -->
+
         <div class="section-title">
-          <h2>Current Activity</h2>
-          <span>Live data will appear here</span>
+
+          <h2>
+            Current Activity
+          </h2>
+
+          <span>
+            Live data will appear here
+          </span>
+
         </div>
+
 
         <div class="dashboard-panel">
 
           <div class="panel-header">
-            <h2>Recent Activity</h2>
-            <span>No records loaded</span>
+
+            <h2>
+              Recent Activity
+            </h2>
+
+            <span>
+              No records loaded
+            </span>
+
           </div>
+
 
           <div class="empty-state">
 
@@ -765,11 +923,14 @@
               <i data-lucide="database"></i>
             </div>
 
-            <h3>No activity yet</h3>
+            <h3>
+              No activity yet
+            </h3>
 
             <p>
-              The dashboard will display real school activity here
-              after the Supabase database is connected.
+              The dashboard will display real school
+              activity here after the Supabase database
+              is connected.
             </p>
 
           </div>
@@ -782,6 +943,7 @@
 
   </div>
 
+
   <script>
 
     /* =========================
@@ -789,58 +951,136 @@
     ========================= */
 
     function openSidebar() {
-      document.getElementById("sidebar").classList.add("open");
-      document.getElementById("overlay").classList.add("show");
+
+      document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+      document
+        .getElementById("overlay")
+        .classList.add("show");
+
     }
+
 
     function closeSidebar() {
-      document.getElementById("sidebar").classList.remove("open");
-      document.getElementById("overlay").classList.remove("show");
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+      document
+        .getElementById("overlay")
+        .classList.remove("show");
+
     }
 
+
     /* =========================
-       NAVIGATION
+       PAGE NAVIGATION
     ========================= */
 
     function selectPage(button, page) {
 
-      document.querySelectorAll(".nav-item").forEach(item => {
-        item.classList.remove("active");
-      });
+      document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+          item.classList.remove("active");
+        });
+
 
       button.classList.add("active");
 
-      document.getElementById("pageTitle").textContent =
-        page === "Overview" ? "Admin Dashboard" : page;
-
       closeSidebar();
 
-      /*
-        Actual page navigation will be added later.
-        For now this dashboard is UI-only.
-      */
+
+      if (page === "Overview") {
+        window.location.href = "admin.html";
+        return;
+      }
+
+
+      if (page === "Teachers") {
+        window.location.href = "teachers.html";
+        return;
+      }
+
+
+      if (page === "Classes") {
+        window.location.href = "classes.html";
+        return;
+      }
+
+
+      if (page === "Students") {
+        window.location.href = "students.html";
+        return;
+      }
+
+
+      if (page === "School Years") {
+        window.location.href = "school-years.html";
+        return;
+      }
+
+
+      if (page === "Registrations") {
+        window.location.href = "registrations.html";
+        return;
+      }
+
+
+      if (page === "Payments") {
+        window.location.href = "payments.html";
+        return;
+      }
+
+
+      if (page === "Reports") {
+        window.location.href = "reports.html";
+        return;
+      }
+
+
+      if (page === "Settings") {
+        window.location.href = "settings.html";
+        return;
+      }
+
     }
+
+
+    /* =========================
+       QUICK ACTIONS
+    ========================= */
 
     function openSection(page) {
 
-      const buttons = document.querySelectorAll(".nav-item");
+      if (page === "Teachers") {
+        window.location.href = "teachers.html";
+        return;
+      }
 
-      buttons.forEach(button => {
-        button.classList.remove("active");
 
-        const text = button.querySelector("span");
+      if (page === "Classes") {
+        window.location.href = "classes.html";
+        return;
+      }
 
-        if (text && text.textContent === page) {
-          button.classList.add("active");
-        }
-      });
 
-      document.getElementById("pageTitle").textContent = page;
+      if (page === "Students") {
+        window.location.href = "students.html";
+        return;
+      }
 
-      /*
-        Actual section pages will be connected later.
-      */
+
+      if (page === "Reports") {
+        window.location.href = "reports.html";
+        return;
+      }
+
     }
+
 
     /* =========================
        LOGOUT
@@ -852,22 +1092,29 @@
         "Are you sure you want to log out?"
       );
 
+
       if (confirmed) {
         window.location.href = "admin-login.html";
       }
+
     }
+
 
     /* =========================
        ESC KEY
     ========================= */
 
-    document.addEventListener("keydown", function(event) {
+    document.addEventListener(
+      "keydown",
+      function(event) {
 
-      if (event.key === "Escape") {
-        closeSidebar();
+        if (event.key === "Escape") {
+          closeSidebar();
+        }
+
       }
+    );
 
-    });
 
     /* =========================
        ICONS
@@ -878,4 +1125,4 @@
   </script>
 
 </body>
-  </html>
+</html>
