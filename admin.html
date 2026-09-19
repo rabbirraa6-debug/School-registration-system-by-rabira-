@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07111f">
+
+  <title>Admin Dashboard | School Registration System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f8fc;
+      color: #0b1728;
+    }
+
+    body {
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    .app {
+      min-height: 100vh;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 270px;
+      height: 100vh;
+      background: #07111f;
+      color: white;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      box-shadow: 8px 0 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .sidebar-header {
+      height: 78px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .school-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #38bdf8;
+      color: #07111f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .school-title {
+      min-width: 0;
+    }
+
+    .school-title strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .school-title span {
+      display: block;
+      margin-top: 3px;
+      color: #8da2b8;
+      font-size: 11px;
+    }
+
+    .sidebar-close {
+      display: none;
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: #a9bacd;
+      padding: 7px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 18px 12px;
+      overflow-y: auto;
+    }
+
+    .nav-label {
+      padding: 8px 12px;
+      color: #71869c;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #b8c7d8;
+      padding: 12px 13px;
+      margin-bottom: 4px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      transition: 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: white;
+    }
+
+    .nav-item.active {
+      background: #12314b;
+      color: #ffffff;
+    }
+
+    .nav-item.active svg {
+      color: #38bdf8;
+    }
+
+    .sidebar-footer {
+      padding: 14px 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logout-btn {
+      width: 100%;
+      border: 0;
+      background: rgba(239,68,68,0.08);
+      color: #fca5a5;
+      padding: 12px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239,68,68,0.16);
+    }
+
+    /* =========================
+       OVERLAY
+    ========================= */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 10, 18, 0.55);
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s ease;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      min-height: 100vh;
+      margin-left: 270px;
+    }
+
+    .topbar {
+      height: 78px;
+      background: white;
+      border-bottom: 1px solid #e5edf5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid #dce7f1;
+      background: white;
+      border-radius: 10px;
+      align-items: center;
+      justify-content: center;
+      color: #0b1728;
+    }
+
+    .page-heading h1 {
+      font-size: 22px;
+      color: #07111f;
+    }
+
+    .page-heading p {
+      color: #6b7d90;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #e0f2fe;
+      color: #0369a1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-info strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .admin-info span {
+      display: block;
+      color: #7b8da0;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content {
+      padding: 28px;
+      max-width: 1500px;
+      margin: auto;
+    }
+
+    .welcome {
+      background: linear-gradient(135deg, #07111f, #12314b);
+      border-radius: 18px;
+      padding: 26px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .welcome::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 35px solid rgba(56,189,248,0.08);
+      right: -70px;
+      top: -100px;
+    }
+
+    .welcome-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .welcome-text h2 {
+      font-size: 21px;
+      margin-bottom: 7px;
+    }
+
+    .welcome-text p {
+      color: #b9ccdf;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .year-badge {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 12px 15px;
+      min-width: 150px;
+    }
+
+    .year-badge span {
+      display: block;
+      color: #8fb0c9;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .year-badge strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 14px;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 13px;
+    }
+
+    .section-title h2 {
+      font-size: 16px;
+    }
+
+    .section-title span {
+      color: #7b8da0;
+      font-size: 12px;
+    }
+
+    /* =========================
+       QUICK ACTIONS
+    ========================= */
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .quick-card {
+      border: 1px solid #e1eaf2;
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: left;
+      transition: 0.2s ease;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-2px);
+      border-color: #b9d8eb;
+      box-shadow: 0 8px 22px rgba(7,17,31,0.06);
+    }
+
+    .quick-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #e0f2fe;
+      color: #0369a1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .quick-card h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .quick-card p {
+      color: #7b8da0;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .dashboard-panel {
+      background: white;
+      border: 1px solid #e1eaf2;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e8eef4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-header h2 {
+      font-size: 15px;
+    }
+
+    .panel-header span {
+      font-size: 11px;
+      color: #7b8da0;
+    }
+
+    .empty-state {
+      padding: 55px 20px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 14px;
+      border-radius: 16px;
+      background: #f0f7fb;
+      color: #4d7a96;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .empty-state h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      max-width: 390px;
+      margin: auto;
+      color: #7b8da0;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 1000px) {
+      .quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar {
+        transform: translateX(-105%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-close {
+        display: flex;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .menu-btn {
+        display: flex;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .admin-info {
+        display: none;
+      }
+
+      .content {
+        padding: 18px 14px 30px;
+      }
+
+      .welcome {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .year-badge {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .quick-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-heading h1 {
+        font-size: 18px;
+      }
+
+      .page-heading p {
+        font-size: 11px;
+      }
+
+      .welcome-text h2 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-header">
+
+        <div class="school-icon">
+          <i data-lucide="school"></i>
+        </div>
+
+        <div class="school-title">
+          <strong>School Management</strong>
+          <span>Administration Portal</span>
+        </div>
+
+        <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+          <i data-lucide="x"></i>
+        </button>
+
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <div class="nav-label">Main</div>
+
+        <button class="nav-item active" onclick="selectPage(this, 'Overview')">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Overview</span>
+        </button>
+
+        <button class="nav-item" onclick="selectPage(this, 'Teachers')">
+          <i data-lucide="users"></i>
+          <span>Teachers</span>
+        </button>
+
+        <button class="nav-item" onclick="selectPage(this, 'Classes')">
+          <i data-lucide="school"></i>
+          <span>Classes</span>
+        </button>
+
+        <button class="nav-item" onclick="selectPage(this, 'Students')">
+          <i data-lucide="graduation-cap"></i>
+          <span>Students</span>
+        </button>
+
+        <div class="nav-label">Management</div>
+
+        <button class="nav-item" onclick="selectPage(this, 'School Years')">
+          <i data-lucide="calendar-days"></i>
+          <span>School Years</span>
+        </button>
+
+        <button class="nav-item" onclick="selectPage(this, 'Registrations')">
+          <i data-lucide="clipboard-list"></i>
+          <span>Registrations</span>
+        </button>
+
+        <button class="nav-item" onclick="selectPage(this, 'Payments')">
+          <i data-lucide="credit-card"></i>
+          <span>Payments</span>
+        </button>
+
+        <button class="nav-item" onclick="selectPage(this, 'Reports')">
+          <i data-lucide="bar-chart-3"></i>
+          <span>Reports</span>
+        </button>
+
+        <div class="nav-label">System</div>
+
+        <button class="nav-item" onclick="selectPage(this, 'Settings')">
+          <i data-lucide="settings"></i>
+          <span>Settings</span>
+        </button>
+
+      </nav>
+
+      <div class="sidebar-footer">
+
+        <button class="logout-btn" onclick="logout()">
+          <i data-lucide="log-out"></i>
+          <span>Log Out</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOP BAR -->
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button class="menu-btn" onclick="openSidebar()" aria-label="Open menu">
+            <i data-lucide="menu"></i>
+          </button>
+
+          <div class="page-heading">
+            <h1 id="pageTitle">Admin Dashboard</h1>
+            <p>School administration and management</p>
+          </div>
+
+        </div>
+
+        <div class="admin-profile">
+
+          <div class="admin-avatar">
+            <i data-lucide="shield-check"></i>
+          </div>
+
+          <div class="admin-info">
+            <strong>Administrator</strong>
+            <span>Admin Account</span>
+          </div>
+
+        </div>
+
+      </header>
+
+      <!-- CONTENT -->
+      <section class="content">
+
+        <!-- WELCOME -->
+        <div class="welcome">
+
+          <div class="welcome-text">
+            <h2>Welcome to the Administration Portal</h2>
+            <p>
+              Manage teachers, classes, students, registrations,
+              payments and school information from one place.
+            </p>
+          </div>
+
+          <div class="year-badge">
+            <span>Active School Year</span>
+            <strong>2026–2027</strong>
+          </div>
+
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="section-title">
+          <h2>Quick Management</h2>
+          <span>Choose a section to manage</span>
+        </div>
+
+        <div class="quick-grid">
+
+          <button class="quick-card" onclick="openSection('Teachers')">
+            <div class="quick-icon">
+              <i data-lucide="users"></i>
+            </div>
+            <h3>Teachers</h3>
+            <p>Create and manage teacher accounts and class assignments.</p>
+          </button>
+
+          <button class="quick-card" onclick="openSection('Classes')">
+            <div class="quick-icon">
+              <i data-lucide="school"></i>
+            </div>
+            <h3>Classes</h3>
+            <p>Create sections and organize classes for each school year.</p>
+          </button>
+
+          <button class="quick-card" onclick="openSection('Students')">
+            <div class="quick-icon">
+              <i data-lucide="graduation-cap"></i>
+            </div>
+            <h3>Students</h3>
+            <p>View and manage student records added by school staff.</p>
+          </button>
+
+          <button class="quick-card" onclick="openSection('Reports')">
+            <div class="quick-icon">
+              <i data-lucide="bar-chart-3"></i>
+            </div>
+            <h3>Reports</h3>
+            <p>Review registration, payment and school management reports.</p>
+          </button>
+
+        </div>
+
+        <!-- CURRENT ACTIVITY -->
+        <div class="section-title">
+          <h2>Current Activity</h2>
+          <span>Live data will appear here</span>
+        </div>
+
+        <div class="dashboard-panel">
+
+          <div class="panel-header">
+            <h2>Recent Activity</h2>
+            <span>No records loaded</span>
+          </div>
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              <i data-lucide="database"></i>
+            </div>
+
+            <h3>No activity yet</h3>
+
+            <p>
+              The dashboard will display real school activity here
+              after the Supabase database is connected.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    function openSidebar() {
+      document.getElementById("sidebar").classList.add("open");
+      document.getElementById("overlay").classList.add("show");
+    }
+
+    function closeSidebar() {
+      document.getElementById("sidebar").classList.remove("open");
+      document.getElementById("overlay").classList.remove("show");
+    }
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    function selectPage(button, page) {
+
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      document.getElementById("pageTitle").textContent =
+        page === "Overview" ? "Admin Dashboard" : page;
+
+      closeSidebar();
+
+      /*
+        Actual page navigation will be added later.
+        For now this dashboard is UI-only.
+      */
+    }
+
+    function openSection(page) {
+
+      const buttons = document.querySelectorAll(".nav-item");
+
+      buttons.forEach(button => {
+        button.classList.remove("active");
+
+        const text = button.querySelector("span");
+
+        if (text && text.textContent === page) {
+          button.classList.add("active");
+        }
+      });
+
+      document.getElementById("pageTitle").textContent = page;
+
+      /*
+        Actual section pages will be connected later.
+      */
+    }
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    function logout() {
+
+      const confirmed = confirm(
+        "Are you sure you want to log out?"
+      );
+
+      if (confirmed) {
+        window.location.href = "admin-login.html";
+      }
+    }
+
+    /* =========================
+       ESC KEY
+    ========================= */
+
+    document.addEventListener("keydown", function(event) {
+
+      if (event.key === "Escape") {
+        closeSidebar();
+      }
+
+    });
+
+    /* =========================
+       ICONS
+    ========================= */
+
+    lucide.createIcons();
+
+  </script>
+
+</body>
+  </html>
