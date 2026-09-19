@@ -3,132 +3,1507 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Classes - Connection Test</title>
+
+  <title>Classes | School Management System</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
     body {
       margin: 0;
-      padding: 30px 20px;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
       background: #f4f7fb;
       color: #172033;
     }
 
-    .box {
-      max-width: 700px;
-      margin: 40px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 14px;
-      box-shadow: 0 5px 25px rgba(0,0,0,.08);
+    body {
+      user-select: none;
     }
 
-    h1 {
-      margin-top: 0;
-    }
-
-    #status {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      background: #eef3f8;
-      white-space: pre-wrap;
-      line-height: 1.6;
+    input,
+    select,
+    textarea {
+      user-select: text;
     }
 
     button {
-      margin-top: 15px;
-      padding: 12px 18px;
-      border: 0;
+      font-family: inherit;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 260px;
+      background: #101827;
+      color: white;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .brand {
+      height: 75px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 22px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #1d8cf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-text {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .brand-text small {
+      display: block;
+      font-size: 11px;
+      color: #9ca8bb;
+      margin-top: 3px;
+      font-weight: 400;
+    }
+
+    .nav {
+      padding: 20px 12px;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6f7c91;
+      padding: 0 12px 10px;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #b9c3d3;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 9px;
+      margin-bottom: 4px;
+      font-size: 14px;
+      transition: .2s;
+    }
+
+    .nav a:hover {
+      background: #1a2537;
+      color: white;
+    }
+
+    .nav a.active {
+      background: #1d8cf8;
+      color: white;
+    }
+
+    .nav a.logout {
+      color: #ff9b9b;
+      margin-top: 20px;
+    }
+
+    .main {
+      margin-left: 260px;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 75px;
+      background: white;
+      border-bottom: 1px solid #e5eaf1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+    }
+
+    .page-title {
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .page-subtitle {
+      font-size: 12px;
+      color: #7a879a;
+      margin-top: 4px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .profile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #eaf4ff;
+      color: #1769aa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content {
+      padding: 28px;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    .year-banner {
+      background: linear-gradient(135deg, #0f2942, #1769aa);
+      color: white;
+      padding: 22px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .year-banner h2 {
+      margin: 0 0 5px;
+      font-size: 20px;
+    }
+
+    .year-banner p {
+      margin: 0;
+      color: #d5e8fa;
+      font-size: 13px;
+    }
+
+    .year-badge {
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .section-heading p {
+      margin: 5px 0 0;
+      color: #7a879a;
+      font-size: 12px;
+    }
+
+    .refresh-btn {
+      border: 1px solid #dce4ee;
+      background: white;
+      color: #344054;
+      padding: 9px 13px;
       border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .refresh-btn:hover {
+      background: #f5f8fc;
+    }
+
+    .grade-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grade-card {
+      background: white;
+      border: 1px solid #e3e9f1;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(20,35,55,.03);
+    }
+
+    .grade-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .grade-name {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .grade-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #edf6ff;
+      color: #1769aa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .class-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      min-height: 44px;
+    }
+
+    .class-row {
+      border: 1px solid #e5eaf1;
+      border-radius: 9px;
+      padding: 11px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #fafcff;
+    }
+
+    .class-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .class-meta {
+      font-size: 11px;
+      color: #8290a3;
+      margin-top: 3px;
+    }
+
+    .class-actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #dce4ee;
+      background: white;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #526173;
+    }
+
+    .icon-btn:hover {
+      background: #f2f6fa;
+    }
+
+    .icon-btn.delete:hover {
+      color: #d92d20;
+      border-color: #f2b8b5;
+      background: #fff6f5;
+    }
+
+    .add-class-btn {
+      width: 100%;
+      border: 1px dashed #aebed0;
+      background: #fbfdff;
+      color: #1769aa;
+      padding: 11px;
+      border-radius: 9px;
+      margin-top: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .add-class-btn:hover {
+      background: #f0f7ff;
+      border-color: #1769aa;
+    }
+
+    .empty-class {
+      border: 1px dashed #d4dce7;
+      border-radius: 9px;
+      padding: 13px;
+      text-align: center;
+      color: #8a96a8;
+      font-size: 12px;
+    }
+
+    .status-box {
+      margin-top: 25px;
+      background: white;
+      border: 1px solid #e3e9f1;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 12px;
+      color: #637083;
+    }
+
+    .status-title {
+      font-weight: 700;
+      color: #344054;
+      margin-bottom: 5px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px 20px;
+      color: #748196;
+    }
+
+    .spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #dce5ef;
+      border-top-color: #1769aa;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,20,35,.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 2000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 440px;
+      background: white;
+      border-radius: 15px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .close-btn {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      background: #f1f4f8;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 7px;
+      color: #344054;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d5dde8;
+      border-radius: 8px;
+      outline: none;
+      font-size: 14px;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #1769aa;
+      box-shadow: 0 0 0 3px rgba(23,105,170,.1);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid #d5dde8;
+      background: white;
+      font-weight: 600;
+    }
+
+    .btn-primary {
       background: #1769aa;
       color: white;
-      cursor: pointer;
-      font-size: 15px;
+      border-color: #1769aa;
+    }
+
+    .btn-primary:hover {
+      background: #125987;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    .overlay {
+      display: none;
+    }
+
+    .error-message {
+      color: #b42318;
+      background: #fff5f4;
+      border: 1px solid #f4c7c3;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1050px) {
+      .grade-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .mobile-menu {
+        display: flex;
+        width: 38px;
+        height: 38px;
+        border: 1px solid #dce4ee;
+        background: white;
+        border-radius: 8px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .topbar {
+        padding: 0 16px;
+        gap: 10px;
+      }
+
+      .page-title {
+        font-size: 17px;
+      }
+
+      .admin-profile span {
+        display: none;
+      }
+
+      .content {
+        padding: 18px 14px;
+      }
+
+      .grade-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .year-banner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .overlay.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.4);
+        z-index: 900;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h1>Classes</h1>
-  <p>This is a Supabase connection test.</p>
+  <aside class="sidebar" id="sidebar">
 
-  <div id="status">Starting...</div>
+    <div class="brand">
+      <div class="brand-icon">
+        <i data-lucide="school"></i>
+      </div>
 
-  <button onclick="testConnection()">Test Again</button>
-</div>
+      <div class="brand-text">
+        School Management
+        <small>Administration Panel</small>
+      </div>
+    </div>
+
+    <nav class="nav">
+
+      <div class="nav-label">Management</div>
+
+      <a href="admin.html">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Overview</span>
+      </a>
+
+      <a href="teachers.html">
+        <i data-lucide="users"></i>
+        <span>Teachers</span>
+      </a>
+
+      <a href="classes.html" class="active">
+        <i data-lucide="layers"></i>
+        <span>Classes</span>
+      </a>
+
+      <a href="students.html">
+        <i data-lucide="graduation-cap"></i>
+        <span>Students</span>
+      </a>
+
+      <a href="registrations.html">
+        <i data-lucide="clipboard-list"></i>
+        <span>Registrations</span>
+      </a>
+
+      <a href="reports.html">
+        <i data-lucide="bar-chart-3"></i>
+        <span>Reports</span>
+      </a>
+
+      <a href="settings.html">
+        <i data-lucide="settings"></i>
+        <span>Settings</span>
+      </a>
+
+      <a href="admin-login.html" class="logout">
+        <i data-lucide="log-out"></i>
+        <span>Logout</span>
+      </a>
+
+    </nav>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div style="display:flex;align-items:center;gap:12px;">
+
+        <button class="mobile-menu" id="menuBtn">
+          <i data-lucide="menu"></i>
+        </button>
+
+        <div>
+          <div class="page-title">Classes</div>
+          <div class="page-subtitle">
+            Manage class sections for the active school year
+          </div>
+        </div>
+
+      </div>
+
+      <div class="admin-profile">
+        <div class="profile-icon">
+          <i data-lucide="shield-check"></i>
+        </div>
+        <span>Administrator</span>
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="year-banner">
+
+        <div>
+          <h2>Class Management</h2>
+          <p>
+            Create and organize class sections for the current school year.
+          </p>
+        </div>
+
+        <div class="year-badge" id="yearBadge">
+          Loading school year...
+        </div>
+
+      </div>
+
+      <div class="section-heading">
+
+        <div>
+          <h2>Class Sections</h2>
+          <p>
+            Add sections using the plus button. Sections are created sequentially.
+          </p>
+        </div>
+
+        <button class="refresh-btn" id="refreshBtn">
+          <i data-lucide="refresh-cw"></i>
+          Refresh
+        </button>
+
+      </div>
+
+      <div id="classesContainer">
+
+        <div class="loading">
+          <div class="spinner"></div>
+          Loading classes...
+        </div>
+
+      </div>
+
+      <div class="status-box">
+
+        <div class="status-title">
+          System Status
+        </div>
+
+        <div id="statusText">
+          Connecting to school database...
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Add Class Modal -->
+
+  <div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <h3 id="modalTitle">
+          Add Class
+        </h3>
+
+        <button class="close-btn" id="closeModal">
+          <i data-lucide="x"></i>
+        </button>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Grade</label>
+
+        <input
+          type="text"
+          id="modalGrade"
+          readonly
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Class Section</label>
+
+        <input
+          type="text"
+          id="classNameInput"
+          readonly
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Capacity</label>
+
+        <input
+          type="number"
+          id="capacityInput"
+          min="1"
+          placeholder="Optional"
+        >
+
+      </div>
+
+      <div class="modal-actions">
+
+        <button class="btn" id="cancelBtn">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary" id="createBtn">
+          Create Class
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
 
 <script>
-const SUPABASE_URL = "https://goongxvoooiwsesqoptz.supabase.co";
 
-const SUPABASE_KEY =
-  "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
+  const SUPABASE_URL =
+    "https://goongxvoooiwsesqoptz.supabase.co";
 
-const statusBox = document.getElementById("status");
+  const SUPABASE_KEY =
+    "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
 
-function show(message) {
-  statusBox.textContent += "\n" + message;
-}
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-async function testConnection() {
+  let schoolYears = [];
+  let grades = [];
+  let classes = [];
 
-  statusBox.textContent = "Starting Supabase test...";
+  let activeSchoolYear = null;
+  let selectedGrade = null;
+  let selectedClassName = null;
 
-  try {
+  const classesContainer =
+    document.getElementById("classesContainer");
 
-    if (!window.supabase) {
-      show("ERROR: Supabase library did not load.");
-      return;
+  const statusText =
+    document.getElementById("statusText");
+
+  const yearBadge =
+    document.getElementById("yearBadge");
+
+  const modalOverlay =
+    document.getElementById("modalOverlay");
+
+  const modalGrade =
+    document.getElementById("modalGrade");
+
+  const classNameInput =
+    document.getElementById("classNameInput");
+
+  const capacityInput =
+    document.getElementById("capacityInput");
+
+  function setStatus(message) {
+    statusText.textContent = message;
+  }
+
+  function getGradeDisplayName(grade) {
+    return String(grade.name);
+  }
+
+  function getDisplayGroups() {
+
+    return [
+      {
+        title: "9",
+        gradeName: "9",
+        grade: grades.find(g => String(g.name) === "9"),
+        sectionPrefix: "9"
+      },
+
+      {
+        title: "10",
+        gradeName: "10",
+        grade: grades.find(g => String(g.name) === "10"),
+        sectionPrefix: "10"
+      },
+
+      {
+        title: "11NS",
+        gradeName: "11",
+        grade: grades.find(g => String(g.name) === "11"),
+        sectionPrefix: "11NS"
+      },
+
+      {
+        title: "11SS",
+        gradeName: "11",
+        grade: grades.find(g => String(g.name) === "11"),
+        sectionPrefix: "11SS"
+      },
+
+      {
+        title: "12NS",
+        gradeName: "12",
+        grade: grades.find(g => String(g.name) === "12"),
+        sectionPrefix: "12NS"
+      },
+
+      {
+        title: "12SS",
+        gradeName: "12",
+        grade: grades.find(g => String(g.name) === "12"),
+        sectionPrefix: "12SS"
+      }
+    ];
+  }
+
+  function getClassesForGroup(group) {
+
+    if (!activeSchoolYear || !group.grade) {
+      return [];
     }
 
-    show("Supabase library loaded.");
-
-    const client = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
+    return classes.filter(c =>
+      Number(c.school_year_id) === Number(activeSchoolYear.id) &&
+      Number(c.grade_id) === Number(group.grade.id) &&
+      c.is_active !== false &&
+      String(c.name).startsWith(group.sectionPrefix)
     );
 
-    show("Supabase client created.");
+  }
 
-    show("Testing school_years table...");
+  function getNextSection(group) {
 
-    const { data, error } = await client
-      .from("school_years")
-      .select("*")
-      .limit(5);
+    const groupClasses =
+      getClassesForGroup(group);
 
-    if (error) {
-      show("DATABASE ERROR:");
-      show(error.message);
-      show("\nDetails:");
-      show(JSON.stringify(error, null, 2));
+    let nextLetterCode = 65;
+
+    const existingLetters =
+      groupClasses
+        .map(c => String(c.name).replace(group.sectionPrefix, ""))
+        .filter(x => x.length === 1)
+        .map(x => x.charCodeAt(0));
+
+    while (existingLetters.includes(nextLetterCode)) {
+      nextLetterCode++;
+    }
+
+    return group.sectionPrefix +
+      String.fromCharCode(nextLetterCode);
+  }
+
+  function renderClasses() {
+
+    if (!activeSchoolYear) {
+
+      classesContainer.innerHTML = `
+        <div class="error-message">
+          No active school year was found.
+        </div>
+      `;
+
       return;
     }
 
-    show("SUCCESS!");
-    show("Database connection works.");
+    const groups = getDisplayGroups();
 
-    show("\nSchool years returned:");
+    let html = `
+      <div class="grade-grid">
+    `;
 
-    if (!data || data.length === 0) {
-      show("No school-year records found.");
-    } else {
-      show(JSON.stringify(data, null, 2));
-    }
+    groups.forEach(group => {
 
-  } catch (err) {
+      const groupClasses =
+        getClassesForGroup(group);
 
-    show("JAVASCRIPT ERROR:");
-    show(err.message);
+      html += `
+        <div class="grade-card">
+
+          <div class="grade-card-top">
+
+            <div class="grade-name">
+              ${group.title}
+            </div>
+
+            <div class="grade-icon">
+              <i data-lucide="book-open"></i>
+            </div>
+
+          </div>
+
+          <div class="class-list">
+      `;
+
+      if (groupClasses.length === 0) {
+
+        html += `
+          <div class="empty-class">
+            No sections created yet
+          </div>
+        `;
+
+      } else {
+
+        groupClasses.forEach(classItem => {
+
+          html += `
+            <div class="class-row">
+
+              <div>
+                <div class="class-name">
+                  ${escapeHtml(classItem.name)}
+                </div>
+
+                <div class="class-meta">
+                  ${
+                    classItem.capacity
+                      ? "Capacity: " + classItem.capacity
+                      : "No capacity limit"
+                  }
+                </div>
+              </div>
+
+              <div class="class-actions">
+
+                <button
+                  class="icon-btn delete"
+                  title="Delete class"
+                  onclick="deleteClass(${classItem.id})"
+                >
+                  <i data-lucide="trash-2"></i>
+                </button>
+
+              </div>
+
+            </div>
+          `;
+
+        });
+
+      }
+
+      html += `
+          </div>
+
+          <button
+            class="add-class-btn"
+            onclick="openAddModal('${group.title}')"
+          >
+            <i data-lucide="plus"></i>
+            Add ${group.title} Section
+          </button>
+
+        </div>
+      `;
+
+    });
+
+    html += `
+      </div>
+    `;
+
+    classesContainer.innerHTML = html;
+
+    lucide.createIcons();
 
   }
-}
 
-testConnection();
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+  async function loadSchoolYears() {
+
+    const result =
+      await db
+        .from("school_years")
+        .select("*")
+        .order("id", {
+          ascending: true
+        });
+
+    if (result.error) {
+      throw new Error(
+        "School years: " + result.error.message
+      );
+    }
+
+    schoolYears = result.data || [];
+
+    activeSchoolYear =
+      schoolYears.find(y => y.is_active === true);
+
+    if (!activeSchoolYear) {
+      activeSchoolYear =
+        schoolYears[0] || null;
+    }
+
+    if (activeSchoolYear) {
+
+      yearBadge.textContent =
+        activeSchoolYear.name;
+
+    } else {
+
+      yearBadge.textContent =
+        "No school year";
+
+    }
+
+  }
+
+  async function loadGrades() {
+
+    const result =
+      await db
+        .from("grades")
+        .select("*")
+        .order("id", {
+          ascending: true
+        });
+
+    if (result.error) {
+      throw new Error(
+        "Grades: " + result.error.message
+      );
+    }
+
+    grades = result.data || [];
+
+  }
+
+  async function loadClasses() {
+
+    if (!activeSchoolYear) {
+      classes = [];
+      return;
+    }
+
+    const result =
+      await db
+        .from("classes")
+        .select("*")
+        .eq(
+          "school_year_id",
+          activeSchoolYear.id
+        )
+        .order("id", {
+          ascending: true
+        });
+
+    if (result.error) {
+      throw new Error(
+        "Classes: " + result.error.message
+      );
+    }
+
+    classes = result.data || [];
+
+  }
+
+  async function loadEverything() {
+
+    classesContainer.innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        Loading classes...
+      </div>
+    `;
+
+    setStatus("Loading school database...");
+
+    try {
+
+      await loadSchoolYears();
+
+      setStatus("School year loaded. Loading grades...");
+
+      await loadGrades();
+
+      setStatus("Grades loaded. Loading classes...");
+
+      await loadClasses();
+
+      setStatus(
+        "Connected successfully. Classes are up to date."
+      );
+
+      renderClasses();
+
+    } catch (error) {
+
+      console.error(error);
+
+      setStatus(
+        "Database error: " + error.message
+      );
+
+      classesContainer.innerHTML = `
+        <div class="error-message">
+          <strong>Unable to load classes.</strong><br><br>
+          ${escapeHtml(error.message)}
+        </div>
+      `;
+
+    }
+
+  }
+
+  function openAddModal(groupTitle) {
+
+    const groups =
+      getDisplayGroups();
+
+    const group =
+      groups.find(g => g.title === groupTitle);
+
+    if (!group || !group.grade) {
+
+      alert(
+        "The database grade for " +
+        groupTitle +
+        " could not be found."
+      );
+
+      return;
+    }
+
+    selectedGrade = group.grade;
+
+    selectedClassName =
+      getNextSection(group);
+
+    modalGrade.value =
+      groupTitle;
+
+    classNameInput.value =
+      selectedClassName;
+
+    capacityInput.value = "";
+
+    modalOverlay.classList.add("show");
+
+    lucide.createIcons();
+
+  }
+
+  function closeModal() {
+
+    modalOverlay.classList.remove("show");
+
+    selectedGrade = null;
+    selectedClassName = null;
+
+  }
+
+  async function createClass() {
+
+    if (!selectedGrade || !selectedClassName) {
+      return;
+    }
+
+    const capacityValue =
+      capacityInput.value.trim();
+
+    let capacity = null;
+
+    if (capacityValue !== "") {
+
+      capacity =
+        Number(capacityValue);
+
+      if (!Number.isInteger(capacity) || capacity < 1) {
+
+        alert(
+          "Capacity must be a positive whole number."
+        );
+
+        return;
+      }
+
+    }
+
+    const createBtn =
+      document.getElementById("createBtn");
+
+    createBtn.disabled = true;
+    createBtn.textContent = "Creating...";
+
+    try {
+
+      const result =
+        await db
+          .from("classes")
+          .insert({
+            grade_id: selectedGrade.id,
+            name: selectedClassName,
+            capacity: capacity,
+            is_active: true,
+            school_year_id: activeSchoolYear.id
+          })
+          .select()
+          .single();
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+
+      classes.push(result.data);
+
+      closeModal();
+
+      renderClasses();
+
+      setStatus(
+        "Class " +
+        result.data.name +
+        " was created successfully."
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Could not create the class.\n\n" +
+        error.message
+      );
+
+      setStatus(
+        "Create class error: " +
+        error.message
+      );
+
+    } finally {
+
+      createBtn.disabled = false;
+      createBtn.textContent = "Create Class";
+
+    }
+
+  }
+
+  async function deleteClass(classId) {
+
+    const classItem =
+      classes.find(c => Number(c.id) === Number(classId));
+
+    if (!classItem) {
+      return;
+    }
+
+    const confirmed =
+      confirm(
+        "Delete class " +
+        classItem.name +
+        "?\n\n" +
+        "This action will remove the class record."
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setStatus(
+      "Deleting class " +
+      classItem.name +
+      "..."
+    );
+
+    try {
+
+      const result =
+        await db
+          .from("classes")
+          .delete()
+          .eq("id", classId);
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+
+      classes =
+        classes.filter(
+          c => Number(c.id) !== Number(classId)
+        );
+
+      renderClasses();
+
+      setStatus(
+        "Class " +
+        classItem.name +
+        " deleted."
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Could not delete the class.\n\n" +
+        error.message
+      );
+
+      setStatus(
+        "Delete class error: " +
+        error.message
+      );
+
+    }
+
+  }
+
+  document
+    .getElementById("refreshBtn")
+    .addEventListener(
+      "click",
+      loadEverything
+    );
+
+  document
+    .getElementById("closeModal")
+    .addEventListener(
+      "click",
+      closeModal
+    );
+
+  document
+    .getElementById("cancelBtn")
+    .addEventListener(
+      "click",
+      closeModal
+    );
+
+  document
+    .getElementById("createBtn")
+    .addEventListener(
+      "click",
+      createClass
+    );
+
+  modalOverlay.addEventListener(
+    "click",
+    function(event) {
+
+      if (event.target === modalOverlay) {
+        closeModal();
+      }
+
+    }
+  );
+
+  const menuBtn =
+    document.getElementById("menuBtn");
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const overlay =
+    document.getElementById("overlay");
+
+  menuBtn.addEventListener(
+    "click",
+    function() {
+
+      sidebar.classList.add("open");
+      overlay.classList.add("show");
+
+    }
+  );
+
+  overlay.addEventListener(
+    "click",
+    function() {
+
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+
+    }
+  );
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Escape") {
+        closeModal();
+
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+      }
+
+    }
+  );
+
+  lucide.createIcons();
+
+  loadEverything();
+
 </script>
 
 </body>
