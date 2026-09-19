@@ -1,1297 +1,2260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07111f">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teachers | School Management System</title>
 
-  <title>Teachers | School Administration</title>
+<script src="https://unpkg.com/lucide@latest"></script>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <style>
+<style>
     * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
 
-    html,
-    body {
-      min-height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f8fc;
-      color: #0b1728;
+    html, body {
+        width: 100%;
+        min-height: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f7fb;
+        color: #172033;
     }
 
     body {
-      user-select: none;
-      overflow-x: hidden;
+        user-select: none;
+        overflow-x: hidden;
+    }
+
+    input,
+    select,
+    textarea {
+        user-select: text;
     }
 
     button,
-    input,
-    select {
-      font: inherit;
+    a {
+        -webkit-tap-highlight-color: transparent;
     }
 
     button {
-      cursor: pointer;
+        font-family: inherit;
     }
 
-    /* =========================
-       SIDEBAR
-    ========================= */
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* ================= SIDEBAR ================= */
 
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 270px;
-      height: 100vh;
-      background: #07111f;
-      color: white;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(0);
-      transition: transform 0.3s ease;
-      box-shadow: 8px 0 30px rgba(0, 0, 0, 0.08);
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 270px;
+        height: 100vh;
+        background: #101827;
+        color: white;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        transition: transform .28s ease;
     }
 
     .sidebar-header {
-      height: 78px;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+        height: 78px;
+        padding: 0 22px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
     .school-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: #38bdf8;
-      color: #07111f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #168cff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .school-title {
-      min-width: 0;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.25;
     }
 
-    .school-title strong {
-      display: block;
-      font-size: 14px;
+    .school-subtitle {
+        font-size: 11px;
+        color: #91a0b7;
+        margin-top: 3px;
     }
 
-    .school-title span {
-      display: block;
-      margin-top: 3px;
-      color: #8da2b8;
-      font-size: 11px;
-    }
-
-    .sidebar-close {
-      display: none;
-      margin-left: auto;
-      border: 0;
-      background: transparent;
-      color: #a9bacd;
-      padding: 7px;
-    }
-
-    .sidebar-nav {
-      flex: 1;
-      padding: 18px 12px;
-      overflow-y: auto;
+    .nav {
+        padding: 18px 12px;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .nav-label {
-      padding: 8px 12px;
-      color: #71869c;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+        color: #69778d;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin: 8px 12px 10px;
+        text-transform: uppercase;
     }
 
     .nav-item {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: #b8c7d8;
-      padding: 12px 13px;
-      margin-bottom: 4px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-align: left;
-      transition: 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        padding: 12px 13px;
+        margin-bottom: 4px;
+        border-radius: 9px;
+        color: #aeb9ca;
+        font-size: 13px;
+        transition: .2s;
     }
 
     .nav-item:hover {
-      background: rgba(255,255,255,0.06);
-      color: white;
+        background: #182437;
+        color: white;
     }
 
     .nav-item.active {
-      background: #12314b;
-      color: white;
+        background: #168cff;
+        color: white;
     }
 
-    .nav-item.active svg {
-      color: #38bdf8;
+    .nav-item.logout {
+        color: #ff9d9d;
     }
 
     .sidebar-footer {
-      padding: 14px 12px;
-      border-top: 1px solid rgba(255,255,255,0.08);
+        padding: 15px 18px;
+        border-top: 1px solid rgba(255,255,255,.08);
+        color: #69778d;
+        font-size: 10px;
+        text-align: center;
     }
 
-    .logout-btn {
-      width: 100%;
-      border: 0;
-      background: rgba(239,68,68,0.08);
-      color: #fca5a5;
-      padding: 12px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-align: left;
-    }
-
-    .logout-btn:hover {
-      background: rgba(239,68,68,0.16);
-    }
-
-    /* =========================
-       OVERLAY
-    ========================= */
+    /* ================= OVERLAY ================= */
 
     .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(3,10,18,0.55);
-      z-index: 900;
-      opacity: 0;
-      visibility: hidden;
-      transition: 0.3s ease;
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.45);
+        z-index: 900;
     }
 
-    .overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
+    /* ================= MAIN ================= */
 
     .main {
-      min-height: 100vh;
-      margin-left: 270px;
+        margin-left: 270px;
+        min-height: 100vh;
     }
 
     .topbar {
-      height: 78px;
-      background: white;
-      border-bottom: 1px solid #e5edf5;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
-      position: sticky;
-      top: 0;
-      z-index: 500;
-    }
-
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+        height: 78px;
+        background: white;
+        border-bottom: 1px solid #e5eaf1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }
 
     .menu-btn {
-      display: none;
-      width: 42px;
-      height: 42px;
-      border: 1px solid #dce7f1;
-      background: white;
-      border-radius: 10px;
-      align-items: center;
-      justify-content: center;
-      color: #0b1728;
+        display: none;
+        border: none;
+        background: transparent;
+        cursor: pointer;
     }
 
     .page-heading h1 {
-      font-size: 22px;
-      color: #07111f;
+        font-size: 21px;
+        color: #172033;
     }
 
     .page-heading p {
-      color: #6b7d90;
-      font-size: 13px;
-      margin-top: 3px;
+        color: #7a8799;
+        font-size: 12px;
+        margin-top: 4px;
     }
 
-    .admin-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
-    .admin-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #e0f2fe;
-      color: #0369a1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .profile-avatar {
+        width: 37px;
+        height: 37px;
+        border-radius: 50%;
+        background: #e7f3ff;
+        color: #168cff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .admin-info strong {
-      display: block;
-      font-size: 13px;
+    .profile-text strong {
+        display: block;
+        font-size: 12px;
     }
 
-    .admin-info span {
-      display: block;
-      color: #7b8da0;
-      font-size: 11px;
-      margin-top: 2px;
+    .profile-text span {
+        color: #8591a2;
+        font-size: 10px;
     }
 
-    /* =========================
-       CONTENT
-    ========================= */
+    /* ================= CONTENT ================= */
 
     .content {
-      padding: 28px;
-      max-width: 1500px;
-      margin: auto;
+        padding: 28px 30px 40px;
+        max-width: 1500px;
+        margin: auto;
     }
 
-    .page-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 22px;
+    .section {
+        margin-bottom: 28px;
     }
 
-    .page-description h2 {
-      font-size: 18px;
-      margin-bottom: 5px;
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 15px;
     }
 
-    .page-description p {
-      color: #708397;
-      font-size: 12px;
-      line-height: 1.5;
+    .section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #172033;
     }
 
-    .primary-btn {
-      border: 0;
-      background: #0b1728;
-      color: white;
-      padding: 11px 16px;
-      border-radius: 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      white-space: nowrap;
-      transition: 0.2s ease;
+    .section-description {
+        color: #7c899a;
+        font-size: 12px;
+        margin-top: 4px;
     }
 
-    .primary-btn:hover {
-      background: #12314b;
-      transform: translateY(-1px);
+    /* ================= BUTTONS ================= */
+
+    .btn {
+        border: none;
+        border-radius: 8px;
+        padding: 10px 15px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: .2s;
     }
 
-    /* =========================
-       TOOLBAR
-    ========================= */
+    .btn-primary {
+        background: #168cff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #0878df;
+    }
+
+    .btn-secondary {
+        background: #eef3f8;
+        color: #435067;
+    }
+
+    .btn-secondary:hover {
+        background: #e3eaf2;
+    }
+
+    .btn-success {
+        background: #e6f7ef;
+        color: #148451;
+    }
+
+    .btn-danger {
+        background: #ffeded;
+        color: #c13b3b;
+    }
+
+    /* ================= SUMMARY ================= */
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        background: white;
+        border: 1px solid #e5eaf1;
+        border-radius: 12px;
+        padding: 19px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .summary-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: #edf6ff;
+        color: #168cff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .summary-card h3 {
+        font-size: 21px;
+        margin-bottom: 3px;
+    }
+
+    .summary-card p {
+        color: #8793a4;
+        font-size: 11px;
+    }
+
+    /* ================= PANELS ================= */
+
+    .panel {
+        background: white;
+        border: 1px solid #e5eaf1;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .panel-header {
+        padding: 17px 19px;
+        border-bottom: 1px solid #e8edf3;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .panel-title {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .panel-subtitle {
+        font-size: 11px;
+        color: #8793a4;
+        margin-top: 3px;
+    }
+
+    /* ================= TOOLBAR ================= */
 
     .toolbar {
-      background: white;
-      border: 1px solid #e1eaf2;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: space-between;
+        padding: 15px 19px;
+        border-bottom: 1px solid #e8edf3;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 
     .search-box {
-      position: relative;
-      flex: 1;
-      max-width: 420px;
+        flex: 1;
+        min-width: 200px;
+        position: relative;
     }
 
-    .search-box svg {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #8496a8;
-      width: 16px;
+    .search-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #8793a4;
     }
 
     .search-box input {
-      width: 100%;
-      height: 40px;
-      border: 1px solid #dce6ef;
-      border-radius: 9px;
-      outline: none;
-      padding: 0 12px 0 38px;
-      color: #0b1728;
-      background: #fbfdff;
-      user-select: text;
+        width: 100%;
+        height: 38px;
+        border: 1px solid #dce3ec;
+        border-radius: 8px;
+        padding: 0 12px 0 38px;
+        outline: none;
+        font-size: 12px;
     }
 
-    .search-box input:focus {
-      border-color: #38bdf8;
+    .search-box input:focus,
+    .select:focus {
+        border-color: #168cff;
     }
 
-    .status-filter {
-      height: 40px;
-      border: 1px solid #dce6ef;
-      border-radius: 9px;
-      background: white;
-      padding: 0 12px;
-      color: #34475a;
-      outline: none;
+    .select {
+        height: 38px;
+        border: 1px solid #dce3ec;
+        border-radius: 8px;
+        padding: 0 12px;
+        outline: none;
+        background: white;
+        font-size: 12px;
+        color: #435067;
     }
 
-    /* =========================
-       TABLE
-    ========================= */
-
-    .table-card {
-      background: white;
-      border: 1px solid #e1eaf2;
-      border-radius: 16px;
-      overflow: hidden;
-    }
+    /* ================= TABLE ================= */
 
     .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
+        overflow-x: auto;
     }
 
     table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 850px;
     }
 
     th {
-      background: #f7fafc;
-      color: #64788c;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      text-align: left;
-      padding: 13px 16px;
-      border-bottom: 1px solid #e5edf4;
-      white-space: nowrap;
+        text-align: left;
+        background: #f8fafc;
+        color: #718096;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        padding: 12px 18px;
+        border-bottom: 1px solid #e7ecf2;
+        white-space: nowrap;
     }
 
     td {
-      padding: 15px 16px;
-      border-bottom: 1px solid #edf2f6;
-      font-size: 12px;
-      color: #304256;
-      white-space: nowrap;
+        padding: 13px 18px;
+        border-bottom: 1px solid #eef1f5;
+        font-size: 12px;
+        color: #354156;
+        white-space: nowrap;
     }
 
-    tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .empty-row td {
-      padding: 65px 20px;
-      white-space: normal;
+    tbody tr:hover {
+        background: #fbfdff;
     }
 
     .empty-state {
-      text-align: center;
+        padding: 55px 20px;
+        text-align: center;
+        color: #8491a3;
     }
 
     .empty-icon {
-      width: 58px;
-      height: 58px;
-      margin: 0 auto 14px;
-      border-radius: 16px;
-      background: #f0f7fb;
-      color: #4d7a96;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #f0f4f8;
+        color: #9aa6b5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 13px;
     }
 
     .empty-state h3 {
-      font-size: 15px;
-      color: #1c2c3d;
-      margin-bottom: 6px;
+        font-size: 14px;
+        color: #566276;
+        margin-bottom: 6px;
     }
 
     .empty-state p {
-      max-width: 390px;
-      margin: auto;
-      color: #7b8da0;
-      font-size: 12px;
-      line-height: 1.6;
+        font-size: 11px;
+        max-width: 400px;
+        margin: auto;
+        line-height: 1.6;
     }
 
-    /* =========================
-       MODAL
-    ========================= */
+    /* ================= BADGES ================= */
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 8px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .badge-pending {
+        background: #fff5df;
+        color: #a56a00;
+    }
+
+    .badge-approved {
+        background: #e6f7ef;
+        color: #148451;
+    }
+
+    .badge-rejected {
+        background: #ffeded;
+        color: #c13b3b;
+    }
+
+    .badge-incomplete {
+        background: #eef2f7;
+        color: #647187;
+    }
+
+    /* ================= TEACHER WORKSPACE ================= */
+
+    .workspace-banner {
+        background: linear-gradient(135deg, #101827, #183452);
+        border-radius: 13px;
+        padding: 23px;
+        color: white;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .workspace-banner h2 {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .workspace-banner p {
+        color: #aebed3;
+        font-size: 11px;
+        line-height: 1.5;
+        max-width: 620px;
+    }
+
+    .year-chip {
+        padding: 9px 13px;
+        border-radius: 8px;
+        background: rgba(255,255,255,.09);
+        color: #dce9f8;
+        font-size: 11px;
+        white-space: nowrap;
+        border: 1px solid rgba(255,255,255,.1);
+    }
+
+    /* ================= MODAL ================= */
+
+    .modal-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(8,15,26,.58);
+        z-index: 2000;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .modal-backdrop.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
     .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(3,10,18,0.58);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      visibility: hidden;
-      transition: 0.25s ease;
-    }
-
-    .modal.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .modal-card {
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      background: white;
-      border-radius: 18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      transform: translateY(15px);
-      transition: 0.25s ease;
-    }
-
-    .modal.show .modal-card {
-      transform: translateY(0);
+        width: 100%;
+        max-width: 760px;
+        background: white;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,.2);
     }
 
     .modal-header {
-      padding: 20px;
-      border-bottom: 1px solid #e7eef4;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+        padding: 18px 20px;
+        border-bottom: 1px solid #e7ecf2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .modal-header h2 {
-      font-size: 17px;
+        font-size: 16px;
     }
 
-    .modal-header p {
-      color: #7b8da0;
-      font-size: 11px;
-      margin-top: 4px;
-    }
-
-    .close-modal {
-      width: 34px;
-      height: 34px;
-      border: 0;
-      background: #f1f5f8;
-      color: #52667a;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .close-btn {
+        border: none;
+        background: #f1f4f8;
+        width: 32px;
+        height: 32px;
+        border-radius: 7px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #687589;
     }
 
     .modal-body {
-      padding: 20px;
+        padding: 20px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
 
     .form-group {
-      margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
     }
 
     .form-group label {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      color: #34475a;
-      margin-bottom: 7px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #566276;
     }
 
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      height: 43px;
-      border: 1px solid #dce6ef;
-      border-radius: 9px;
-      padding: 0 12px;
-      outline: none;
-      background: white;
-      color: #0b1728;
-      user-select: text;
+    .form-control {
+        width: 100%;
+        height: 39px;
+        border: 1px solid #dce3ec;
+        border-radius: 8px;
+        padding: 0 11px;
+        outline: none;
+        font-size: 12px;
     }
 
-    .form-group input:focus,
-    .form-group select:focus {
-      border-color: #38bdf8;
+    textarea.form-control {
+        height: 90px;
+        padding-top: 10px;
+        resize: vertical;
     }
 
-    .pin-input {
-      letter-spacing: 5px;
-      font-weight: 700;
-    }
-
-    .form-help {
-      display: block;
-      margin-top: 6px;
-      color: #8495a6;
-      font-size: 10px;
-      line-height: 1.5;
+    .form-control:focus {
+        border-color: #168cff;
     }
 
     .modal-footer {
-      padding: 15px 20px 20px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .secondary-btn {
-      border: 1px solid #d9e4ed;
-      background: white;
-      color: #405367;
-      padding: 10px 15px;
-      border-radius: 9px;
-      font-size: 12px;
-    }
-
-    .secondary-btn:hover {
-      background: #f5f8fa;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 760px) {
-
-      .sidebar {
-        transform: translateX(-105%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .sidebar-close {
+        padding: 15px 20px;
+        border-top: 1px solid #e7ecf2;
         display: flex;
-      }
-
-      .main {
-        margin-left: 0;
-      }
-
-      .menu-btn {
-        display: flex;
-      }
-
-      .topbar {
-        padding: 0 16px;
-      }
-
-      .admin-info {
-        display: none;
-      }
-
-      .content {
-        padding: 18px 14px 30px;
-      }
-
-      .page-actions {
-        align-items: flex-start;
-      }
-
-      .page-description h2 {
-        font-size: 17px;
-      }
-
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .search-box {
-        max-width: none;
-      }
-
-      .status-filter {
-        width: 100%;
-      }
+        justify-content: flex-end;
+        gap: 9px;
     }
 
-    @media (max-width: 520px) {
+    /* ================= SUBMISSION DETAILS ================= */
 
-      .page-actions {
-        flex-direction: column;
-      }
+    .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 13px;
+    }
 
-      .primary-btn {
-        width: 100%;
+    .detail-item {
+        background: #f8fafc;
+        border: 1px solid #e8edf3;
+        border-radius: 8px;
+        padding: 12px;
+    }
+
+    .detail-item span {
+        display: block;
+        color: #8491a3;
+        font-size: 10px;
+        margin-bottom: 5px;
+    }
+
+    .detail-item strong {
+        font-size: 12px;
+        color: #263249;
+    }
+
+    .document-box {
+        margin-top: 17px;
+        border: 1px dashed #cfd8e4;
+        border-radius: 9px;
+        padding: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .document-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .document-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        background: #eaf5ff;
+        color: #168cff;
+        display: flex;
+        align-items: center;
         justify-content: center;
-      }
-
-      .page-heading h1 {
-        font-size: 18px;
-      }
-
-      .page-heading p {
-        font-size: 11px;
-      }
     }
-  </style>
+
+    .document-info strong {
+        display: block;
+        font-size: 11px;
+    }
+
+    .document-info span {
+        display: block;
+        color: #8793a4;
+        font-size: 10px;
+        margin-top: 3px;
+    }
+
+    .status-controls {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid #e8edf3;
+    }
+
+    .status-controls h3 {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 1050px) {
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 800px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        .main {
+            margin-left: 0;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .topbar {
+            padding: 0 17px;
+        }
+
+        .page-heading h1 {
+            font-size: 17px;
+        }
+
+        .profile-text {
+            display: none;
+        }
+
+        .content {
+            padding: 20px 15px 35px;
+        }
+
+        .workspace-banner {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-grid,
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .section-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .toolbar {
+            flex-direction: column;
+        }
+
+        .search-box,
+        .select {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .modal-backdrop {
+            padding: 10px;
+        }
+
+        .modal-footer {
+            flex-direction: column-reverse;
+        }
+
+        .modal-footer .btn {
+            width: 100%;
+        }
+    }
+</style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
+<!-- ================= SIDEBAR ================= -->
 
-  <aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar">
 
     <div class="sidebar-header">
+        <div class="school-icon">
+            <i data-lucide="school" size="21"></i>
+        </div>
 
-      <div class="school-icon">
-        <i data-lucide="school"></i>
-      </div>
-
-      <div class="school-title">
-        <strong>School Management</strong>
-        <span>Administration Portal</span>
-      </div>
-
-      <button
-        class="sidebar-close"
-        onclick="closeSidebar()"
-        aria-label="Close menu"
-      >
-        <i data-lucide="x"></i>
-      </button>
-
+        <div>
+            <div class="school-title">School Management</div>
+            <div class="school-subtitle">Administration Portal</div>
+        </div>
     </div>
 
+    <nav class="nav">
 
-    <nav class="sidebar-nav">
+        <div class="nav-label">Management</div>
 
-      <div class="nav-label">Main</div>
+        <a href="admin.html" class="nav-item">
+            <i data-lucide="layout-dashboard" size="17"></i>
+            <span>Overview</span>
+        </a>
 
-      <button class="nav-item" onclick="goTo('admin.html')">
-        <i data-lucide="layout-dashboard"></i>
-        <span>Overview</span>
-      </button>
+        <a href="teachers.html" class="nav-item active">
+            <i data-lucide="users" size="17"></i>
+            <span>Teachers</span>
+        </a>
 
-      <button class="nav-item active">
-        <i data-lucide="users"></i>
-        <span>Teachers</span>
-      </button>
+        <a href="classes.html" class="nav-item">
+            <i data-lucide="layers" size="17"></i>
+            <span>Classes</span>
+        </a>
 
-      <button class="nav-item" onclick="goTo('classes.html')">
-        <i data-lucide="school"></i>
-        <span>Classes</span>
-      </button>
+        <a href="students.html" class="nav-item">
+            <i data-lucide="graduation-cap" size="17"></i>
+            <span>Students</span>
+        </a>
 
-      <button class="nav-item" onclick="goTo('students.html')">
-        <i data-lucide="graduation-cap"></i>
-        <span>Students</span>
-      </button>
+        <a href="registrations.html" class="nav-item">
+            <i data-lucide="file-check-2" size="17"></i>
+            <span>Registrations</span>
+        </a>
 
+        <a href="reports.html" class="nav-item">
+            <i data-lucide="bar-chart-3" size="17"></i>
+            <span>Reports</span>
+        </a>
 
-      <div class="nav-label">Management</div>
-
-      <button class="nav-item" onclick="goTo('school-years.html')">
-        <i data-lucide="calendar-days"></i>
-        <span>School Years</span>
-      </button>
-
-      <button class="nav-item" onclick="goTo('registrations.html')">
-        <i data-lucide="clipboard-list"></i>
-        <span>Registrations</span>
-      </button>
-
-      <button class="nav-item" onclick="goTo('payments.html')">
-        <i data-lucide="credit-card"></i>
-        <span>Payments</span>
-      </button>
-
-      <button class="nav-item" onclick="goTo('reports.html')">
-        <i data-lucide="bar-chart-3"></i>
-        <span>Reports</span>
-      </button>
-
-
-      <div class="nav-label">System</div>
-
-      <button class="nav-item" onclick="goTo('settings.html')">
-        <i data-lucide="settings"></i>
-        <span>Settings</span>
-      </button>
+        <a href="settings.html" class="nav-item">
+            <i data-lucide="settings" size="17"></i>
+            <span>Settings</span>
+        </a>
 
     </nav>
 
+    <a href="admin-login.html" class="nav-item logout" style="margin:0 12px 12px;width:auto;">
+        <i data-lucide="log-out" size="17"></i>
+        <span>Logout</span>
+    </a>
 
     <div class="sidebar-footer">
-
-      <button class="logout-btn" onclick="logout()">
-        <i data-lucide="log-out"></i>
-        <span>Log Out</span>
-      </button>
-
+        School Registration & Management System
     </div>
 
-  </aside>
+</aside>
 
+<div class="overlay" id="overlay"></div>
 
-  <!-- OVERLAY -->
+<!-- ================= MAIN ================= -->
 
-  <div
-    class="overlay"
-    id="overlay"
-    onclick="closeSidebar()"
-  ></div>
-
-
-  <!-- MAIN -->
-
-  <main class="main">
-
-    <!-- TOPBAR -->
+<main class="main">
 
     <header class="topbar">
 
-      <div class="topbar-left">
+        <div style="display:flex;align-items:center;">
 
-        <button
-          class="menu-btn"
-          onclick="openSidebar()"
-          aria-label="Open menu"
-        >
-          <i data-lucide="menu"></i>
-        </button>
+            <button class="menu-btn" id="menuBtn">
+                <i data-lucide="menu" size="22"></i>
+            </button>
 
-        <div class="page-heading">
-          <h1>Teachers</h1>
-          <p>Manage school staff accounts and assignments</p>
+            <div class="page-heading">
+                <h1>Teachers</h1>
+                <p>Manage teachers and review student registration submissions</p>
+            </div>
+
         </div>
 
-      </div>
+        <div class="profile">
+            <div class="profile-avatar">
+                <i data-lucide="shield-check" size="17"></i>
+            </div>
 
-
-      <div class="admin-profile">
-
-        <div class="admin-avatar">
-          <i data-lucide="shield-check"></i>
+            <div class="profile-text">
+                <strong>Administrator</strong>
+                <span>Admin Account</span>
+            </div>
         </div>
-
-        <div class="admin-info">
-          <strong>Administrator</strong>
-          <span>Admin Account</span>
-        </div>
-
-      </div>
 
     </header>
 
+    <div class="content">
 
-    <!-- CONTENT -->
+        <!-- ================= ADMIN TEACHER MANAGEMENT ================= -->
 
-    <section class="content">
+        <section class="section">
 
-      <!-- PAGE HEADER -->
+            <div class="section-header">
 
-      <div class="page-actions">
+                <div>
+                    <div class="section-title">Teacher Accounts</div>
+                    <div class="section-description">
+                        Create and manage teacher accounts and class assignments.
+                    </div>
+                </div>
 
-        <div class="page-description">
+                <button class="btn btn-primary" onclick="openTeacherModal()">
+                    <i data-lucide="user-plus" size="15"></i>
+                    Add Teacher
+                </button>
 
-          <h2>Teacher Accounts</h2>
+            </div>
 
-          <p>
-            Create teacher accounts, manage access,
-            and assign teachers to their classes.
-          </p>
+            <div class="summary-grid">
 
-        </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="users" size="19"></i>
+                    </div>
+                    <div>
+                        <h3 id="teacherCount">—</h3>
+                        <p>Total Teachers</p>
+                    </div>
+                </div>
 
-        <button
-          class="primary-btn"
-          onclick="openTeacherModal()"
-        >
-          <i data-lucide="user-plus"></i>
-          Add Teacher
-        </button>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="user-check" size="19"></i>
+                    </div>
+                    <div>
+                        <h3 id="activeTeacherCount">—</h3>
+                        <p>Active Teachers</p>
+                    </div>
+                </div>
 
-      </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="user-x" size="19"></i>
+                    </div>
+                    <div>
+                        <h3 id="disabledTeacherCount">—</h3>
+                        <p>Disabled Teachers</p>
+                    </div>
+                </div>
 
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="clipboard-list" size="19"></i>
+                    </div>
+                    <div>
+                        <h3 id="submissionCount">—</h3>
+                        <p>New Submissions</p>
+                    </div>
+                </div>
 
-      <!-- TOOLBAR -->
+            </div>
 
-      <div class="toolbar">
+            <div class="panel">
 
-        <div class="search-box">
+                <div class="toolbar">
 
-          <i data-lucide="search"></i>
+                    <div class="search-box">
+                        <i data-lucide="search" size="15"></i>
+                        <input
+                            type="text"
+                            id="teacherSearch"
+                            placeholder="Search teacher username..."
+                            oninput="filterTeachers()"
+                        >
+                    </div>
 
-          <input
-            type="search"
-            id="teacherSearch"
-            placeholder="Search teachers..."
-            oninput="searchTeachers()"
-          >
+                    <select class="select" id="teacherStatusFilter" onchange="filterTeachers()">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="disabled">Disabled</option>
+                    </select>
 
-        </div>
+                </div>
 
+                <div class="table-wrapper">
 
-        <select
-          class="status-filter"
-          id="statusFilter"
-          onchange="filterTeachers()"
-        >
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="disabled">Disabled</option>
-        </select>
+                    <table>
 
-      </div>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Username</th>
+                                <th>Assigned Class</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
 
+                        <tbody id="teacherTableBody"></tbody>
 
-      <!-- TEACHER TABLE -->
+                    </table>
 
-      <div class="table-card">
+                </div>
 
-        <div class="table-wrapper">
-
-          <table>
-
-            <thead>
-
-              <tr>
-                <th>No.</th>
-                <th>Username</th>
-                <th>Assigned Class</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-
-            </thead>
-
-            <tbody id="teacherTableBody">
-
-              <!--
-                Real teacher records will be loaded
-                from Supabase later.
-              -->
-
-              <tr class="empty-row">
-
-                <td colspan="5">
-
-                  <div class="empty-state">
+                <div class="empty-state" id="teacherEmptyState">
 
                     <div class="empty-icon">
-                      <i data-lucide="users-round"></i>
+                        <i data-lucide="users" size="22"></i>
                     </div>
 
                     <h3>No teacher accounts yet</h3>
 
                     <p>
-                      Teacher accounts created by the administrator
-                      will appear here.
+                        Teacher accounts created by the administrator will appear here.
                     </p>
 
-                  </div>
+                </div>
 
-                </td>
+            </div>
 
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
+        </section>
 
 
-  <!-- ADD TEACHER MODAL -->
+        <!-- ================= TEACHER WORKSPACE ================= -->
 
-  <div class="modal" id="teacherModal">
+        <section class="section">
 
-    <div class="modal-card">
+            <div class="workspace-banner">
 
-      <div class="modal-header">
+                <div>
+                    <h2>Teacher Registration Workspace</h2>
 
-        <div>
-          <h2>Create Teacher Account</h2>
+                    <p>
+                        Student registration submissions will appear here for authorized
+                        teachers. Teachers can review the complete submission, documents,
+                        payment receipt, and registration status.
+                    </p>
+                </div>
 
-          <p>
-            Set the teacher's login credentials and class assignment.
-          </p>
-        </div>
+                <div class="year-chip">
+                    Active School Year: 2026–2027
+                </div>
 
-        <button
-          class="close-modal"
-          onclick="closeTeacherModal()"
-          aria-label="Close"
-        >
-          <i data-lucide="x"></i>
-        </button>
-
-      </div>
+            </div>
 
 
-      <form onsubmit="createTeacher(event)">
+            <!-- Registration Summary -->
 
-        <div class="modal-body">
+            <div class="summary-grid">
 
-          <div class="form-group">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="inbox" size="19"></i>
+                    </div>
 
-            <label for="teacherUsername">
-              Username
-            </label>
+                    <div>
+                        <h3 id="pendingCount">—</h3>
+                        <p>Pending Review</p>
+                    </div>
+                </div>
 
-            <input
-              type="text"
-              id="teacherUsername"
-              placeholder="Enter teacher username"
-              autocomplete="off"
-              required
-            >
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="file-check-2" size="19"></i>
+                    </div>
 
-          </div>
+                    <div>
+                        <h3 id="approvedCount">—</h3>
+                        <p>Approved</p>
+                    </div>
+                </div>
 
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="file-warning" size="19"></i>
+                    </div>
 
-          <div class="form-group">
+                    <div>
+                        <h3 id="incompleteCount">—</h3>
+                        <p>Needs Review</p>
+                    </div>
+                </div>
 
-            <label for="teacherPin">
-              6-Digit PIN
-            </label>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="file-x-2" size="19"></i>
+                    </div>
 
-            <input
-              type="password"
-              id="teacherPin"
-              class="pin-input"
-              placeholder="••••••"
-              inputmode="numeric"
-              maxlength="6"
-              autocomplete="new-password"
-              required
-            >
+                    <div>
+                        <h3 id="rejectedCount">—</h3>
+                        <p>Rejected</p>
+                    </div>
+                </div>
 
-            <span class="form-help">
-              The administrator creates the PIN.
-              The teacher keeps this PIN until the administrator changes it.
-            </span>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="teacherClass">
-              Assign Class
-            </label>
-
-            <select id="teacherClass" required>
-
-              <option value="">
-                Select a class
-              </option>
-
-              <!--
-                Real classes will be loaded from Supabase later.
-              -->
-
-            </select>
-
-            <span class="form-help">
-              Only classes created by the administrator will appear here.
-            </span>
-
-          </div>
-
-        </div>
+            </div>
 
 
-        <div class="modal-footer">
+            <!-- Registration Inbox -->
 
-          <button
-            type="button"
-            class="secondary-btn"
-            onclick="closeTeacherModal()"
-          >
-            Cancel
-          </button>
+            <div class="panel">
 
-          <button
-            type="submit"
-            class="primary-btn"
-          >
-            <i data-lucide="user-plus"></i>
-            Create Teacher
-          </button>
+                <div class="panel-header">
 
-        </div>
+                    <div>
+                        <div class="panel-title">Student Registration Submissions</div>
 
-      </form>
+                        <div class="panel-subtitle">
+                            All student submissions assigned to the authorized teacher.
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" onclick="refreshSubmissions()">
+                        <i data-lucide="refresh-cw" size="14"></i>
+                        Refresh
+                    </button>
+
+                </div>
+
+                <div class="toolbar">
+
+                    <div class="search-box">
+                        <i data-lucide="search" size="15"></i>
+
+                        <input
+                            type="text"
+                            id="submissionSearch"
+                            placeholder="Search student name or ID..."
+                            oninput="filterSubmissions()"
+                        >
+                    </div>
+
+                    <select
+                        class="select"
+                        id="gradeFilter"
+                        onchange="filterSubmissions()"
+                    >
+                        <option value="all">All Grades</option>
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11NS">Grade 11 NS</option>
+                        <option value="11SS">Grade 11 SS</option>
+                        <option value="12NS">Grade 12 NS</option>
+                        <option value="12SS">Grade 12 SS</option>
+                    </select>
+
+                    <select
+                        class="select"
+                        id="registrationFilter"
+                        onchange="filterSubmissions()"
+                    >
+                        <option value="all">All Registration Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="incomplete">Needs Review</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+
+                    <select
+                        class="select"
+                        id="paymentFilter"
+                        onchange="filterSubmissions()"
+                    >
+                        <option value="all">All Payment Status</option>
+                        <option value="pending">Payment Pending</option>
+                        <option value="verified">Payment Verified</option>
+                        <option value="rejected">Payment Rejected</option>
+                    </select>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>No.</th>
+                                <th>Student Name</th>
+                                <th>Grade</th>
+                                <th>Class</th>
+                                <th>Student Type</th>
+                                <th>Registration</th>
+                                <th>Payment</th>
+                                <th>Submitted</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="submissionTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="empty-state" id="submissionEmptyState">
+
+                    <div class="empty-icon">
+                        <i data-lucide="inbox" size="22"></i>
+                    </div>
+
+                    <h3>No registration submissions</h3>
+
+                    <p>
+                        Student registration submissions will appear here after students
+                        complete and submit their registration.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </div>
 
-  </div>
+</main>
 
 
-  <script>
+<!-- ================= ADD TEACHER MODAL ================= -->
 
-    /* =========================
+<div class="modal-backdrop" id="teacherModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <h2>Add Teacher</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeTeacherModal()">
+                <i data-lucide="x" size="17"></i>
+            </button>
+
+        </div>
+
+        <form id="teacherForm">
+
+            <div class="modal-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Username</label>
+
+                        <input
+                            class="form-control"
+                            id="newTeacherUsername"
+                            type="text"
+                            placeholder="Enter teacher username"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>6-Digit PIN</label>
+
+                        <input
+                            class="form-control"
+                            id="newTeacherPin"
+                            type="password"
+                            inputmode="numeric"
+                            maxlength="6"
+                            placeholder="Enter 6-digit PIN"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Assign Class</label>
+
+                        <select class="form-control" id="newTeacherClass">
+                            <option value="">Select class</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="closeTeacherModal()"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="user-plus" size="14"></i>
+                    Create Teacher
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SUBMISSION DETAILS MODAL ================= -->
+
+<div class="modal-backdrop" id="submissionModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <h2>Registration Submission</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeSubmissionModal()">
+                <i data-lucide="x" size="17"></i>
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+                    <span>Student Name</span>
+                    <strong id="detailName">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Student Type</span>
+                    <strong id="detailType">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Grade</span>
+                    <strong id="detailGrade">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Class</span>
+                    <strong id="detailClass">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Administration Number / Student ID</span>
+                    <strong id="detailStudentId">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Date of Birth</span>
+                    <strong id="detailDob">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Gender</span>
+                    <strong id="detailGender">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Phone</span>
+                    <strong id="detailPhone">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Parent / Guardian</span>
+                    <strong id="detailGuardian">—</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Address</span>
+                    <strong id="detailAddress">—</strong>
+                </div>
+
+            </div>
+
+
+            <!-- Academic Document -->
+
+            <div class="document-box">
+
+                <div class="document-info">
+
+                    <div class="document-icon">
+                        <i data-lucide="file-text" size="18"></i>
+                    </div>
+
+                    <div>
+                        <strong>Academic Document</strong>
+                        <span id="academicDocumentName">
+                            No document submitted
+                        </span>
+                    </div>
+
+                </div>
+
+                <button class="btn btn-secondary" onclick="openDocument('academic')">
+                    <i data-lucide="external-link" size="14"></i>
+                    View
+                </button>
+
+            </div>
+
+
+            <!-- Payment Receipt -->
+
+            <div class="document-box">
+
+                <div class="document-info">
+
+                    <div class="document-icon">
+                        <i data-lucide="receipt" size="18"></i>
+                    </div>
+
+                    <div>
+                        <strong>Payment Receipt</strong>
+                        <span id="paymentReceiptName">
+                            No receipt submitted
+                        </span>
+                    </div>
+
+                </div>
+
+                <button class="btn btn-secondary" onclick="openDocument('payment')">
+                    <i data-lucide="external-link" size="14"></i>
+                    View
+                </button>
+
+            </div>
+
+
+            <!-- Status Controls -->
+
+            <div class="status-controls">
+
+                <h3>Teacher Review</h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Registration Status</label>
+
+                        <select class="form-control" id="detailRegistrationStatus">
+
+                            <option value="pending">
+                                Pending
+                            </option>
+
+                            <option value="incomplete">
+                                Needs Review
+                            </option>
+
+                            <option value="approved">
+                                Approved
+                            </option>
+
+                            <option value="rejected">
+                                Rejected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Payment Status</label>
+
+                        <select class="form-control" id="detailPaymentStatus">
+
+                            <option value="pending">
+                                Payment Pending
+                            </option>
+
+                            <option value="verified">
+                                Payment Verified
+                            </option>
+
+                            <option value="rejected">
+                                Payment Rejected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>Teacher Note</label>
+
+                        <textarea
+                            class="form-control"
+                            id="teacherNote"
+                            placeholder="Optional note about this registration..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn btn-secondary"
+                onclick="closeSubmissionModal()"
+            >
+                Close
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="saveSubmissionReview()"
+            >
+                <i data-lucide="save" size="14"></i>
+                Save Review
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       DATA
+       These arrays intentionally start empty.
+       Supabase will populate them later.
+    ========================================================= */
+
+    let teachers = [];
+
+    let submissions = [];
+
+    let selectedSubmission = null;
+
+
+    /* =========================================================
        SIDEBAR
-    ========================= */
+    ========================================================= */
 
-    function openSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const menuBtn = document.getElementById("menuBtn");
 
-      document
-        .getElementById("sidebar")
-        .classList.add("open");
+    menuBtn.addEventListener("click", () => {
+        sidebar.classList.add("open");
+        overlay.classList.add("show");
+    });
 
-      document
-        .getElementById("overlay")
-        .classList.add("show");
-
-    }
-
+    overlay.addEventListener("click", closeSidebar);
 
     function closeSidebar() {
-
-      document
-        .getElementById("sidebar")
-        .classList.remove("open");
-
-      document
-        .getElementById("overlay")
-        .classList.remove("show");
-
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
     }
 
+    document.addEventListener("keydown", (event) => {
 
-    /* =========================
-       NAVIGATION
-    ========================= */
+        if (event.key === "Escape") {
+            closeSidebar();
+            closeTeacherModal();
+            closeSubmissionModal();
+        }
 
-    function goTo(page) {
-      window.location.href = page;
-    }
-
-
-    /* =========================
-       TEACHER MODAL
-    ========================= */
-
-    function openTeacherModal() {
-
-      document
-        .getElementById("teacherModal")
-        .classList.add("show");
-
-    }
+    });
 
 
-    function closeTeacherModal() {
+    /* =========================================================
+       TEACHER ACCOUNT TABLE
+    ========================================================= */
 
-      document
-        .getElementById("teacherModal")
-        .classList.remove("show");
+    function renderTeachers(list = teachers) {
 
-    }
+        const tbody = document.getElementById("teacherTableBody");
+        const empty = document.getElementById("teacherEmptyState");
 
+        tbody.innerHTML = "";
 
-    /* =========================
-       PIN INPUT
-    ========================= */
+        if (!list.length) {
 
-    document
-      .getElementById("teacherPin")
-      .addEventListener("input", function() {
+            empty.style.display = "block";
+            return;
 
-        this.value = this.value
-          .replace(/\D/g, "")
-          .slice(0, 6);
+        }
 
-      });
+        empty.style.display = "none";
 
+        list.forEach((teacher, index) => {
 
-    /* =========================
-       CREATE TEACHER
-    ========================= */
+            const row = document.createElement("tr");
 
-    function createTeacher(event) {
+            row.innerHTML = `
 
-      event.preventDefault();
+                <td>${index + 1}</td>
 
-      const username =
-        document
-          .getElementById("teacherUsername")
-          .value
-          .trim();
+                <td>
+                    <strong>${escapeHTML(teacher.username)}</strong>
+                </td>
 
-      const pin =
-        document
-          .getElementById("teacherPin")
-          .value
-          .trim();
+                <td>
+                    ${escapeHTML(teacher.className || "Not assigned")}
+                </td>
 
-      const selectedClass =
-        document
-          .getElementById("teacherClass")
-          .value;
+                <td>
 
+                    <span class="badge ${
+                        teacher.status === "active"
+                        ? "badge-approved"
+                        : "badge-rejected"
+                    }">
 
-      if (!username) {
-        alert("Please enter a username.");
-        return;
-      }
+                        ${
+                            teacher.status === "active"
+                            ? "Active"
+                            : "Disabled"
+                        }
 
+                    </span>
 
-      if (!/^\d{6}$/.test(pin)) {
-        alert("The PIN must contain exactly 6 digits.");
-        return;
-      }
+                </td>
 
+                <td>
 
-      if (!selectedClass) {
-        alert("Please select a class.");
-        return;
-      }
+                    <button
+                        class="btn btn-secondary"
+                        onclick="manageTeacher('${teacher.id}')"
+                    >
 
+                        <i data-lucide="settings" size="13"></i>
+                        Manage
 
-      /*
-        Database connection will be added later.
+                    </button>
 
-        No teacher is actually created yet.
-      */
+                </td>
 
-      alert(
-        "Teacher account form is ready. " +
-        "Database connection will be added later."
-      );
+            `;
 
-      closeTeacherModal();
+            tbody.appendChild(row);
 
-    }
+        });
 
-
-    /* =========================
-       SEARCH
-    ========================= */
-
-    function searchTeachers() {
-
-      /*
-        Real search will query Supabase later.
-      */
+        lucide.createIcons();
 
     }
 
 
     function filterTeachers() {
 
-      /*
-        Real filtering will use database records later.
-      */
+        const search =
+            document.getElementById("teacherSearch")
+            .value
+            .toLowerCase()
+            .trim();
+
+        const status =
+            document.getElementById("teacherStatusFilter")
+            .value;
+
+        const filtered = teachers.filter(teacher => {
+
+            const matchesSearch =
+                teacher.username
+                .toLowerCase()
+                .includes(search);
+
+            const matchesStatus =
+                status === "all"
+                || teacher.status === status;
+
+            return matchesSearch && matchesStatus;
+
+        });
+
+        renderTeachers(filtered);
 
     }
 
 
-    /* =========================
-       LOGOUT
-    ========================= */
+    function updateTeacherSummary() {
 
-    function logout() {
+        document.getElementById("teacherCount").textContent =
+            teachers.length || "—";
 
-      const confirmed = confirm(
-        "Are you sure you want to log out?"
-      );
+        document.getElementById("activeTeacherCount").textContent =
+            teachers.filter(t => t.status === "active").length || "—";
 
-      if (confirmed) {
-        window.location.href = "admin-login.html";
-      }
+        document.getElementById("disabledTeacherCount").textContent =
+            teachers.filter(t => t.status === "disabled").length || "—";
 
     }
 
 
-    /* =========================
-       ESC KEY
-    ========================= */
+    /* =========================================================
+       ADD TEACHER
+    ========================================================= */
 
-    document.addEventListener(
-      "keydown",
-      function(event) {
+    function openTeacherModal() {
 
-        if (event.key === "Escape") {
+        document.getElementById("teacherModal")
+            .classList.add("show");
 
-          closeSidebar();
-          closeTeacherModal();
-
-        }
-
-      }
-    );
+    }
 
 
-    /* =========================
-       CLOSE MODAL BY BACKDROP
-    ========================= */
+    function closeTeacherModal() {
+
+        document.getElementById("teacherModal")
+            .classList.remove("show");
+
+    }
+
 
     document
-      .getElementById("teacherModal")
-      .addEventListener("click", function(event) {
+        .getElementById("newTeacherPin")
+        .addEventListener("input", function() {
 
-        if (event.target === this) {
-          closeTeacherModal();
+            this.value =
+                this.value
+                .replace(/\D/g, "")
+                .slice(0, 6);
+
+        });
+
+
+    document
+        .getElementById("teacherForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const username =
+                document
+                .getElementById("newTeacherUsername")
+                .value
+                .trim();
+
+            const pin =
+                document
+                .getElementById("newTeacherPin")
+                .value;
+
+            if (!username) {
+
+                alert("Enter a teacher username.");
+                return;
+
+            }
+
+            if (!/^\d{6}$/.test(pin)) {
+
+                alert("Teacher PIN must contain exactly 6 digits.");
+                return;
+
+            }
+
+            /*
+                Supabase insertion will be connected here later.
+
+                No fake teacher is added locally.
+            */
+
+            alert(
+                "Teacher form is ready. Database connection will be added later."
+            );
+
+            this.reset();
+            closeTeacherModal();
+
+        });
+
+
+    function manageTeacher(id) {
+
+        /*
+            Future Supabase implementation:
+            - Change PIN
+            - Change assigned class
+            - Disable account
+            - Remove account
+        */
+
+        alert(
+            "Teacher management actions will be connected to Supabase later."
+        );
+
+    }
+
+
+    /* =========================================================
+       REGISTRATION SUBMISSIONS
+    ========================================================= */
+
+    function renderSubmissions(list = submissions) {
+
+        const tbody =
+            document.getElementById("submissionTableBody");
+
+        const empty =
+            document.getElementById("submissionEmptyState");
+
+        tbody.innerHTML = "";
+
+        if (!list.length) {
+
+            empty.style.display = "block";
+            return;
+
         }
 
-      });
+        empty.style.display = "none";
+
+        list.forEach((submission, index) => {
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+
+                <td>${index + 1}</td>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(submission.name)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHTML(submission.grade)}
+                </td>
+
+                <td>
+                    ${escapeHTML(submission.className || "—")}
+                </td>
+
+                <td>
+                    ${escapeHTML(submission.type)}
+                </td>
+
+                <td>
+
+                    <span class="badge ${
+                        getRegistrationBadge(submission.registrationStatus)
+                    }">
+
+                        ${formatStatus(submission.registrationStatus)}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <span class="badge ${
+                        getPaymentBadge(submission.paymentStatus)
+                    }">
+
+                        ${formatPaymentStatus(submission.paymentStatus)}
+
+                    </span>
+
+                </td>
+
+                <td>
+                    ${escapeHTML(submission.submitted || "—")}
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="viewSubmission('${submission.id}')"
+                    >
+
+                        <i data-lucide="eye" size="13"></i>
+                        Review
+
+                    </button>
+
+                </td>
+
+            `;
+
+            tbody.appendChild(row);
+
+        });
+
+        lucide.createIcons();
+
+    }
 
 
-    /* =========================
-       ICONS
-    ========================= */
+    function filterSubmissions() {
+
+        const search =
+            document
+            .getElementById("submissionSearch")
+            .value
+            .toLowerCase()
+            .trim();
+
+        const grade =
+            document
+            .getElementById("gradeFilter")
+            .value;
+
+        const registration =
+            document
+            .getElementById("registrationFilter")
+            .value;
+
+        const payment =
+            document
+            .getElementById("paymentFilter")
+            .value;
+
+        const filtered =
+            submissions.filter(item => {
+
+                const matchesSearch =
+                    item.name.toLowerCase().includes(search)
+                    ||
+                    (item.studentId || "")
+                    .toLowerCase()
+                    .includes(search);
+
+                const matchesGrade =
+                    grade === "all"
+                    || item.grade === grade;
+
+                const matchesRegistration =
+                    registration === "all"
+                    || item.registrationStatus === registration;
+
+                const matchesPayment =
+                    payment === "all"
+                    || item.paymentStatus === payment;
+
+                return (
+                    matchesSearch
+                    &&
+                    matchesGrade
+                    &&
+                    matchesRegistration
+                    &&
+                    matchesPayment
+                );
+
+            });
+
+        renderSubmissions(filtered);
+
+    }
+
+
+    function updateSubmissionSummary() {
+
+        document.getElementById("submissionCount").textContent =
+            submissions.length || "—";
+
+        document.getElementById("pendingCount").textContent =
+            submissions.filter(
+                s => s.registrationStatus === "pending"
+            ).length || "—";
+
+        document.getElementById("approvedCount").textContent =
+            submissions.filter(
+                s => s.registrationStatus === "approved"
+            ).length || "—";
+
+        document.getElementById("incompleteCount").textContent =
+            submissions.filter(
+                s => s.registrationStatus === "incomplete"
+            ).length || "—";
+
+        document.getElementById("rejectedCount").textContent =
+            submissions.filter(
+                s => s.registrationStatus === "rejected"
+            ).length || "—";
+
+    }
+
+
+    /* =========================================================
+       VIEW SUBMISSION
+    ========================================================= */
+
+    function viewSubmission(id) {
+
+        const submission =
+            submissions.find(item => item.id === id);
+
+        if (!submission) return;
+
+        selectedSubmission = submission;
+
+        document.getElementById("detailName").textContent =
+            submission.name || "—";
+
+        document.getElementById("detailType").textContent =
+            submission.type || "—";
+
+        document.getElementById("detailGrade").textContent =
+            submission.grade || "—";
+
+        document.getElementById("detailClass").textContent =
+            submission.className || "—";
+
+        document.getElementById("detailStudentId").textContent =
+            submission.studentId || "—";
+
+        document.getElementById("detailDob").textContent =
+            submission.dob || "—";
+
+        document.getElementById("detailGender").textContent =
+            submission.gender || "—";
+
+        document.getElementById("detailPhone").textContent =
+            submission.phone || "—";
+
+        document.getElementById("detailGuardian").textContent =
+            submission.guardian || "—";
+
+        document.getElementById("detailAddress").textContent =
+            submission.address || "—";
+
+        document.getElementById("academicDocumentName").textContent =
+            submission.academicDocument || "No document submitted";
+
+        document.getElementById("paymentReceiptName").textContent =
+            submission.paymentReceipt || "No receipt submitted";
+
+        document.getElementById("detailRegistrationStatus").value =
+            submission.registrationStatus || "pending";
+
+        document.getElementById("detailPaymentStatus").value =
+            submission.paymentStatus || "pending";
+
+        document.getElementById("teacherNote").value =
+            submission.teacherNote || "";
+
+        document
+            .getElementById("submissionModal")
+            .classList.add("show");
+
+    }
+
+
+    function closeSubmissionModal() {
+
+        document
+            .getElementById("submissionModal")
+            .classList.remove("show");
+
+        selectedSubmission = null;
+
+    }
+
+
+    function saveSubmissionReview() {
+
+        if (!selectedSubmission) return;
+
+        /*
+            Supabase update will be connected here later.
+
+            This will eventually update:
+            - registration_status
+            - payment_status
+            - teacher_note
+            - reviewed_by
+            - reviewed_at
+        */
+
+        alert(
+            "Review controls are ready. Database update will be connected later."
+        );
+
+    }
+
+
+    function openDocument(type) {
+
+        /*
+            Actual Supabase Storage document URL
+            will be opened here later.
+        */
+
+        alert(
+            "The uploaded " +
+            (type === "payment"
+                ? "payment receipt"
+                : "academic document") +
+            " will open here after Supabase Storage is connected."
+        );
+
+    }
+
+
+    function refreshSubmissions() {
+
+        /*
+            Future:
+            Load registrations assigned to the
+            logged-in teacher from Supabase.
+        */
+
+        alert(
+            "Registration submissions will refresh from Supabase here."
+        );
+
+    }
+
+
+    /* =========================================================
+       STATUS HELPERS
+    ========================================================= */
+
+    function getRegistrationBadge(status) {
+
+        if (status === "approved")
+            return "badge-approved";
+
+        if (status === "rejected")
+            return "badge-rejected";
+
+        if (status === "incomplete")
+            return "badge-incomplete";
+
+        return "badge-pending";
+
+    }
+
+
+    function getPaymentBadge(status) {
+
+        if (status === "verified")
+            return "badge-approved";
+
+        if (status === "rejected")
+            return "badge-rejected";
+
+        return "badge-pending";
+
+    }
+
+
+    function formatStatus(status) {
+
+        const values = {
+            pending: "Pending",
+            approved: "Approved",
+            incomplete: "Needs Review",
+            rejected: "Rejected"
+        };
+
+        return values[status] || "Pending";
+
+    }
+
+
+    function formatPaymentStatus(status) {
+
+        const values = {
+            pending: "Pending",
+            verified: "Verified",
+            rejected: "Rejected"
+        };
+
+        return values[status] || "Pending";
+
+    }
+
+
+    /* =========================================================
+       SECURITY / DISPLAY HELPER
+    ========================================================= */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    renderTeachers();
+    renderSubmissions();
+
+    updateTeacherSummary();
+    updateSubmissionSummary();
 
     lucide.createIcons();
 
-  </script>
+</script>
 
 </body>
 </html>
