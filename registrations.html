@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrations | School Management System</title>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+body {
+    overflow-x: hidden;
+    user-select: none;
+}
+
+input,
+select,
+button {
+    font: inherit;
+}
+
+input,
+select {
+    user-select: text;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 270px;
+    height: 100vh;
+    background: #101827;
+    color: white;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.school-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: #07111f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.school-name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.school-subtitle {
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.nav {
+    padding: 18px 12px;
+}
+
+.nav-label {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 12px 9px;
+    text-transform: uppercase;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 4px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 9px;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.nav a:hover {
+    background: #1b2638;
+    color: white;
+}
+
+.nav a.active {
+    background: #172f49;
+    color: #7dd3fc;
+}
+
+.nav a i {
+    width: 18px;
+    height: 18px;
+}
+
+.sidebar-bottom {
+    margin-top: 20px;
+    padding: 15px 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.logout-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.logout-link:hover {
+    background: #1b2638;
+    color: white;
+}
+
+.main {
+    margin-left: 270px;
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 76px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+}
+
+.menu-btn {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    background: #f1f5f9;
+    color: #172033;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-heading > i {
+    color: #0284c7;
+}
+
+.page-heading h1 {
+    font-size: 20px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    color: #0369a1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-text strong {
+    display: block;
+    font-size: 13px;
+}
+
+.profile-text span {
+    display: block;
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.content {
+    padding: 28px;
+    max-width: 1350px;
+    margin: auto;
+}
+
+.page-intro {
+    margin-bottom: 24px;
+}
+
+.page-intro h2 {
+    font-size: 25px;
+    margin-bottom: 7px;
+}
+
+.page-intro p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.filters {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.filters-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.filters-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.filters-title i {
+    width: 18px;
+    color: #0284c7;
+}
+
+.clear-btn {
+    background: transparent;
+    color: #0284c7;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.clear-btn:hover {
+    color: #0369a1;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 17px;
+    color: #94a3b8;
+}
+
+.search-box input,
+.filter-select {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    background: white;
+    color: #172033;
+}
+
+.search-box input {
+    padding: 0 12px 0 38px;
+}
+
+.filter-select {
+    padding: 0 12px;
+}
+
+.search-box input:focus,
+.filter-select:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
+}
+
+.table-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.table-header {
+    min-height: 62px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-header h3 {
+    font-size: 15px;
+}
+
+.registration-count {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1050px;
+}
+
+thead {
+    background: #f8fafc;
+}
+
+th {
+    text-align: left;
+    padding: 13px 18px;
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #eef2f7;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+tbody tr:hover {
+    background: #f8fbff;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status.pending {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.status.approved {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.status.rejected {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.status.incomplete {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.payment {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.payment.paid {
+    color: #047857;
+}
+
+.payment.pending {
+    color: #c2410c;
+}
+
+.payment.not-submitted {
+    color: #64748b;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #475569;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.empty-state {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 15px;
+    border-radius: 14px;
+    background: #eff6ff;
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-icon i {
+    width: 27px;
+    height: 27px;
+}
+
+.empty-state h3 {
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.empty-state p {
+    color: #64748b;
+    font-size: 13px;
+    max-width: 450px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+.info-bar {
+    margin-top: 16px;
+    padding: 13px 15px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: #166534;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.info-bar i {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.5);
+    z-index: 900;
+}
+
+@media (max-width: 1000px) {
+    .filter-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 850px) {
+    .sidebar {
+        transform: translateX(-105%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .menu-btn {
+        display: flex;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .content {
+        padding: 20px 15px;
+    }
+
+    .page-heading h1 {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-profile .profile-text {
+        display: none;
+    }
+
+    .table-header {
+        padding: 0 15px;
+    }
+
+    .empty-state {
+        padding: 45px 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+
+        <div class="school-logo">
+            <i data-lucide="school"></i>
+        </div>
+
+        <div>
+            <div class="school-name">School Management</div>
+            <div class="school-subtitle">Administration Panel</div>
+        </div>
+
+    </div>
+
+    <nav class="nav">
+
+        <div class="nav-label">Management</div>
+
+        <a href="admin.html">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Overview</span>
+        </a>
+
+        <a href="teachers.html">
+            <i data-lucide="users"></i>
+            <span>Teachers</span>
+        </a>
+
+        <a href="classes.html">
+            <i data-lucide="school"></i>
+            <span>Classes</span>
+        </a>
+
+        <a href="students.html">
+            <i data-lucide="graduation-cap"></i>
+            <span>Students</span>
+        </a>
+
+        <a href="registrations.html" class="active">
+            <i data-lucide="clipboard-list"></i>
+            <span>Registrations</span>
+        </a>
+
+        <a href="payments.html">
+            <i data-lucide="credit-card"></i>
+            <span>Payments</span>
+        </a>
+
+        <a href="reports.html">
+            <i data-lucide="bar-chart-3"></i>
+            <span>Reports</span>
+        </a>
+
+        <a href="settings.html">
+            <i data-lucide="settings"></i>
+            <span>Settings</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <a href="admin-login.html" class="logout-link">
+            <i data-lucide="log-out"></i>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+
+<!-- Main -->
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="page-heading">
+
+            <button
+                class="menu-btn"
+                id="menuBtn"
+                aria-label="Open menu"
+            >
+                <i data-lucide="menu"></i>
+            </button>
+
+            <i data-lucide="clipboard-list"></i>
+
+            <h1>Registrations</h1>
+
+        </div>
+
+        <div class="admin-profile">
+
+            <div class="profile-icon">
+                <i data-lucide="shield-check"></i>
+            </div>
+
+            <div class="profile-text">
+                <strong>Administrator</strong>
+                <span>Admin Account</span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="content">
+
+        <div class="page-intro">
+
+            <h2>Registration Submissions</h2>
+
+            <p>
+                Review student registration submissions and their current status.
+            </p>
+
+        </div>
+
+
+        <!-- Filters -->
+        <section class="filters">
+
+            <div class="filters-top">
+
+                <div class="filters-title">
+                    <i data-lucide="filter"></i>
+                    <span>Search & Filters</span>
+                </div>
+
+                <button
+                    class="clear-btn"
+                    id="clearFilters"
+                >
+                    Clear Filters
+                </button>
+
+            </div>
+
+
+            <div class="filter-grid">
+
+                <div class="search-box">
+
+                    <i data-lucide="search"></i>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search by student name..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <select
+                    class="filter-select"
+                    id="gradeFilter"
+                >
+
+                    <option value="">All Grades</option>
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11NS">Grade 11 NS</option>
+                    <option value="11SS">Grade 11 SS</option>
+                    <option value="12NS">Grade 12 NS</option>
+                    <option value="12SS">Grade 12 SS</option>
+
+                </select>
+
+
+                <select
+                    class="filter-select"
+                    id="typeFilter"
+                >
+
+                    <option value="">All Student Types</option>
+                    <option value="new">New Student</option>
+                    <option value="returning">Returning Student</option>
+
+                </select>
+
+
+                <select
+                    class="filter-select"
+                    id="statusFilter"
+                >
+
+                    <option value="">All Registration Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="incomplete">Incomplete</option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- Registration Table -->
+        <section class="table-card">
+
+            <div class="table-header">
+
+                <h3>Registration Submissions</h3>
+
+                <span
+                    class="registration-count"
+                    id="registrationCount"
+                >
+                    0 registrations
+                </span>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>No.</th>
+                            <th>Student Name</th>
+                            <th>Grade</th>
+                            <th>Class</th>
+                            <th>Student Type</th>
+                            <th>Registration</th>
+                            <th>Payment</th>
+                            <th>Submitted</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="registrationTableBody">
+                    </tbody>
+
+                </table>
+
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                >
+
+                    <div class="empty-icon">
+                        <i data-lucide="clipboard-list"></i>
+                    </div>
+
+                    <h3>No registration submissions yet</h3>
+
+                    <p>
+                        Registration submissions will appear here after
+                        students submit their registration through the public
+                        registration page.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="info-bar">
+
+            <i data-lucide="info"></i>
+
+            <span>
+                This page will display real registration records from the
+                database. No sample submissions are displayed.
+            </span>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const menuBtn = document.getElementById("menuBtn");
+
+menuBtn.addEventListener("click", () => {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+});
+
+overlay.addEventListener("click", closeSidebar);
+
+function closeSidebar() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+}
+
+document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape") {
+        closeSidebar();
+    }
+
+});
+
+
+/*
+    No fake registration records are created.
+
+    Supabase will provide the real records later.
+*/
+
+let registrations = [];
+
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const gradeFilter =
+    document.getElementById("gradeFilter");
+
+const typeFilter =
+    document.getElementById("typeFilter");
+
+const statusFilter =
+    document.getElementById("statusFilter");
+
+const clearFilters =
+    document.getElementById("clearFilters");
+
+const tableBody =
+    document.getElementById("registrationTableBody");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const registrationCount =
+    document.getElementById("registrationCount");
+
+
+function renderRegistrations() {
+
+    const search =
+        searchInput.value.trim().toLowerCase();
+
+    const grade =
+        gradeFilter.value;
+
+    const type =
+        typeFilter.value;
+
+    const status =
+        statusFilter.value;
+
+
+    const filtered =
+        registrations.filter(registration => {
+
+            const matchesSearch =
+                !search ||
+                registration.full_name
+                    .toLowerCase()
+                    .includes(search);
+
+            const matchesGrade =
+                !grade ||
+                registration.grade === grade;
+
+            const matchesType =
+                !type ||
+                registration.student_type === type;
+
+            const matchesStatus =
+                !status ||
+                registration.registration_status === status;
+
+            return (
+                matchesSearch &&
+                matchesGrade &&
+                matchesType &&
+                matchesStatus
+            );
+
+        });
+
+
+    tableBody.innerHTML = "";
+
+
+    if (filtered.length === 0) {
+
+        emptyState.style.display = "block";
+
+    } else {
+
+        emptyState.style.display = "none";
+
+
+        filtered.forEach((registration, index) => {
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+
+                <td>${index + 1}</td>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(registration.full_name)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHTML(registration.grade)}
+                </td>
+
+                <td>
+                    ${escapeHTML(registration.class_name)}
+                </td>
+
+                <td>
+                    ${registration.student_type === "new"
+                        ? "New Student"
+                        : "Returning Student"}
+                </td>
+
+                <td>
+                    ${getRegistrationStatus(
+                        registration.registration_status
+                    )}
+                </td>
+
+                <td>
+                    ${getPaymentStatus(
+                        registration.payment_status
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(registration.submitted_at)}
+                </td>
+
+                <td>
+
+                    <button
+                        class="action-btn"
+                        title="View registration"
+                        onclick="viewRegistration('${registration.id}')"
+                    >
+                        <i data-lucide="eye"></i>
+                    </button>
+
+                </td>
+
+            `;
+
+            tableBody.appendChild(row);
+
+        });
+
+    }
+
+
+    registrationCount.textContent =
+        `${filtered.length} registration${filtered.length === 1 ? "" : "s"}`;
+
+    lucide.createIcons();
+
+}
+
+
+function getRegistrationStatus(status) {
+
+    if (status === "approved") {
+
+        return `
+            <span class="status approved">
+                Approved
+            </span>
+        `;
+
+    }
+
+    if (status === "rejected") {
+
+        return `
+            <span class="status rejected">
+                Rejected
+            </span>
+        `;
+
+    }
+
+    if (status === "incomplete") {
+
+        return `
+            <span class="status incomplete">
+                Incomplete
+            </span>
+        `;
+
+    }
+
+    return `
+        <span class="status pending">
+            Pending
+        </span>
+    `;
+
+}
+
+
+function getPaymentStatus(status) {
+
+    if (status === "paid") {
+
+        return `
+            <span class="payment paid">
+                <i data-lucide="check-circle-2"></i>
+                Paid
+            </span>
+        `;
+
+    }
+
+    if (status === "pending") {
+
+        return `
+            <span class="payment pending">
+                <i data-lucide="clock-3"></i>
+                Pending
+            </span>
+        `;
+
+    }
+
+    return `
+        <span class="payment not-submitted">
+            <i data-lucide="minus-circle"></i>
+            Not Submitted
+        </span>
+    `;
+
+}
+
+
+function viewRegistration(id) {
+
+    const registration =
+        registrations.find(item => item.id === id);
+
+    if (!registration) {
+        return;
+    }
+
+    /*
+        Later this will open the real registration details
+        and allow the administrator to review the submission.
+    */
+
+    alert(
+        "Registration details will be connected to Supabase later."
+    );
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+searchInput.addEventListener(
+    "input",
+    renderRegistrations
+);
+
+gradeFilter.addEventListener(
+    "change",
+    renderRegistrations
+);
+
+typeFilter.addEventListener(
+    "change",
+    renderRegistrations
+);
+
+statusFilter.addEventListener(
+    "change",
+    renderRegistrations
+);
+
+
+clearFilters.addEventListener("click", () => {
+
+    searchInput.value = "";
+    gradeFilter.value = "";
+    typeFilter.value = "";
+    statusFilter.value = "";
+
+    renderRegistrations();
+
+});
+
+
+renderRegistrations();
+
+lucide.createIcons();
+
+</script>
+
+</body>
+</html>
