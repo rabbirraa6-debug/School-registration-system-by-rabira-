@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Login | School Registration System</title>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --navy: #071a2b;
+      --navy-light: #102a43;
+      --sky: #168aad;
+      --sky-light: #e8f7fb;
+      --green: #176b45;
+      --background: #f4f8fb;
+      --surface: #ffffff;
+      --border: #d9e2ec;
+      --text: #102a43;
+      --muted: #627d98;
+      --danger: #b42318;
+      --danger-light: #fef3f2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    header h1 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 12px;
+      color: #b8c7d9;
+      margin-top: 3px;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 35px 18px 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-card {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 22px;
+      box-shadow: 0 8px 30px rgba(7, 26, 43, 0.07);
+    }
+
+    .login-heading {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 15px;
+      border-radius: 16px;
+      background: var(--sky-light);
+      color: var(--sky);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-heading h2 {
+      font-size: 24px;
+      margin-bottom: 7px;
+    }
+
+    .login-heading p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      width: 19px;
+      height: 19px;
+    }
+
+    input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 14px 0 44px;
+      font-size: 15px;
+      color: var(--text);
+      background: white;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--sky);
+      box-shadow: 0 0 0 3px rgba(22, 138, 173, 0.12);
+    }
+
+    #pin {
+      letter-spacing: 7px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .pin-note {
+      margin-top: 7px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .error-message {
+      display: none;
+      background: var(--danger-light);
+      border: 1px solid #fecdca;
+      color: var(--danger);
+      padding: 11px 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .login-button {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-radius: 10px;
+      background: var(--navy);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: 0.2s;
+    }
+
+    .login-button:hover {
+      background: var(--navy-light);
+    }
+
+    .login-button:active {
+      transform: scale(0.99);
+    }
+
+    .security-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 20px;
+      padding: 12px;
+      background: #f7fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .security-note svg {
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--green);
+    }
+
+    .back-button {
+      width: 100%;
+      margin-top: 15px;
+      height: 45px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .back-button:hover {
+      background: #f7fafc;
+    }
+
+    @media (min-width: 600px) {
+      main {
+        padding-top: 55px;
+      }
+
+      .login-card {
+        padding: 34px 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-icon">
+      <i data-lucide="shield-check"></i>
+    </div>
+
+    <div>
+      <h1>School Registration System</h1>
+      <p>Staff Access</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="login-card">
+
+      <div class="login-heading">
+        <div class="login-icon">
+          <i data-lucide="lock-keyhole" size="30"></i>
+        </div>
+
+        <h2>Staff Login</h2>
+        <p>
+          Enter your staff username and 6-digit PIN to access the school management system.
+        </p>
+      </div>
+
+      <div id="errorMessage" class="error-message">
+        Invalid username or PIN.
+      </div>
+
+      <form onsubmit="handleLogin(event)">
+
+        <div class="field">
+          <label for="username">Username</label>
+
+          <div class="input-wrapper">
+            <i class="input-icon" data-lucide="user"></i>
+
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter your username"
+              autocomplete="username"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="pin">6-Digit PIN</label>
+
+          <div class="input-wrapper">
+            <i class="input-icon" data-lucide="key-round"></i>
+
+            <input
+              type="password"
+              id="pin"
+              placeholder="••••••"
+              inputmode="numeric"
+              maxlength="6"
+              pattern="[0-9]{6}"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <div class="pin-note">
+            Your PIN must contain exactly 6 digits.
+          </div>
+        </div>
+
+        <button type="submit" class="login-button">
+          <i data-lucide="log-in" size="18"></i>
+          Sign In
+        </button>
+
+      </form>
+
+      <div class="security-note">
+        <i data-lucide="shield-check" size="18"></i>
+
+        <div>
+          Staff access is restricted to authorized school personnel.
+          Your account and permissions are managed by the school administrator.
+        </div>
+      </div>
+
+      <button class="back-button" onclick="goHome()">
+        Back to Home
+      </button>
+
+    </section>
+  </main>
+
+  <script>
+    const pinInput = document.getElementById("pin");
+
+    pinInput.addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "").slice(0, 6);
+    });
+
+    function handleLogin(event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const pin = document.getElementById("pin").value.trim();
+      const errorMessage = document.getElementById("errorMessage");
+
+      errorMessage.style.display = "none";
+
+      if (!username || !/^\d{6}$/.test(pin)) {
+        errorMessage.textContent =
+          "Please enter your username and a valid 6-digit PIN.";
+
+        errorMessage.style.display = "block";
+        return;
+      }
+
+      /*
+        Supabase authentication will be connected here.
+
+        IMPORTANT:
+        No teacher username or PIN is stored in this page.
+        The real credentials will be checked against Supabase.
+      */
+
+      errorMessage.textContent =
+        "Supabase authentication is not connected yet.";
+
+      errorMessage.style.display = "block";
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+
+    lucide.createIcons();
+  </script>
+
+</body>
+  </html>
