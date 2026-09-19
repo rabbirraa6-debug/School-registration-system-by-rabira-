@@ -8,143 +8,846 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    html, body {
-        width: 100%;
-        min-height: 100%;
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f4f7fb;
-        color: #172033;
+html, body {
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+body {
+    overflow-x: hidden;
+    user-select: none;
+}
+
+input,
+select,
+textarea {
+    user-select: text;
+    font-family: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 255px;
+    height: 100vh;
+    background: #101827;
+    color: white;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    transition: transform .25s ease;
+}
+
+.sidebar-header {
+    height: 74px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.school-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    background: #168cff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.school-title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.school-subtitle {
+    font-size: 10px;
+    color: #91a0b7;
+    margin-top: 3px;
+}
+
+.nav {
+    flex: 1;
+    padding: 17px 11px;
+    overflow-y: auto;
+}
+
+.nav-label {
+    color: #69778d;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 8px 12px 9px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    padding: 11px 12px;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    color: #aeb9ca;
+    font-size: 12px;
+    transition: .2s;
+}
+
+.nav-item:hover {
+    background: #182437;
+    color: white;
+}
+
+.nav-item.active {
+    background: #168cff;
+    color: white;
+}
+
+.logout {
+    color: #ff9d9d !important;
+    margin: 0 11px 10px;
+    width: auto;
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding: 13px;
+    text-align: center;
+    color: #65738a;
+    font-size: 9px;
+}
+
+/* ================= MAIN ================= */
+
+.main {
+    margin-left: 255px;
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 74px;
+    background: white;
+    border-bottom: 1px solid #e5eaf1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 27px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    margin-right: 12px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.page-subtitle {
+    color: #7d899a;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e8f4ff;
+    color: #168cff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-name {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.profile-role {
+    color: #8793a4;
+    font-size: 9px;
+    margin-top: 2px;
+}
+
+/* ================= CONTENT ================= */
+
+.content {
+    padding: 25px 27px 45px;
+    max-width: 1450px;
+    margin: auto;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 13px;
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.section-description {
+    color: #7d899a;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: #168cff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0878df;
+}
+
+.btn-secondary {
+    background: #edf2f7;
+    color: #445169;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+.btn-success {
+    background: #e6f7ef;
+    color: #137e4e;
+}
+
+.btn-danger {
+    background: #ffeded;
+    color: #c33d3d;
+}
+
+.btn-small {
+    padding: 7px 9px;
+    font-size: 10px;
+}
+
+/* ================= TEACHER WELCOME ================= */
+
+.teacher-banner {
+    background: linear-gradient(135deg, #101827, #183452);
+    color: white;
+    border-radius: 11px;
+    padding: 20px;
+    margin-bottom: 23px;
+}
+
+.teacher-banner h2 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.teacher-banner p {
+    color: #b1bfd1;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.active-class {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 13px;
+    background: rgba(255,255,255,.09);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 7px;
+    padding: 7px 10px;
+    color: #dbe7f5;
+    font-size: 10px;
+}
+
+/* ================= CLASS CARDS ================= */
+
+.class-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.class-card {
+    background: white;
+    border: 1px solid #e4eaf1;
+    border-radius: 10px;
+    padding: 16px;
+    transition: .2s;
+}
+
+.class-card:hover {
+    border-color: #b9d9f7;
+    transform: translateY(-1px);
+}
+
+.class-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.class-name {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.class-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #eaf5ff;
+    color: #168cff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.class-info {
+    color: #8491a3;
+    font-size: 10px;
+    margin-top: 9px;
+}
+
+.class-card .btn {
+    margin-top: 13px;
+}
+
+/* ================= PANEL ================= */
+
+.panel {
+    background: white;
+    border: 1px solid #e4eaf1;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 15px 17px;
+    border-bottom: 1px solid #e8edf3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.panel-title {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.panel-description {
+    color: #8491a3;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.toolbar {
+    padding: 13px 17px;
+    border-bottom: 1px solid #e8edf3;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.search {
+    position: relative;
+    flex: 1;
+    min-width: 190px;
+}
+
+.search i {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8a96a7;
+}
+
+.search input {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #dce3ec;
+    border-radius: 7px;
+    outline: none;
+    padding: 0 10px 0 35px;
+    font-size: 11px;
+}
+
+.search input:focus,
+.select:focus,
+.form-control:focus {
+    border-color: #168cff;
+}
+
+.select {
+    height: 36px;
+    border: 1px solid #dce3ec;
+    border-radius: 7px;
+    background: white;
+    padding: 0 10px;
+    outline: none;
+    font-size: 11px;
+    color: #435067;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+th {
+    background: #f8fafc;
+    color: #718096;
+    text-align: left;
+    padding: 11px 16px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    border-bottom: 1px solid #e5eaf1;
+    white-space: nowrap;
+}
+
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eef1f5;
+    font-size: 11px;
+    color: #39465b;
+    white-space: nowrap;
+}
+
+tbody tr:hover {
+    background: #fbfdff;
+}
+
+/* ================= BADGES ================= */
+
+.badge {
+    display: inline-flex;
+    padding: 4px 7px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.badge-pending {
+    background: #fff4dc;
+    color: #a66a00;
+}
+
+.badge-approved {
+    background: #e5f7ee;
+    color: #147d4e;
+}
+
+.badge-rejected {
+    background: #ffeded;
+    color: #c33d3d;
+}
+
+.badge-review {
+    background: #edf1f6;
+    color: #647187;
+}
+
+/* ================= EMPTY ================= */
+
+.empty {
+    padding: 45px 20px;
+    text-align: center;
+    color: #8491a3;
+}
+
+.empty-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #f0f4f8;
+    color: #9aa6b5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto auto 11px;
+}
+
+.empty h3 {
+    color: #566276;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.empty p {
+    max-width: 380px;
+    margin: auto;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* ================= MODAL ================= */
+
+.modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8,15,26,.58);
+    z-index: 2000;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.modal-bg.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    width: 100%;
+    max-width: 720px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 16px 18px;
+    border-bottom: 1px solid #e5eaf1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h2 {
+    font-size: 15px;
+}
+
+.close {
+    width: 31px;
+    height: 31px;
+    border: none;
+    background: #eef2f6;
+    color: #647187;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 19px;
+}
+
+.modal-footer {
+    padding: 13px 18px;
+    border-top: 1px solid #e5eaf1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* ================= FORMS ================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    color: #566276;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.form-control {
+    width: 100%;
+    height: 37px;
+    border: 1px solid #dce3ec;
+    border-radius: 7px;
+    padding: 0 10px;
+    outline: none;
+    font-size: 11px;
+    color: #27344a;
+}
+
+textarea.form-control {
+    height: 80px;
+    resize: vertical;
+    padding-top: 9px;
+}
+
+.required {
+    color: #d33d3d;
+}
+
+/* ================= DETAILS ================= */
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.detail {
+    background: #f8fafc;
+    border: 1px solid #e7ecf2;
+    border-radius: 7px;
+    padding: 11px;
+}
+
+.detail span {
+    display: block;
+    color: #8793a4;
+    font-size: 9px;
+    margin-bottom: 4px;
+}
+
+.detail strong {
+    font-size: 11px;
+    color: #28354b;
+}
+
+.document {
+    margin-top: 13px;
+    padding: 12px;
+    border: 1px dashed #ccd6e2;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.document-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.document-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 7px;
+    background: #eaf5ff;
+    color: #168cff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.document-name strong {
+    display: block;
+    font-size: 10px;
+}
+
+.document-name span {
+    display: block;
+    color: #8793a4;
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+/* ================= PRINT ================= */
+
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 12mm;
     }
 
     body {
-        user-select: none;
-        overflow-x: hidden;
+        background: white;
     }
 
-    input,
-    select,
-    textarea {
-        user-select: text;
+    .sidebar,
+    .topbar,
+    .no-print,
+    .teacher-banner,
+    .modal-bg {
+        display: none !important;
     }
 
-    button,
-    a {
-        -webkit-tap-highlight-color: transparent;
+    .main {
+        margin: 0;
     }
 
-    button {
-        font-family: inherit;
+    .content {
+        padding: 0;
+        max-width: none;
     }
 
-    a {
-        text-decoration: none;
-        color: inherit;
+    .section:not(#printSection) {
+        display: none !important;
     }
 
-    /* ================= SIDEBAR ================= */
+    #printSection {
+        display: block !important;
+    }
+
+    .print-heading {
+        display: block !important;
+    }
+
+    .panel {
+        border: none;
+    }
+
+    .panel-header {
+        border: none;
+        padding: 0 0 10px;
+    }
+
+    .table-wrapper {
+        overflow: visible;
+    }
+
+    table {
+        min-width: 0;
+        width: 100%;
+    }
+
+    th,
+    td {
+        border: 1px solid #bbb;
+        color: #111;
+        padding: 7px;
+    }
+
+    th {
+        background: #eee !important;
+    }
+
+    .badge {
+        border: none;
+        color: #111 !important;
+        background: transparent !important;
+    }
+
+    .print-heading h1 {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .print-heading p {
+        font-size: 10px;
+        margin-bottom: 12px;
+    }
+}
+
+.print-heading {
+    display: none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1000px) {
+    .class-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
 
     .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 270px;
-        height: 100vh;
-        background: #101827;
-        color: white;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        transition: transform .28s ease;
+        transform: translateX(-100%);
     }
 
-    .sidebar-header {
-        height: 78px;
-        padding: 0 22px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        border-bottom: 1px solid rgba(255,255,255,.08);
+    .sidebar.open {
+        transform: translateX(0);
     }
 
-    .school-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        background: #168cff;
+    .main {
+        margin-left: 0;
+    }
+
+    .menu-btn {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-
-    .school-title {
-        font-size: 15px;
-        font-weight: 700;
-        line-height: 1.25;
-    }
-
-    .school-subtitle {
-        font-size: 11px;
-        color: #91a0b7;
-        margin-top: 3px;
-    }
-
-    .nav {
-        padding: 18px 12px;
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    .nav-label {
-        color: #69778d;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        margin: 8px 12px 10px;
-        text-transform: uppercase;
-    }
-
-    .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
-        padding: 12px 13px;
-        margin-bottom: 4px;
-        border-radius: 9px;
-        color: #aeb9ca;
-        font-size: 13px;
-        transition: .2s;
-    }
-
-    .nav-item:hover {
-        background: #182437;
-        color: white;
-    }
-
-    .nav-item.active {
-        background: #168cff;
-        color: white;
-    }
-
-    .nav-item.logout {
-        color: #ff9d9d;
-    }
-
-    .sidebar-footer {
-        padding: 15px 18px;
-        border-top: 1px solid rgba(255,255,255,.08);
-        color: #69778d;
-        font-size: 10px;
-        text-align: center;
-    }
-
-    /* ================= OVERLAY ================= */
 
     .overlay {
         display: none;
@@ -154,681 +857,61 @@
         z-index: 900;
     }
 
-    /* ================= MAIN ================= */
+    .overlay.show {
+        display: block;
+    }
 
-    .main {
-        margin-left: 270px;
-        min-height: 100vh;
+    .profile-name,
+    .profile-role {
+        display: none;
+    }
+
+    .content {
+        padding: 20px 14px 35px;
     }
 
     .topbar {
-        height: 78px;
-        background: white;
-        border-bottom: 1px solid #e5eaf1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 30px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .class-grid {
+        grid-template-columns: 1fr;
     }
 
-    .menu-btn {
-        display: none;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-    }
-
-    .page-heading h1 {
-        font-size: 21px;
-        color: #172033;
-    }
-
-    .page-heading p {
-        color: #7a8799;
-        font-size: 12px;
-        margin-top: 4px;
-    }
-
-    .profile {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .profile-avatar {
-        width: 37px;
-        height: 37px;
-        border-radius: 50%;
-        background: #e7f3ff;
-        color: #168cff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .profile-text strong {
-        display: block;
-        font-size: 12px;
-    }
-
-    .profile-text span {
-        color: #8591a2;
-        font-size: 10px;
-    }
-
-    /* ================= CONTENT ================= */
-
-    .content {
-        padding: 28px 30px 40px;
-        max-width: 1500px;
-        margin: auto;
-    }
-
-    .section {
-        margin-bottom: 28px;
-    }
-
-    .section-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-        margin-bottom: 15px;
-    }
-
-    .section-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: #172033;
-    }
-
-    .section-description {
-        color: #7c899a;
-        font-size: 12px;
-        margin-top: 4px;
-    }
-
-    /* ================= BUTTONS ================= */
-
-    .btn {
-        border: none;
-        border-radius: 8px;
-        padding: 10px 15px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: .2s;
-    }
-
-    .btn-primary {
-        background: #168cff;
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background: #0878df;
-    }
-
-    .btn-secondary {
-        background: #eef3f8;
-        color: #435067;
-    }
-
-    .btn-secondary:hover {
-        background: #e3eaf2;
-    }
-
-    .btn-success {
-        background: #e6f7ef;
-        color: #148451;
-    }
-
-    .btn-danger {
-        background: #ffeded;
-        color: #c13b3b;
-    }
-
-    /* ================= SUMMARY ================= */
-
-    .summary-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-bottom: 25px;
-    }
-
-    .summary-card {
-        background: white;
-        border: 1px solid #e5eaf1;
-        border-radius: 12px;
-        padding: 19px;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-    }
-
-    .summary-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
-        background: #edf6ff;
-        color: #168cff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-
-    .summary-card h3 {
-        font-size: 21px;
-        margin-bottom: 3px;
-    }
-
-    .summary-card p {
-        color: #8793a4;
-        font-size: 11px;
-    }
-
-    /* ================= PANELS ================= */
-
-    .panel {
-        background: white;
-        border: 1px solid #e5eaf1;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    .panel-header {
-        padding: 17px 19px;
-        border-bottom: 1px solid #e8edf3;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-    }
-
-    .panel-title {
-        font-size: 14px;
-        font-weight: 700;
-    }
-
-    .panel-subtitle {
-        font-size: 11px;
-        color: #8793a4;
-        margin-top: 3px;
-    }
-
-    /* ================= TOOLBAR ================= */
-
-    .toolbar {
-        padding: 15px 19px;
-        border-bottom: 1px solid #e8edf3;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .search-box {
-        flex: 1;
-        min-width: 200px;
-        position: relative;
-    }
-
-    .search-box i {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #8793a4;
-    }
-
-    .search-box input {
-        width: 100%;
-        height: 38px;
-        border: 1px solid #dce3ec;
-        border-radius: 8px;
-        padding: 0 12px 0 38px;
-        outline: none;
-        font-size: 12px;
-    }
-
-    .search-box input:focus,
-    .select:focus {
-        border-color: #168cff;
-    }
-
-    .select {
-        height: 38px;
-        border: 1px solid #dce3ec;
-        border-radius: 8px;
-        padding: 0 12px;
-        outline: none;
-        background: white;
-        font-size: 12px;
-        color: #435067;
-    }
-
-    /* ================= TABLE ================= */
-
-    .table-wrapper {
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 850px;
-    }
-
-    th {
-        text-align: left;
-        background: #f8fafc;
-        color: #718096;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: .4px;
-        padding: 12px 18px;
-        border-bottom: 1px solid #e7ecf2;
-        white-space: nowrap;
-    }
-
-    td {
-        padding: 13px 18px;
-        border-bottom: 1px solid #eef1f5;
-        font-size: 12px;
-        color: #354156;
-        white-space: nowrap;
-    }
-
-    tbody tr:hover {
-        background: #fbfdff;
-    }
-
-    .empty-state {
-        padding: 55px 20px;
-        text-align: center;
-        color: #8491a3;
-    }
-
-    .empty-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: #f0f4f8;
-        color: #9aa6b5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 13px;
-    }
-
-    .empty-state h3 {
-        font-size: 14px;
-        color: #566276;
-        margin-bottom: 6px;
-    }
-
-    .empty-state p {
-        font-size: 11px;
-        max-width: 400px;
-        margin: auto;
-        line-height: 1.6;
-    }
-
-    /* ================= BADGES ================= */
-
-    .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 5px 8px;
-        border-radius: 20px;
-        font-size: 10px;
-        font-weight: 600;
-    }
-
-    .badge-pending {
-        background: #fff5df;
-        color: #a56a00;
-    }
-
-    .badge-approved {
-        background: #e6f7ef;
-        color: #148451;
-    }
-
-    .badge-rejected {
-        background: #ffeded;
-        color: #c13b3b;
-    }
-
-    .badge-incomplete {
-        background: #eef2f7;
-        color: #647187;
-    }
-
-    /* ================= TEACHER WORKSPACE ================= */
-
-    .workspace-banner {
-        background: linear-gradient(135deg, #101827, #183452);
-        border-radius: 13px;
-        padding: 23px;
-        color: white;
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
-    .workspace-banner h2 {
-        font-size: 18px;
-        margin-bottom: 6px;
-    }
-
-    .workspace-banner p {
-        color: #aebed3;
-        font-size: 11px;
-        line-height: 1.5;
-        max-width: 620px;
-    }
-
-    .year-chip {
-        padding: 9px 13px;
-        border-radius: 8px;
-        background: rgba(255,255,255,.09);
-        color: #dce9f8;
-        font-size: 11px;
-        white-space: nowrap;
-        border: 1px solid rgba(255,255,255,.1);
-    }
-
-    /* ================= MODAL ================= */
-
-    .modal-backdrop {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(8,15,26,.58);
-        z-index: 2000;
-        padding: 20px;
-        overflow-y: auto;
-    }
-
-    .modal-backdrop.show {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal {
-        width: 100%;
-        max-width: 760px;
-        background: white;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0,0,0,.2);
-    }
-
-    .modal-header {
-        padding: 18px 20px;
-        border-bottom: 1px solid #e7ecf2;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .modal-header h2 {
-        font-size: 16px;
-    }
-
-    .close-btn {
-        border: none;
-        background: #f1f4f8;
-        width: 32px;
-        height: 32px;
-        border-radius: 7px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #687589;
-    }
-
-    .modal-body {
-        padding: 20px;
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
+    .form-grid,
+    .detail-grid {
+        grid-template-columns: 1fr;
     }
 
     .form-group.full {
-        grid-column: 1 / -1;
+        grid-column: auto;
     }
 
-    .form-group label {
-        font-size: 11px;
-        font-weight: 700;
-        color: #566276;
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .form-control {
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .search,
+    .select {
         width: 100%;
-        height: 39px;
-        border: 1px solid #dce3ec;
-        border-radius: 8px;
-        padding: 0 11px;
-        outline: none;
-        font-size: 12px;
-    }
-
-    textarea.form-control {
-        height: 90px;
-        padding-top: 10px;
-        resize: vertical;
-    }
-
-    .form-control:focus {
-        border-color: #168cff;
     }
 
     .modal-footer {
-        padding: 15px 20px;
-        border-top: 1px solid #e7ecf2;
-        display: flex;
-        justify-content: flex-end;
-        gap: 9px;
+        flex-direction: column-reverse;
     }
 
-    /* ================= SUBMISSION DETAILS ================= */
-
-    .detail-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 13px;
+    .modal-footer .btn {
+        width: 100%;
     }
-
-    .detail-item {
-        background: #f8fafc;
-        border: 1px solid #e8edf3;
-        border-radius: 8px;
-        padding: 12px;
-    }
-
-    .detail-item span {
-        display: block;
-        color: #8491a3;
-        font-size: 10px;
-        margin-bottom: 5px;
-    }
-
-    .detail-item strong {
-        font-size: 12px;
-        color: #263249;
-    }
-
-    .document-box {
-        margin-top: 17px;
-        border: 1px dashed #cfd8e4;
-        border-radius: 9px;
-        padding: 17px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-    }
-
-    .document-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .document-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 8px;
-        background: #eaf5ff;
-        color: #168cff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .document-info strong {
-        display: block;
-        font-size: 11px;
-    }
-
-    .document-info span {
-        display: block;
-        color: #8793a4;
-        font-size: 10px;
-        margin-top: 3px;
-    }
-
-    .status-controls {
-        margin-top: 18px;
-        padding-top: 18px;
-        border-top: 1px solid #e8edf3;
-    }
-
-    .status-controls h3 {
-        font-size: 12px;
-        margin-bottom: 12px;
-    }
-
-    /* ================= RESPONSIVE ================= */
-
-    @media (max-width: 1050px) {
-        .summary-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 800px) {
-        .sidebar {
-            transform: translateX(-100%);
-        }
-
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .overlay.show {
-            display: block;
-        }
-
-        .main {
-            margin-left: 0;
-        }
-
-        .menu-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-        }
-
-        .topbar {
-            padding: 0 17px;
-        }
-
-        .page-heading h1 {
-            font-size: 17px;
-        }
-
-        .profile-text {
-            display: none;
-        }
-
-        .content {
-            padding: 20px 15px 35px;
-        }
-
-        .workspace-banner {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .summary-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .form-grid,
-        .detail-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .form-group.full {
-            grid-column: auto;
-        }
-
-        .section-header {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .toolbar {
-            flex-direction: column;
-        }
-
-        .search-box,
-        .select {
-            width: 100%;
-            min-width: 0;
-        }
-
-        .modal-backdrop {
-            padding: 10px;
-        }
-
-        .modal-footer {
-            flex-direction: column-reverse;
-        }
-
-        .modal-footer .btn {
-            width: 100%;
-        }
-    }
+}
 </style>
 </head>
 
@@ -839,14 +922,16 @@
 <aside class="sidebar" id="sidebar">
 
     <div class="sidebar-header">
+
         <div class="school-icon">
-            <i data-lucide="school" size="21"></i>
+            <i data-lucide="school" size="20"></i>
         </div>
 
         <div>
             <div class="school-title">School Management</div>
             <div class="school-subtitle">Administration Portal</div>
         </div>
+
     </div>
 
     <nav class="nav">
@@ -854,44 +939,44 @@
         <div class="nav-label">Management</div>
 
         <a href="admin.html" class="nav-item">
-            <i data-lucide="layout-dashboard" size="17"></i>
+            <i data-lucide="layout-dashboard" size="16"></i>
             <span>Overview</span>
         </a>
 
         <a href="teachers.html" class="nav-item active">
-            <i data-lucide="users" size="17"></i>
+            <i data-lucide="users" size="16"></i>
             <span>Teachers</span>
         </a>
 
         <a href="classes.html" class="nav-item">
-            <i data-lucide="layers" size="17"></i>
+            <i data-lucide="layers" size="16"></i>
             <span>Classes</span>
         </a>
 
         <a href="students.html" class="nav-item">
-            <i data-lucide="graduation-cap" size="17"></i>
+            <i data-lucide="graduation-cap" size="16"></i>
             <span>Students</span>
         </a>
 
         <a href="registrations.html" class="nav-item">
-            <i data-lucide="file-check-2" size="17"></i>
+            <i data-lucide="file-check-2" size="16"></i>
             <span>Registrations</span>
         </a>
 
         <a href="reports.html" class="nav-item">
-            <i data-lucide="bar-chart-3" size="17"></i>
+            <i data-lucide="bar-chart-3" size="16"></i>
             <span>Reports</span>
         </a>
 
         <a href="settings.html" class="nav-item">
-            <i data-lucide="settings" size="17"></i>
+            <i data-lucide="settings" size="16"></i>
             <span>Settings</span>
         </a>
 
     </nav>
 
-    <a href="admin-login.html" class="nav-item logout" style="margin:0 12px 12px;width:auto;">
-        <i data-lucide="log-out" size="17"></i>
+    <a href="admin-login.html" class="nav-item logout">
+        <i data-lucide="log-out" size="16"></i>
         <span>Logout</span>
     </a>
 
@@ -903,6 +988,7 @@
 
 <div class="overlay" id="overlay"></div>
 
+
 <!-- ================= MAIN ================= -->
 
 <main class="main">
@@ -912,92 +998,57 @@
         <div style="display:flex;align-items:center;">
 
             <button class="menu-btn" id="menuBtn">
-                <i data-lucide="menu" size="22"></i>
+                <i data-lucide="menu" size="21"></i>
             </button>
 
-            <div class="page-heading">
-                <h1>Teachers</h1>
-                <p>Manage teachers and review student registration submissions</p>
+            <div>
+                <div class="page-title">Teachers</div>
+                <div class="page-subtitle">
+                    Teacher accounts and student registration workspace
+                </div>
             </div>
 
         </div>
 
         <div class="profile">
+
             <div class="profile-avatar">
-                <i data-lucide="shield-check" size="17"></i>
+                <i data-lucide="shield-check" size="16"></i>
             </div>
 
-            <div class="profile-text">
-                <strong>Administrator</strong>
-                <span>Admin Account</span>
+            <div>
+                <div class="profile-name">Administrator</div>
+                <div class="profile-role">Admin Account</div>
             </div>
+
         </div>
 
     </header>
 
+
     <div class="content">
 
-        <!-- ================= ADMIN TEACHER MANAGEMENT ================= -->
 
-        <section class="section">
+        <!-- ==================================================
+             ADMIN TEACHER ACCOUNT MANAGEMENT
+        =================================================== -->
+
+        <section class="section no-print">
 
             <div class="section-header">
 
                 <div>
                     <div class="section-title">Teacher Accounts</div>
+
                     <div class="section-description">
-                        Create and manage teacher accounts and class assignments.
+                        Create teacher accounts and assign their classes.
                     </div>
                 </div>
 
                 <button class="btn btn-primary" onclick="openTeacherModal()">
-                    <i data-lucide="user-plus" size="15"></i>
+                    <i data-lucide="user-plus" size="14"></i>
                     Add Teacher
                 </button>
-
-            </div>
-
-            <div class="summary-grid">
-
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="users" size="19"></i>
-                    </div>
-                    <div>
-                        <h3 id="teacherCount">—</h3>
-                        <p>Total Teachers</p>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="user-check" size="19"></i>
-                    </div>
-                    <div>
-                        <h3 id="activeTeacherCount">—</h3>
-                        <p>Active Teachers</p>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="user-x" size="19"></i>
-                    </div>
-                    <div>
-                        <h3 id="disabledTeacherCount">—</h3>
-                        <p>Disabled Teachers</p>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="clipboard-list" size="19"></i>
-                    </div>
-                    <div>
-                        <h3 id="submissionCount">—</h3>
-                        <p>New Submissions</p>
-                    </div>
-                </div>
 
             </div>
 
@@ -1005,20 +1056,29 @@
 
                 <div class="toolbar">
 
-                    <div class="search-box">
-                        <i data-lucide="search" size="15"></i>
+                    <div class="search">
+
+                        <i data-lucide="search" size="14"></i>
+
                         <input
-                            type="text"
                             id="teacherSearch"
-                            placeholder="Search teacher username..."
+                            type="text"
+                            placeholder="Search teacher..."
                             oninput="filterTeachers()"
                         >
+
                     </div>
 
-                    <select class="select" id="teacherStatusFilter" onchange="filterTeachers()">
+                    <select
+                        id="teacherStatus"
+                        class="select"
+                        onchange="filterTeachers()"
+                    >
+
                         <option value="all">All Status</option>
                         <option value="active">Active</option>
                         <option value="disabled">Disabled</option>
+
                     </select>
 
                 </div>
@@ -1028,25 +1088,27 @@
                     <table>
 
                         <thead>
+
                             <tr>
                                 <th>No.</th>
                                 <th>Username</th>
                                 <th>Assigned Class</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th>Action</th>
                             </tr>
+
                         </thead>
 
-                        <tbody id="teacherTableBody"></tbody>
+                        <tbody id="teacherTable"></tbody>
 
                     </table>
 
                 </div>
 
-                <div class="empty-state" id="teacherEmptyState">
+                <div class="empty" id="teacherEmpty">
 
                     <div class="empty-icon">
-                        <i data-lucide="users" size="22"></i>
+                        <i data-lucide="users" size="20"></i>
                     </div>
 
                     <h3>No teacher accounts yet</h3>
@@ -1062,152 +1124,287 @@
         </section>
 
 
-        <!-- ================= TEACHER WORKSPACE ================= -->
+        <!-- ==================================================
+             TEACHER WORKSPACE
+        =================================================== -->
 
-        <section class="section">
+        <section class="section no-print">
 
-            <div class="workspace-banner">
+            <div class="teacher-banner">
 
-                <div>
-                    <h2>Teacher Registration Workspace</h2>
+                <h2>Teacher Workspace</h2>
 
-                    <p>
-                        Student registration submissions will appear here for authorized
-                        teachers. Teachers can review the complete submission, documents,
-                        payment receipt, and registration status.
-                    </p>
-                </div>
+                <p>
+                    Teachers manage only their assigned classes and students.
+                    Registration submissions are automatically connected to
+                    the teacher responsible for the student's class.
+                </p>
 
-                <div class="year-chip">
+                <div class="active-class">
+                    <i data-lucide="calendar-days" size="13"></i>
                     Active School Year: 2026–2027
                 </div>
 
             </div>
 
 
-            <!-- Registration Summary -->
+            <!-- MY CLASSES -->
 
-            <div class="summary-grid">
+            <div class="section-header">
 
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="inbox" size="19"></i>
-                    </div>
+                <div>
+                    <div class="section-title">My Classes</div>
 
-                    <div>
-                        <h3 id="pendingCount">—</h3>
-                        <p>Pending Review</p>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="file-check-2" size="19"></i>
-                    </div>
-
-                    <div>
-                        <h3 id="approvedCount">—</h3>
-                        <p>Approved</p>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="file-warning" size="19"></i>
-                    </div>
-
-                    <div>
-                        <h3 id="incompleteCount">—</h3>
-                        <p>Needs Review</p>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-icon">
-                        <i data-lucide="file-x-2" size="19"></i>
-                    </div>
-
-                    <div>
-                        <h3 id="rejectedCount">—</h3>
-                        <p>Rejected</p>
+                    <div class="section-description">
+                        Only classes assigned to the logged-in teacher appear here.
                     </div>
                 </div>
 
             </div>
 
+            <div class="class-grid" id="classGrid">
 
-            <!-- Registration Inbox -->
-
-            <div class="panel">
-
-                <div class="panel-header">
-
-                    <div>
-                        <div class="panel-title">Student Registration Submissions</div>
-
-                        <div class="panel-subtitle">
-                            All student submissions assigned to the authorized teacher.
-                        </div>
+                <div class="empty" style="grid-column:1/-1;background:white;border:1px solid #e4eaf1;border-radius:10px;">
+                    <div class="empty-icon">
+                        <i data-lucide="layers" size="20"></i>
                     </div>
 
-                    <button class="btn btn-secondary" onclick="refreshSubmissions()">
-                        <i data-lucide="refresh-cw" size="14"></i>
-                        Refresh
+                    <h3>No assigned classes</h3>
+
+                    <p>
+                        Classes assigned to the teacher will appear here.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             MY STUDENTS
+        =================================================== -->
+
+        <section class="section" id="printSection">
+
+            <div class="print-heading">
+
+                <h1>School Student List</h1>
+
+                <p id="printClassText">
+                    Student list
+                </p>
+
+            </div>
+
+            <div class="section-header no-print">
+
+                <div>
+
+                    <div class="section-title">My Students</div>
+
+                    <div class="section-description">
+                        Students belonging to the teacher's assigned classes.
+                    </div>
+
+                </div>
+
+                <div style="display:flex;gap:7px;flex-wrap:wrap;">
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="preparePrint()"
+                    >
+
+                        <i data-lucide="printer" size="14"></i>
+                        Prepare for Print
+
+                    </button>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="openStudentModal()"
+                    >
+
+                        <i data-lucide="user-plus" size="14"></i>
+                        Add Student
+
                     </button>
 
                 </div>
 
-                <div class="toolbar">
+            </div>
 
-                    <div class="search-box">
-                        <i data-lucide="search" size="15"></i>
+            <div class="panel">
+
+                <div class="toolbar no-print">
+
+                    <div class="search">
+
+                        <i data-lucide="search" size="14"></i>
 
                         <input
+                            id="studentSearch"
                             type="text"
-                            id="submissionSearch"
-                            placeholder="Search student name or ID..."
-                            oninput="filterSubmissions()"
+                            placeholder="Search student..."
+                            oninput="filterStudents()"
                         >
+
                     </div>
 
                     <select
                         class="select"
-                        id="gradeFilter"
-                        onchange="filterSubmissions()"
+                        id="studentClassFilter"
+                        onchange="filterStudents()"
                     >
-                        <option value="all">All Grades</option>
-                        <option value="9">Grade 9</option>
-                        <option value="10">Grade 10</option>
-                        <option value="11NS">Grade 11 NS</option>
-                        <option value="11SS">Grade 11 SS</option>
-                        <option value="12NS">Grade 12 NS</option>
-                        <option value="12SS">Grade 12 SS</option>
+
+                        <option value="all">All My Classes</option>
+
                     </select>
 
                     <select
                         class="select"
-                        id="registrationFilter"
+                        id="studentStatusFilter"
+                        onchange="filterStudents()"
+                    >
+
+                        <option value="all">All Registration Status</option>
+                        <option value="not_submitted">Not Submitted</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="incomplete">Needs Review</option>
+                        <option value="rejected">Rejected</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table id="studentTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>No.</th>
+                                <th>Student Name</th>
+                                <th>Administration No. / Student ID</th>
+                                <th>Grade</th>
+                                <th>Class</th>
+                                <th>Registration</th>
+                                <th class="no-print">Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="studentTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div class="empty" id="studentEmpty">
+
+                    <div class="empty-icon">
+                        <i data-lucide="graduation-cap" size="20"></i>
+                    </div>
+
+                    <h3>No students yet</h3>
+
+                    <p>
+                        Students added by the teacher will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             REGISTRATION SUBMISSIONS
+        =================================================== -->
+
+        <section class="section no-print">
+
+            <div class="section-header">
+
+                <div>
+
+                    <div class="section-title">
+                        Registration Submissions
+                    </div>
+
+                    <div class="section-description">
+                        Only submissions from students in your assigned classes appear here.
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="refreshSubmissions()"
+                >
+
+                    <i data-lucide="refresh-cw" size="14"></i>
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="toolbar">
+
+                    <div class="search">
+
+                        <i data-lucide="search" size="14"></i>
+
+                        <input
+                            id="submissionSearch"
+                            type="text"
+                            placeholder="Search submission..."
+                            oninput="filterSubmissions()"
+                        >
+
+                    </div>
+
+                    <select
+                        class="select"
+                        id="submissionStatusFilter"
                         onchange="filterSubmissions()"
                     >
+
                         <option value="all">All Registration Status</option>
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
                         <option value="incomplete">Needs Review</option>
                         <option value="rejected">Rejected</option>
+
                     </select>
 
                     <select
                         class="select"
-                        id="paymentFilter"
+                        id="paymentStatusFilter"
                         onchange="filterSubmissions()"
                     >
+
                         <option value="all">All Payment Status</option>
                         <option value="pending">Payment Pending</option>
-                        <option value="verified">Payment Verified</option>
-                        <option value="rejected">Payment Rejected</option>
+                        <option value="verified">Verified</option>
+                        <option value="rejected">Rejected</option>
+
                     </select>
 
                 </div>
+
 
                 <div class="table-wrapper">
 
@@ -1216,15 +1413,17 @@
                         <thead>
 
                             <tr>
+
                                 <th>No.</th>
-                                <th>Student Name</th>
+                                <th>Student</th>
                                 <th>Grade</th>
                                 <th>Class</th>
-                                <th>Student Type</th>
+                                <th>Type</th>
                                 <th>Registration</th>
                                 <th>Payment</th>
                                 <th>Submitted</th>
                                 <th>Action</th>
+
                             </tr>
 
                         </thead>
@@ -1235,17 +1434,18 @@
 
                 </div>
 
-                <div class="empty-state" id="submissionEmptyState">
+
+                <div class="empty" id="submissionEmpty">
 
                     <div class="empty-icon">
-                        <i data-lucide="inbox" size="22"></i>
+                        <i data-lucide="inbox" size="20"></i>
                     </div>
 
                     <h3>No registration submissions</h3>
 
                     <p>
-                        Student registration submissions will appear here after students
-                        complete and submit their registration.
+                        Student submissions will appear here after students
+                        complete their registration.
                     </p>
 
                 </div>
@@ -1259,20 +1459,20 @@
 </main>
 
 
-<!-- ================= ADD TEACHER MODAL ================= -->
+<!-- ==================================================
+     ADD TEACHER MODAL
+=================================================== -->
 
-<div class="modal-backdrop" id="teacherModal">
+<div class="modal-bg" id="teacherModal">
 
     <div class="modal">
 
         <div class="modal-header">
 
-            <div>
-                <h2>Add Teacher</h2>
-            </div>
+            <h2>Add Teacher</h2>
 
-            <button class="close-btn" onclick="closeTeacherModal()">
-                <i data-lucide="x" size="17"></i>
+            <button class="close" onclick="closeTeacherModal()">
+                <i data-lucide="x" size="16"></i>
             </button>
 
         </div>
@@ -1284,37 +1484,56 @@
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label>Username</label>
+
+                        <label>
+                            Username <span class="required">*</span>
+                        </label>
 
                         <input
                             class="form-control"
-                            id="newTeacherUsername"
+                            id="teacherUsername"
                             type="text"
-                            placeholder="Enter teacher username"
                             required
+                            placeholder="Teacher username"
                         >
+
                     </div>
 
                     <div class="form-group">
-                        <label>6-Digit PIN</label>
+
+                        <label>
+                            6-Digit PIN <span class="required">*</span>
+                        </label>
 
                         <input
                             class="form-control"
-                            id="newTeacherPin"
+                            id="teacherPin"
                             type="password"
                             inputmode="numeric"
                             maxlength="6"
-                            placeholder="Enter 6-digit PIN"
                             required
+                            placeholder="6-digit PIN"
                         >
+
                     </div>
 
                     <div class="form-group full">
-                        <label>Assign Class</label>
 
-                        <select class="form-control" id="newTeacherClass">
-                            <option value="">Select class</option>
+                        <label>
+                            Assign Class
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="teacherClass"
+                        >
+
+                            <option value="">
+                                Select class
+                            </option>
+
                         </select>
+
                     </div>
 
                 </div>
@@ -1331,8 +1550,10 @@
                     Cancel
                 </button>
 
-                <button type="submit" class="btn btn-primary">
-                    <i data-lucide="user-plus" size="14"></i>
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
                     Create Teacher
                 </button>
 
@@ -1345,20 +1566,267 @@
 </div>
 
 
-<!-- ================= SUBMISSION DETAILS MODAL ================= -->
+<!-- ==================================================
+     ADD STUDENT MODAL
+=================================================== -->
 
-<div class="modal-backdrop" id="submissionModal">
+<div class="modal-bg" id="studentModal">
 
     <div class="modal">
 
         <div class="modal-header">
 
-            <div>
-                <h2>Registration Submission</h2>
+            <h2>Add Student</h2>
+
+            <button class="close" onclick="closeStudentModal()">
+                <i data-lucide="x" size="16"></i>
+            </button>
+
+        </div>
+
+        <form id="studentForm">
+
+            <div class="modal-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label>
+                            Full Name <span class="required">*</span>
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="studentName"
+                            type="text"
+                            required
+                            placeholder="Student full name"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Grade <span class="required">*</span>
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="studentGrade"
+                            required
+                        >
+
+                            <option value="">
+                                Select grade
+                            </option>
+
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11NS">Grade 11 NS</option>
+                            <option value="11SS">Grade 11 SS</option>
+                            <option value="12NS">Grade 12 NS</option>
+                            <option value="12SS">Grade 12 SS</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Class <span class="required">*</span>
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="studentClass"
+                            required
+                        >
+
+                            <option value="">
+                                Select assigned class
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Administration Number / Student ID
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="studentNumber"
+                            type="text"
+                            placeholder="Enter number"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Student Type <span class="required">*</span>
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="studentType"
+                            required
+                        >
+
+                            <option value="">
+                                Select type
+                            </option>
+
+                            <option value="new">
+                                New Student
+                            </option>
+
+                            <option value="returning">
+                                Returning Student
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Date of Birth
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="studentDob"
+                            type="date"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Gender
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="studentGender"
+                        >
+
+                            <option value="">
+                                Select gender
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="studentPhone"
+                            type="tel"
+                            placeholder="Parent/guardian phone"
+                        >
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>
+                            Parent / Guardian
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="studentGuardian"
+                            type="text"
+                            placeholder="Parent or guardian name"
+                        >
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>
+                            Address
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="studentAddress"
+                            placeholder="Student address"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <button class="close-btn" onclick="closeSubmissionModal()">
-                <i data-lucide="x" size="17"></i>
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="closeStudentModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Save Student
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     STUDENT DETAILS / SUBMISSION MODAL
+=================================================== -->
+
+<div class="modal-bg" id="detailsModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2 id="detailsTitle">
+                Student Details
+            </h2>
+
+            <button class="close" onclick="closeDetailsModal()">
+                <i data-lucide="x" size="16"></i>
             </button>
 
         </div>
@@ -1367,52 +1835,52 @@
 
             <div class="detail-grid">
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Student Name</span>
                     <strong id="detailName">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Student Type</span>
                     <strong id="detailType">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Grade</span>
                     <strong id="detailGrade">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Class</span>
                     <strong id="detailClass">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Administration Number / Student ID</span>
-                    <strong id="detailStudentId">—</strong>
+                    <strong id="detailNumber">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Date of Birth</span>
                     <strong id="detailDob">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Gender</span>
                     <strong id="detailGender">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Phone</span>
                     <strong id="detailPhone">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Parent / Guardian</span>
                     <strong id="detailGuardian">—</strong>
                 </div>
 
-                <div class="detail-item">
+                <div class="detail">
                     <span>Address</span>
                     <strong id="detailAddress">—</strong>
                 </div>
@@ -1420,73 +1888,84 @@
             </div>
 
 
-            <!-- Academic Document -->
+            <!-- Documents -->
 
-            <div class="document-box">
+            <div class="document">
 
-                <div class="document-info">
+                <div class="document-left">
 
                     <div class="document-icon">
-                        <i data-lucide="file-text" size="18"></i>
+                        <i data-lucide="file-text" size="17"></i>
                     </div>
 
-                    <div>
+                    <div class="document-name">
+
                         <strong>Academic Document</strong>
-                        <span id="academicDocumentName">
+
+                        <span id="academicFile">
                             No document submitted
                         </span>
+
                     </div>
 
                 </div>
 
-                <button class="btn btn-secondary" onclick="openDocument('academic')">
-                    <i data-lucide="external-link" size="14"></i>
+                <button
+                    class="btn btn-secondary btn-small"
+                    onclick="viewDocument('academic')"
+                >
                     View
                 </button>
 
             </div>
 
 
-            <!-- Payment Receipt -->
+            <div class="document">
 
-            <div class="document-box">
-
-                <div class="document-info">
+                <div class="document-left">
 
                     <div class="document-icon">
-                        <i data-lucide="receipt" size="18"></i>
+                        <i data-lucide="receipt" size="17"></i>
                     </div>
 
-                    <div>
+                    <div class="document-name">
+
                         <strong>Payment Receipt</strong>
-                        <span id="paymentReceiptName">
+
+                        <span id="paymentFile">
                             No receipt submitted
                         </span>
+
                     </div>
 
                 </div>
 
-                <button class="btn btn-secondary" onclick="openDocument('payment')">
-                    <i data-lucide="external-link" size="14"></i>
+                <button
+                    class="btn btn-secondary btn-small"
+                    onclick="viewDocument('payment')"
+                >
                     View
                 </button>
 
             </div>
 
 
-            <!-- Status Controls -->
+            <!-- Review controls -->
 
-            <div class="status-controls">
-
-                <h3>Teacher Review</h3>
+            <div style="margin-top:18px;padding-top:16px;border-top:1px solid #e7ecf2;">
 
                 <div class="form-grid">
 
                     <div class="form-group">
 
-                        <label>Registration Status</label>
+                        <label>
+                            Registration Status
+                        </label>
 
-                        <select class="form-control" id="detailRegistrationStatus">
+                        <select
+                            class="form-control"
+                            id="reviewRegistrationStatus"
+                        >
 
                             <option value="pending">
                                 Pending
@@ -1511,9 +1990,14 @@
 
                     <div class="form-group">
 
-                        <label>Payment Status</label>
+                        <label>
+                            Payment Status
+                        </label>
 
-                        <select class="form-control" id="detailPaymentStatus">
+                        <select
+                            class="form-control"
+                            id="reviewPaymentStatus"
+                        >
 
                             <option value="pending">
                                 Payment Pending
@@ -1534,12 +2018,14 @@
 
                     <div class="form-group full">
 
-                        <label>Teacher Note</label>
+                        <label>
+                            Teacher Note
+                        </label>
 
                         <textarea
                             class="form-control"
-                            id="teacherNote"
-                            placeholder="Optional note about this registration..."
+                            id="reviewNote"
+                            placeholder="Optional review note..."
                         ></textarea>
 
                     </div>
@@ -1550,20 +2036,21 @@
 
         </div>
 
+
         <div class="modal-footer">
 
             <button
                 class="btn btn-secondary"
-                onclick="closeSubmissionModal()"
+                onclick="closeDetailsModal()"
             >
                 Close
             </button>
 
             <button
                 class="btn btn-primary"
-                onclick="saveSubmissionReview()"
+                onclick="saveReview()"
             >
-                <i data-lucide="save" size="14"></i>
+                <i data-lucide="save" size="13"></i>
                 Save Review
             </button>
 
@@ -1576,683 +2063,1055 @@
 
 <script>
 
-    /* =========================================================
-       DATA
-       These arrays intentionally start empty.
-       Supabase will populate them later.
-    ========================================================= */
+/* =========================================================
+   TEMPORARY UI DATA
 
-    let teachers = [];
+   These arrays intentionally start empty.
+   Supabase will populate them later.
+========================================================= */
 
-    let submissions = [];
+let teachers = [];
+let assignedClasses = [];
+let students = [];
+let submissions = [];
 
-    let selectedSubmission = null;
+let selectedRecord = null;
 
 
-    /* =========================================================
-       SIDEBAR
-    ========================================================= */
+/* =========================================================
+   SIDEBAR
+========================================================= */
 
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
-    const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 
-    menuBtn.addEventListener("click", () => {
-        sidebar.classList.add("open");
-        overlay.classList.add("show");
-    });
+document.getElementById("menuBtn").addEventListener("click", () => {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+});
 
-    overlay.addEventListener("click", closeSidebar);
+overlay.addEventListener("click", closeSidebar);
 
-    function closeSidebar() {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("show");
+function closeSidebar() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+}
+
+document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape") {
+        closeSidebar();
+        closeAllModals();
     }
 
-    document.addEventListener("keydown", (event) => {
+});
 
-        if (event.key === "Escape") {
-            closeSidebar();
-            closeTeacherModal();
-            closeSubmissionModal();
-        }
+
+/* =========================================================
+   ADMIN TEACHERS
+========================================================= */
+
+function renderTeachers(list = teachers) {
+
+    const table = document.getElementById("teacherTable");
+    const empty = document.getElementById("teacherEmpty");
+
+    table.innerHTML = "";
+
+    if (!list.length) {
+        empty.style.display = "block";
+        return;
+    }
+
+    empty.style.display = "none";
+
+    list.forEach((teacher, index) => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${index + 1}</td>
+
+            <td>
+                <strong>${escapeHTML(teacher.username)}</strong>
+            </td>
+
+            <td>
+                ${escapeHTML(teacher.className || "Not assigned")}
+            </td>
+
+            <td>
+                <span class="badge ${
+                    teacher.status === "disabled"
+                    ? "badge-rejected"
+                    : "badge-approved"
+                }">
+                    ${
+                        teacher.status === "disabled"
+                        ? "Disabled"
+                        : "Active"
+                    }
+                </span>
+            </td>
+
+            <td>
+                <button
+                    class="btn btn-secondary btn-small"
+                    onclick="manageTeacher('${teacher.id}')"
+                >
+                    <i data-lucide="settings" size="12"></i>
+                    Manage
+                </button>
+            </td>
+        `;
+
+        table.appendChild(row);
 
     });
 
+    lucide.createIcons();
+}
 
-    /* =========================================================
-       TEACHER ACCOUNT TABLE
-    ========================================================= */
 
-    function renderTeachers(list = teachers) {
+function filterTeachers() {
 
-        const tbody = document.getElementById("teacherTableBody");
-        const empty = document.getElementById("teacherEmptyState");
+    const search =
+        document.getElementById("teacherSearch")
+        .value
+        .toLowerCase();
 
-        tbody.innerHTML = "";
+    const status =
+        document.getElementById("teacherStatus")
+        .value;
 
-        if (!list.length) {
+    const filtered = teachers.filter(teacher => {
 
-            empty.style.display = "block";
-            return;
+        const matchesSearch =
+            teacher.username
+            .toLowerCase()
+            .includes(search);
 
-        }
+        const matchesStatus =
+            status === "all"
+            || teacher.status === status;
 
-        empty.style.display = "none";
+        return matchesSearch && matchesStatus;
 
-        list.forEach((teacher, index) => {
+    });
 
-            const row = document.createElement("tr");
+    renderTeachers(filtered);
+}
 
-            row.innerHTML = `
 
-                <td>${index + 1}</td>
+function manageTeacher(id) {
 
-                <td>
-                    <strong>${escapeHTML(teacher.username)}</strong>
-                </td>
+    /*
+        Supabase will later provide:
+        - Change PIN
+        - Assign/change class
+        - Disable account
+        - Remove account
+    */
 
-                <td>
-                    ${escapeHTML(teacher.className || "Not assigned")}
-                </td>
+    alert(
+        "Teacher management will be connected to the database later."
+    );
+}
 
-                <td>
 
-                    <span class="badge ${
-                        teacher.status === "active"
-                        ? "badge-approved"
-                        : "badge-rejected"
-                    }">
+/* =========================================================
+   TEACHER MODAL
+========================================================= */
 
-                        ${
-                            teacher.status === "active"
-                            ? "Active"
-                            : "Disabled"
-                        }
+function openTeacherModal() {
+    document.getElementById("teacherModal")
+        .classList.add("show");
+}
 
-                    </span>
+function closeTeacherModal() {
+    document.getElementById("teacherModal")
+        .classList.remove("show");
+}
 
-                </td>
+document.getElementById("teacherPin").addEventListener("input", function() {
 
-                <td>
+    this.value = this.value
+        .replace(/\D/g, "")
+        .slice(0, 6);
 
-                    <button
-                        class="btn btn-secondary"
-                        onclick="manageTeacher('${teacher.id}')"
-                    >
+});
 
-                        <i data-lucide="settings" size="13"></i>
-                        Manage
 
-                    </button>
+document.getElementById("teacherForm")
+.addEventListener("submit", event => {
 
-                </td>
+    event.preventDefault();
 
-            `;
+    const username =
+        document.getElementById("teacherUsername")
+        .value
+        .trim();
 
-            tbody.appendChild(row);
+    const pin =
+        document.getElementById("teacherPin")
+        .value;
 
-        });
+    if (!username) {
+        alert("Enter a teacher username.");
+        return;
+    }
+
+    if (!/^\d{6}$/.test(pin)) {
+        alert("PIN must contain exactly 6 digits.");
+        return;
+    }
+
+    /*
+        Supabase INSERT will be added later.
+    */
+
+    alert(
+        "Teacher form is ready. Database connection will be added later."
+    );
+
+    event.target.reset();
+    closeTeacherModal();
+
+});
+
+
+/* =========================================================
+   ASSIGNED CLASSES
+========================================================= */
+
+function renderClasses() {
+
+    const grid =
+        document.getElementById("classGrid");
+
+    if (!assignedClasses.length) {
+
+        grid.innerHTML = `
+            <div class="empty"
+                 style="grid-column:1/-1;background:white;border:1px solid #e4eaf1;border-radius:10px;">
+
+                <div class="empty-icon">
+                    <i data-lucide="layers" size="20"></i>
+                </div>
+
+                <h3>No assigned classes</h3>
+
+                <p>
+                    Classes assigned to the teacher will appear here.
+                </p>
+
+            </div>
+        `;
 
         lucide.createIcons();
+        return;
+    }
+
+    grid.innerHTML = "";
+
+    assignedClasses.forEach(classItem => {
+
+        const studentCount =
+            students.filter(
+                student => student.className === classItem.name
+            ).length;
+
+        const card =
+            document.createElement("div");
+
+        card.className = "class-card";
+
+        card.innerHTML = `
+
+            <div class="class-card-top">
+
+                <div class="class-name">
+                    ${escapeHTML(classItem.name)}
+                </div>
+
+                <div class="class-icon">
+                    <i data-lucide="layers" size="17"></i>
+                </div>
+
+            </div>
+
+            <div class="class-info">
+                ${studentCount} student(s)
+            </div>
+
+            <button
+                class="btn btn-secondary btn-small"
+                onclick="selectClass('${escapeHTML(classItem.name)}')"
+            >
+                View Students
+            </button>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+    lucide.createIcons();
+
+    populateClassFilters();
+}
+
+
+function populateClassFilters() {
+
+    const studentClass =
+        document.getElementById("studentClass");
+
+    const filter =
+        document.getElementById("studentClassFilter");
+
+    const teacherClass =
+        document.getElementById("teacherClass");
+
+    studentClass.innerHTML =
+        `<option value="">Select assigned class</option>`;
+
+    filter.innerHTML =
+        `<option value="all">All My Classes</option>`;
+
+    teacherClass.innerHTML =
+        `<option value="">Select class</option>`;
+
+    assignedClasses.forEach(classItem => {
+
+        const option1 =
+            document.createElement("option");
+
+        option1.value = classItem.name;
+        option1.textContent = classItem.name;
+
+        studentClass.appendChild(option1);
+
+        const option2 =
+            document.createElement("option");
+
+        option2.value = classItem.name;
+        option2.textContent = classItem.name;
+
+        filter.appendChild(option2);
+
+        const option3 =
+            document.createElement("option");
+
+        option3.value = classItem.name;
+        option3.textContent = classItem.name;
+
+        teacherClass.appendChild(option3);
+
+    });
+
+}
+
+
+function selectClass(className) {
+
+    document.getElementById("studentClassFilter").value =
+        className;
+
+    filterStudents();
+
+    document.getElementById("printClassText").textContent =
+        "Class: " + className;
+
+    document.getElementById("studentTable")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* =========================================================
+   ADD STUDENT
+========================================================= */
+
+function openStudentModal() {
+
+    document.getElementById("studentModal")
+        .classList.add("show");
+
+}
+
+
+function closeStudentModal() {
+
+    document.getElementById("studentModal")
+        .classList.remove("show");
+
+}
+
+
+document.getElementById("studentForm")
+.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById("studentName")
+        .value
+        .trim();
+
+    const grade =
+        document.getElementById("studentGrade")
+        .value;
+
+    const className =
+        document.getElementById("studentClass")
+        .value;
+
+    const studentType =
+        document.getElementById("studentType")
+        .value;
+
+    if (!name || !grade || !className || !studentType) {
+
+        alert("Please complete the required fields.");
+        return;
 
     }
 
+    /*
+        Important:
+        This student will eventually be inserted into Supabase.
 
-    function filterTeachers() {
+        The teacher's authenticated account determines
+        which classes they are allowed to select.
 
-        const search =
-            document.getElementById("teacherSearch")
-            .value
-            .toLowerCase()
-            .trim();
+        The student will then become eligible for
+        public registration.
+    */
 
-        const status =
-            document.getElementById("teacherStatusFilter")
-            .value;
+    alert(
+        "Student form is ready. Database connection will be added later."
+    );
 
-        const filtered = teachers.filter(teacher => {
+    event.target.reset();
+    closeStudentModal();
+
+});
+
+
+/* =========================================================
+   STUDENT LIST
+========================================================= */
+
+function renderStudents(list = students) {
+
+    const tbody =
+        document.getElementById("studentTableBody");
+
+    const empty =
+        document.getElementById("studentEmpty");
+
+    tbody.innerHTML = "";
+
+    if (!list.length) {
+
+        empty.style.display = "block";
+        return;
+
+    }
+
+    empty.style.display = "none";
+
+    list.forEach((student, index) => {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>
+                <strong>
+                    ${escapeHTML(student.name)}
+                </strong>
+            </td>
+
+            <td>
+                ${escapeHTML(student.studentNumber || "—")}
+            </td>
+
+            <td>
+                ${escapeHTML(student.grade)}
+            </td>
+
+            <td>
+                ${escapeHTML(student.className)}
+            </td>
+
+            <td>
+                <span class="badge ${
+                    registrationBadge(student.registrationStatus)
+                }">
+                    ${formatRegistration(student.registrationStatus)}
+                </span>
+            </td>
+
+            <td class="no-print">
+
+                <button
+                    class="btn btn-secondary btn-small"
+                    onclick="viewStudent('${student.id}')"
+                >
+
+                    <i data-lucide="eye" size="12"></i>
+                    View
+
+                </button>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(row);
+
+    });
+
+    lucide.createIcons();
+
+}
+
+
+function filterStudents() {
+
+    const search =
+        document.getElementById("studentSearch")
+        .value
+        .toLowerCase();
+
+    const classFilter =
+        document.getElementById("studentClassFilter")
+        .value;
+
+    const statusFilter =
+        document.getElementById("studentStatusFilter")
+        .value;
+
+    const filtered =
+        students.filter(student => {
 
             const matchesSearch =
-                teacher.username
+                student.name
+                .toLowerCase()
+                .includes(search)
+                ||
+                (student.studentNumber || "")
                 .toLowerCase()
                 .includes(search);
 
+            const matchesClass =
+                classFilter === "all"
+                ||
+                student.className === classFilter;
+
             const matchesStatus =
-                status === "all"
-                || teacher.status === status;
+                statusFilter === "all"
+                ||
+                student.registrationStatus === statusFilter;
 
-            return matchesSearch && matchesStatus;
-
-        });
-
-        renderTeachers(filtered);
-
-    }
-
-
-    function updateTeacherSummary() {
-
-        document.getElementById("teacherCount").textContent =
-            teachers.length || "—";
-
-        document.getElementById("activeTeacherCount").textContent =
-            teachers.filter(t => t.status === "active").length || "—";
-
-        document.getElementById("disabledTeacherCount").textContent =
-            teachers.filter(t => t.status === "disabled").length || "—";
-
-    }
-
-
-    /* =========================================================
-       ADD TEACHER
-    ========================================================= */
-
-    function openTeacherModal() {
-
-        document.getElementById("teacherModal")
-            .classList.add("show");
-
-    }
-
-
-    function closeTeacherModal() {
-
-        document.getElementById("teacherModal")
-            .classList.remove("show");
-
-    }
-
-
-    document
-        .getElementById("newTeacherPin")
-        .addEventListener("input", function() {
-
-            this.value =
-                this.value
-                .replace(/\D/g, "")
-                .slice(0, 6);
-
-        });
-
-
-    document
-        .getElementById("teacherForm")
-        .addEventListener("submit", function(event) {
-
-            event.preventDefault();
-
-            const username =
-                document
-                .getElementById("newTeacherUsername")
-                .value
-                .trim();
-
-            const pin =
-                document
-                .getElementById("newTeacherPin")
-                .value;
-
-            if (!username) {
-
-                alert("Enter a teacher username.");
-                return;
-
-            }
-
-            if (!/^\d{6}$/.test(pin)) {
-
-                alert("Teacher PIN must contain exactly 6 digits.");
-                return;
-
-            }
-
-            /*
-                Supabase insertion will be connected here later.
-
-                No fake teacher is added locally.
-            */
-
-            alert(
-                "Teacher form is ready. Database connection will be added later."
+            return (
+                matchesSearch
+                &&
+                matchesClass
+                &&
+                matchesStatus
             );
 
-            this.reset();
-            closeTeacherModal();
-
         });
 
+    renderStudents(filtered);
 
-    function manageTeacher(id) {
-
-        /*
-            Future Supabase implementation:
-            - Change PIN
-            - Change assigned class
-            - Disable account
-            - Remove account
-        */
-
-        alert(
-            "Teacher management actions will be connected to Supabase later."
-        );
-
-    }
+}
 
 
-    /* =========================================================
-       REGISTRATION SUBMISSIONS
-    ========================================================= */
+/* =========================================================
+   REGISTRATION SUBMISSIONS
+========================================================= */
 
-    function renderSubmissions(list = submissions) {
+function renderSubmissions(list = submissions) {
 
-        const tbody =
-            document.getElementById("submissionTableBody");
+    const tbody =
+        document.getElementById("submissionTableBody");
 
-        const empty =
-            document.getElementById("submissionEmptyState");
+    const empty =
+        document.getElementById("submissionEmpty");
 
-        tbody.innerHTML = "";
+    tbody.innerHTML = "";
 
-        if (!list.length) {
+    if (!list.length) {
 
-            empty.style.display = "block";
-            return;
-
-        }
-
-        empty.style.display = "none";
-
-        list.forEach((submission, index) => {
-
-            const row =
-                document.createElement("tr");
-
-            row.innerHTML = `
-
-                <td>${index + 1}</td>
-
-                <td>
-                    <strong>
-                        ${escapeHTML(submission.name)}
-                    </strong>
-                </td>
-
-                <td>
-                    ${escapeHTML(submission.grade)}
-                </td>
-
-                <td>
-                    ${escapeHTML(submission.className || "—")}
-                </td>
-
-                <td>
-                    ${escapeHTML(submission.type)}
-                </td>
-
-                <td>
-
-                    <span class="badge ${
-                        getRegistrationBadge(submission.registrationStatus)
-                    }">
-
-                        ${formatStatus(submission.registrationStatus)}
-
-                    </span>
-
-                </td>
-
-                <td>
-
-                    <span class="badge ${
-                        getPaymentBadge(submission.paymentStatus)
-                    }">
-
-                        ${formatPaymentStatus(submission.paymentStatus)}
-
-                    </span>
-
-                </td>
-
-                <td>
-                    ${escapeHTML(submission.submitted || "—")}
-                </td>
-
-                <td>
-
-                    <button
-                        class="btn btn-secondary"
-                        onclick="viewSubmission('${submission.id}')"
-                    >
-
-                        <i data-lucide="eye" size="13"></i>
-                        Review
-
-                    </button>
-
-                </td>
-
-            `;
-
-            tbody.appendChild(row);
-
-        });
-
-        lucide.createIcons();
+        empty.style.display = "block";
+        return;
 
     }
 
+    empty.style.display = "none";
 
-    function filterSubmissions() {
+    list.forEach((submission, index) => {
 
-        const search =
-            document
-            .getElementById("submissionSearch")
-            .value
-            .toLowerCase()
-            .trim();
+        const row =
+            document.createElement("tr");
 
-        const grade =
-            document
-            .getElementById("gradeFilter")
-            .value;
+        row.innerHTML = `
 
-        const registration =
-            document
-            .getElementById("registrationFilter")
-            .value;
+            <td>${index + 1}</td>
 
-        const payment =
-            document
-            .getElementById("paymentFilter")
-            .value;
+            <td>
+                <strong>
+                    ${escapeHTML(submission.name)}
+                </strong>
+            </td>
 
-        const filtered =
-            submissions.filter(item => {
+            <td>
+                ${escapeHTML(submission.grade)}
+            </td>
 
-                const matchesSearch =
-                    item.name.toLowerCase().includes(search)
-                    ||
-                    (item.studentId || "")
-                    .toLowerCase()
-                    .includes(search);
+            <td>
+                ${escapeHTML(submission.className)}
+            </td>
 
-                const matchesGrade =
-                    grade === "all"
-                    || item.grade === grade;
+            <td>
+                ${escapeHTML(submission.type)}
+            </td>
 
-                const matchesRegistration =
-                    registration === "all"
-                    || item.registrationStatus === registration;
+            <td>
 
-                const matchesPayment =
-                    payment === "all"
-                    || item.paymentStatus === payment;
+                <span class="badge ${
+                    registrationBadge(
+                        submission.registrationStatus
+                    )
+                }">
 
-                return (
-                    matchesSearch
-                    &&
-                    matchesGrade
-                    &&
-                    matchesRegistration
-                    &&
-                    matchesPayment
-                );
+                    ${formatRegistration(
+                        submission.registrationStatus
+                    )}
 
-            });
+                </span>
 
-        renderSubmissions(filtered);
+            </td>
 
-    }
+            <td>
 
+                <span class="badge ${
+                    paymentBadge(
+                        submission.paymentStatus
+                    )
+                }">
 
-    function updateSubmissionSummary() {
+                    ${formatPayment(
+                        submission.paymentStatus
+                    )}
 
-        document.getElementById("submissionCount").textContent =
-            submissions.length || "—";
+                </span>
 
-        document.getElementById("pendingCount").textContent =
-            submissions.filter(
-                s => s.registrationStatus === "pending"
-            ).length || "—";
+            </td>
 
-        document.getElementById("approvedCount").textContent =
-            submissions.filter(
-                s => s.registrationStatus === "approved"
-            ).length || "—";
+            <td>
+                ${escapeHTML(
+                    submission.submitted || "—"
+                )}
+            </td>
 
-        document.getElementById("incompleteCount").textContent =
-            submissions.filter(
-                s => s.registrationStatus === "incomplete"
-            ).length || "—";
+            <td>
 
-        document.getElementById("rejectedCount").textContent =
-            submissions.filter(
-                s => s.registrationStatus === "rejected"
-            ).length || "—";
+                <button
+                    class="btn btn-secondary btn-small"
+                    onclick="viewSubmission('${submission.id}')"
+                >
 
-    }
+                    <i data-lucide="eye" size="12"></i>
+                    Review
 
+                </button>
 
-    /* =========================================================
-       VIEW SUBMISSION
-    ========================================================= */
+            </td>
 
-    function viewSubmission(id) {
+        `;
 
-        const submission =
-            submissions.find(item => item.id === id);
+        tbody.appendChild(row);
 
-        if (!submission) return;
-
-        selectedSubmission = submission;
-
-        document.getElementById("detailName").textContent =
-            submission.name || "—";
-
-        document.getElementById("detailType").textContent =
-            submission.type || "—";
-
-        document.getElementById("detailGrade").textContent =
-            submission.grade || "—";
-
-        document.getElementById("detailClass").textContent =
-            submission.className || "—";
-
-        document.getElementById("detailStudentId").textContent =
-            submission.studentId || "—";
-
-        document.getElementById("detailDob").textContent =
-            submission.dob || "—";
-
-        document.getElementById("detailGender").textContent =
-            submission.gender || "—";
-
-        document.getElementById("detailPhone").textContent =
-            submission.phone || "—";
-
-        document.getElementById("detailGuardian").textContent =
-            submission.guardian || "—";
-
-        document.getElementById("detailAddress").textContent =
-            submission.address || "—";
-
-        document.getElementById("academicDocumentName").textContent =
-            submission.academicDocument || "No document submitted";
-
-        document.getElementById("paymentReceiptName").textContent =
-            submission.paymentReceipt || "No receipt submitted";
-
-        document.getElementById("detailRegistrationStatus").value =
-            submission.registrationStatus || "pending";
-
-        document.getElementById("detailPaymentStatus").value =
-            submission.paymentStatus || "pending";
-
-        document.getElementById("teacherNote").value =
-            submission.teacherNote || "";
-
-        document
-            .getElementById("submissionModal")
-            .classList.add("show");
-
-    }
-
-
-    function closeSubmissionModal() {
-
-        document
-            .getElementById("submissionModal")
-            .classList.remove("show");
-
-        selectedSubmission = null;
-
-    }
-
-
-    function saveSubmissionReview() {
-
-        if (!selectedSubmission) return;
-
-        /*
-            Supabase update will be connected here later.
-
-            This will eventually update:
-            - registration_status
-            - payment_status
-            - teacher_note
-            - reviewed_by
-            - reviewed_at
-        */
-
-        alert(
-            "Review controls are ready. Database update will be connected later."
-        );
-
-    }
-
-
-    function openDocument(type) {
-
-        /*
-            Actual Supabase Storage document URL
-            will be opened here later.
-        */
-
-        alert(
-            "The uploaded " +
-            (type === "payment"
-                ? "payment receipt"
-                : "academic document") +
-            " will open here after Supabase Storage is connected."
-        );
-
-    }
-
-
-    function refreshSubmissions() {
-
-        /*
-            Future:
-            Load registrations assigned to the
-            logged-in teacher from Supabase.
-        */
-
-        alert(
-            "Registration submissions will refresh from Supabase here."
-        );
-
-    }
-
-
-    /* =========================================================
-       STATUS HELPERS
-    ========================================================= */
-
-    function getRegistrationBadge(status) {
-
-        if (status === "approved")
-            return "badge-approved";
-
-        if (status === "rejected")
-            return "badge-rejected";
-
-        if (status === "incomplete")
-            return "badge-incomplete";
-
-        return "badge-pending";
-
-    }
-
-
-    function getPaymentBadge(status) {
-
-        if (status === "verified")
-            return "badge-approved";
-
-        if (status === "rejected")
-            return "badge-rejected";
-
-        return "badge-pending";
-
-    }
-
-
-    function formatStatus(status) {
-
-        const values = {
-            pending: "Pending",
-            approved: "Approved",
-            incomplete: "Needs Review",
-            rejected: "Rejected"
-        };
-
-        return values[status] || "Pending";
-
-    }
-
-
-    function formatPaymentStatus(status) {
-
-        const values = {
-            pending: "Pending",
-            verified: "Verified",
-            rejected: "Rejected"
-        };
-
-        return values[status] || "Pending";
-
-    }
-
-
-    /* =========================================================
-       SECURITY / DISPLAY HELPER
-    ========================================================= */
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* =========================================================
-       INITIALIZE
-    ========================================================= */
-
-    renderTeachers();
-    renderSubmissions();
-
-    updateTeacherSummary();
-    updateSubmissionSummary();
+    });
 
     lucide.createIcons();
+
+}
+
+
+function filterSubmissions() {
+
+    const search =
+        document.getElementById("submissionSearch")
+        .value
+        .toLowerCase();
+
+    const registration =
+        document.getElementById("submissionStatusFilter")
+        .value;
+
+    const payment =
+        document.getElementById("paymentStatusFilter")
+        .value;
+
+    const filtered =
+        submissions.filter(item => {
+
+            const matchesSearch =
+                item.name
+                .toLowerCase()
+                .includes(search)
+                ||
+                (item.studentNumber || "")
+                .toLowerCase()
+                .includes(search);
+
+            const matchesRegistration =
+                registration === "all"
+                ||
+                item.registrationStatus === registration;
+
+            const matchesPayment =
+                payment === "all"
+                ||
+                item.paymentStatus === payment;
+
+            return (
+                matchesSearch
+                &&
+                matchesRegistration
+                &&
+                matchesPayment
+            );
+
+        });
+
+    renderSubmissions(filtered);
+
+}
+
+
+/* =========================================================
+   VIEW STUDENT / SUBMISSION
+========================================================= */
+
+function viewStudent(id) {
+
+    const student =
+        students.find(item => item.id === id);
+
+    if (!student) return;
+
+    selectedRecord = student;
+
+    fillDetails(student, false);
+
+    document.getElementById("detailsModal")
+        .classList.add("show");
+
+}
+
+
+function viewSubmission(id) {
+
+    const submission =
+        submissions.find(item => item.id === id);
+
+    if (!submission) return;
+
+    selectedRecord = submission;
+
+    fillDetails(submission, true);
+
+    document.getElementById("detailsModal")
+        .classList.add("show");
+
+}
+
+
+function fillDetails(record, isSubmission) {
+
+    document.getElementById("detailsTitle").textContent =
+        isSubmission
+        ? "Registration Submission"
+        : "Student Details";
+
+    document.getElementById("detailName").textContent =
+        record.name || "—";
+
+    document.getElementById("detailType").textContent =
+        record.type || "—";
+
+    document.getElementById("detailGrade").textContent =
+        record.grade || "—";
+
+    document.getElementById("detailClass").textContent =
+        record.className || "—";
+
+    document.getElementById("detailNumber").textContent =
+        record.studentNumber || "—";
+
+    document.getElementById("detailDob").textContent =
+        record.dob || "—";
+
+    document.getElementById("detailGender").textContent =
+        record.gender || "—";
+
+    document.getElementById("detailPhone").textContent =
+        record.phone || "—";
+
+    document.getElementById("detailGuardian").textContent =
+        record.guardian || "—";
+
+    document.getElementById("detailAddress").textContent =
+        record.address || "—";
+
+    document.getElementById("academicFile").textContent =
+        record.academicDocument
+        || "No document submitted";
+
+    document.getElementById("paymentFile").textContent =
+        record.paymentReceipt
+        || "No receipt submitted";
+
+    document.getElementById("reviewRegistrationStatus").value =
+        record.registrationStatus || "pending";
+
+    document.getElementById("reviewPaymentStatus").value =
+        record.paymentStatus || "pending";
+
+    document.getElementById("reviewNote").value =
+        record.teacherNote || "";
+
+}
+
+
+/* =========================================================
+   SAVE REVIEW
+========================================================= */
+
+function saveReview() {
+
+    if (!selectedRecord) return;
+
+    /*
+        Supabase UPDATE will eventually change:
+
+        registration_status
+        payment_status
+        teacher_note
+        reviewed_by
+        reviewed_at
+    */
+
+    alert(
+        "Review is ready to be connected to Supabase."
+    );
+
+}
+
+
+/* =========================================================
+   DOCUMENT VIEW
+========================================================= */
+
+function viewDocument(type) {
+
+    /*
+        Later this will open the real Supabase Storage URL.
+
+        type:
+        academic
+        payment
+    */
+
+    alert(
+        "The uploaded " +
+        (type === "payment"
+            ? "payment receipt"
+            : "academic document") +
+        " will open here after Storage is connected."
+    );
+
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+function refreshSubmissions() {
+
+    /*
+        Later:
+        Load only registrations belonging to
+        students in the authenticated teacher's classes.
+    */
+
+    alert(
+        "Submissions will refresh from Supabase here."
+    );
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+function preparePrint() {
+
+    const classFilter =
+        document.getElementById("studentClassFilter")
+        .value;
+
+    if (classFilter === "all") {
+
+        document.getElementById("printClassText")
+            .textContent =
+            "All students assigned to this teacher";
+
+    } else {
+
+        document.getElementById("printClassText")
+            .textContent =
+            "Class: " + classFilter;
+
+    }
+
+    /*
+        Browser print dialog.
+        User can print or save as PDF.
+    */
+
+    window.print();
+
+}
+
+
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
+
+function closeDetailsModal() {
+
+    document.getElementById("detailsModal")
+        .classList.remove("show");
+
+    selectedRecord = null;
+
+}
+
+
+function closeAllModals() {
+
+    closeTeacherModal();
+    closeStudentModal();
+    closeDetailsModal();
+
+}
+
+
+/* =========================================================
+   STATUS HELPERS
+========================================================= */
+
+function registrationBadge(status) {
+
+    if (status === "approved")
+        return "badge-approved";
+
+    if (status === "rejected")
+        return "badge-rejected";
+
+    if (status === "incomplete")
+        return "badge-review";
+
+    return "badge-pending";
+
+}
+
+
+function paymentBadge(status) {
+
+    if (status === "verified")
+        return "badge-approved";
+
+    if (status === "rejected")
+        return "badge-rejected";
+
+    return "badge-pending";
+
+}
+
+
+function formatRegistration(status) {
+
+    const values = {
+        not_submitted: "Not Submitted",
+        pending: "Pending",
+        approved: "Approved",
+        incomplete: "Needs Review",
+        rejected: "Rejected"
+    };
+
+    return values[status] || "Pending";
+
+}
+
+
+function formatPayment(status) {
+
+    const values = {
+        pending: "Pending",
+        verified: "Verified",
+        rejected: "Rejected"
+    };
+
+    return values[status] || "Pending";
+
+}
+
+
+/* =========================================================
+   SAFE DISPLAY
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+renderTeachers();
+renderClasses();
+renderStudents();
+renderSubmissions();
+
+populateClassFilters();
+
+lucide.createIcons();
 
 </script>
 
