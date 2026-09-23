@@ -35,12 +35,14 @@ select{
 }
 
 button,
-a{
-    -webkit-tap-highlight-color:transparent;
+input,
+select,
+textarea{
+    font:inherit;
 }
 
 button{
-    font-family:inherit;
+    cursor:pointer;
 }
 
 .sidebar{
@@ -48,25 +50,25 @@ button{
     left:0;
     top:0;
     bottom:0;
-    width:270px;
-    background:#081525;
-    color:#fff;
+    width:260px;
+    background:#071525;
+    color:white;
     z-index:1000;
     display:flex;
     flex-direction:column;
     transition:.25s ease;
 }
 
-.sidebar-header{
+.logo{
     height:76px;
-    padding:0 22px;
     display:flex;
     align-items:center;
     gap:12px;
+    padding:0 22px;
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.sidebar-logo{
+.logo-icon{
     width:40px;
     height:40px;
     border-radius:10px;
@@ -76,190 +78,167 @@ button{
     justify-content:center;
 }
 
-.sidebar-logo svg{
-    width:22px;
-    height:22px;
-}
-
-.sidebar-title{
-    font-size:17px;
+.logo-text{
+    font-size:16px;
     font-weight:700;
-    line-height:1.15;
 }
 
-.sidebar-title span{
+.logo-text span{
     display:block;
-    color:#8ea1b8;
     font-size:11px;
-    font-weight:500;
+    color:#8ca4bd;
     margin-top:3px;
+    font-weight:400;
 }
 
-.sidebar-nav{
+.nav{
     padding:18px 12px;
     flex:1;
-    overflow-y:auto;
 }
 
-.nav-label{
-    color:#64748b;
+.nav-title{
+    color:#62778d;
     font-size:10px;
     text-transform:uppercase;
     letter-spacing:1px;
-    font-weight:700;
-    padding:10px 12px 8px;
+    padding:0 12px 9px;
 }
 
-.nav-item{
+.nav a{
+    height:44px;
     display:flex;
     align-items:center;
     gap:12px;
-    width:100%;
-    padding:12px 13px;
-    margin-bottom:4px;
-    border-radius:9px;
-    color:#b9c7d8;
+    padding:0 13px;
+    margin-bottom:5px;
+    color:#a9b9c9;
     text-decoration:none;
+    border-radius:9px;
     font-size:14px;
     transition:.2s;
 }
 
-.nav-item svg{
-    width:18px;
-    height:18px;
-    flex-shrink:0;
-}
-
-.nav-item:hover{
+.nav a:hover{
     background:rgba(255,255,255,.06);
-    color:#fff;
+    color:white;
 }
 
-.nav-item.active{
+.nav a.active{
     background:#0ea5e9;
-    color:#fff;
+    color:white;
 }
 
-.sidebar-footer{
-    padding:15px 12px;
+.sidebar-bottom{
+    padding:14px;
     border-top:1px solid rgba(255,255,255,.08);
 }
 
-.logout-btn{
+.logout{
     width:100%;
+    height:42px;
     border:0;
-    background:transparent;
-    color:#b9c7d8;
-    padding:12px 13px;
+    border-radius:8px;
+    background:rgba(255,255,255,.06);
+    color:#b7c5d3;
     display:flex;
     align-items:center;
-    gap:12px;
-    border-radius:9px;
-    cursor:pointer;
-    font-size:14px;
+    justify-content:center;
+    gap:8px;
 }
 
-.logout-btn:hover{
-    background:rgba(239,68,68,.12);
-    color:#f87171;
+.logout:hover{
+    background:#b91c1c;
+    color:white;
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:900;
 }
 
 .main{
-    margin-left:270px;
+    margin-left:260px;
     min-height:100vh;
 }
 
 .topbar{
     height:76px;
-    background:#fff;
-    border-bottom:1px solid #e5eaf0;
+    background:white;
+    border-bottom:1px solid #e3e9f0;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 28px;
     position:sticky;
     top:0;
-    z-index:100;
+    z-index:500;
 }
 
-.mobile-menu{
+.menu-btn{
     display:none;
     border:0;
-    background:transparent;
-    cursor:pointer;
-    color:#172033;
-}
-
-.mobile-menu svg{
-    width:23px;
-    height:23px;
-}
-
-.topbar-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
+    background:none;
 }
 
 .page-title{
-    font-size:20px;
+    font-size:21px;
     font-weight:700;
 }
 
 .page-subtitle{
-    color:#718096;
+    color:#7b8999;
     font-size:12px;
-    margin-top:3px;
+    margin-top:4px;
 }
 
-.admin-profile{
+.profile{
     display:flex;
     align-items:center;
     gap:10px;
 }
 
-.admin-avatar{
+.profile-icon{
     width:38px;
     height:38px;
-    border-radius:50%;
-    background:#dff4ff;
+    background:#e0f2fe;
     color:#0284c7;
+    border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-.admin-profile-text{
-    text-align:right;
-}
-
-.admin-profile-text strong{
-    display:block;
+.profile-name{
     font-size:13px;
+    font-weight:700;
 }
 
-.admin-profile-text span{
-    display:block;
-    color:#7b8798;
+.profile-role{
     font-size:11px;
+    color:#8a98a8;
     margin-top:2px;
 }
 
 .content{
-    padding:28px;
+    padding:26px;
+    max-width:1500px;
+    margin:auto;
 }
 
-.stats-grid{
+.stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:18px;
-    margin-bottom:24px;
+    gap:16px;
+    margin-bottom:22px;
 }
 
-.stat-card{
-    background:#fff;
-    border:1px solid #e5eaf0;
-    border-radius:14px;
+.stat{
+    background:white;
+    border:1px solid #e3e9f0;
+    border-radius:12px;
     padding:20px;
     display:flex;
     align-items:center;
@@ -269,173 +248,136 @@ button{
 .stat-icon{
     width:46px;
     height:46px;
-    border-radius:11px;
+    border-radius:10px;
     display:flex;
     align-items:center;
     justify-content:center;
-    flex-shrink:0;
-}
-
-.stat-icon svg{
-    width:22px;
-    height:22px;
-}
-
-.stat-icon.blue{
     background:#e0f2fe;
     color:#0284c7;
 }
 
-.stat-icon.green{
-    background:#dcfce7;
-    color:#16a34a;
-}
-
-.stat-icon.sky{
-    background:#e0f2fe;
-    color:#0369a1;
-}
-
 .stat-number{
     font-size:25px;
-    font-weight:750;
+    font-weight:700;
 }
 
 .stat-label{
-    color:#7b8798;
+    color:#7d8b9b;
     font-size:12px;
     margin-top:3px;
 }
 
-.panel{
-    background:#fff;
-    border:1px solid #e5eaf0;
-    border-radius:14px;
-    margin-bottom:24px;
+.section{
+    background:white;
+    border:1px solid #e3e9f0;
+    border-radius:12px;
+    margin-bottom:22px;
     overflow:hidden;
 }
 
-.panel-header{
-    padding:20px 22px;
-    border-bottom:1px solid #e9edf2;
+.section-header{
+    padding:18px 20px;
+    border-bottom:1px solid #e7edf3;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:15px;
+    gap:12px;
 }
 
-.panel-heading h2{
+.section-title{
     font-size:16px;
     font-weight:700;
 }
 
-.panel-heading p{
-    color:#7b8798;
+.section-description{
     font-size:12px;
+    color:#8592a2;
     margin-top:4px;
 }
 
-.panel-actions{
+.header-actions{
     display:flex;
-    gap:9px;
+    gap:8px;
     flex-wrap:wrap;
 }
 
 .btn{
-    border:1px solid #d8e0e9;
-    background:#fff;
-    color:#334155;
+    border:0;
     border-radius:8px;
-    padding:9px 13px;
-    cursor:pointer;
-    font-size:12px;
-    font-weight:600;
+    min-height:38px;
+    padding:0 13px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
     gap:7px;
-    transition:.2s;
-}
-
-.btn svg{
-    width:16px;
-    height:16px;
-}
-
-.btn:hover{
-    background:#f7fafc;
+    font-size:13px;
+    font-weight:600;
 }
 
 .btn-primary{
     background:#0284c7;
-    color:#fff;
-    border-color:#0284c7;
+    color:white;
 }
 
 .btn-primary:hover{
     background:#0369a1;
 }
 
-.btn-success{
-    background:#16a34a;
-    color:#fff;
-    border-color:#16a34a;
+.btn-light{
+    background:#eef4f8;
+    color:#334155;
+}
+
+.btn-light:hover{
+    background:#e2e8f0;
 }
 
 .btn-danger{
-    color:#dc2626;
-    border-color:#fecaca;
-    background:#fff;
+    background:#fee2e2;
+    color:#b91c1c;
 }
 
 .btn-danger:hover{
-    background:#fef2f2;
+    background:#fecaca;
 }
 
 .filters{
-    padding:16px 22px;
+    padding:15px 20px;
     display:grid;
-    grid-template-columns:minmax(180px,1fr) 170px 170px auto;
+    grid-template-columns:2fr 1fr 1fr;
     gap:10px;
-    border-bottom:1px solid #e9edf2;
+    border-bottom:1px solid #edf1f5;
 }
 
-.input-wrap{
-    position:relative;
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
 }
 
-.input-wrap svg{
-    position:absolute;
-    left:11px;
-    top:50%;
-    transform:translateY(-50%);
-    width:16px;
-    height:16px;
-    color:#8a98aa;
+.field label{
+    font-size:11px;
+    color:#64748b;
+    font-weight:700;
 }
 
 .input,
 .select{
     width:100%;
-    height:40px;
-    border:1px solid #d8e0e9;
+    height:39px;
+    border:1px solid #d8e0e8;
     border-radius:8px;
-    background:#fff;
-    padding:0 12px;
-    font-size:12px;
-    color:#253247;
+    padding:0 11px;
     outline:none;
-}
-
-.input-wrap .input{
-    padding-left:36px;
+    background:white;
+    color:#172033;
+    font-size:13px;
 }
 
 .input:focus,
-.select:focus,
-textarea:focus{
+.select:focus{
     border-color:#38bdf8;
-    box-shadow:0 0 0 3px rgba(14,165,233,.08);
+    box-shadow:0 0 0 3px rgba(14,165,233,.1);
 }
 
 .table-wrap{
@@ -446,51 +388,43 @@ textarea:focus{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:720px;
+    min-width:760px;
 }
 
 th{
-    background:#f8fafc;
-    color:#66758a;
-    text-transform:uppercase;
-    letter-spacing:.4px;
-    font-size:10px;
-    font-weight:700;
     text-align:left;
-    padding:12px 16px;
-    border-bottom:1px solid #e5eaf0;
+    background:#f8fafc;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.3px;
+    padding:12px 15px;
+    border-bottom:1px solid #e2e8f0;
     white-space:nowrap;
 }
 
 td{
-    padding:14px 16px;
+    padding:13px 15px;
     border-bottom:1px solid #edf1f5;
-    font-size:12px;
-    color:#334155;
+    font-size:13px;
     vertical-align:middle;
 }
 
+tr:last-child td{
+    border-bottom:0;
+}
+
 tbody tr:hover{
-    background:#fbfdff;
-}
-
-.student-name{
-    font-weight:650;
-    color:#172033;
-}
-
-.muted{
-    color:#7b8798;
+    background:#f8fbfd;
 }
 
 .badge{
     display:inline-flex;
     align-items:center;
-    padding:5px 8px;
-    border-radius:999px;
-    font-size:10px;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
     font-weight:700;
-    white-space:nowrap;
 }
 
 .badge-green{
@@ -498,215 +432,154 @@ tbody tr:hover{
     color:#15803d;
 }
 
-.badge-blue{
-    background:#e0f2fe;
-    color:#0369a1;
-}
-
-.badge-yellow{
-    background:#fef3c7;
-    color:#a16207;
-}
-
-.badge-red{
-    background:#fee2e2;
-    color:#b91c1c;
-}
-
 .badge-gray{
     background:#f1f5f9;
     color:#64748b;
 }
 
-.action-btn{
+.badge-blue{
+    background:#e0f2fe;
+    color:#0369a1;
+}
+
+.actions{
+    display:flex;
+    gap:6px;
+}
+
+.icon-btn{
     width:32px;
     height:32px;
-    border:1px solid #dbe3eb;
+    border:0;
     border-radius:7px;
-    background:#fff;
-    color:#526173;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-}
-
-.action-btn:hover{
-    background:#f8fafc;
-    color:#0284c7;
-}
-
-.action-btn svg{
-    width:15px;
-    height:15px;
-}
-
-.empty-state{
-    padding:55px 20px;
-    text-align:center;
-    color:#7b8798;
-}
-
-.empty-icon{
-    width:54px;
-    height:54px;
-    margin:0 auto 13px;
-    border-radius:14px;
-    background:#f1f5f9;
-    color:#94a3b8;
     display:flex;
     align-items:center;
     justify-content:center;
-}
-
-.empty-icon svg{
-    width:25px;
-    height:25px;
-}
-
-.empty-state strong{
-    display:block;
+    background:#eef4f8;
     color:#475569;
+}
+
+.icon-btn:hover{
+    background:#dbeafe;
+    color:#0369a1;
+}
+
+.empty{
+    padding:45px 20px;
+    text-align:center;
+    color:#7b8999;
+}
+
+.empty-icon{
+    width:48px;
+    height:48px;
+    margin:0 auto 12px;
+    border-radius:12px;
+    background:#f1f5f9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#94a3b8;
+}
+
+.empty-title{
+    color:#475569;
+    font-weight:700;
     font-size:14px;
     margin-bottom:5px;
 }
 
-.empty-state p{
+.empty-text{
     font-size:12px;
 }
 
-.modal-overlay{
+.modal{
     position:fixed;
     inset:0;
-    background:rgba(2,12,27,.58);
-    z-index:2000;
+    background:rgba(7,21,37,.55);
     display:none;
     align-items:center;
     justify-content:center;
-    padding:18px;
+    padding:20px;
+    z-index:2000;
 }
 
-.modal-overlay.show{
+.modal.show{
     display:flex;
 }
 
-.modal{
-    width:min(720px,100%);
-    max-height:92vh;
+.modal-card{
+    width:100%;
+    max-width:570px;
+    max-height:90vh;
     overflow-y:auto;
-    background:#fff;
-    border-radius:15px;
-    box-shadow:0 20px 60px rgba(0,0,0,.22);
+    background:white;
+    border-radius:14px;
+    box-shadow:0 25px 70px rgba(0,0,0,.25);
 }
 
 .modal-header{
-    padding:20px 22px;
-    border-bottom:1px solid #e7ebf0;
+    padding:18px 20px;
+    border-bottom:1px solid #e5ebf0;
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    gap:12px;
+    justify-content:space-between;
 }
 
-.modal-header h3{
+.modal-title{
     font-size:17px;
+    font-weight:700;
 }
 
-.modal-header p{
-    color:#7b8798;
-    font-size:11px;
-    margin-top:4px;
-}
-
-.close-btn{
+.close{
     width:34px;
     height:34px;
     border:0;
-    border-radius:8px;
+    border-radius:7px;
     background:#f1f5f9;
-    color:#64748b;
-    cursor:pointer;
+    color:#475569;
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-.close-btn:hover{
-    background:#e2e8f0;
-}
-
-.close-btn svg{
-    width:18px;
-    height:18px;
-}
-
 .modal-body{
-    padding:22px;
+    padding:20px;
 }
 
 .form-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr 1fr;
     gap:15px;
 }
 
-.form-group{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
-
-.form-group.full{
+.full{
     grid-column:1/-1;
 }
 
-.form-label{
-    font-size:11px;
-    font-weight:700;
-    color:#475569;
-}
-
-.form-label span{
-    color:#dc2626;
-}
-
-.pin-input{
-    letter-spacing:5px;
-    font-weight:700;
-}
-
-.helper{
-    color:#7b8798;
-    font-size:10px;
-    line-height:1.5;
-}
-
 .modal-footer{
-    padding:16px 22px;
-    border-top:1px solid #e7ebf0;
+    padding:15px 20px;
+    border-top:1px solid #e5ebf0;
     display:flex;
     justify-content:flex-end;
-    gap:9px;
+    gap:8px;
 }
 
-.class-checkboxes{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
+.class-list{
+    border:1px solid #dce4eb;
+    border-radius:9px;
     max-height:180px;
     overflow-y:auto;
-    padding:2px;
+    padding:7px;
 }
 
 .class-option{
-    border:1px solid #dbe3eb;
-    border-radius:8px;
-    padding:10px;
     display:flex;
     align-items:center;
-    gap:8px;
-    cursor:pointer;
-    font-size:12px;
+    gap:9px;
+    padding:9px;
+    border-radius:7px;
+    font-size:13px;
 }
 
 .class-option:hover{
@@ -718,37 +591,53 @@ tbody tr:hover{
 }
 
 .notice{
-    border:1px solid #bae6fd;
     background:#f0f9ff;
+    border:1px solid #bae6fd;
     color:#075985;
-    padding:11px 12px;
+    padding:11px;
     border-radius:8px;
-    font-size:11px;
+    font-size:12px;
     line-height:1.5;
-    margin-bottom:18px;
+    margin-bottom:15px;
 }
 
-.mobile-overlay{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.4);
-    z-index:900;
+.student-details{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.detail{
+    background:#f8fafc;
+    border-radius:8px;
+    padding:11px;
+}
+
+.detail-label{
+    color:#7b8999;
+    font-size:10px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+}
+
+.detail-value{
+    font-size:13px;
+    font-weight:600;
+    word-break:break-word;
 }
 
 .toast{
     position:fixed;
     right:20px;
     bottom:20px;
-    background:#172033;
-    color:#fff;
-    padding:12px 15px;
+    background:#071525;
+    color:white;
+    padding:13px 16px;
     border-radius:9px;
-    font-size:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
-    display:none;
+    box-shadow:0 10px 35px rgba(0,0,0,.2);
+    font-size:13px;
     z-index:3000;
-    max-width:330px;
+    display:none;
 }
 
 .toast.show{
@@ -756,28 +645,14 @@ tbody tr:hover{
 }
 
 .toast.success{
-    background:#166534;
+    border-left:4px solid #22c55e;
 }
 
 .toast.error{
-    background:#b91c1c;
+    border-left:4px solid #ef4444;
 }
 
-@media(max-width:1000px){
-    .stats-grid{
-        grid-template-columns:1fr;
-    }
-
-    .filters{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .filters .filter-refresh{
-        grid-column:1/-1;
-    }
-}
-
-@media(max-width:760px){
+@media(max-width:900px){
     .sidebar{
         transform:translateX(-100%);
     }
@@ -786,7 +661,7 @@ tbody tr:hover{
         transform:translateX(0);
     }
 
-    .mobile-overlay.show{
+    .overlay.show{
         display:block;
     }
 
@@ -794,49 +669,65 @@ tbody tr:hover{
         margin-left:0;
     }
 
-    .mobile-menu{
-        display:block;
+    .menu-btn{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        width:38px;
+        height:38px;
+        color:#334155;
     }
 
     .topbar{
         padding:0 16px;
     }
 
-    .admin-profile-text{
-        display:none;
-    }
-
     .content{
-        padding:18px 14px;
+        padding:18px;
     }
 
-    .panel-header{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .panel-actions{
-        width:100%;
-    }
-
-    .panel-actions .btn{
-        flex:1;
+    .stats{
+        grid-template-columns:1fr;
     }
 
     .filters{
         grid-template-columns:1fr;
     }
+}
 
-    .filters .filter-refresh{
-        grid-column:auto;
+@media(max-width:600px){
+    .page-title{
+        font-size:18px;
+    }
+
+    .profile-name,
+    .profile-role{
+        display:none;
+    }
+
+    .section-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .header-actions{
+        width:100%;
+    }
+
+    .header-actions .btn{
+        flex:1;
     }
 
     .form-grid{
         grid-template-columns:1fr;
     }
 
-    .form-group.full{
+    .full{
         grid-column:auto;
+    }
+
+    .student-details{
+        grid-template-columns:1fr;
     }
 }
 </style>
@@ -844,66 +735,66 @@ tbody tr:hover{
 
 <body>
 
-<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="overlay" id="overlay"></div>
 
 <aside class="sidebar" id="sidebar">
 
-    <div class="sidebar-header">
-        <div class="sidebar-logo">
-            <i data-lucide="graduation-cap"></i>
+    <div class="logo">
+        <div class="logo-icon">
+            <i data-lucide="school"></i>
         </div>
 
-        <div class="sidebar-title">
-            School System
+        <div class="logo-text">
+            School Management
             <span>Administration Panel</span>
         </div>
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="nav">
 
-        <div class="nav-label">Main</div>
+        <div class="nav-title">Management</div>
 
-        <a class="nav-item" href="admin.html">
+        <a href="admin.html">
             <i data-lucide="layout-dashboard"></i>
-            <span>Overview</span>
+            Overview
         </a>
 
-        <a class="nav-item active" href="teachers.html">
+        <a href="teachers.html" class="active">
             <i data-lucide="users"></i>
-            <span>Teachers</span>
+            Teachers
         </a>
 
-        <a class="nav-item" href="classes.html">
-            <i data-lucide="school"></i>
-            <span>Classes</span>
+        <a href="classes.html">
+            <i data-lucide="layers"></i>
+            Classes
         </a>
 
-        <a class="nav-item" href="students.html">
+        <a href="students.html">
             <i data-lucide="graduation-cap"></i>
-            <span>Students</span>
+            Students
         </a>
 
-        <a class="nav-item" href="registrations.html">
+        <a href="registrations.html">
             <i data-lucide="clipboard-list"></i>
-            <span>Registrations</span>
+            Registrations
         </a>
 
-        <a class="nav-item" href="reports.html">
+        <a href="reports.html">
             <i data-lucide="bar-chart-3"></i>
-            <span>Reports</span>
+            Reports
         </a>
 
-        <a class="nav-item" href="settings.html">
+        <a href="settings.html">
             <i data-lucide="settings"></i>
-            <span>Settings</span>
+            Settings
         </a>
 
     </nav>
 
-    <div class="sidebar-footer">
-        <button class="logout-btn" id="logoutBtn">
+    <div class="sidebar-bottom">
+        <button class="logout" id="logoutBtn">
             <i data-lucide="log-out"></i>
-            <span>Logout</span>
+            Logout
         </button>
     </div>
 
@@ -913,9 +804,9 @@ tbody tr:hover{
 
     <header class="topbar">
 
-        <div class="topbar-left">
+        <div style="display:flex;align-items:center;gap:10px;">
 
-            <button class="mobile-menu" id="mobileMenu">
+            <button class="menu-btn" id="menuBtn">
                 <i data-lucide="menu"></i>
             </button>
 
@@ -928,30 +819,30 @@ tbody tr:hover{
 
         </div>
 
-        <div class="admin-profile">
+        <div class="profile">
 
-            <div class="admin-profile-text">
-                <strong>Administrator</strong>
-                <span>School Admin</span>
+            <div class="profile-icon">
+                <i data-lucide="shield-check"></i>
             </div>
 
-            <div class="admin-avatar">
-                <i data-lucide="shield-check"></i>
+            <div>
+                <div class="profile-name">Administrator</div>
+                <div class="profile-role">Admin</div>
             </div>
 
         </div>
 
     </header>
 
-    <section class="content">
+    <div class="content">
 
-        <!-- STATS -->
+        <!-- STATISTICS -->
 
-        <div class="stats-grid">
+        <div class="stats">
 
-            <div class="stat-card">
+            <div class="stat">
 
-                <div class="stat-icon blue">
+                <div class="stat-icon">
                     <i data-lucide="users"></i>
                 </div>
 
@@ -962,10 +853,10 @@ tbody tr:hover{
 
             </div>
 
-            <div class="stat-card">
+            <div class="stat">
 
-                <div class="stat-icon green">
-                    <i data-lucide="school"></i>
+                <div class="stat-icon">
+                    <i data-lucide="layers"></i>
                 </div>
 
                 <div>
@@ -975,9 +866,9 @@ tbody tr:hover{
 
             </div>
 
-            <div class="stat-card">
+            <div class="stat">
 
-                <div class="stat-icon sky">
+                <div class="stat-icon">
                     <i data-lucide="graduation-cap"></i>
                 </div>
 
@@ -993,18 +884,20 @@ tbody tr:hover{
 
         <!-- TEACHERS -->
 
-        <section class="panel">
+        <section class="section">
 
-            <div class="panel-header">
+            <div class="section-header">
 
-                <div class="panel-heading">
-                    <h2>Teacher Accounts</h2>
-                    <p>Manage teacher usernames, PIN access and class assignments.</p>
+                <div>
+                    <div class="section-title">Teacher Accounts</div>
+                    <div class="section-description">
+                        Create and manage teacher login accounts.
+                    </div>
                 </div>
 
-                <div class="panel-actions">
+                <div class="header-actions">
 
-                    <button class="btn" id="refreshTeachersBtn">
+                    <button class="btn btn-light" id="refreshBtn">
                         <i data-lucide="refresh-cw"></i>
                         Refresh
                     </button>
@@ -1020,25 +913,22 @@ tbody tr:hover{
 
             <div class="filters">
 
-                <div class="input-wrap">
-                    <i data-lucide="search"></i>
-                    <input
-                        class="input"
-                        id="teacherSearch"
-                        type="text"
-                        placeholder="Search teacher..."
-                    >
-                </div>
+                <input
+                    class="input"
+                    id="teacherSearch"
+                    placeholder="Search teacher name or username..."
+                >
 
                 <select class="select" id="teacherStatusFilter">
-                    <option value="all">All Teachers</option>
+                    <option value="all">All Status</option>
                     <option value="assigned">Assigned</option>
                     <option value="unassigned">Unassigned</option>
                 </select>
 
-                <div></div>
-
-                <div></div>
+                <button class="btn btn-light" id="clearTeacherFilters">
+                    <i data-lucide="x"></i>
+                    Clear
+                </button>
 
             </div>
 
@@ -1057,9 +947,23 @@ tbody tr:hover{
                         </tr>
                     </thead>
 
-                    <tbody id="teachersTableBody"></tbody>
+                    <tbody id="teacherTableBody"></tbody>
 
                 </table>
+
+            </div>
+
+            <div class="empty" id="teacherEmpty" style="display:none;">
+
+                <div class="empty-icon">
+                    <i data-lucide="users"></i>
+                </div>
+
+                <div class="empty-title">No teachers found</div>
+
+                <div class="empty-text">
+                    Teacher accounts will appear here after they are created.
+                </div>
 
             </div>
 
@@ -1068,13 +972,15 @@ tbody tr:hover{
 
         <!-- ASSIGNED CLASSES -->
 
-        <section class="panel">
+        <section class="section">
 
-            <div class="panel-header">
+            <div class="section-header">
 
-                <div class="panel-heading">
-                    <h2>Assigned Classes</h2>
-                    <p>Current teacher-to-class assignments.</p>
+                <div>
+                    <div class="section-title">Assigned Classes</div>
+                    <div class="section-description">
+                        Current teacher-to-class assignments.
+                    </div>
                 </div>
 
             </div>
@@ -1093,9 +999,23 @@ tbody tr:hover{
                         </tr>
                     </thead>
 
-                    <tbody id="assignmentsTableBody"></tbody>
+                    <tbody id="assignmentTableBody"></tbody>
 
                 </table>
+
+            </div>
+
+            <div class="empty" id="assignmentEmpty" style="display:none;">
+
+                <div class="empty-icon">
+                    <i data-lucide="layers"></i>
+                </div>
+
+                <div class="empty-title">No class assignments</div>
+
+                <div class="empty-text">
+                    Teachers will appear here when classes are assigned.
+                </div>
 
             </div>
 
@@ -1104,18 +1024,20 @@ tbody tr:hover{
 
         <!-- STUDENTS -->
 
-        <section class="panel">
+        <section class="section">
 
-            <div class="panel-header">
+            <div class="section-header">
 
-                <div class="panel-heading">
-                    <h2>Students</h2>
-                    <p>Students added by teachers and connected to their classes.</p>
+                <div>
+                    <div class="section-title">Students</div>
+                    <div class="section-description">
+                        Students belonging to teacher-assigned classes.
+                    </div>
                 </div>
 
-                <div class="panel-actions">
+                <div class="header-actions">
 
-                    <button class="btn" id="preparePrintBtn">
+                    <button class="btn btn-light" id="printBtn">
                         <i data-lucide="printer"></i>
                         Prepare for Print
                     </button>
@@ -1131,33 +1053,23 @@ tbody tr:hover{
 
             <div class="filters">
 
-                <div class="input-wrap">
-                    <i data-lucide="search"></i>
-                    <input
-                        class="input"
-                        id="studentSearch"
-                        type="text"
-                        placeholder="Search student..."
-                    >
-                </div>
+                <input
+                    class="input"
+                    id="studentSearch"
+                    placeholder="Search student name, ID or administration number..."
+                >
 
                 <select class="select" id="studentClassFilter">
                     <option value="all">All Classes</option>
                 </select>
 
                 <select class="select" id="studentStatusFilter">
-                    <option value="all">All Statuses</option>
+                    <option value="all">All Registration Status</option>
                     <option value="pending">Pending</option>
                     <option value="submitted">Submitted</option>
                     <option value="approved">Approved</option>
                     <option value="rejected">Rejected</option>
-                    <option value="completed">Completed</option>
                 </select>
-
-                <button class="btn filter-refresh" id="refreshStudentsBtn">
-                    <i data-lucide="refresh-cw"></i>
-                    Refresh
-                </button>
 
             </div>
 
@@ -1172,14 +1084,27 @@ tbody tr:hover{
                             <th>Administration No. / Student ID</th>
                             <th>Class</th>
                             <th>Registration</th>
-                            <th>Payment</th>
-                            <th>Action</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
 
-                    <tbody id="studentsTableBody"></tbody>
+                    <tbody id="studentTableBody"></tbody>
 
                 </table>
+
+            </div>
+
+            <div class="empty" id="studentEmpty">
+
+                <div class="empty-icon">
+                    <i data-lucide="graduation-cap"></i>
+                </div>
+
+                <div class="empty-title">No students found</div>
+
+                <div class="empty-text">
+                    Students will appear after teachers add them.
+                </div>
 
             </div>
 
@@ -1188,47 +1113,42 @@ tbody tr:hover{
 
         <!-- REGISTRATION SUBMISSIONS -->
 
-        <section class="panel">
+        <section class="section">
 
-            <div class="panel-header">
+            <div class="section-header">
 
-                <div class="panel-heading">
-                    <h2>Registration Submissions</h2>
-                    <p>Registration information submitted by students.</p>
+                <div>
+                    <div class="section-title">Registration Submissions</div>
+                    <div class="section-description">
+                        Student registration information submitted for teacher review.
+                    </div>
                 </div>
 
             </div>
 
             <div class="filters">
 
-                <div class="input-wrap">
-                    <i data-lucide="search"></i>
-                    <input
-                        class="input"
-                        id="submissionSearch"
-                        type="text"
-                        placeholder="Search student..."
-                    >
-                </div>
+                <input
+                    class="input"
+                    id="submissionSearch"
+                    placeholder="Search student..."
+                >
 
-                <select class="select" id="registrationFilter">
+                <select class="select" id="submissionRegistrationFilter">
                     <option value="all">All Registration</option>
                     <option value="pending">Pending</option>
                     <option value="submitted">Submitted</option>
                     <option value="approved">Approved</option>
                     <option value="rejected">Rejected</option>
-                    <option value="completed">Completed</option>
                 </select>
 
-                <select class="select" id="paymentFilter">
-                    <option value="all">All Payment</option>
+                <select class="select" id="submissionPaymentFilter">
+                    <option value="all">All Payment Status</option>
                     <option value="pending">Pending</option>
-                    <option value="paid">Paid</option>
+                    <option value="submitted">Submitted</option>
                     <option value="verified">Verified</option>
                     <option value="rejected">Rejected</option>
                 </select>
-
-                <div></div>
 
             </div>
 
@@ -1240,128 +1160,112 @@ tbody tr:hover{
                         <tr>
                             <th>No.</th>
                             <th>Student</th>
-                            <th>Class</th>
+                            <th>Student Type</th>
                             <th>Registration</th>
                             <th>Payment</th>
-                            <th>Submitted</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
-                    <tbody id="submissionsTableBody"></tbody>
+                    <tbody id="submissionTableBody"></tbody>
 
                 </table>
 
             </div>
 
+            <div class="empty" id="submissionEmpty">
+
+                <div class="empty-icon">
+                    <i data-lucide="clipboard-list"></i>
+                </div>
+
+                <div class="empty-title">No registration submissions</div>
+
+                <div class="empty-text">
+                    Submitted registrations will appear here.
+                </div>
+
+            </div>
+
         </section>
 
-    </section>
+    </div>
 
 </main>
 
 
 <!-- ADD TEACHER MODAL -->
 
-<div class="modal-overlay" id="teacherModal">
+<div class="modal" id="teacherModal">
 
-    <div class="modal">
+    <div class="modal-card">
 
         <div class="modal-header">
 
-            <div>
-                <h3>Add Teacher</h3>
-                <p>Create a real teacher account in the database.</p>
-            </div>
+            <div class="modal-title">Add Teacher</div>
 
-            <button class="close-btn" id="closeTeacherModal">
+            <button class="close" id="closeTeacherModal">
                 <i data-lucide="x"></i>
             </button>
 
         </div>
 
-        <form id="teacherForm">
+        <div class="modal-body">
 
-            <div class="modal-body">
+            <div class="notice">
+                This creates a real teacher account in the school database.
+                The teacher will log in using the username and 6-digit PIN.
+            </div>
 
-                <div class="notice">
-                    The teacher will log in using the username and 6-digit PIN
-                    created here. The PIN is stored in the database and is not
-                    displayed in the teacher list.
+            <div class="form-grid">
+
+                <div class="field full">
+                    <label>Teacher Name</label>
+
+                    <input
+                        class="input"
+                        id="teacherName"
+                        placeholder="Enter teacher full name"
+                    >
                 </div>
 
-                <div class="form-grid">
+                <div class="field">
 
-                    <div class="form-group full">
+                    <label>Username</label>
 
-                        <label class="form-label">
-                            Teacher Name <span>*</span>
-                        </label>
+                    <input
+                        class="input"
+                        id="teacherUsername"
+                        placeholder="Enter username"
+                        autocomplete="off"
+                    >
 
-                        <input
-                            class="input"
-                            id="teacherName"
-                            type="text"
-                            placeholder="Enter teacher name"
-                            required
-                        >
+                </div>
 
-                    </div>
+                <div class="field">
 
-                    <div class="form-group">
+                    <label>6-Digit PIN</label>
 
-                        <label class="form-label">
-                            Username <span>*</span>
-                        </label>
+                    <input
+                        class="input"
+                        id="teacherPin"
+                        type="password"
+                        inputmode="numeric"
+                        maxlength="6"
+                        placeholder="000000"
+                        autocomplete="new-password"
+                    >
 
-                        <input
-                            class="input"
-                            id="teacherUsername"
-                            type="text"
-                            placeholder="Enter username"
-                            autocomplete="off"
-                            required
-                        >
+                </div>
 
-                    </div>
+                <div class="field full">
 
-                    <div class="form-group">
+                    <label>Assign Classes</label>
 
-                        <label class="form-label">
-                            6-Digit PIN <span>*</span>
-                        </label>
+                    <div class="class-list" id="classCheckboxes">
 
-                        <input
-                            class="input pin-input"
-                            id="teacherPin"
-                            type="password"
-                            inputmode="numeric"
-                            maxlength="6"
-                            pattern="[0-9]{6}"
-                            placeholder="••••••"
-                            autocomplete="new-password"
-                            required
-                        >
-
-                        <div class="helper">
-                            The PIN must contain exactly 6 numbers.
-                        </div>
-
-                    </div>
-
-                    <div class="form-group full">
-
-                        <label class="form-label">
-                            Assign Classes
-                        </label>
-
-                        <div
-                            class="class-checkboxes"
-                            id="teacherClassOptions"
-                        ></div>
-
-                        <div class="helper">
-                            A class can only be assigned to one teacher.
+                        <div style="padding:12px;color:#94a3b8;font-size:12px;">
+                            Loading classes...
                         </div>
 
                     </div>
@@ -1370,28 +1274,20 @@ tbody tr:hover{
 
             </div>
 
-            <div class="modal-footer">
+        </div>
 
-                <button
-                    type="button"
-                    class="btn"
-                    id="cancelTeacherBtn"
-                >
-                    Cancel
-                </button>
+        <div class="modal-footer">
 
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                    id="saveTeacherBtn"
-                >
-                    <i data-lucide="save"></i>
-                    Create Teacher
-                </button>
+            <button class="btn btn-light" id="cancelTeacherBtn">
+                Cancel
+            </button>
 
-            </div>
+            <button class="btn btn-primary" id="saveTeacherBtn">
+                <i data-lucide="user-plus"></i>
+                Create Teacher
+            </button>
 
-        </form>
+        </div>
 
     </div>
 
@@ -1400,212 +1296,109 @@ tbody tr:hover{
 
 <!-- ADD STUDENT MODAL -->
 
-<div class="modal-overlay" id="studentModal">
+<div class="modal" id="studentModal">
 
-    <div class="modal">
+    <div class="modal-card">
 
         <div class="modal-header">
 
-            <div>
-                <h3>Add Student</h3>
-                <p>Add a student to a class roster.</p>
-            </div>
+            <div class="modal-title">Add Student</div>
 
-            <button class="close-btn" id="closeStudentModal">
+            <button class="close" id="closeStudentModal">
                 <i data-lucide="x"></i>
             </button>
 
         </div>
 
-        <form id="studentForm">
+        <div class="modal-body">
 
-            <div class="modal-body">
+            <div class="notice">
+                Students added here become available for the appropriate
+                registration process.
+            </div>
 
-                <div class="form-grid">
+            <div class="form-grid">
 
-                    <div class="form-group full">
+                <div class="field full">
 
-                        <label class="form-label">
-                            Full Name <span>*</span>
-                        </label>
+                    <label>Full Name</label>
 
-                        <input
-                            class="input"
-                            id="studentFullName"
-                            type="text"
-                            placeholder="Enter full name"
-                            required
-                        >
+                    <input
+                        class="input"
+                        id="studentName"
+                        placeholder="Enter student full name"
+                    >
 
-                    </div>
+                </div>
 
-                    <div class="form-group">
+                <div class="field">
 
-                        <label class="form-label">
-                            Student ID <span>*</span>
-                        </label>
+                    <label>Student ID</label>
 
-                        <input
-                            class="input"
-                            id="studentId"
-                            type="text"
-                            placeholder="Enter Student ID"
-                            required
-                        >
+                    <input
+                        class="input"
+                        id="studentId"
+                        placeholder="Student ID"
+                    >
 
-                    </div>
+                </div>
 
-                    <div class="form-group">
+                <div class="field">
 
-                        <label class="form-label">
-                            Administration Number
-                        </label>
+                    <label>Administration Number</label>
 
-                        <input
-                            class="input"
-                            id="studentAdministrationNumber"
-                            type="text"
-                            placeholder="Enter administration number"
-                        >
+                    <input
+                        class="input"
+                        id="studentAdminNumber"
+                        placeholder="Administration number"
+                    >
 
-                    </div>
+                </div>
 
-                    <div class="form-group">
+                <div class="field">
 
-                        <label class="form-label">
-                            Student Type <span>*</span>
-                        </label>
+                    <label>Student Type</label>
 
-                        <select
-                            class="select"
-                            id="studentType"
-                            required
-                        >
-                            <option value="">Select type</option>
-                            <option value="new">New</option>
-                            <option value="returning">Returning</option>
-                        </select>
+                    <select class="select" id="studentType">
 
-                    </div>
+                        <option value="new">
+                            New
+                        </option>
 
-                    <div class="form-group">
+                        <option value="returning">
+                            Returning
+                        </option>
 
-                        <label class="form-label">
-                            Date of Birth
-                        </label>
+                    </select>
 
-                        <input
-                            class="input"
-                            id="studentDob"
-                            type="date"
-                        >
+                </div>
 
-                    </div>
+                <div class="field">
 
-                    <div class="form-group">
+                    <label>Class</label>
 
-                        <label class="form-label">
-                            Gender
-                        </label>
-
-                        <select
-                            class="select"
-                            id="studentGender"
-                        >
-                            <option value="">Select gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label class="form-label">
-                            Parent / Guardian
-                        </label>
-
-                        <input
-                            class="input"
-                            id="studentGuardian"
-                            type="text"
-                            placeholder="Parent or guardian"
-                        >
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label class="form-label">
-                            Phone
-                        </label>
-
-                        <input
-                            class="input"
-                            id="studentPhone"
-                            type="tel"
-                            placeholder="Phone number"
-                        >
-
-                    </div>
-
-                    <div class="form-group full">
-
-                        <label class="form-label">
-                            Address
-                        </label>
-
-                        <input
-                            class="input"
-                            id="studentAddress"
-                            type="text"
-                            placeholder="Address"
-                        >
-
-                    </div>
-
-                    <div class="form-group full">
-
-                        <label class="form-label">
-                            Class <span>*</span>
-                        </label>
-
-                        <select
-                            class="select"
-                            id="studentClass"
-                            required
-                        >
-                            <option value="">Select class</option>
-                        </select>
-
-                    </div>
+                    <select class="select" id="studentClass">
+                        <option value="">Select class</option>
+                    </select>
 
                 </div>
 
             </div>
 
-            <div class="modal-footer">
+        </div>
 
-                <button
-                    type="button"
-                    class="btn"
-                    id="cancelStudentBtn"
-                >
-                    Cancel
-                </button>
+        <div class="modal-footer">
 
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                    id="saveStudentBtn"
-                >
-                    <i data-lucide="save"></i>
-                    Add Student
-                </button>
+            <button class="btn btn-light" id="cancelStudentBtn">
+                Cancel
+            </button>
 
-            </div>
+            <button class="btn btn-primary" id="saveStudentBtn">
+                <i data-lucide="save"></i>
+                Save Student
+            </button>
 
-        </form>
+        </div>
 
     </div>
 
@@ -1614,34 +1407,23 @@ tbody tr:hover{
 
 <!-- STUDENT DETAILS MODAL -->
 
-<div class="modal-overlay" id="studentDetailsModal">
+<div class="modal" id="detailsModal">
 
-    <div class="modal">
+    <div class="modal-card">
 
         <div class="modal-header">
 
-            <div>
-                <h3>Student Details</h3>
-                <p>Student registration information.</p>
-            </div>
+            <div class="modal-title">Student Details</div>
 
-            <button class="close-btn" id="closeStudentDetails">
+            <button class="close" id="closeDetailsModal">
                 <i data-lucide="x"></i>
             </button>
 
         </div>
 
-        <div class="modal-body" id="studentDetailsBody"></div>
+        <div class="modal-body">
 
-        <div class="modal-footer">
-
-            <button
-                type="button"
-                class="btn"
-                id="closeStudentDetailsBtn"
-            >
-                Close
-            </button>
+            <div class="student-details" id="studentDetails"></div>
 
         </div>
 
@@ -1678,146 +1460,93 @@ let submissions = [];
 let schoolYears = [];
 
 
-/* ------------------------------
-   BASIC HELPERS
------------------------------- */
-
-function showToast(message, type = ""){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent = message;
-    toast.className = "toast show " + type;
-
-    setTimeout(() => {
-        toast.className = "toast";
-    }, 3500);
-}
-
-
-function escapeHtml(value){
+function esc(value){
 
     if(value === null || value === undefined){
         return "";
     }
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
-function formatDate(value){
+function showToast(message,type="success"){
 
-    if(!value){
-        return "—";
-    }
+    const toast =
+        document.getElementById("toast");
 
-    const date = new Date(value);
+    toast.textContent = message;
 
-    if(Number.isNaN(date.getTime())){
-        return value;
-    }
+    toast.className =
+        "toast show " + type;
 
-    return date.toLocaleDateString();
+    setTimeout(() => {
+        toast.className = "toast";
+    },3500);
 }
 
 
-function statusBadge(status){
+function closeAllModals(){
 
-    const value =
-        String(status || "")
-        .toLowerCase();
-
-    let cls = "badge-gray";
-
-    if(
-        value === "approved" ||
-        value === "completed" ||
-        value === "paid" ||
-        value === "verified"
-    ){
-        cls = "badge-green";
-    }
-    else if(
-        value === "submitted"
-    ){
-        cls = "badge-blue";
-    }
-    else if(
-        value === "pending"
-    ){
-        cls = "badge-yellow";
-    }
-    else if(
-        value === "rejected"
-    ){
-        cls = "badge-red";
-    }
-
-    return `
-        <span class="badge ${cls}">
-            ${escapeHtml(status || "Not set")}
-        </span>
-    `;
+    document
+        .querySelectorAll(".modal")
+        .forEach(modal => {
+            modal.classList.remove("show");
+        });
 }
 
 
 function getClassName(classId){
 
-    const item =
-        classes.find(
-            c => String(c.id) === String(classId)
-        );
+    const found =
+        classes.find(c => String(c.id) === String(classId));
 
-    return item ? item.name : "—";
+    return found ? found.name : "Unassigned";
 }
 
 
 function getGradeName(gradeId){
 
-    const item =
-        grades.find(
-            g => String(g.id) === String(gradeId)
-        );
+    const found =
+        grades.find(g => String(g.id) === String(gradeId));
 
-    return item ? item.name : "—";
+    return found ? found.name : "";
 }
 
 
-function getTeacherName(teacherId){
+function getSchoolYearName(yearId){
 
-    const item =
-        teachers.find(
-            t => String(t.id) === String(teacherId)
-        );
+    const found =
+        schoolYears.find(y => String(y.id) === String(yearId));
 
-    return item ? item.name : "—";
+    return found ? found.name : "";
 }
 
 
-function getSchoolYearName(schoolYearId){
+function teacherAssignments(teacherId){
 
-    const item =
-        schoolYears.find(
-            y => String(y.id) === String(schoolYearId)
-        );
-
-    return item ? item.name : "—";
+    return assignments.filter(a =>
+        String(a.teacher_id) === String(teacherId)
+    );
 }
 
 
-/* ------------------------------
-   LOAD SCHOOL YEARS
------------------------------- */
+function studentRoster(studentId){
+
+    return roster.filter(r =>
+        String(r.student_id) === String(studentId)
+    );
+}
+
 
 async function loadSchoolYears(){
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
             .from("school_years")
             .select("*")
@@ -1831,13 +1560,9 @@ async function loadSchoolYears(){
 }
 
 
-/* ------------------------------
-   LOAD GRADES
------------------------------- */
-
 async function loadGrades(){
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
             .from("grades")
             .select("*")
@@ -1851,14 +1576,25 @@ async function loadGrades(){
 }
 
 
-/* ------------------------------
-   LOAD TEACHERS
-   SECURE RPC
------------------------------- */
+async function loadClasses(){
+
+    const {data,error} =
+        await supabaseClient
+            .from("classes")
+            .select("*")
+            .order("id");
+
+    if(error){
+        throw error;
+    }
+
+    classes = data || [];
+}
+
 
 async function loadTeachers(){
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
             .rpc("get_teachers");
 
@@ -1870,13 +1606,9 @@ async function loadTeachers(){
 }
 
 
-/* ------------------------------
-   LOAD ASSIGNMENTS
------------------------------- */
-
 async function loadAssignments(){
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
             .from("teacher_classes")
             .select("*")
@@ -1890,38 +1622,13 @@ async function loadAssignments(){
 }
 
 
-/* ------------------------------
-   LOAD CLASSES
------------------------------- */
-
-async function loadClasses(){
-
-    const { data, error } =
-        await supabaseClient
-            .from("classes")
-            .select("*")
-            .order("grade_id")
-            .order("name");
-
-    if(error){
-        throw error;
-    }
-
-    classes = data || [];
-}
-
-
-/* ------------------------------
-   LOAD STUDENTS
------------------------------- */
-
 async function loadStudents(){
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
             .from("students")
             .select("*")
-            .order("full_name");
+            .order("id");
 
     if(error){
         throw error;
@@ -1931,17 +1638,13 @@ async function loadStudents(){
 }
 
 
-/* ------------------------------
-   LOAD ROSTER
------------------------------- */
-
 async function loadRoster(){
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient
             .from("class_roster")
             .select("*")
-            .order("student_number");
+            .order("id");
 
     if(error){
         throw error;
@@ -1951,31 +1654,42 @@ async function loadRoster(){
 }
 
 
-/* ------------------------------
-   LOAD ALL
------------------------------- */
+async function loadSubmissions(){
+
+    /*
+      Registration submissions currently use the students table.
+      This keeps the page working without inventing a separate
+      submissions table.
+    */
+
+    submissions = students || [];
+}
+
 
 async function loadAllData(){
 
     try{
 
-        await loadSchoolYears();
-        await loadGrades();
-        await loadTeachers();
-        await loadAssignments();
-        await loadClasses();
-        await loadStudents();
-        await loadRoster();
+        await Promise.all([
+            loadSchoolYears(),
+            loadGrades(),
+            loadClasses(),
+            loadTeachers(),
+            loadAssignments(),
+            loadStudents(),
+            loadRoster()
+        ]);
 
-        renderAll();
+        await loadSubmissions();
+
+        renderEverything();
 
     }catch(error){
 
         console.error(error);
 
         showToast(
-            "Unable to load school data: " +
-            (error.message || "Unknown error"),
+            error.message || "Unable to load database information.",
             "error"
         );
 
@@ -1984,528 +1698,262 @@ async function loadAllData(){
 }
 
 
-/* ------------------------------
-   RENDER ALL
------------------------------- */
+function renderEverything(){
 
-function renderAll(){
+    document.getElementById("teacherCount").textContent =
+        teachers.length;
 
-    renderStats();
-    renderTeacherFilters();
+    document.getElementById("assignedClassCount").textContent =
+        assignments.length;
+
+    document.getElementById("studentCount").textContent =
+        students.length;
+
     renderTeachers();
     renderAssignments();
-    renderStudentFilters();
     renderStudents();
     renderSubmissions();
-    renderClassOptions();
+    populateClassFilters();
+    populateStudentClassSelect();
+    renderClassCheckboxes();
 
     lucide.createIcons();
 }
 
-
-/* ------------------------------
-   STATS
------------------------------- */
-
-function renderStats(){
-
-    document.getElementById("teacherCount")
-        .textContent = teachers.length;
-
-    document.getElementById("assignedClassCount")
-        .textContent = assignments.length;
-
-    document.getElementById("studentCount")
-        .textContent = students.length;
-}
-
-
-/* ------------------------------
-   TEACHER FILTERS
------------------------------- */
-
-function renderTeacherFilters(){
-
-    // Reserved for future dynamic teacher filters.
-
-}
-
-
-/* ------------------------------
-   TEACHERS TABLE
------------------------------- */
 
 function renderTeachers(){
 
-    const body =
-        document.getElementById(
-            "teachersTableBody"
-        );
+    const tbody =
+        document.getElementById("teacherTableBody");
+
+    const empty =
+        document.getElementById("teacherEmpty");
 
     const search =
-        document.getElementById(
-            "teacherSearch"
-        ).value
-        .trim()
-        .toLowerCase();
+        document
+            .getElementById("teacherSearch")
+            .value
+            .toLowerCase()
+            .trim();
 
-    const filter =
-        document.getElementById(
-            "teacherStatusFilter"
-        ).value;
+    const status =
+        document
+            .getElementById("teacherStatusFilter")
+            .value;
 
-    let list = teachers.filter(teacher => {
+    let list =
+        teachers.filter(t => {
 
-        const assigned =
-            assignments.some(
-                a =>
-                    String(a.teacher_id) ===
-                    String(teacher.id)
-            );
+            const matchesSearch =
+                !search ||
+                String(t.name || "")
+                    .toLowerCase()
+                    .includes(search) ||
+                String(t.username || "")
+                    .toLowerCase()
+                    .includes(search);
 
-        const matchesSearch =
-            !search ||
-            String(teacher.name || "")
-                .toLowerCase()
-                .includes(search) ||
-            String(teacher.username || "")
-                .toLowerCase()
-                .includes(search);
+            const assigned =
+                teacherAssignments(t.id).length > 0;
 
-        const matchesFilter =
-            filter === "all" ||
-            (filter === "assigned" && assigned) ||
-            (filter === "unassigned" && !assigned);
+            const matchesStatus =
+                status === "all" ||
+                (status === "assigned" && assigned) ||
+                (status === "unassigned" && !assigned);
 
-        return matchesSearch && matchesFilter;
+            return matchesSearch && matchesStatus;
 
-    });
+        });
 
+    tbody.innerHTML = "";
 
     if(!list.length){
 
-        body.innerHTML = `
-            <tr>
-                <td colspan="6">
-                    <div class="empty-state">
-                        <div class="empty-icon">
-                            <i data-lucide="users"></i>
-                        </div>
-                        <strong>No teachers found</strong>
-                        <p>No teacher accounts match the current filter.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-
-        lucide.createIcons();
+        empty.style.display = "block";
 
         return;
+
     }
 
+    empty.style.display = "none";
 
-    body.innerHTML =
-        list.map((teacher,index) => {
+    list.forEach((teacher,index) => {
 
-            const teacherAssignments =
-                assignments.filter(
-                    a =>
-                        String(a.teacher_id) ===
-                        String(teacher.id)
-                );
+        const teacherClasses =
+            teacherAssignments(teacher.id);
 
-            const classNames =
-                teacherAssignments
-                    .map(a => getClassName(a.class_id))
-                    .filter(Boolean);
+        const classNames =
+            teacherClasses.map(a =>
+                getClassName(a.class_id)
+            );
 
-            const assigned =
-                classNames.length > 0;
+        const assigned =
+            teacherClasses.length > 0;
 
-            return `
-                <tr>
+        const row =
+            document.createElement("tr");
 
-                    <td>${index + 1}</td>
+        row.innerHTML = `
 
-                    <td>
-                        <div class="student-name">
-                            ${escapeHtml(teacher.name)}
-                        </div>
-                    </td>
+            <td>${index + 1}</td>
 
-                    <td>
-                        ${escapeHtml(teacher.username)}
-                    </td>
+            <td>
+                <strong>${esc(teacher.name)}</strong>
+            </td>
 
-                    <td>
-                        ${
-                            classNames.length
-                                ? escapeHtml(classNames.join(", "))
-                                : '<span class="muted">None</span>'
-                        }
-                    </td>
+            <td>${esc(teacher.username)}</td>
 
-                    <td>
-                        ${
-                            assigned
-                                ? '<span class="badge badge-green">Assigned</span>'
-                                : '<span class="badge badge-gray">Unassigned</span>'
-                        }
-                    </td>
+            <td>
+                ${
+                    classNames.length
+                    ? classNames.map(name =>
+                        `<span class="badge badge-blue"
+                         style="margin-right:4px;">
+                         ${esc(name)}
+                         </span>`
+                    ).join("")
+                    : `<span style="color:#94a3b8;">None</span>`
+                }
+            </td>
 
-                    <td>
+            <td>
+                ${
+                    assigned
+                    ? `<span class="badge badge-green">
+                        Assigned
+                       </span>`
+                    : `<span class="badge badge-gray">
+                        Unassigned
+                       </span>`
+                }
+            </td>
 
-                        <button
-                            class="action-btn"
-                            title="View teacher"
-                            onclick="viewTeacher(${teacher.id})"
-                        >
-                            <i data-lucide="eye"></i>
-                        </button>
+            <td>
 
-                    </td>
+                <div class="actions">
 
-                </tr>
-            `;
+                    <button
+                        class="icon-btn"
+                        title="View teacher"
+                        onclick="viewTeacher(${teacher.id})">
 
-        }).join("");
+                        <i data-lucide="eye"></i>
+
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(row);
+
+    });
 
     lucide.createIcons();
 }
 
-
-/* ------------------------------
-   ASSIGNMENTS
------------------------------- */
 
 function renderAssignments(){
 
-    const body =
-        document.getElementById(
-            "assignmentsTableBody"
-        );
+    const tbody =
+        document.getElementById("assignmentTableBody");
+
+    const empty =
+        document.getElementById("assignmentEmpty");
+
+    tbody.innerHTML = "";
 
     if(!assignments.length){
 
-        body.innerHTML = `
-            <tr>
-                <td colspan="5">
-                    <div class="empty-state">
-                        <div class="empty-icon">
-                            <i data-lucide="school"></i>
-                        </div>
-                        <strong>No class assignments</strong>
-                        <p>No teacher has been assigned to a class yet.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-
-        lucide.createIcons();
+        empty.style.display = "block";
 
         return;
+
     }
 
+    empty.style.display = "none";
 
-    body.innerHTML =
-        assignments.map((assignment,index) => {
+    assignments.forEach((assignment,index) => {
 
-            const cls =
-                classes.find(
-                    c =>
-                        String(c.id) ===
-                        String(assignment.class_id)
-                );
-
-            return `
-                <tr>
-
-                    <td>${index + 1}</td>
-
-                    <td>
-                        ${escapeHtml(
-                            getTeacherName(
-                                assignment.teacher_id
-                            )
-                        )}
-                    </td>
-
-                    <td>
-                        <strong>
-                            ${escapeHtml(
-                                cls ? cls.name : "—"
-                            )}
-                        </strong>
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            cls
-                                ? getGradeName(cls.grade_id)
-                                : "—"
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            cls
-                                ? getSchoolYearName(
-                                    cls.school_year_id
-                                )
-                                : "—"
-                        )}
-                    </td>
-
-                </tr>
-            `;
-
-        }).join("");
-
-    lucide.createIcons();
-}
-
-
-/* ------------------------------
-   STUDENT FILTERS
------------------------------- */
-
-function renderStudentFilters(){
-
-    const select =
-        document.getElementById(
-            "studentClassFilter"
-        );
-
-    const current =
-        select.value;
-
-    select.innerHTML =
-        `<option value="all">All Classes</option>` +
-        classes.map(cls => `
-            <option value="${cls.id}">
-                ${escapeHtml(cls.name)}
-            </option>
-        `).join("");
-
-    if(
-        [...select.options]
-            .some(o => o.value === current)
-    ){
-        select.value = current;
-    }
-
-}
-
-
-/* ------------------------------
-   STUDENTS
------------------------------- */
-
-function renderStudents(){
-
-    const body =
-        document.getElementById(
-            "studentsTableBody"
-        );
-
-    const search =
-        document.getElementById(
-            "studentSearch"
-        ).value
-        .trim()
-        .toLowerCase();
-
-    const classFilter =
-        document.getElementById(
-            "studentClassFilter"
-        ).value;
-
-    const statusFilter =
-        document.getElementById(
-            "studentStatusFilter"
-        ).value;
-
-
-    let list = students.filter(student => {
-
-        const studentRoster =
-            roster.find(
-                r =>
-                    String(r.student_id) ===
-                    String(student.id)
+        const teacher =
+            teachers.find(t =>
+                String(t.id) === String(assignment.teacher_id)
             );
 
-        const matchesSearch =
-            !search ||
-            String(student.full_name || "")
-                .toLowerCase()
-                .includes(search) ||
-            String(student.student_id || "")
-                .toLowerCase()
-                .includes(search) ||
-            String(student.administration_number || "")
-                .toLowerCase()
-                .includes(search);
-
-        const matchesClass =
-            classFilter === "all" ||
-            (
-                studentRoster &&
-                String(studentRoster.class_id) ===
-                String(classFilter)
+        const cls =
+            classes.find(c =>
+                String(c.id) === String(assignment.class_id)
             );
 
-        const matchesStatus =
-            statusFilter === "all" ||
-            String(student.registration_status || "")
-                .toLowerCase() ===
-            statusFilter.toLowerCase();
+        const row =
+            document.createElement("tr");
 
-        return (
-            matchesSearch &&
-            matchesClass &&
-            matchesStatus
-        );
+        row.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>
+                ${esc(teacher ? teacher.name : "Unknown")}
+            </td>
+
+            <td>
+                ${esc(cls ? cls.name : "Unknown")}
+            </td>
+
+            <td>
+                ${esc(
+                    cls
+                    ? getGradeName(cls.grade_id)
+                    : ""
+                )}
+            </td>
+
+            <td>
+                ${esc(
+                    cls
+                    ? getSchoolYearName(cls.school_year_id)
+                    : ""
+                )}
+            </td>
+
+        `;
+
+        tbody.appendChild(row);
 
     });
 
-
-    if(!list.length){
-
-        body.innerHTML = `
-            <tr>
-                <td colspan="7">
-                    <div class="empty-state">
-                        <div class="empty-icon">
-                            <i data-lucide="graduation-cap"></i>
-                        </div>
-                        <strong>No students found</strong>
-                        <p>No students match the current filters.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-
-        lucide.createIcons();
-
-        return;
-    }
-
-
-    body.innerHTML =
-        list.map((student,index) => {
-
-            const studentRoster =
-                roster.find(
-                    r =>
-                        String(r.student_id) ===
-                        String(student.id)
-                );
-
-            return `
-                <tr>
-
-                    <td>${index + 1}</td>
-
-                    <td>
-                        <div class="student-name">
-                            ${escapeHtml(student.full_name)}
-                        </div>
-                    </td>
-
-                    <td>
-                        ${
-                            escapeHtml(
-                                student.administration_number ||
-                                student.student_id ||
-                                "—"
-                            )
-                        }
-                    </td>
-
-                    <td>
-                        ${
-                            escapeHtml(
-                                studentRoster
-                                    ? getClassName(
-                                        studentRoster.class_id
-                                    )
-                                    : "—"
-                            )
-                        }
-                    </td>
-
-                    <td>
-                        ${statusBadge(
-                            student.registration_status
-                        )}
-                    </td>
-
-                    <td>
-                        ${statusBadge(
-                            student.payment_status
-                        )}
-                    </td>
-
-                    <td>
-
-                        <button
-                            class="action-btn"
-                            title="View student"
-                            onclick="viewStudent(${student.id})"
-                        >
-                            <i data-lucide="eye"></i>
-                        </button>
-
-                    </td>
-
-                </tr>
-            `;
-
-        }).join("");
-
-    lucide.createIcons();
 }
 
 
-/* ------------------------------
-   SUBMISSIONS
------------------------------- */
+function renderStudents(){
 
-function renderSubmissions(){
+    const tbody =
+        document.getElementById("studentTableBody");
 
-    const body =
-        document.getElementById(
-            "submissionsTableBody"
-        );
+    const empty =
+        document.getElementById("studentEmpty");
 
     const search =
-        document.getElementById(
-            "submissionSearch"
-        ).value
-        .trim()
-        .toLowerCase();
+        document
+            .getElementById("studentSearch")
+            .value
+            .toLowerCase()
+            .trim();
 
-    const registrationFilter =
-        document.getElementById(
-            "registrationFilter"
-        ).value;
+    const classFilter =
+        document
+            .getElementById("studentClassFilter")
+            .value;
 
-    const paymentFilter =
-        document.getElementById(
-            "paymentFilter"
-        ).value;
+    const statusFilter =
+        document
+            .getElementById("studentStatusFilter")
+            .value;
 
-
-    const list =
+    let list =
         students.filter(student => {
-
-            const studentRoster =
-                roster.find(
-                    r =>
-                        String(r.student_id) ===
-                        String(student.id)
-                );
 
             const matchesSearch =
                 !search ||
@@ -2514,27 +1962,191 @@ function renderSubmissions(){
                     .includes(search) ||
                 String(student.student_id || "")
                     .toLowerCase()
+                    .includes(search) ||
+                String(student.administration_number || "")
+                    .toLowerCase()
                     .includes(search);
 
-            const registrationStatus =
+            const studentRows =
+                studentRoster(student.id);
+
+            const matchesClass =
+                classFilter === "all" ||
+                studentRows.some(r =>
+                    String(r.class_id) === String(classFilter)
+                );
+
+            const currentStatus =
                 String(
                     student.registration_status || ""
                 ).toLowerCase();
 
-            const paymentStatus =
+            const matchesStatus =
+                statusFilter === "all" ||
+                currentStatus === statusFilter;
+
+            return (
+                matchesSearch &&
+                matchesClass &&
+                matchesStatus
+            );
+
+        });
+
+    tbody.innerHTML = "";
+
+    if(!list.length){
+
+        empty.style.display = "block";
+
+        return;
+
+    }
+
+    empty.style.display = "none";
+
+    list.forEach((student,index) => {
+
+        const rows =
+            studentRoster(student.id);
+
+        const classNames =
+            rows.map(r =>
+                getClassName(r.class_id)
+            );
+
+        const identity =
+            student.administration_number ||
+            student.student_id ||
+            "-";
+
+        const status =
+            student.registration_status ||
+            "Pending";
+
+        const statusLower =
+            String(status).toLowerCase();
+
+        let badgeClass = "badge-gray";
+
+        if(statusLower === "approved"){
+            badgeClass = "badge-green";
+        }
+
+        if(statusLower === "submitted"){
+            badgeClass = "badge-blue";
+        }
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>
+                <strong>${esc(student.full_name)}</strong>
+            </td>
+
+            <td>${esc(identity)}</td>
+
+            <td>
+                ${
+                    classNames.length
+                    ? classNames.map(name =>
+                        `<span class="badge badge-blue"
+                         style="margin-right:4px;">
+                         ${esc(name)}
+                         </span>`
+                    ).join("")
+                    : `<span style="color:#94a3b8;">None</span>`
+                }
+            </td>
+
+            <td>
+                <span class="badge ${badgeClass}">
+                    ${esc(status)}
+                </span>
+            </td>
+
+            <td>
+
+                <div class="actions">
+
+                    <button
+                        class="icon-btn"
+                        title="View student"
+                        onclick="viewStudent(${student.id})">
+
+                        <i data-lucide="eye"></i>
+
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(row);
+
+    });
+
+    lucide.createIcons();
+}
+
+
+function renderSubmissions(){
+
+    const tbody =
+        document.getElementById("submissionTableBody");
+
+    const empty =
+        document.getElementById("submissionEmpty");
+
+    const search =
+        document
+            .getElementById("submissionSearch")
+            .value
+            .toLowerCase()
+            .trim();
+
+    const registrationFilter =
+        document
+            .getElementById("submissionRegistrationFilter")
+            .value;
+
+    const paymentFilter =
+        document
+            .getElementById("submissionPaymentFilter")
+            .value;
+
+    let list =
+        submissions.filter(student => {
+
+            const matchesSearch =
+                !search ||
+                String(student.full_name || "")
+                    .toLowerCase()
+                    .includes(search);
+
+            const registration =
+                String(
+                    student.registration_status || ""
+                ).toLowerCase();
+
+            const payment =
                 String(
                     student.payment_status || ""
                 ).toLowerCase();
 
             const matchesRegistration =
                 registrationFilter === "all" ||
-                registrationStatus ===
-                registrationFilter;
+                registration === registrationFilter;
 
             const matchesPayment =
                 paymentFilter === "all" ||
-                paymentStatus ===
-                paymentFilter;
+                payment === paymentFilter;
 
             return (
                 matchesSearch &&
@@ -2544,416 +2156,183 @@ function renderSubmissions(){
 
         });
 
+    tbody.innerHTML = "";
 
     if(!list.length){
 
-        body.innerHTML = `
-            <tr>
-                <td colspan="7">
-                    <div class="empty-state">
-                        <div class="empty-icon">
-                            <i data-lucide="clipboard-list"></i>
-                        </div>
-                        <strong>No registration submissions</strong>
-                        <p>No submitted registration records match the filters.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-
-        lucide.createIcons();
+        empty.style.display = "block";
 
         return;
+
     }
 
+    empty.style.display = "none";
 
-    body.innerHTML =
-        list.map((student,index) => {
+    list.forEach((student,index) => {
 
-            const studentRoster =
-                roster.find(
-                    r =>
-                        String(r.student_id) ===
-                        String(student.id)
-                );
+        const registration =
+            student.registration_status || "Pending";
 
-            return `
-                <tr>
+        const payment =
+            student.payment_status || "Pending";
 
-                    <td>${index + 1}</td>
+        const registrationLower =
+            String(registration).toLowerCase();
 
-                    <td>
-                        <div class="student-name">
-                            ${escapeHtml(student.full_name)}
-                        </div>
-                    </td>
+        const paymentLower =
+            String(payment).toLowerCase();
 
-                    <td>
-                        ${escapeHtml(
-                            studentRoster
-                                ? getClassName(
-                                    studentRoster.class_id
-                                )
-                                : "—"
-                        )}
-                    </td>
+        const registrationClass =
+            registrationLower === "approved"
+            ? "badge-green"
+            : "badge-blue";
 
-                    <td>
-                        ${statusBadge(
-                            student.registration_status
-                        )}
-                    </td>
+        const paymentClass =
+            paymentLower === "verified"
+            ? "badge-green"
+            : "badge-gray";
 
-                    <td>
-                        ${statusBadge(
-                            student.payment_status
-                        )}
-                    </td>
+        const row =
+            document.createElement("tr");
 
-                    <td>
-                        ${formatDate(student.updated_at)}
-                    </td>
+        row.innerHTML = `
 
-                    <td>
+            <td>${index + 1}</td>
 
-                        <button
-                            class="action-btn"
-                            title="View submission"
-                            onclick="viewStudent(${student.id})"
-                        >
-                            <i data-lucide="eye"></i>
-                        </button>
+            <td>
+                <strong>${esc(student.full_name)}</strong>
+            </td>
 
-                    </td>
+            <td>
+                ${esc(student.student_type || "-")}
+            </td>
 
-                </tr>
-            `;
+            <td>
+                <span class="badge ${registrationClass}">
+                    ${esc(registration)}
+                </span>
+            </td>
 
-        }).join("");
+            <td>
+                <span class="badge ${paymentClass}">
+                    ${esc(payment)}
+                </span>
+            </td>
+
+            <td>
+
+                <button
+                    class="icon-btn"
+                    title="View"
+                    onclick="viewStudent(${student.id})">
+
+                    <i data-lucide="eye"></i>
+
+                </button>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(row);
+
+    });
 
     lucide.createIcons();
 }
 
 
-/* ------------------------------
-   CLASS OPTIONS
------------------------------- */
+function populateClassFilters(){
 
-function renderClassOptions(){
+    const filter =
+        document.getElementById("studentClassFilter");
 
-    const teacherOptions =
-        document.getElementById(
-            "teacherClassOptions"
-        );
+    const current =
+        filter.value;
 
-    const studentClass =
-        document.getElementById(
-            "studentClass"
-        );
+    filter.innerHTML =
+        `<option value="all">All Classes</option>`;
 
+    classes.forEach(cls => {
+
+        filter.innerHTML += `
+            <option value="${esc(cls.id)}">
+                ${esc(cls.name)}
+            </option>
+        `;
+
+    });
+
+    filter.value = current || "all";
+}
+
+
+function populateStudentClassSelect(){
+
+    const select =
+        document.getElementById("studentClass");
+
+    select.innerHTML =
+        `<option value="">Select class</option>`;
+
+    classes.forEach(cls => {
+
+        select.innerHTML += `
+            <option value="${esc(cls.id)}">
+                ${esc(cls.name)}
+            </option>
+        `;
+
+    });
+
+}
+
+
+function renderClassCheckboxes(){
+
+    const container =
+        document.getElementById("classCheckboxes");
 
     if(!classes.length){
 
-        teacherOptions.innerHTML = `
-            <div class="helper">
+        container.innerHTML = `
+            <div style="padding:12px;color:#94a3b8;font-size:12px;">
                 No classes have been created yet.
             </div>
         `;
 
-        studentClass.innerHTML =
-            `<option value="">No classes available</option>`;
-
         return;
     }
 
+    container.innerHTML = "";
 
-    teacherOptions.innerHTML =
-        classes.map(cls => {
+    classes.forEach(cls => {
 
-            const alreadyAssigned =
-                assignments.some(
-                    a =>
-                        String(a.class_id) ===
-                        String(cls.id)
-                );
+        const label =
+            document.createElement("label");
 
-            return `
-                <label class="class-option">
+        label.className = "class-option";
 
-                    <input
-                        type="checkbox"
-                        value="${cls.id}"
-                        ${alreadyAssigned ? "disabled" : ""}
-                    >
+        label.innerHTML = `
 
-                    <span>
-                        ${escapeHtml(cls.name)}
-                        ${
-                            alreadyAssigned
-                                ? " — assigned"
-                                : ""
-                        }
-                    </span>
+            <input
+                type="checkbox"
+                value="${esc(cls.id)}"
+                class="teacher-class-checkbox"
+            >
 
-                </label>
-            `;
+            <span>
+                <strong>${esc(cls.name)}</strong>
+            </span>
 
-        }).join("");
+        `;
 
+        container.appendChild(label);
 
-    studentClass.innerHTML =
-        `<option value="">Select class</option>` +
-        classes.map(cls => `
-            <option value="${cls.id}">
-                ${escapeHtml(cls.name)}
-            </option>
-        `).join("");
+    });
 
 }
 
-
-/* ------------------------------
-   VIEW TEACHER
------------------------------- */
-
-function viewTeacher(teacherId){
-
-    const teacher =
-        teachers.find(
-            t =>
-                String(t.id) ===
-                String(teacherId)
-        );
-
-    if(!teacher){
-        return;
-    }
-
-    const teacherAssignments =
-        assignments.filter(
-            a =>
-                String(a.teacher_id) ===
-                String(teacher.id)
-        );
-
-    const classNames =
-        teacherAssignments
-            .map(a => getClassName(a.class_id));
-
-    alert(
-        "Teacher: " +
-        teacher.name +
-        "\nUsername: " +
-        teacher.username +
-        "\nAssigned Classes: " +
-        (
-            classNames.length
-                ? classNames.join(", ")
-                : "None"
-        )
-    );
-}
-
-
-/* ------------------------------
-   VIEW STUDENT
------------------------------- */
-
-function viewStudent(studentId){
-
-    const student =
-        students.find(
-            s =>
-                String(s.id) ===
-                String(studentId)
-        );
-
-    if(!student){
-        return;
-    }
-
-    const studentRoster =
-        roster.find(
-            r =>
-                String(r.student_id) ===
-                String(student.id)
-        );
-
-    const className =
-        studentRoster
-            ? getClassName(studentRoster.class_id)
-            : "—";
-
-    const body =
-        document.getElementById(
-            "studentDetailsBody"
-        );
-
-    body.innerHTML = `
-
-        <div class="form-grid">
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Full Name
-                </label>
-
-                <div>
-                    ${escapeHtml(student.full_name || "—")}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Student ID
-                </label>
-
-                <div>
-                    ${escapeHtml(student.student_id || "—")}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Administration Number
-                </label>
-
-                <div>
-                    ${escapeHtml(
-                        student.administration_number || "—"
-                    )}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Student Type
-                </label>
-
-                <div>
-                    ${escapeHtml(student.student_type || "—")}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Class
-                </label>
-
-                <div>
-                    ${escapeHtml(className)}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Gender
-                </label>
-
-                <div>
-                    ${escapeHtml(student.gender || "—")}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Date of Birth
-                </label>
-
-                <div>
-                    ${escapeHtml(student.date_of_birth || "—")}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Parent / Guardian
-                </label>
-
-                <div>
-                    ${escapeHtml(student.parent_guardian || "—")}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Phone
-                </label>
-
-                <div>
-                    ${escapeHtml(student.phone || "—")}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Registration
-                </label>
-
-                <div>
-                    ${statusBadge(student.registration_status)}
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="form-label">
-                    Payment
-                </label>
-
-                <div>
-                    ${statusBadge(student.payment_status)}
-                </div>
-
-            </div>
-
-            <div class="form-group full">
-
-                <label class="form-label">
-                    Address
-                </label>
-
-                <div>
-                    ${escapeHtml(student.address || "—")}
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-    document
-        .getElementById("studentDetailsModal")
-        .classList.add("show");
-
-    lucide.createIcons();
-}
-
-
-/* ------------------------------
-   SAVE TEACHER
------------------------------- */
 
 async function saveTeacher(){
 
@@ -2975,7 +2354,6 @@ async function saveTeacher(){
             .value
             .trim();
 
-
     if(!name){
 
         showToast(
@@ -2986,7 +2364,6 @@ async function saveTeacher(){
         return;
 
     }
-
 
     if(!username){
 
@@ -2999,11 +2376,10 @@ async function saveTeacher(){
 
     }
 
-
     if(!/^\d{6}$/.test(pin)){
 
         showToast(
-            "PIN must contain exactly 6 numbers.",
+            "PIN must contain exactly 6 digits.",
             "error"
         );
 
@@ -3011,86 +2387,105 @@ async function saveTeacher(){
 
     }
 
+    const button =
+        document.getElementById("saveTeacherBtn");
 
-    const selectedClasses =
-        [
-            ...document.querySelectorAll(
-                "#teacherClassOptions input[type='checkbox']:checked"
-            )
-        ]
-        .map(input => Number(input.value));
+    button.disabled = true;
 
-
-    const saveButton =
-        document.getElementById(
-            "saveTeacherBtn"
-        );
-
-    saveButton.disabled = true;
-    saveButton.innerHTML = `
-        <i data-lucide="loader-circle"></i>
+    button.innerHTML = `
+        <i data-lucide="loader-2"></i>
         Creating...
     `;
 
     lucide.createIcons();
 
-
     try{
 
-        const { data: teacher, error } =
-            await supabaseClient
-                .from("teachers")
-                .insert({
-                    name,
-                    username,
-                    pin
-                })
-                .select("id,name,username,created_at")
-                .single();
+        /*
+         * IMPORTANT:
+         * Teacher creation now uses the secure RPC.
+         * It does NOT directly SELECT from teachers,
+         * so the PIN remains protected.
+         */
 
+        const {data,error} =
+            await supabaseClient
+                .rpc(
+                    "create_teacher",
+                    {
+                        input_name:name,
+                        input_username:username,
+                        input_pin:pin
+                    }
+                );
 
         if(error){
             throw error;
         }
 
+        if(!data || !data.length){
+
+            throw new Error(
+                "Teacher was not created."
+            );
+
+        }
+
+        const newTeacher =
+            data[0];
+
+        /*
+         * Class assignment is attempted only when
+         * classes were selected.
+         */
+
+        const selectedClasses =
+            Array.from(
+                document.querySelectorAll(
+                    ".teacher-class-checkbox:checked"
+                )
+            ).map(input => input.value);
 
         if(selectedClasses.length){
 
             const rows =
                 selectedClasses.map(classId => ({
-                    teacher_id: teacher.id,
-                    class_id: classId
+                    teacher_id:newTeacher.id,
+                    class_id:classId
                 }));
 
-            const {
-                error: assignmentError
-            } =
+            const {error:assignmentError} =
                 await supabaseClient
                     .from("teacher_classes")
                     .insert(rows);
 
-
             if(assignmentError){
 
-                // Attempt to remove the newly created
-                // teacher if assignment creation failed.
-                await supabaseClient
-                    .from("teachers")
-                    .delete()
-                    .eq("id", teacher.id);
+                console.error(
+                    "Teacher created but assignment failed:",
+                    assignmentError
+                );
 
-                throw assignmentError;
+                showToast(
+                    "Teacher created. Class assignment needs database permission.",
+                    "error"
+                );
+
             }
+
+        }else{
+
+            showToast(
+                "Teacher account created successfully."
+            );
 
         }
 
+        closeAllModals();
 
-        showToast(
-            "Teacher account created successfully.",
-            "success"
-        );
-
-        closeTeacherModal();
+        document.getElementById("teacherName").value = "";
+        document.getElementById("teacherUsername").value = "";
+        document.getElementById("teacherPin").value = "";
 
         await loadAllData();
 
@@ -3103,12 +2498,13 @@ async function saveTeacher(){
             "Unable to create teacher.";
 
         if(
-            message
-                .toLowerCase()
-                .includes("duplicate")
+            message.toLowerCase().includes("duplicate") ||
+            message.toLowerCase().includes("unique")
         ){
+
             message =
-                "That username already exists.";
+                "That username already exists. Choose another username.";
+
         }
 
         showToast(
@@ -3118,10 +2514,10 @@ async function saveTeacher(){
 
     }finally{
 
-        saveButton.disabled = false;
+        button.disabled = false;
 
-        saveButton.innerHTML = `
-            <i data-lucide="save"></i>
+        button.innerHTML = `
+            <i data-lucide="user-plus"></i>
             Create Teacher
         `;
 
@@ -3132,15 +2528,11 @@ async function saveTeacher(){
 }
 
 
-/* ------------------------------
-   SAVE STUDENT
------------------------------- */
-
 async function saveStudent(){
 
     const fullName =
         document
-            .getElementById("studentFullName")
+            .getElementById("studentName")
             .value
             .trim();
 
@@ -3152,7 +2544,7 @@ async function saveStudent(){
 
     const administrationNumber =
         document
-            .getElementById("studentAdministrationNumber")
+            .getElementById("studentAdminNumber")
             .value
             .trim();
 
@@ -3161,49 +2553,15 @@ async function saveStudent(){
             .getElementById("studentType")
             .value;
 
-    const dateOfBirth =
-        document
-            .getElementById("studentDob")
-            .value || null;
-
-    const gender =
-        document
-            .getElementById("studentGender")
-            .value || null;
-
-    const guardian =
-        document
-            .getElementById("studentGuardian")
-            .value
-            .trim() || null;
-
-    const phone =
-        document
-            .getElementById("studentPhone")
-            .value
-            .trim() || null;
-
-    const address =
-        document
-            .getElementById("studentAddress")
-            .value
-            .trim() || null;
-
     const classId =
         document
             .getElementById("studentClass")
             .value;
 
-
-    if(
-        !fullName ||
-        !studentId ||
-        !studentType ||
-        !classId
-    ){
+    if(!fullName){
 
         showToast(
-            "Please complete all required fields.",
+            "Enter the student name.",
             "error"
         );
 
@@ -3211,90 +2569,83 @@ async function saveStudent(){
 
     }
 
+    if(!studentId){
+
+        showToast(
+            "Enter the student ID.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    if(!classId){
+
+        showToast(
+            "Select a class.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    const saveButton =
+        document.getElementById("saveStudentBtn");
+
+    saveButton.disabled = true;
 
     try{
 
-        const {
-            data: student,
-            error: studentError
-        } =
+        const {data:student,error} =
             await supabaseClient
                 .from("students")
                 .insert({
-                    student_id: studentId,
-                    full_name: fullName,
+                    student_id:studentId,
+                    full_name:fullName,
                     administration_number:
                         administrationNumber || null,
-                    student_type: studentType,
-                    date_of_birth: dateOfBirth,
-                    gender,
-                    address,
-                    parent_guardian: guardian,
-                    phone,
-                    registration_status: "pending",
-                    payment_status: "pending"
+                    student_type:studentType,
+                    registration_status:"pending",
+                    payment_status:"pending"
                 })
                 .select()
                 .single();
 
-
-        if(studentError){
-            throw studentError;
+        if(error){
+            throw error;
         }
 
-
-        const nextNumber =
-            roster
-                .filter(
-                    r =>
-                        String(r.class_id) ===
-                        String(classId)
-                )
-                .reduce(
-                    (max,row) =>
-                        Math.max(
-                            max,
-                            Number(row.student_number) || 0
-                        ),
-                    0
-                ) + 1;
-
-
-        const {
-            error: rosterError
-        } =
+        const {error:rosterError} =
             await supabaseClient
                 .from("class_roster")
                 .insert({
-                    class_id: Number(classId),
-                    student_number: nextNumber,
-                    student_name: fullName,
+                    class_id:classId,
+                    student_name:fullName,
                     administration_number:
                         administrationNumber || null,
-                    existing_student_id:
-                        studentId,
-                    is_active: true,
-                    student_id: student.id
+                    existing_student_id:studentId,
+                    is_active:true,
+                    student_id:student.id
                 });
-
 
         if(rosterError){
 
-            await supabaseClient
-                .from("students")
-                .delete()
-                .eq("id", student.id);
-
             throw rosterError;
+
         }
 
-
         showToast(
-            "Student added successfully.",
-            "success"
+            "Student added successfully."
         );
 
-        closeStudentModal();
+        closeAllModals();
+
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentId").value = "";
+        document.getElementById("studentAdminNumber").value = "";
+        document.getElementById("studentClass").value = "";
 
         await loadAllData();
 
@@ -3304,116 +2655,172 @@ async function saveStudent(){
 
         showToast(
             error.message ||
-            "Unable to add student.",
+            "Unable to save student.",
             "error"
         );
+
+    }finally{
+
+        saveButton.disabled = false;
 
     }
 
 }
 
 
-/* ------------------------------
-   PREPARE PRINT
------------------------------- */
+function viewTeacher(id){
 
-function preparePrint(){
+    const teacher =
+        teachers.find(t =>
+            String(t.id) === String(id)
+        );
 
-    const search =
-        document
-            .getElementById("studentSearch")
-            .value
-            .trim()
-            .toLowerCase();
+    if(!teacher){
+        return;
+    }
 
-    const classFilter =
-        document
-            .getElementById("studentClassFilter")
-            .value;
+    const teacherClasses =
+        teacherAssignments(teacher.id);
 
-    const statusFilter =
-        document
-            .getElementById("studentStatusFilter")
-            .value;
+    const classNames =
+        teacherClasses.map(a =>
+            getClassName(a.class_id)
+        );
+
+    alert(
+        "Teacher\n\n" +
+        "Name: " + teacher.name +
+        "\nUsername: " + teacher.username +
+        "\nAssigned Classes: " +
+        (classNames.length
+            ? classNames.join(", ")
+            : "None")
+    );
+
+}
 
 
-    const list =
-        students.filter(student => {
+function viewStudent(id){
 
-            const studentRoster =
-                roster.find(
-                    r =>
-                        String(r.student_id) ===
-                        String(student.id)
-                );
+    const student =
+        students.find(s =>
+            String(s.id) === String(id)
+        );
 
-            const matchesSearch =
-                !search ||
-                String(student.full_name || "")
-                    .toLowerCase()
-                    .includes(search) ||
-                String(student.student_id || "")
-                    .toLowerCase()
-                    .includes(search);
-
-            const matchesClass =
-                classFilter === "all" ||
-                (
-                    studentRoster &&
-                    String(studentRoster.class_id) ===
-                    String(classFilter)
-                );
-
-            const matchesStatus =
-                statusFilter === "all" ||
-                String(student.registration_status || "")
-                    .toLowerCase() ===
-                statusFilter.toLowerCase();
-
-            return (
-                matchesSearch &&
-                matchesClass &&
-                matchesStatus
-            );
-
-        });
-
+    if(!student){
+        return;
+    }
 
     const rows =
-        list.map((student,index) => {
+        studentRoster(student.id);
 
-            const studentRoster =
-                roster.find(
-                    r =>
-                        String(r.student_id) ===
-                        String(student.id)
-                );
+    const classNames =
+        rows.map(r =>
+            getClassName(r.class_id)
+        );
+
+    const details =
+        document.getElementById("studentDetails");
+
+    details.innerHTML = `
+
+        <div class="detail">
+            <div class="detail-label">Full Name</div>
+            <div class="detail-value">
+                ${esc(student.full_name)}
+            </div>
+        </div>
+
+        <div class="detail">
+            <div class="detail-label">Student ID</div>
+            <div class="detail-value">
+                ${esc(student.student_id || "-")}
+            </div>
+        </div>
+
+        <div class="detail">
+            <div class="detail-label">Administration Number</div>
+            <div class="detail-value">
+                ${esc(student.administration_number || "-")}
+            </div>
+        </div>
+
+        <div class="detail">
+            <div class="detail-label">Student Type</div>
+            <div class="detail-value">
+                ${esc(student.student_type || "-")}
+            </div>
+        </div>
+
+        <div class="detail">
+            <div class="detail-label">Class</div>
+            <div class="detail-value">
+                ${esc(
+                    classNames.length
+                    ? classNames.join(", ")
+                    : "None"
+                )}
+            </div>
+        </div>
+
+        <div class="detail">
+            <div class="detail-label">Registration Status</div>
+            <div class="detail-value">
+                ${esc(student.registration_status || "-")}
+            </div>
+        </div>
+
+        <div class="detail">
+            <div class="detail-label">Payment Status</div>
+            <div class="detail-value">
+                ${esc(student.payment_status || "-")}
+            </div>
+        </div>
+
+        <div class="detail">
+            <div class="detail-label">Phone</div>
+            <div class="detail-value">
+                ${esc(student.phone || "-")}
+            </div>
+        </div>
+
+    `;
+
+    document
+        .getElementById("detailsModal")
+        .classList.add("show");
+
+}
+
+
+function printStudents(){
+
+    const rows =
+        students.map((student,index) => {
+
+            const classesForStudent =
+                studentRoster(student.id)
+                    .map(r => getClassName(r.class_id))
+                    .join(", ");
 
             return `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${escapeHtml(student.full_name)}</td>
-                    <td>${escapeHtml(
+                    <td>${esc(student.full_name)}</td>
+                    <td>${esc(
                         student.administration_number ||
                         student.student_id ||
-                        "—"
+                        "-"
                     )}</td>
-                    <td>${escapeHtml(
-                        studentRoster
-                            ? getClassName(studentRoster.class_id)
-                            : "—"
-                    )}</td>
-                    <td>${escapeHtml(
-                        student.registration_status || "—"
-                    )}</td>
-                    <td>${escapeHtml(
-                        student.payment_status || "—"
+                    <td>${esc(classesForStudent || "-")}</td>
+                    <td>${esc(
+                        student.registration_status ||
+                        "-"
                     )}</td>
                 </tr>
             `;
 
         }).join("");
-
 
     const printWindow =
         window.open(
@@ -3422,27 +2829,19 @@ function preparePrint(){
             "width=1000,height=700"
         );
 
-
     if(!printWindow){
-
         showToast(
             "Please allow pop-ups to prepare the print page.",
             "error"
         );
-
         return;
     }
 
-
     printWindow.document.write(`
-
         <!DOCTYPE html>
-
         <html>
-
         <head>
-
-            <title>Student List</title>
+            <title>Student Class List</title>
 
             <style>
 
@@ -3453,14 +2852,13 @@ function preparePrint(){
                 }
 
                 h1{
-                    font-size:20px;
                     margin-bottom:5px;
                 }
 
                 p{
                     color:#64748b;
-                    font-size:12px;
-                    margin-bottom:20px;
+                    margin-top:0;
+                    margin-bottom:25px;
                 }
 
                 table{
@@ -3468,12 +2866,11 @@ function preparePrint(){
                     border-collapse:collapse;
                 }
 
-                th,
-                td{
+                th,td{
                     border:1px solid #cbd5e1;
-                    padding:8px;
+                    padding:9px;
                     text-align:left;
-                    font-size:11px;
+                    font-size:12px;
                 }
 
                 th{
@@ -3481,11 +2878,9 @@ function preparePrint(){
                 }
 
                 @media print{
-
                     body{
                         padding:0;
                     }
-
                 }
 
             </style>
@@ -3494,10 +2889,10 @@ function preparePrint(){
 
         <body>
 
-            <h1>Student List</h1>
+            <h1>Student Class List</h1>
 
             <p>
-                Generated on ${new Date().toLocaleString()}
+                School Registration & Management System
             </p>
 
             <table>
@@ -3509,20 +2904,13 @@ function preparePrint(){
                         <th>Student Name</th>
                         <th>Administration No. / Student ID</th>
                         <th>Class</th>
-                        <th>Registration</th>
-                        <th>Payment</th>
+                        <th>Registration Status</th>
                     </tr>
 
                 </thead>
 
                 <tbody>
-                    ${rows || `
-                        <tr>
-                            <td colspan="6">
-                                No students found.
-                            </td>
-                        </tr>
-                    `}
+                    ${rows}
                 </tbody>
 
             </table>
@@ -3530,7 +2918,6 @@ function preparePrint(){
         </body>
 
         </html>
-
     `);
 
     printWindow.document.close();
@@ -3539,410 +2926,220 @@ function preparePrint(){
 
     setTimeout(() => {
         printWindow.print();
-    }, 300);
-}
-
-
-/* ------------------------------
-   MODALS
------------------------------- */
-
-function openTeacherModal(){
-
-    document
-        .getElementById("teacherModal")
-        .classList.add("show");
-
-    document
-        .getElementById("teacherForm")
-        .reset();
-
-    renderClassOptions();
+    },300);
 
 }
 
-
-function closeTeacherModal(){
-
-    document
-        .getElementById("teacherModal")
-        .classList.remove("show");
-
-}
-
-
-function openStudentModal(){
-
-    document
-        .getElementById("studentModal")
-        .classList.add("show");
-
-    document
-        .getElementById("studentForm")
-        .reset();
-
-}
-
-
-function closeStudentModal(){
-
-    document
-        .getElementById("studentModal")
-        .classList.remove("show");
-
-}
-
-
-function closeStudentDetails(){
-
-    document
-        .getElementById("studentDetailsModal")
-        .classList.remove("show");
-
-}
-
-
-/* ------------------------------
-   MOBILE SIDEBAR
------------------------------- */
-
-function openMobileSidebar(){
-
-    document
-        .getElementById("sidebar")
-        .classList.add("open");
-
-    document
-        .getElementById("mobileOverlay")
-        .classList.add("show");
-
-}
-
-
-function closeMobileSidebar(){
-
-    document
-        .getElementById("sidebar")
-        .classList.remove("open");
-
-    document
-        .getElementById("mobileOverlay")
-        .classList.remove("show");
-
-}
-
-
-/* ------------------------------
-   EVENTS
------------------------------- */
 
 document
     .getElementById("addTeacherBtn")
-    .addEventListener(
-        "click",
-        openTeacherModal
-    );
+    .addEventListener("click",() => {
+
+        document
+            .getElementById("teacherModal")
+            .classList.add("show");
+
+    });
 
 
 document
     .getElementById("closeTeacherModal")
-    .addEventListener(
-        "click",
-        closeTeacherModal
-    );
+    .addEventListener("click",closeAllModals);
 
 
 document
     .getElementById("cancelTeacherBtn")
-    .addEventListener(
-        "click",
-        closeTeacherModal
-    );
-
-
-document
-    .getElementById("teacherForm")
-    .addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-            saveTeacher();
-
-        }
-    );
-
-
-document
-    .getElementById("teacherPin")
-    .addEventListener(
-        "input",
-        event => {
-
-            event.target.value =
-                event.target.value
-                    .replace(/\D/g,"")
-                    .slice(0,6);
-
-        }
-    );
-
-
-document
-    .getElementById("refreshTeachersBtn")
-    .addEventListener(
-        "click",
-        loadAllData
-    );
-
-
-document
-    .getElementById("teacherSearch")
-    .addEventListener(
-        "input",
-        renderTeachers
-    );
-
-
-document
-    .getElementById("teacherStatusFilter")
-    .addEventListener(
-        "change",
-        renderTeachers
-    );
+    .addEventListener("click",closeAllModals);
 
 
 document
     .getElementById("addStudentBtn")
-    .addEventListener(
-        "click",
-        openStudentModal
-    );
+    .addEventListener("click",() => {
+
+        document
+            .getElementById("studentModal")
+            .classList.add("show");
+
+    });
 
 
 document
     .getElementById("closeStudentModal")
-    .addEventListener(
-        "click",
-        closeStudentModal
-    );
+    .addEventListener("click",closeAllModals);
 
 
 document
     .getElementById("cancelStudentBtn")
-    .addEventListener(
-        "click",
-        closeStudentModal
-    );
+    .addEventListener("click",closeAllModals);
 
 
 document
-    .getElementById("studentForm")
-    .addEventListener(
-        "submit",
-        event => {
+    .getElementById("closeDetailsModal")
+    .addEventListener("click",closeAllModals);
 
-            event.preventDefault();
 
-            saveStudent();
+document
+    .getElementById("saveTeacherBtn")
+    .addEventListener("click",saveTeacher);
 
-        }
-    );
+
+document
+    .getElementById("saveStudentBtn")
+    .addEventListener("click",saveStudent);
+
+
+document
+    .getElementById("refreshBtn")
+    .addEventListener("click",loadAllData);
+
+
+document
+    .getElementById("printBtn")
+    .addEventListener("click",printStudents);
+
+
+document
+    .getElementById("teacherSearch")
+    .addEventListener("input",renderTeachers);
+
+
+document
+    .getElementById("teacherStatusFilter")
+    .addEventListener("change",renderTeachers);
+
+
+document
+    .getElementById("clearTeacherFilters")
+    .addEventListener("click",() => {
+
+        document.getElementById("teacherSearch").value = "";
+        document.getElementById("teacherStatusFilter").value = "all";
+
+        renderTeachers();
+
+    });
 
 
 document
     .getElementById("studentSearch")
-    .addEventListener(
-        "input",
-        renderStudents
-    );
+    .addEventListener("input",renderStudents);
 
 
 document
     .getElementById("studentClassFilter")
-    .addEventListener(
-        "change",
-        renderStudents
-    );
+    .addEventListener("change",renderStudents);
 
 
 document
     .getElementById("studentStatusFilter")
-    .addEventListener(
-        "change",
-        renderStudents
-    );
-
-
-document
-    .getElementById("refreshStudentsBtn")
-    .addEventListener(
-        "click",
-        loadAllData
-    );
+    .addEventListener("change",renderStudents);
 
 
 document
     .getElementById("submissionSearch")
-    .addEventListener(
-        "input",
-        renderSubmissions
-    );
+    .addEventListener("input",renderSubmissions);
 
 
 document
-    .getElementById("registrationFilter")
-    .addEventListener(
-        "change",
-        renderSubmissions
-    );
+    .getElementById("submissionRegistrationFilter")
+    .addEventListener("change",renderSubmissions);
 
 
 document
-    .getElementById("paymentFilter")
-    .addEventListener(
-        "change",
-        renderSubmissions
-    );
+    .getElementById("submissionPaymentFilter")
+    .addEventListener("change",renderSubmissions);
 
 
 document
-    .getElementById("preparePrintBtn")
-    .addEventListener(
-        "click",
-        preparePrint
-    );
+    .getElementById("teacherPin")
+    .addEventListener("input",function(){
+
+        this.value =
+            this.value
+                .replace(/\D/g,"")
+                .slice(0,6);
+
+    });
 
 
 document
-    .getElementById("closeStudentDetails")
-    .addEventListener(
-        "click",
-        closeStudentDetails
-    );
+    .getElementById("menuBtn")
+    .addEventListener("click",() => {
+
+        document
+            .getElementById("sidebar")
+            .classList.add("open");
+
+        document
+            .getElementById("overlay")
+            .classList.add("show");
+
+    });
 
 
 document
-    .getElementById("closeStudentDetailsBtn")
-    .addEventListener(
-        "click",
-        closeStudentDetails
-    );
+    .getElementById("overlay")
+    .addEventListener("click",() => {
 
+        document
+            .getElementById("sidebar")
+            .classList.remove("open");
 
-document
-    .getElementById("mobileMenu")
-    .addEventListener(
-        "click",
-        openMobileSidebar
-    );
+        document
+            .getElementById("overlay")
+            .classList.remove("show");
 
-
-document
-    .getElementById("mobileOverlay")
-    .addEventListener(
-        "click",
-        closeMobileSidebar
-    );
+    });
 
 
 document
     .getElementById("logoutBtn")
-    .addEventListener(
-        "click",
-        () => {
+    .addEventListener("click",() => {
 
-            sessionStorage.removeItem(
-                "admin_authenticated"
-            );
+        sessionStorage.removeItem(
+            "admin_authenticated"
+        );
 
-            window.location.href =
-                "admin-login.html";
+        window.location.href =
+            "admin-login.html";
 
-        }
-    );
-
-
-/* ------------------------------
-   CLOSE MODALS ON BACKDROP
------------------------------- */
-
-document
-    .getElementById("teacherModal")
-    .addEventListener(
-        "click",
-        event => {
-
-            if(
-                event.target.id ===
-                "teacherModal"
-            ){
-                closeTeacherModal();
-            }
-
-        }
-    );
+    });
 
 
 document
-    .getElementById("studentModal")
-    .addEventListener(
-        "click",
-        event => {
+    .querySelectorAll(".modal")
+    .forEach(modal => {
 
-            if(
-                event.target.id ===
-                "studentModal"
-            ){
-                closeStudentModal();
+        modal.addEventListener("click",event => {
+
+            if(event.target === modal){
+                modal.classList.remove("show");
             }
 
-        }
-    );
+        });
 
+    });
 
-document
-    .getElementById("studentDetailsModal")
-    .addEventListener(
-        "click",
-        event => {
-
-            if(
-                event.target.id ===
-                "studentDetailsModal"
-            ){
-                closeStudentDetails();
-            }
-
-        }
-    );
-
-
-/* ------------------------------
-   ESCAPE KEY
------------------------------- */
 
 document.addEventListener(
     "keydown",
     event => {
 
-        if(event.key !== "Escape"){
-            return;
-        }
+        if(event.key === "Escape"){
+            closeAllModals();
 
-        closeTeacherModal();
-        closeStudentModal();
-        closeStudentDetails();
-        closeMobileSidebar();
+            document
+                .getElementById("sidebar")
+                .classList.remove("open");
+
+            document
+                .getElementById("overlay")
+                .classList.remove("show");
+        }
 
     }
 );
 
-
-/* ------------------------------
-   INITIALIZE
------------------------------- */
 
 lucide.createIcons();
 
