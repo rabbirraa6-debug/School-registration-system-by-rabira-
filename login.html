@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Staff Login | School Registration System</title>
 
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
@@ -173,11 +178,9 @@
       color: var(--muted);
     }
 
-    .error-message {
+    .error-message,
+    .success-message {
       display: none;
-      background: var(--danger-light);
-      border: 1px solid #fecdca;
-      color: var(--danger);
       padding: 11px 12px;
       border-radius: 9px;
       font-size: 13px;
@@ -185,16 +188,16 @@
       line-height: 1.4;
     }
 
+    .error-message {
+      background: var(--danger-light);
+      border: 1px solid #fecdca;
+      color: var(--danger);
+    }
+
     .success-message {
-      display: none;
       background: var(--success-light);
       border: 1px solid #b7e2c8;
       color: var(--success);
-      padding: 11px 12px;
-      border-radius: 9px;
-      font-size: 13px;
-      margin-bottom: 16px;
-      line-height: 1.4;
     }
 
     .login-button {
@@ -292,6 +295,7 @@
     <section class="login-card">
 
       <div class="login-heading">
+
         <div class="login-icon">
           <i data-lucide="lock-keyhole" size="30"></i>
         </div>
@@ -301,6 +305,7 @@
         <p>
           Enter your staff username and 6-digit PIN to access the school management system.
         </p>
+
       </div>
 
       <div id="errorMessage" class="error-message"></div>
@@ -310,10 +315,15 @@
       <form id="loginForm">
 
         <div class="field">
+
           <label for="username">Username</label>
 
           <div class="input-wrapper">
-            <i class="input-icon" data-lucide="user"></i>
+
+            <i
+              class="input-icon"
+              data-lucide="user"
+            ></i>
 
             <input
               type="text"
@@ -322,14 +332,22 @@
               autocomplete="username"
               required
             >
+
           </div>
+
         </div>
 
+
         <div class="field">
+
           <label for="pin">6-Digit PIN</label>
 
           <div class="input-wrapper">
-            <i class="input-icon" data-lucide="key-round"></i>
+
+            <i
+              class="input-icon"
+              data-lucide="key-round"
+            ></i>
 
             <input
               type="password"
@@ -341,63 +359,102 @@
               autocomplete="current-password"
               required
             >
+
           </div>
 
           <div class="pin-note">
             Your PIN must contain exactly 6 digits.
           </div>
+
         </div>
 
-        <button type="submit" class="login-button" id="loginButton">
+
+        <button
+          type="submit"
+          class="login-button"
+          id="loginButton"
+        >
+
           <i data-lucide="log-in" size="18"></i>
-          <span id="loginButtonText">Sign In</span>
+
+          <span id="loginButtonText">
+            Sign In
+          </span>
+
         </button>
 
       </form>
 
+
       <div class="security-note">
-        <i data-lucide="shield-check" size="18"></i>
+
+        <i
+          data-lucide="shield-check"
+          size="18"
+        ></i>
 
         <div>
           Staff access is restricted to authorized school personnel.
           Your account and permissions are managed by the school administrator.
         </div>
+
       </div>
 
-      <button class="back-button" onclick="goHome()">
+
+      <button
+        class="back-button"
+        onclick="goHome()"
+      >
         Back to Home
       </button>
 
     </section>
   </main>
 
+
   <script>
+
     /* ==========================================
        SUPABASE CONNECTION
        ========================================== */
 
-    const SUPABASE_URL = "https://goongxvoooiwsesqoptz.supabase.co";
+    const SUPABASE_URL =
+      "https://goongxvoooiwsesqoptz.supabase.co";
 
     const SUPABASE_KEY =
       "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
 
     /* ==========================================
        ELEMENTS
        ========================================== */
 
-    const loginForm = document.getElementById("loginForm");
-    const usernameInput = document.getElementById("username");
-    const pinInput = document.getElementById("pin");
-    const loginButton = document.getElementById("loginButton");
-    const loginButtonText = document.getElementById("loginButtonText");
-    const errorMessage = document.getElementById("errorMessage");
-    const successMessage = document.getElementById("successMessage");
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const usernameInput =
+      document.getElementById("username");
+
+    const pinInput =
+      document.getElementById("pin");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginButtonText =
+      document.getElementById("loginButtonText");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
+    const successMessage =
+      document.getElementById("successMessage");
 
 
     /* ==========================================
@@ -405,133 +462,208 @@
        ========================================== */
 
     pinInput.addEventListener("input", function () {
+
       this.value = this.value
         .replace(/\D/g, "")
         .slice(0, 6);
+
     });
 
 
     /* ==========================================
-       MESSAGE HELPERS
+       MESSAGE FUNCTIONS
        ========================================== */
 
     function showError(message) {
+
       successMessage.style.display = "none";
 
       errorMessage.textContent = message;
+
       errorMessage.style.display = "block";
     }
 
 
     function showSuccess(message) {
+
       errorMessage.style.display = "none";
 
       successMessage.textContent = message;
+
       successMessage.style.display = "block";
     }
 
 
     /* ==========================================
-       TEACHER LOGIN
+       LOGIN
        ========================================== */
 
-    loginForm.addEventListener("submit", async function (event) {
+    loginForm.addEventListener(
+      "submit",
+      async function (event) {
 
-      event.preventDefault();
+        event.preventDefault();
 
-      const username = usernameInput.value.trim();
-      const pin = pinInput.value.trim();
+        const username =
+          usernameInput.value.trim();
 
-      errorMessage.style.display = "none";
-      successMessage.style.display = "none";
+        const pin =
+          pinInput.value.trim();
 
-      if (!username) {
-        showError("Please enter your username.");
-        usernameInput.focus();
-        return;
-      }
+        errorMessage.style.display = "none";
+        successMessage.style.display = "none";
 
-      if (!/^\d{6}$/.test(pin)) {
-        showError("Please enter a valid 6-digit PIN.");
-        pinInput.focus();
-        return;
-      }
 
-      loginButton.disabled = true;
-      loginButtonText.textContent = "Signing In...";
+        /* Validate username */
 
-      try {
+        if (!username) {
 
-        const { data, error } = await supabaseClient
-          .rpc("verify_teacher_pin", {
-            input_username: username,
-            input_pin: pin
-          });
-
-        if (error) {
-          console.error("Teacher login error:", error);
-          throw new Error(
-            "Unable to connect to the login service."
+          showError(
+            "Please enter your username."
           );
-        }
 
-        /*
-          verify_teacher_pin returns the teacher ID
-          when username + PIN are correct.
-
-          It returns null when credentials are incorrect.
-        */
-
-        if (!data) {
-          showError("Invalid username or PIN.");
-          pinInput.value = "";
-          pinInput.focus();
-
-          loginButton.disabled = false;
-          loginButtonText.textContent = "Sign In";
+          usernameInput.focus();
 
           return;
         }
 
-        /* ==========================================
-           LOGIN SUCCESS
-           ========================================== */
 
-        sessionStorage.setItem(
-          "teacher_authenticated",
-          "true"
-        );
+        /* Validate PIN */
 
-        sessionStorage.setItem(
-          "teacher_id",
-          String(data)
-        );
+        if (!/^\d{6}$/.test(pin)) {
 
-        sessionStorage.setItem(
-          "teacher_username",
-          username
-        );
+          showError(
+            "Please enter a valid 6-digit PIN."
+          );
 
-        showSuccess("Login successful. Opening staff dashboard...");
+          pinInput.focus();
 
-        setTimeout(function () {
-          window.location.href = "teachers.html";
-        }, 500);
+          return;
+        }
 
-      } catch (error) {
 
-        console.error(error);
+        /* Disable button */
 
-        showError(
-          error.message ||
-          "Login failed. Please try again."
-        );
+        loginButton.disabled = true;
 
-        loginButton.disabled = false;
-        loginButtonText.textContent = "Sign In";
+        loginButtonText.textContent =
+          "Signing In...";
+
+
+        try {
+
+          /* ==========================================
+             VERIFY TEACHER PIN
+             ========================================== */
+
+          const { data, error } =
+            await supabaseClient.rpc(
+              "verify_teacher_pin",
+              {
+                input_username: username,
+                input_pin: pin
+              }
+            );
+
+
+          if (error) {
+
+            console.error(
+              "Teacher login error:",
+              error
+            );
+
+            throw new Error(
+              error.message ||
+              "Unable to connect to the login service."
+            );
+          }
+
+
+          /* ==========================================
+             INVALID LOGIN
+             ========================================== */
+
+          if (
+            data === null ||
+            data === undefined ||
+            data === ""
+          ) {
+
+            showError(
+              "Invalid username or PIN."
+            );
+
+            pinInput.value = "";
+
+            pinInput.focus();
+
+            loginButton.disabled = false;
+
+            loginButtonText.textContent =
+              "Sign In";
+
+            return;
+          }
+
+
+          /* ==========================================
+             LOGIN SUCCESS
+             ========================================== */
+
+          sessionStorage.setItem(
+            "teacher_authenticated",
+            "true"
+          );
+
+          sessionStorage.setItem(
+            "teacher_id",
+            String(data)
+          );
+
+          sessionStorage.setItem(
+            "teacher_username",
+            username
+          );
+
+
+          showSuccess(
+            "Login successful. Opening staff dashboard..."
+          );
+
+
+          /* ==========================================
+             OPEN TEACHER DASHBOARD
+             ========================================== */
+
+          setTimeout(function () {
+
+            window.location.href =
+              "teachers.html";
+
+          }, 500);
+
+
+        } catch (error) {
+
+          console.error(
+            "Login failed:",
+            error
+          );
+
+          showError(
+            error.message ||
+            "Login failed. Please try again."
+          );
+
+          loginButton.disabled = false;
+
+          loginButtonText.textContent =
+            "Sign In";
+        }
+
       }
-
-    });
+    );
 
 
     /* ==========================================
@@ -539,20 +671,20 @@
        ========================================== */
 
     function goHome() {
-      window.location.href = "index.html";
+
+      window.location.href =
+        "index.html";
+
     }
 
 
     /* ==========================================
-       LUCIDE ICONS
+       LUCIDE
        ========================================== */
 
     lucide.createIcons();
 
   </script>
-
-  <!-- Supabase JavaScript Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </body>
 </html>
