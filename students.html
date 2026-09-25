@@ -713,6 +713,7 @@ tbody tr:hover{
 <aside class="sidebar" id="sidebar">
 
     <div class="logo">
+
         <div class="logo-icon">
             <i data-lucide="school"></i>
         </div>
@@ -721,6 +722,7 @@ tbody tr:hover{
             School Management
             <span>Staff Portal</span>
         </div>
+
     </div>
 
     <nav class="nav">
@@ -744,8 +746,11 @@ tbody tr:hover{
     <div class="sidebar-bottom">
 
         <button class="logout" id="logoutBtn">
+
             <i data-lucide="log-out"></i>
+
             Logout
+
         </button>
 
     </div>
@@ -754,388 +759,121 @@ tbody tr:hover{
 
 <main class="main">
 
-    <header class="topbar">
+<header class="topbar">
 
-        <div style="display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:10px;">
 
-            <button class="menu-btn" id="menuBtn">
-                <i data-lucide="menu"></i>
-            </button>
+        <button class="menu-btn" id="menuBtn">
+            <i data-lucide="menu"></i>
+        </button>
 
-            <div>
+        <div>
 
-                <div class="page-title">
-                    Students Management
-                </div>
+            <div class="page-title">
+                Students Management
+            </div>
 
-                <div class="page-subtitle">
-                    Manage students in your assigned classes
-                </div>
-
+            <div class="page-subtitle">
+                Manage students in your assigned classes
             </div>
 
         </div>
-
-        <div class="profile">
-
-            <div class="profile-icon">
-                <i data-lucide="user-check"></i>
-            </div>
-
-            <div>
-
-                <div
-                    class="profile-name"
-                    id="teacherNameDisplay"
-                >
-                    Staff
-                </div>
-
-                <div class="profile-role">
-                    Teacher
-                </div>
-
-            </div>
-
-        </div>
-
-    </header>
-
-    <div class="content">
-
-        <div class="stats">
-
-            <div class="stat">
-
-                <div class="stat-icon">
-                    <i data-lucide="graduation-cap"></i>
-                </div>
-
-                <div>
-
-                    <div
-                        class="stat-number"
-                        id="studentCount"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        My Students
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="stat">
-
-                <div class="stat-icon">
-                    <i data-lucide="layers"></i>
-                </div>
-
-                <div>
-
-                    <div
-                        class="stat-number"
-                        id="classCount"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        Assigned Classes
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="stat">
-
-                <div class="stat-icon">
-                    <i data-lucide="clock-3"></i>
-                </div>
-
-                <div>
-
-                    <div
-                        class="stat-number"
-                        id="pendingCount"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        Pending Registration
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <section class="section">
-
-            <div class="section-header">
-
-                <div>
-
-                    <div class="section-title">
-                        My Students
-                    </div>
-
-                    <div class="section-description">
-                        Students belonging to your assigned classes.
-                    </div>
-
-                </div>
-
-                <div class="header-actions">
-
-                    <button
-                        class="btn btn-light"
-                        id="refreshBtn"
-                    >
-                        <i data-lucide="refresh-cw"></i>
-                        Refresh
-                    </button>
-
-                    <button
-                        class="btn btn-light"
-                        id="printBtn"
-                    >
-                        <i data-lucide="printer"></i>
-                        Prepare for Print
-                    </button>
-
-                    <button
-                        class="btn btn-primary"
-                        id="addStudentBtn"
-                    >
-                        <i data-lucide="user-plus"></i>
-                        Add Student
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="filters">
-
-                <input
-                    class="input"
-                    id="studentSearch"
-                    placeholder="Search student name or administration number..."
-                >
-
-                <select
-                    class="select"
-                    id="classFilter"
-                >
-                    <option value="all">
-                        All My Classes
-                    </option>
-                </select>
-
-                <select
-                    class="select"
-                    id="statusFilter"
-                >
-                    <option value="all">
-                        All Registration Status
-                    </option>
-
-                    <option value="pending">
-                        Pending
-                    </option>
-
-                    <option value="submitted">
-                        Submitted
-                    </option>
-
-                    <option value="approved">
-                        Approved
-                    </option>
-
-                    <option value="rejected">
-                        Rejected
-                    </option>
-                </select>
-
-                <button
-                    class="btn btn-light"
-                    id="clearFilters"
-                >
-                    <i data-lucide="x"></i>
-                    Clear
-                </button>
-
-            </div>
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>No.</th>
-                            <th>Student Name</th>
-                            <th>Administration No.</th>
-                            <th>Grade</th>
-                            <th>Class</th>
-                            <th>Registration</th>
-                            <th>Actions</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="studentTableBody"></tbody>
-
-                </table>
-
-            </div>
-
-            <div
-                class="empty"
-                id="emptyState"
-                style="display:none;"
-            >
-
-                <div class="empty-icon">
-                    <i data-lucide="graduation-cap"></i>
-                </div>
-
-                <div class="empty-title">
-                    No students found
-                </div>
-
-                <div class="empty-text">
-                    Students you add to your assigned classes will appear here.
-                </div>
-
-            </div>
-
-        </section>
 
     </div>
 
-</main>
+    <div class="profile">
 
-<div
-    class="modal"
-    id="studentModal"
->
+        <div class="profile-icon">
+            <i data-lucide="user-check"></i>
+        </div>
 
-    <div class="modal-card">
-
-        <div class="modal-header">
+        <div>
 
             <div
-                class="modal-title"
-                id="studentModalTitle"
+                class="profile-name"
+                id="teacherNameDisplay"
             >
-                Add Student
+                Staff
             </div>
 
-            <button
-                class="close"
-                id="closeStudentModal"
-            >
-                <i data-lucide="x"></i>
-            </button>
-
-        </div>
-
-        <div class="modal-body">
-
-            <div class="notice">
-
-                Staff only enter the student's official
-                <strong>Administration Number</strong>
-                and
-                <strong>Full Name</strong>.
-                The student will later use the Administration Number
-                on the public registration page to complete the rest
-                of their information.
-
-            </div>
-
-            <div class="form-grid">
-
-                <div class="field full">
-
-                    <label>
-                        Administration Number
-                    </label>
-
-                    <input
-                        class="input"
-                        id="administrationNumber"
-                        placeholder="Enter administration number"
-                        autocomplete="off"
-                    >
-
-                </div>
-
-                <div class="field full">
-
-                    <label>
-                        Full Name
-                    </label>
-
-                    <input
-                        class="input"
-                        id="studentName"
-                        placeholder="Enter student's full name"
-                        autocomplete="off"
-                    >
-
-                </div>
-
-                <div class="field full">
-
-                    <label>
-                        Assign to Class
-                    </label>
-
-                    <select
-                        class="select"
-                        id="studentClass"
-                    >
-
-                        <option value="">
-                            Select class
-                        </option>
-
-                    </select>
-
-                </div>
-
+            <div class="profile-role">
+                Teacher
             </div>
 
         </div>
 
-        <div class="modal-footer">
+    </div>
 
-            <button
-                class="btn btn-light"
-                id="cancelStudentBtn"
-            >
-                Cancel
-            </button>
+</header>
 
-            <button
-                class="btn btn-primary"
-                id="saveStudentBtn"
+<div class="content">
+
+<div class="stats">
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            <i data-lucide="graduation-cap"></i>
+        </div>
+
+        <div>
+
+            <div
+                class="stat-number"
+                id="studentCount"
             >
-                <i data-lucide="save"></i>
-                Save Student
-            </button>
+                0
+            </div>
+
+            <div class="stat-label">
+                My Students
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            <i data-lucide="layers"></i>
+        </div>
+
+        <div>
+
+            <div
+                class="stat-number"
+                id="classCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Assigned Classes
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            <i data-lucide="clock-3"></i>
+        </div>
+
+        <div>
+
+            <div
+                class="stat-number"
+                id="pendingCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Pending Registration
+            </div>
 
         </div>
 
@@ -1143,34 +881,310 @@ tbody tr:hover{
 
 </div>
 
+<section class="section">
+
+<div class="section-header">
+
+    <div>
+
+        <div class="section-title">
+            My Students
+        </div>
+
+        <div class="section-description">
+            Students belonging to your assigned classes.
+        </div>
+
+    </div>
+
+    <div class="header-actions">
+
+        <button
+            class="btn btn-light"
+            id="refreshBtn"
+        >
+            <i data-lucide="refresh-cw"></i>
+            Refresh
+        </button>
+
+        <button
+            class="btn btn-light"
+            id="printBtn"
+        >
+            <i data-lucide="printer"></i>
+            Prepare for Print
+        </button>
+
+        <button
+            class="btn btn-primary"
+            id="addStudentBtn"
+        >
+            <i data-lucide="user-plus"></i>
+            Add Student
+        </button>
+
+    </div>
+
+</div>
+
+<div class="filters">
+
+    <input
+        class="input"
+        id="studentSearch"
+        placeholder="Search student name or administration number..."
+    >
+
+    <select
+        class="select"
+        id="classFilter"
+    >
+
+        <option value="all">
+            All My Classes
+        </option>
+
+    </select>
+
+    <select
+        class="select"
+        id="statusFilter"
+    >
+
+        <option value="all">
+            All Registration Status
+        </option>
+
+        <option value="pending">
+            Pending
+        </option>
+
+        <option value="submitted">
+            Submitted
+        </option>
+
+        <option value="approved">
+            Approved
+        </option>
+
+        <option value="rejected">
+            Rejected
+        </option>
+
+    </select>
+
+    <button
+        class="btn btn-light"
+        id="clearFilters"
+    >
+        <i data-lucide="x"></i>
+        Clear
+    </button>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+    <th>No.</th>
+    <th>Student Name</th>
+    <th>Administration No.</th>
+    <th>Grade</th>
+    <th>Class</th>
+    <th>Registration</th>
+    <th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTableBody"></tbody>
+
+</table>
+
+</div>
+
+<div
+    class="empty"
+    id="emptyState"
+    style="display:none;"
+>
+
+    <div class="empty-icon">
+        <i data-lucide="graduation-cap"></i>
+    </div>
+
+    <div class="empty-title">
+        No students found
+    </div>
+
+    <div class="empty-text">
+        Students you add to your assigned classes will appear here.
+    </div>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+<!-- ADD / EDIT STUDENT -->
+
+<div
+    class="modal"
+    id="studentModal"
+>
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+    <div
+        class="modal-title"
+        id="studentModalTitle"
+    >
+        Add Student
+    </div>
+
+    <button
+        class="close"
+        id="closeStudentModal"
+    >
+        <i data-lucide="x"></i>
+    </button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="notice">
+
+    Staff only enter the student's official
+    <strong>Administration Number</strong>
+    and
+    <strong>Full Name</strong>.
+
+    The student will later use the Administration Number
+    on the public registration page to complete the rest
+    of their information.
+
+</div>
+
+<div class="form-grid">
+
+<div class="field full">
+
+    <label>
+        Administration Number
+    </label>
+
+    <input
+        class="input"
+        id="administrationNumber"
+        placeholder="Enter administration number"
+        autocomplete="off"
+    >
+
+</div>
+
+<div class="field full">
+
+    <label>
+        Full Name
+    </label>
+
+    <input
+        class="input"
+        id="studentName"
+        placeholder="Enter student's full name"
+        autocomplete="off"
+    >
+
+</div>
+
+<div class="field full">
+
+    <label>
+        Assign to Class
+    </label>
+
+    <select
+        class="select"
+        id="studentClass"
+    >
+
+        <option value="">
+            Select class
+        </option>
+
+    </select>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+    <button
+        class="btn btn-light"
+        id="cancelStudentBtn"
+    >
+        Cancel
+    </button>
+
+    <button
+        class="btn btn-primary"
+        id="saveStudentBtn"
+    >
+        <i data-lucide="save"></i>
+        Save Student
+    </button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- DETAILS -->
+
 <div
     class="modal"
     id="detailsModal"
 >
 
-    <div class="modal-card">
+<div class="modal-card">
 
-        <div class="modal-header">
+<div class="modal-header">
 
-            <div class="modal-title">
-                Student Details
-            </div>
-
-            <button
-                class="close"
-                id="closeDetailsModal"
-            >
-                <i data-lucide="x"></i>
-            </button>
-
-        </div>
-
-        <div
-            class="modal-body"
-            id="detailsBody"
-        ></div>
-
+    <div class="modal-title">
+        Student Details
     </div>
+
+    <button
+        class="close"
+        id="closeDetailsModal"
+    >
+        <i data-lucide="x"></i>
+    </button>
+
+</div>
+
+<div
+    class="modal-body"
+    id="detailsBody"
+></div>
+
+</div>
 
 </div>
 
@@ -1256,10 +1270,11 @@ function closeModals(){
 
     document
         .querySelectorAll(".modal")
-        .forEach(modal =>
-            modal.classList.remove(
-                "show"
-            )
+        .forEach(
+            modal =>
+                modal.classList.remove(
+                    "show"
+                )
         );
 
 }
@@ -1347,7 +1362,11 @@ function getMyStudents(){
 
 async function generateStudentId(){
 
-    for(let attempt = 0; attempt < 10; attempt++){
+    for(
+        let attempt = 0;
+        attempt < 10;
+        attempt++
+    ){
 
         const timestamp =
             Date.now()
@@ -1602,9 +1621,7 @@ async function loadRoster(){
                 "class_id",
                 classIds
             )
-            .order(
-                "student_number"
-            );
+            .order("student_number");
 
     if(error){
         throw error;
@@ -1952,13 +1969,11 @@ function renderStudents(){
                 </td>
 
                 <td>
-
                     <strong>
                         ${esc(
                             student.full_name
                         )}
                     </strong>
-
                 </td>
 
                 <td>
@@ -2004,9 +2019,7 @@ function renderStudents(){
                             data-action="view"
                             data-id="${student.id}"
                         >
-
                             <i data-lucide="eye"></i>
-
                         </button>
 
                         <button
@@ -2015,9 +2028,7 @@ function renderStudents(){
                             data-action="edit"
                             data-id="${student.id}"
                         >
-
                             <i data-lucide="pencil"></i>
-
                         </button>
 
                     </div>
@@ -2182,12 +2193,6 @@ async function saveStudent(){
             "error"
         );
 
-        document
-            .getElementById(
-                "administrationNumber"
-            )
-            .focus();
-
         return;
 
     }
@@ -2198,12 +2203,6 @@ async function saveStudent(){
             "Enter the student's full name.",
             "error"
         );
-
-        document
-            .getElementById(
-                "studentName"
-            )
-            .focus();
 
         return;
 
@@ -2265,11 +2264,8 @@ async function saveStudent(){
         true;
 
     button.innerHTML = `
-
         <i data-lucide="loader-2"></i>
-
         Saving...
-
     `;
 
     lucide.createIcons();
@@ -2371,7 +2367,9 @@ async function saveStudent(){
             } =
                 await supabaseClient
                     .from("students")
-                    .select("id,full_name")
+                    .select(
+                        "id,full_name"
+                    )
                     .eq(
                         "administration_number",
                         administrationNumber
@@ -2416,51 +2414,19 @@ async function saveStudent(){
             };
 
 
-            /* ==========================================
-               BROWSER ROLE DIAGNOSTIC
-            ========================================== */
-
-            const {
-                data: myRole,
-                error: roleError
-            } =
-                await supabaseClient
-                    .rpc(
-                        "get_my_supabase_role"
-                    );
-
-            alert(
-                "Browser Supabase role:\n\n" +
-                JSON.stringify(
-                    {
-                        myRole,
-                        roleError
-                    },
-                    null,
-                    2
-                )
-            );
-
-            if(roleError){
-
-                console.error(
-                    "ROLE CHECK ERROR:",
-                    roleError
-                );
-
-                return;
-
-            }
-
-
-            /* ==========================================
-               INSERT WITHOUT SELECT
-            ========================================== */
-
             console.log(
                 "Student insert payload:",
                 studentData
             );
+
+
+            /*
+             * IMPORTANT:
+             * INSERT ONLY.
+             *
+             * No .select()
+             * No .single()
+             */
 
             const {
                 error
@@ -2500,8 +2466,7 @@ async function saveStudent(){
 
 
             /*
-             * We don't use returned student data anymore.
-             * Find the newly created student using its generated ID.
+             * Find the newly inserted student.
              */
 
             const {
@@ -2510,7 +2475,9 @@ async function saveStudent(){
             } =
                 await supabaseClient
                     .from("students")
-                    .select("id,student_id")
+                    .select(
+                        "id,student_id"
+                    )
                     .eq(
                         "student_id",
                         generatedStudentId
@@ -2577,7 +2544,7 @@ async function saveStudent(){
         ){
 
             showToast(
-                "Student insert was rejected by Supabase RLS. Check the diagnostic popup.",
+                "Student insert was rejected by Supabase RLS.",
                 "error"
             );
 
@@ -2589,11 +2556,8 @@ async function saveStudent(){
             false;
 
         button.innerHTML = `
-
             <i data-lucide="save"></i>
-
             Save Student
-
         `;
 
         lucide.createIcons();
@@ -2710,94 +2674,90 @@ function viewStudent(id){
         )
         .innerHTML = `
 
-            <div
-                style="
-                    display:grid;
-                    grid-template-columns:1fr 1fr;
-                    gap:12px;
-                "
-            >
+        <div
+            style="
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:12px;
+            "
+        >
+
+            ${detail(
+                "Full Name",
+                student.full_name
+            )}
+
+            ${detail(
+                "Administration Number",
+                student.administration_number || "-"
+            )}
+
+            ${detail(
+                "Grade",
+                grade
+                ? grade.name
+                : "-"
+            )}
+
+            ${detail(
+                "Class",
+                cls
+                ? cls.name
+                : "-"
+            )}
+
+            ${detail(
+                "Student ID",
+                student.student_id || "Not assigned"
+            )}
+
+            ${detail(
+                "Student Type",
+                student.student_type || "Not completed"
+            )}
+
+            ${detail(
+                "Date of Birth",
+                student.date_of_birth || "Not completed"
+            )}
+
+            ${detail(
+                "Gender",
+                student.gender || "Not completed"
+            )}
+
+            ${detail(
+                "Parent / Guardian",
+                student.parent_guardian || "Not completed"
+            )}
+
+            ${detail(
+                "Phone",
+                student.phone || "Not completed"
+            )}
+
+            <div style="grid-column:1/-1;">
 
                 ${detail(
-                    "Full Name",
-                    student.full_name
-                )}
-
-                ${detail(
-                    "Administration Number",
-                    student.administration_number || "-"
-                )}
-
-                ${detail(
-                    "Grade",
-                    grade
-                    ? grade.name
-                    : "-"
-                )}
-
-                ${detail(
-                    "Class",
-                    cls
-                    ? cls.name
-                    : "-"
-                )}
-
-                ${detail(
-                    "Student ID",
-                    student.student_id || "Not assigned"
-                )}
-
-                ${detail(
-                    "Student Type",
-                    student.student_type || "Not completed"
-                )}
-
-                ${detail(
-                    "Date of Birth",
-                    student.date_of_birth || "Not completed"
-                )}
-
-                ${detail(
-                    "Gender",
-                    student.gender || "Not completed"
-                )}
-
-                ${detail(
-                    "Parent / Guardian",
-                    student.parent_guardian || "Not completed"
-                )}
-
-                ${detail(
-                    "Phone",
-                    student.phone || "Not completed"
-                )}
-
-                <div
-                    style="
-                        grid-column:1/-1;
-                    "
-                >
-
-                    ${detail(
-                        "Address",
-                        student.address || "Not completed"
-                    )}
-
-                </div>
-
-                ${detail(
-                    "Registration Status",
-                    student.registration_status || "Pending"
-                )}
-
-                ${detail(
-                    "Payment Status",
-                    student.payment_status || "Pending"
+                    "Address",
+                    student.address || "Not completed"
                 )}
 
             </div>
 
-        `;
+            ${detail(
+                "Registration Status",
+                student.registration_status || "Pending"
+            )}
+
+            ${detail(
+                "Payment Status",
+                student.payment_status || "Pending"
+            )}
+
+        </div>
+
+    `;
 
     document
         .getElementById(
@@ -2852,13 +2812,6 @@ function detail(
 }
 
 
-function preparePrint(){
-
-    window.print();
-
-}
-
-
 document
     .getElementById(
         "addStudentBtn"
@@ -2885,7 +2838,7 @@ document
     )
     .addEventListener(
         "click",
-        preparePrint
+        () => window.print()
     );
 
 
@@ -3148,7 +3101,8 @@ document.addEventListener(
     event => {
 
         if(
-            event.key === "Escape"
+            event.key ===
+            "Escape"
         ){
 
             closeModals();
@@ -3176,6 +3130,7 @@ document.addEventListener(
 
 
 lucide.createIcons();
+
 
 if(
     getStaffSession()
