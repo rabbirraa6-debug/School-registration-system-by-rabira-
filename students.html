@@ -396,7 +396,7 @@ button{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:900px;
+    min-width:850px;
 }
 
 th{
@@ -525,7 +525,7 @@ tbody tr:hover{
 
 .modal-card{
     width:100%;
-    max-width:650px;
+    max-width:550px;
     max-height:90vh;
     overflow-y:auto;
     background:white;
@@ -1004,7 +1004,7 @@ tbody tr:hover{
                 <input
                     class="input"
                     id="studentSearch"
-                    placeholder="Search student name, ID or administration number..."
+                    placeholder="Search student name or administration number..."
                 >
 
 
@@ -1074,17 +1074,13 @@ tbody tr:hover{
 
                             <th>Student Name</th>
 
-                            <th>Student ID</th>
-
                             <th>Administration No.</th>
 
                             <th>Grade</th>
 
                             <th>Class</th>
 
-                            <th>Type</th>
-
-                            <th>Status</th>
+                            <th>Registration</th>
 
                             <th>Actions</th>
 
@@ -1162,14 +1158,33 @@ tbody tr:hover{
 
             <div class="notice">
 
-                Students added here become available for the appropriate
-                registration process. Make sure the student information
-                matches the school's official records.
+                Enter only the student's official
+                <strong>Administration Number</strong>
+                and
+                <strong>Full Name</strong>.
+                Other personal information will be completed by
+                the student during registration.
 
             </div>
 
 
             <div class="form-grid">
+
+                <div class="field full">
+
+                    <label>
+                        Administration Number
+                    </label>
+
+                    <input
+                        class="input"
+                        id="administrationNumber"
+                        placeholder="Enter administration number"
+                        autocomplete="off"
+                    >
+
+                </div>
+
 
                 <div class="field full">
 
@@ -1181,69 +1196,16 @@ tbody tr:hover{
                         class="input"
                         id="studentName"
                         placeholder="Enter student's full name"
+                        autocomplete="off"
                     >
 
                 </div>
 
 
-                <div class="field">
+                <div class="field full">
 
                     <label>
-                        Student ID
-                    </label>
-
-                    <input
-                        class="input"
-                        id="studentId"
-                        placeholder="Enter Student ID"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Administration Number
-                    </label>
-
-                    <input
-                        class="input"
-                        id="administrationNumber"
-                        placeholder="Enter administration number"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Student Type
-                    </label>
-
-                    <select
-                        class="select"
-                        id="studentType"
-                    >
-
-                        <option value="new">
-                            New
-                        </option>
-
-                        <option value="returning">
-                            Returning
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Class
+                        Assign to Class
                     </label>
 
                     <select
@@ -1256,94 +1218,6 @@ tbody tr:hover{
                         </option>
 
                     </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Date of Birth
-                    </label>
-
-                    <input
-                        class="input"
-                        type="date"
-                        id="dateOfBirth"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Gender
-                    </label>
-
-                    <select
-                        class="select"
-                        id="gender"
-                    >
-
-                        <option value="">
-                            Select gender
-                        </option>
-
-                        <option value="Male">
-                            Male
-                        </option>
-
-                        <option value="Female">
-                            Female
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="field full">
-
-                    <label>
-                        Address
-                    </label>
-
-                    <input
-                        class="input"
-                        id="address"
-                        placeholder="Enter address"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Parent / Guardian
-                    </label>
-
-                    <input
-                        class="input"
-                        id="parentGuardian"
-                        placeholder="Parent or guardian name"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Phone
-                    </label>
-
-                    <input
-                        class="input"
-                        id="phone"
-                        placeholder="Parent/guardian phone"
-                    >
 
                 </div>
 
@@ -1555,24 +1429,6 @@ function getStudentRoster(studentId){
 }
 
 
-function getStudentClass(studentId){
-
-    const item =
-        getStudentRoster(
-            studentId
-        );
-
-    if(!item){
-        return null;
-    }
-
-    return getClass(
-        item.class_id
-    );
-
-}
-
-
 function getAssignedClassIds(){
 
     return assignments.map(
@@ -1718,7 +1574,7 @@ async function loadTeacher(){
 
 
 /* =========================================================
-   LOAD DATABASE
+   LOAD ASSIGNMENTS
 ========================================================= */
 
 async function loadAssignments(){
@@ -1746,6 +1602,10 @@ async function loadAssignments(){
 
 }
 
+
+/* =========================================================
+   LOAD CLASSES
+========================================================= */
 
 async function loadClasses(){
 
@@ -1787,6 +1647,10 @@ async function loadClasses(){
 }
 
 
+/* =========================================================
+   LOAD GRADES
+========================================================= */
+
 async function loadGrades(){
 
     const {
@@ -1810,6 +1674,10 @@ async function loadGrades(){
 }
 
 
+/* =========================================================
+   LOAD STUDENTS
+========================================================= */
+
 async function loadStudents(){
 
     const {
@@ -1832,6 +1700,10 @@ async function loadStudents(){
 
 }
 
+
+/* =========================================================
+   LOAD ROSTER
+========================================================= */
 
 async function loadRoster(){
 
@@ -1950,9 +1822,10 @@ function updateStats(){
         myStudents.filter(
             student =>
                 !student.registration_status ||
-                student.registration_status
-                    .toLowerCase() ===
-                    "pending"
+                String(
+                    student.registration_status
+                ).toLowerCase() ===
+                "pending"
         );
 
 
@@ -2107,14 +1980,6 @@ function renderStudents(){
                     .toLowerCase();
 
 
-                const id =
-                    String(
-                        student.student_id ||
-                        ""
-                    )
-                    .toLowerCase();
-
-
                 const adminNumber =
                     String(
                         student.administration_number ||
@@ -2126,7 +1991,6 @@ function renderStudents(){
                 const matchesSearch =
                     !search ||
                     name.includes(search) ||
-                    id.includes(search) ||
                     adminNumber.includes(search);
 
 
@@ -2280,14 +2144,6 @@ function renderStudents(){
 
                 <td>
                     ${esc(
-                        student.student_id ||
-                        "-"
-                    )}
-                </td>
-
-
-                <td>
-                    ${esc(
                         student.administration_number ||
                         "-"
                     )}
@@ -2310,20 +2166,6 @@ function renderStudents(){
                         ? cls.name
                         : "-"
                     )}
-                </td>
-
-
-                <td>
-
-                    <span
-                        class="badge badge-blue"
-                    >
-                        ${esc(
-                            student.student_type ||
-                            "-"
-                        )}
-                    </span>
-
                 </td>
 
 
@@ -2432,13 +2274,6 @@ function clearStudentForm(){
 
     document
         .getElementById(
-            "studentId"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
             "administrationNumber"
         )
         .value = "";
@@ -2446,50 +2281,7 @@ function clearStudentForm(){
 
     document
         .getElementById(
-            "studentType"
-        )
-        .value =
-        "new";
-
-
-    document
-        .getElementById(
             "studentClass"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "dateOfBirth"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "gender"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "address"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "parentGuardian"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "phone"
         )
         .value = "";
 
@@ -2544,29 +2336,11 @@ function openEditStudent(id){
 
     document
         .getElementById(
-            "studentId"
-        )
-        .value =
-        student.student_id ||
-        "";
-
-
-    document
-        .getElementById(
             "administrationNumber"
         )
         .value =
         student.administration_number ||
         "";
-
-
-    document
-        .getElementById(
-            "studentType"
-        )
-        .value =
-        student.student_type ||
-        "new";
 
 
     document
@@ -2577,51 +2351,6 @@ function openEditStudent(id){
         studentRoster
         ? studentRoster.class_id
         : "";
-
-
-    document
-        .getElementById(
-            "dateOfBirth"
-        )
-        .value =
-        student.date_of_birth ||
-        "";
-
-
-    document
-        .getElementById(
-            "gender"
-        )
-        .value =
-        student.gender ||
-        "";
-
-
-    document
-        .getElementById(
-            "address"
-        )
-        .value =
-        student.address ||
-        "";
-
-
-    document
-        .getElementById(
-            "parentGuardian"
-        )
-        .value =
-        student.parent_guardian ||
-        "";
-
-
-    document
-        .getElementById(
-            "phone"
-        )
-        .value =
-        student.phone ||
-        "";
 
 
     document
@@ -2650,15 +2379,6 @@ async function saveStudent(){
             .trim();
 
 
-    const studentId =
-        document
-            .getElementById(
-                "studentId"
-            )
-            .value
-            .trim();
-
-
     const administrationNumber =
         document
             .getElementById(
@@ -2666,14 +2386,6 @@ async function saveStudent(){
             )
             .value
             .trim();
-
-
-    const studentType =
-        document
-            .getElementById(
-                "studentType"
-            )
-            .value;
 
 
     const classId =
@@ -2684,48 +2396,22 @@ async function saveStudent(){
             .value;
 
 
-    const dateOfBirth =
+    if(!administrationNumber){
+
+        showToast(
+            "Enter the administration number.",
+            "error"
+        );
+
         document
             .getElementById(
-                "dateOfBirth"
+                "administrationNumber"
             )
-            .value ||
-        null;
+            .focus();
 
+        return;
 
-    const gender =
-        document
-            .getElementById(
-                "gender"
-            )
-            .value;
-
-
-    const address =
-        document
-            .getElementById(
-                "address"
-            )
-            .value
-            .trim();
-
-
-    const parentGuardian =
-        document
-            .getElementById(
-                "parentGuardian"
-            )
-            .value
-            .trim();
-
-
-    const phone =
-        document
-            .getElementById(
-                "phone"
-            )
-            .value
-            .trim();
+    }
 
 
     if(!name){
@@ -2735,6 +2421,12 @@ async function saveStudent(){
             "error"
         );
 
+        document
+            .getElementById(
+                "studentName"
+            )
+            .focus();
+
         return;
 
     }
@@ -2743,22 +2435,7 @@ async function saveStudent(){
     if(!classId){
 
         showToast(
-            "Select a class.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        studentType === "new" &&
-        !administrationNumber
-    ){
-
-        showToast(
-            "Enter the administration number.",
+            "Select the student's class.",
             "error"
         );
 
@@ -2791,39 +2468,24 @@ async function saveStudent(){
 
     try{
 
+        /*
+         * Only these student fields are created
+         * by staff:
+         *
+         * administration_number
+         * full_name
+         *
+         * Registration information is completed
+         * later by the student.
+         */
+
         const studentData = {
 
             full_name:
                 name,
 
-            student_id:
-                studentId || null,
-
             administration_number:
-                administrationNumber ||
-                null,
-
-            student_type:
-                studentType,
-
-            date_of_birth:
-                dateOfBirth,
-
-            gender:
-                gender ||
-                null,
-
-            address:
-                address ||
-                null,
-
-            parent_guardian:
-                parentGuardian ||
-                null,
-
-            phone:
-                phone ||
-                null,
+                administrationNumber,
 
             registration_status:
                 "pending"
@@ -2833,6 +2495,10 @@ async function saveStudent(){
 
         let savedStudent;
 
+
+        /* ==========================================
+           EDIT EXISTING STUDENT
+        ========================================== */
 
         if(editingStudentId){
 
@@ -2868,40 +2534,40 @@ async function saveStudent(){
                 );
 
 
-            if(
-                oldRoster &&
-                String(
-                    oldRoster.class_id
-                ) !==
-                String(classId)
-            ){
+            if(oldRoster){
 
-                const {
-                    error:
-                        rosterError
-                } =
-                    await supabaseClient
-                        .from(
-                            "class_roster"
-                        )
-                        .update({
-                            class_id:
-                                classId
-                        })
-                        .eq(
-                            "student_id",
-                            editingStudentId
-                        );
+                if(
+                    String(
+                        oldRoster.class_id
+                    ) !==
+                    String(classId)
+                ){
+
+                    const {
+                        error:
+                            rosterError
+                    } =
+                        await supabaseClient
+                            .from(
+                                "class_roster"
+                            )
+                            .update({
+                                class_id:
+                                    classId
+                            })
+                            .eq(
+                                "student_id",
+                                editingStudentId
+                            );
 
 
-                if(rosterError){
-                    throw rosterError;
+                    if(rosterError){
+                        throw rosterError;
+                    }
+
                 }
 
-            }
-
-
-            if(!oldRoster){
+            }else{
 
                 await createRosterEntry(
                     savedStudent.id,
@@ -2915,7 +2581,50 @@ async function saveStudent(){
                 "Student information updated."
             );
 
+
         }else{
+
+            /* ==========================================
+               ADD NEW STUDENT
+            ========================================== */
+
+            /*
+             * Check whether the administration number
+             * already exists before inserting.
+             */
+
+            const {
+                data:
+                    existingStudent,
+                error:
+                    existingError
+            } =
+                await supabaseClient
+                    .from("students")
+                    .select("id,full_name")
+                    .eq(
+                        "administration_number",
+                        administrationNumber
+                    )
+                    .maybeSingle();
+
+
+            if(existingError){
+                throw existingError;
+            }
+
+
+            if(existingStudent){
+
+                showToast(
+                    "A student with this administration number already exists.",
+                    "error"
+                );
+
+                return;
+
+            }
+
 
             const {
                 data,
@@ -2959,7 +2668,10 @@ async function saveStudent(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Save student error:",
+            error
+        );
 
 
         showToast(
@@ -3130,18 +2842,8 @@ function viewStudent(id){
                 )}
 
                 ${detail(
-                    "Student ID",
-                    student.student_id || "-"
-                )}
-
-                ${detail(
                     "Administration Number",
                     student.administration_number || "-"
-                )}
-
-                ${detail(
-                    "Student Type",
-                    student.student_type || "-"
                 )}
 
                 ${detail(
@@ -3159,23 +2861,33 @@ function viewStudent(id){
                 )}
 
                 ${detail(
+                    "Student ID",
+                    student.student_id || "Not assigned yet"
+                )}
+
+                ${detail(
+                    "Student Type",
+                    student.student_type || "Not completed"
+                )}
+
+                ${detail(
                     "Date of Birth",
-                    student.date_of_birth || "-"
+                    student.date_of_birth || "Not completed"
                 )}
 
                 ${detail(
                     "Gender",
-                    student.gender || "-"
+                    student.gender || "Not completed"
                 )}
 
                 ${detail(
                     "Parent / Guardian",
-                    student.parent_guardian || "-"
+                    student.parent_guardian || "Not completed"
                 )}
 
                 ${detail(
                     "Phone",
-                    student.phone || "-"
+                    student.phone || "Not completed"
                 )}
 
                 <div
@@ -3186,7 +2898,7 @@ function viewStudent(id){
 
                     ${detail(
                         "Address",
-                        student.address || "-"
+                        student.address || "Not completed"
                     )}
 
                 </div>
@@ -3522,6 +3234,10 @@ document
 
             sessionStorage.removeItem(
                 "staff_teacher_id"
+            );
+
+            sessionStorage.removeItem(
+                "staff_teacher_username"
             );
 
             window.location.href =
