@@ -587,7 +587,8 @@
           if (
             data === null ||
             data === undefined ||
-            data === ""
+            data === "" ||
+            data === false
           ) {
 
             showError(
@@ -611,19 +612,45 @@
              LOGIN SUCCESS
              ========================================== */
 
+          /*
+             The database returns the teacher ID.
+
+             Store the session using the names
+             expected by students.html.
+          */
+
           sessionStorage.setItem(
-            "teacher_authenticated",
+            "staff_authenticated",
             "true"
           );
 
           sessionStorage.setItem(
-            "teacher_id",
+            "staff_teacher_id",
             String(data)
           );
 
           sessionStorage.setItem(
-            "teacher_username",
+            "staff_teacher_username",
             username
+          );
+
+
+          /*
+             Remove the old teacher session keys
+             so there is no conflict with the
+             previous teachers.html login system.
+          */
+
+          sessionStorage.removeItem(
+            "teacher_authenticated"
+          );
+
+          sessionStorage.removeItem(
+            "teacher_id"
+          );
+
+          sessionStorage.removeItem(
+            "teacher_username"
           );
 
 
@@ -633,13 +660,13 @@
 
 
           /* ==========================================
-             OPEN TEACHER DASHBOARD
+             OPEN STAFF STUDENTS MANAGEMENT
              ========================================== */
 
           setTimeout(function () {
 
             window.location.href =
-              "teachers.html";
+              "students.html";
 
           }, 500);
 
