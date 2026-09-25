@@ -9,6 +9,9 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -69,12 +72,10 @@
             outline-offset: 2px;
         }
 
-        /* Header */
-
         header {
             background: var(--navy);
             color: white;
-            padding: 18px 18px;
+            padding: 18px;
         }
 
         .header-inner {
@@ -120,8 +121,6 @@
             font-size: 12px;
         }
 
-        /* Main */
-
         main {
             max-width: 700px;
             margin: auto;
@@ -144,8 +143,6 @@
             font-size: 14px;
             line-height: 1.55;
         }
-
-        /* Step indicator */
 
         .step-indicator {
             display: flex;
@@ -191,8 +188,6 @@
             background: var(--border);
             margin: 0 9px;
         }
-
-        /* Cards */
 
         .card {
             background: var(--surface);
@@ -253,8 +248,6 @@
             margin-top: 4px;
             line-height: 1.4;
         }
-
-        /* Student type */
 
         .type-grid {
             display: grid;
@@ -320,8 +313,6 @@
             line-height: 1.45;
         }
 
-        /* Form */
-
         .form-section {
             display: none;
         }
@@ -385,8 +376,6 @@
             gap: 14px;
         }
 
-        /* Gender */
-
         .gender-options {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -424,8 +413,6 @@
             height: 17px;
         }
 
-        /* Search */
-
         .search-row {
             display: flex;
             gap: 9px;
@@ -452,6 +439,11 @@
             background: #117a99;
         }
 
+        .search-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .search-button svg {
             width: 18px;
             height: 18px;
@@ -463,8 +455,6 @@
             font-size: 11px;
             line-height: 1.45;
         }
-
-        /* Upload */
 
         .upload-box {
             border: 1px dashed #9fb3c8;
@@ -539,9 +529,41 @@
             color: var(--green);
             font-size: 11px;
             font-weight: 600;
+            word-break: break-word;
         }
 
-        /* Actions */
+        .found-record {
+            display: none;
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 10px;
+            background: var(--green-light);
+            border: 1px solid #b8dfca;
+        }
+
+        .found-record.show {
+            display: block;
+        }
+
+        .found-record-title {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .found-record-title svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .found-record p {
+            color: #285d45;
+            font-size: 12px;
+        }
 
         .form-actions {
             display: flex;
@@ -579,6 +601,11 @@
             background: #117a99;
         }
 
+        .button-primary:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
         .button-secondary {
             background: white;
             border-color: var(--border);
@@ -588,8 +615,6 @@
         .button-secondary:hover {
             background: #f7fafc;
         }
-
-        /* Notices */
 
         .notice {
             display: flex;
@@ -610,7 +635,30 @@
             color: var(--sky);
         }
 
-        /* Bottom navigation */
+        .status-message {
+            display: none;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.success {
+            background: var(--green-light);
+            color: var(--green);
+            border: 1px solid #b8dfca;
+        }
+
+        .status-message.error {
+            background: var(--danger-light);
+            color: var(--danger);
+            border: 1px solid #f0c4c0;
+        }
 
         .bottom-nav {
             position: fixed;
@@ -667,9 +715,8 @@
             color: var(--sky);
         }
 
-        /* Desktop */
-
         @media (min-width: 700px) {
+
             body {
                 padding-bottom: 25px;
             }
@@ -692,9 +739,8 @@
             }
         }
 
-        /* Small phones */
-
         @media (max-width: 430px) {
+
             main {
                 padding-left: 13px;
                 padding-right: 13px;
@@ -783,7 +829,10 @@
 
     </div>
 
-    <!-- Student Type -->
+    <div
+        class="status-message"
+        id="statusMessage"
+    ></div>
 
     <section class="card">
 
@@ -841,7 +890,7 @@
 
     </section>
 
-    <!-- New Student -->
+    <!-- NEW STUDENT -->
 
     <section
         class="form-section"
@@ -893,6 +942,7 @@
 
                     <button
                         class="search-button"
+                        id="newSearchButton"
                         type="button"
                         onclick="searchNewStudent()"
                         aria-label="Search student"
@@ -907,6 +957,18 @@
                     to find your school record.
                 </p>
 
+            </div>
+
+            <div
+                class="found-record"
+                id="newFoundRecord"
+            >
+                <div class="found-record-title">
+                    <i data-lucide="circle-check"></i>
+                    Student record found
+                </div>
+
+                <p id="newFoundRecordText"></p>
             </div>
 
         </div>
@@ -929,6 +991,7 @@
             <div class="form-grid">
 
                 <div class="form-group">
+
                     <label for="newFullName">
                         Full Name <span class="required">*</span>
                     </label>
@@ -937,10 +1000,13 @@
                         type="text"
                         id="newFullName"
                         placeholder="Full name"
+                        readonly
                     >
+
                 </div>
 
                 <div class="form-group">
+
                     <label for="newDob">
                         Date of Birth <span class="required">*</span>
                     </label>
@@ -949,6 +1015,7 @@
                         type="date"
                         id="newDob"
                     >
+
                 </div>
 
             </div>
@@ -1009,7 +1076,9 @@
 
                 <div class="card-title">
                     <h3>Parent / Guardian</h3>
-                    <p>Provide the primary parent or guardian information.</p>
+                    <p>
+                        Provide the primary parent or guardian information.
+                    </p>
                 </div>
 
             </div>
@@ -1057,7 +1126,9 @@
 
                 <div class="card-title">
                     <h3>Academic Document</h3>
-                    <p>Upload the required previous-school document.</p>
+                    <p>
+                        Upload the required previous-school document.
+                    </p>
                 </div>
 
             </div>
@@ -1075,6 +1146,7 @@
                 </p>
 
                 <label class="upload-label">
+
                     <i data-lucide="upload"></i>
                     Choose File
 
@@ -1085,6 +1157,7 @@
                         accept="image/*,.pdf"
                         onchange="showFileName(this, 'academicFileName')"
                     >
+
                 </label>
 
                 <div
@@ -1106,7 +1179,9 @@
 
                 <div class="card-title">
                     <h3>Payment Receipt</h3>
-                    <p>Upload proof of registration payment.</p>
+                    <p>
+                        Upload proof of registration payment.
+                    </p>
                 </div>
 
             </div>
@@ -1124,6 +1199,7 @@
                 </p>
 
                 <label class="upload-label">
+
                     <i data-lucide="upload"></i>
                     Choose File
 
@@ -1134,6 +1210,7 @@
                         accept="image/*,.pdf"
                         onchange="showFileName(this, 'newPaymentFileName')"
                     >
+
                 </label>
 
                 <div
@@ -1158,6 +1235,7 @@
 
             <button
                 class="button button-primary"
+                id="newSubmitButton"
                 type="button"
                 onclick="submitNewRegistration()"
             >
@@ -1169,7 +1247,7 @@
 
     </section>
 
-    <!-- Returning Student -->
+    <!-- RETURNING STUDENT -->
 
     <section
         class="form-section"
@@ -1194,12 +1272,14 @@
             </div>
 
             <div class="notice">
+
                 <i data-lucide="info"></i>
 
                 <span>
                     Returning students only need to find their
                     existing record and submit the new payment receipt.
                 </span>
+
             </div>
 
             <div class="form-group">
@@ -1220,6 +1300,7 @@
 
                     <button
                         class="search-button"
+                        id="returningSearchButton"
                         type="button"
                         onclick="searchReturningStudent()"
                         aria-label="Search student"
@@ -1232,6 +1313,20 @@
                 <p class="helper-text">
                     Enter the Student ID provided by the school.
                 </p>
+
+            </div>
+
+            <div
+                class="found-record"
+                id="returningFoundRecord"
+            >
+
+                <div class="found-record-title">
+                    <i data-lucide="circle-check"></i>
+                    Student record found
+                </div>
+
+                <p id="returningFoundRecordText"></p>
 
             </div>
 
@@ -1321,6 +1416,7 @@
                 </p>
 
                 <label class="upload-label">
+
                     <i data-lucide="upload"></i>
                     Choose File
 
@@ -1331,6 +1427,7 @@
                         accept="image/*,.pdf"
                         onchange="showFileName(this, 'returningPaymentFileName')"
                     >
+
                 </label>
 
                 <div
@@ -1355,6 +1452,7 @@
 
             <button
                 class="button button-primary"
+                id="returningSubmitButton"
                 type="button"
                 onclick="submitReturningRegistration()"
             >
@@ -1400,7 +1498,43 @@
 
 <script>
 
+    /* =========================================================
+       SUPABASE
+    ========================================================= */
+
+    const SUPABASE_URL =
+        "https://goongxvoooiwsesqoptz.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* =========================================================
+       STATE
+    ========================================================= */
+
+    let selectedStudentType = null;
+
+    let foundNewStudent = null;
+
+    let foundReturningStudent = null;
+
+    let selectedGender = "";
+
+
+    /* =========================================================
+       STUDENT TYPE
+    ========================================================= */
+
     function selectStudentType(type) {
+
+        selectedStudentType = type;
 
         const newOption =
             document.getElementById("newStudentOption");
@@ -1420,12 +1554,16 @@
         newForm.classList.remove("active");
         returningForm.classList.remove("active");
 
+        clearStatus();
+
         if (type === "new") {
 
             newOption.classList.add("selected");
             newForm.classList.add("active");
 
-        } else if (type === "returning") {
+        }
+
+        if (type === "returning") {
 
             returningOption.classList.add("selected");
             returningForm.classList.add("active");
@@ -1439,6 +1577,10 @@
     }
 
 
+    /* =========================================================
+       GENDER
+    ========================================================= */
+
     function selectGender(button) {
 
         const buttons =
@@ -1449,8 +1591,21 @@
         });
 
         button.classList.add("selected");
+
+        selectedGender =
+            button.textContent.trim();
+
+        if (selectedGender !== "Male" &&
+            selectedGender !== "Female") {
+
+            selectedGender = "";
+        }
     }
 
+
+    /* =========================================================
+       FILE NAME
+    ========================================================= */
 
     function showFileName(input, targetId) {
 
@@ -1460,55 +1615,769 @@
         if (!target) return;
 
         if (input.files && input.files.length > 0) {
+
             target.textContent =
                 input.files[0].name;
+
         } else {
+
             target.textContent = "";
+
         }
     }
 
 
-    function searchNewStudent() {
+    /* =========================================================
+       STATUS MESSAGE
+    ========================================================= */
 
-        alert(
-            "Student search will be connected to Supabase next."
-        );
+    function showStatus(message, type) {
+
+        const box =
+            document.getElementById("statusMessage");
+
+        box.textContent = message;
+
+        box.className =
+            "status-message show " + type;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     }
 
 
-    function searchReturningStudent() {
+    function clearStatus() {
 
-        alert(
-            "Student search will be connected to Supabase next."
-        );
+        const box =
+            document.getElementById("statusMessage");
+
+        box.textContent = "";
+
+        box.className =
+            "status-message";
     }
 
 
-    function submitNewRegistration() {
+    /* =========================================================
+       NEW STUDENT SEARCH
+    ========================================================= */
 
-        alert(
-            "Registration submission will be connected to Supabase next."
-        );
+    async function searchNewStudent() {
+
+        clearStatus();
+
+        const input =
+            document.getElementById("administrationNumber");
+
+        const button =
+            document.getElementById("newSearchButton");
+
+        const administrationNumber =
+            input.value.trim();
+
+        if (!administrationNumber) {
+
+            showStatus(
+                "Please enter the administration number.",
+                "error"
+            );
+
+            input.focus();
+
+            return;
+        }
+
+        button.disabled = true;
+
+        foundNewStudent = null;
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("students")
+                    .select(
+                        "id,student_id,full_name,administration_number,student_type,date_of_birth,gender,address,parent_guardian,phone,registration_status,payment_status"
+                    )
+                    .eq(
+                        "administration_number",
+                        administrationNumber
+                    )
+                    .eq(
+                        "student_type",
+                        "new"
+                    )
+                    .maybeSingle();
+
+            if (error) {
+                throw error;
+            }
+
+            if (!data) {
+
+                document
+                    .getElementById("newFoundRecord")
+                    .classList.remove("show");
+
+                showStatus(
+                    "No student record was found. Please make sure the administration number is correct and that the school has added the student.",
+                    "error"
+                );
+
+                return;
+            }
+
+            foundNewStudent = data;
+
+            document
+                .getElementById("newFullName")
+                .value = data.full_name || "";
+
+            document
+                .getElementById("newDob")
+                .value = data.date_of_birth || "";
+
+            document
+                .getElementById("newAddress")
+                .value = data.address || "";
+
+            document
+                .getElementById("guardianName")
+                .value = data.parent_guardian || "";
+
+            document
+                .getElementById("guardianPhone")
+                .value = data.phone || "";
+
+            selectedGender =
+                data.gender || "";
+
+            document
+                .querySelectorAll(".gender-option")
+                .forEach(function(button) {
+
+                    button.classList.remove("selected");
+
+                    if (
+                        button.textContent.trim() ===
+                        data.gender
+                    ) {
+                        button.classList.add("selected");
+                    }
+
+                });
+
+            document
+                .getElementById("newFoundRecordText")
+                .textContent =
+                    data.full_name +
+                    " has been found. You can now complete the registration information.";
+
+            document
+                .getElementById("newFoundRecord")
+                .classList.add("show");
+
+            showStatus(
+                "Student record found successfully.",
+                "success"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Unable to search for the student. Please try again.",
+                "error"
+            );
+
+        } finally {
+
+            button.disabled = false;
+
+        }
     }
 
 
-    function submitReturningRegistration() {
+    /* =========================================================
+       RETURNING STUDENT SEARCH
+    ========================================================= */
 
-        alert(
-            "Registration submission will be connected to Supabase next."
-        );
+    async function searchReturningStudent() {
+
+        clearStatus();
+
+        const input =
+            document.getElementById("studentId");
+
+        const button =
+            document.getElementById("returningSearchButton");
+
+        const studentId =
+            input.value.trim();
+
+        if (!studentId) {
+
+            showStatus(
+                "Please enter the Student ID.",
+                "error"
+            );
+
+            input.focus();
+
+            return;
+        }
+
+        button.disabled = true;
+
+        foundReturningStudent = null;
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("students")
+                    .select(
+                        "id,student_id,full_name,student_type,registration_status,payment_status"
+                    )
+                    .eq(
+                        "student_id",
+                        studentId
+                    )
+                    .in(
+                        "student_type",
+                        ["returning", "10", "11", "12"]
+                    )
+                    .maybeSingle();
+
+            if (error) {
+                throw error;
+            }
+
+            if (!data) {
+
+                document
+                    .getElementById("returningFoundRecord")
+                    .classList.remove("show");
+
+                showStatus(
+                    "No returning student record was found. Please check the Student ID.",
+                    "error"
+                );
+
+                return;
+            }
+
+            foundReturningStudent = data;
+
+            let gradeText = "Returning student";
+
+            const {
+                data: enrollment
+            } =
+                await supabaseClient
+                    .from("student_enrollments")
+                    .select(
+                        "grade_id,school_year_id"
+                    )
+                    .eq(
+                        "student_id",
+                        data.id
+                    )
+                    .order(
+                        "created_at",
+                        { ascending: false }
+                    )
+                    .limit(1)
+                    .maybeSingle();
+
+            if (enrollment && enrollment.grade_id) {
+
+                const { data: grade } =
+                    await supabaseClient
+                        .from("grades")
+                        .select("name,code")
+                        .eq(
+                            "id",
+                            enrollment.grade_id
+                        )
+                        .maybeSingle();
+
+                if (grade) {
+
+                    gradeText =
+                        grade.name ||
+                        grade.code ||
+                        gradeText;
+
+                }
+            }
+
+            document
+                .getElementById("returningName")
+                .value =
+                    data.full_name || "";
+
+            document
+                .getElementById("returningGrade")
+                .value =
+                    gradeText;
+
+            document
+                .getElementById("returningFoundRecordText")
+                .textContent =
+                    data.full_name +
+                    " has been found. You can now upload the payment receipt.";
+
+            document
+                .getElementById("returningFoundRecord")
+                .classList.add("show");
+
+            showStatus(
+                "Student record found successfully.",
+                "success"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Unable to search for the student. Please try again.",
+                "error"
+            );
+
+        } finally {
+
+            button.disabled = false;
+
+        }
     }
 
+
+    /* =========================================================
+       STORAGE UPLOAD
+    ========================================================= */
+
+    async function uploadFile(file, folder) {
+
+        if (!file) {
+            return null;
+        }
+
+        const safeName =
+            file.name
+                .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+        const uniqueName =
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .substring(2, 10) +
+            "_" +
+            safeName;
+
+        const path =
+            folder +
+            "/" +
+            uniqueName;
+
+        const { error } =
+            await supabaseClient
+                .storage
+                .from("payment-receipts")
+                .upload(
+                    path,
+                    file,
+                    {
+                        cacheControl: "3600",
+                        upsert: false
+                    }
+                );
+
+        if (error) {
+            throw error;
+        }
+
+        return path;
+    }
+
+
+    /* =========================================================
+       NEW STUDENT SUBMISSION
+    ========================================================= */
+
+    async function submitNewRegistration() {
+
+        clearStatus();
+
+        if (!foundNewStudent) {
+
+            showStatus(
+                "Please search for your student record first.",
+                "error"
+            );
+
+            return;
+        }
+
+        const dob =
+            document
+                .getElementById("newDob")
+                .value;
+
+        const address =
+            document
+                .getElementById("newAddress")
+                .value
+                .trim();
+
+        const guardianName =
+            document
+                .getElementById("guardianName")
+                .value
+                .trim();
+
+        const guardianPhone =
+            document
+                .getElementById("guardianPhone")
+                .value
+                .trim();
+
+        const academicFile =
+            document
+                .getElementById("academicDocument")
+                .files[0];
+
+        const paymentFile =
+            document
+                .getElementById("newPaymentReceipt")
+                .files[0];
+
+        if (!dob) {
+
+            showStatus(
+                "Please enter the student's date of birth.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!selectedGender) {
+
+            showStatus(
+                "Please select the student's gender.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!address) {
+
+            showStatus(
+                "Please enter the student's address.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!guardianName) {
+
+            showStatus(
+                "Please enter the parent or guardian name.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!guardianPhone) {
+
+            showStatus(
+                "Please enter the parent or guardian phone number.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!academicFile) {
+
+            showStatus(
+                "Please upload the academic transcript or previous-school document.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!paymentFile) {
+
+            showStatus(
+                "Please upload the payment receipt.",
+                "error"
+            );
+
+            return;
+        }
+
+        const button =
+            document.getElementById("newSubmitButton");
+
+        button.disabled = true;
+
+        try {
+
+            /*
+             * Upload payment receipt.
+             */
+            const paymentPath =
+                await uploadFile(
+                    paymentFile,
+                    "students/" +
+                    foundNewStudent.id +
+                    "/payments"
+                );
+
+
+            /*
+             * Upload academic document.
+             *
+             * The current database does not have an academic
+             * document column, so the file is uploaded to
+             * storage separately for now.
+             */
+            const academicPath =
+                await uploadFile(
+                    academicFile,
+                    "students/" +
+                    foundNewStudent.id +
+                    "/academic"
+                );
+
+
+            /*
+             * Update the student's personal information.
+             */
+            const { error: studentError } =
+                await supabaseClient
+                    .from("students")
+                    .update({
+                        date_of_birth: dob,
+                        gender: selectedGender,
+                        address: address,
+                        parent_guardian: guardianName,
+                        phone: guardianPhone,
+                        registration_status: "submitted",
+                        payment_receipt_image: paymentPath,
+                        payment_status: "pending",
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq(
+                        "id",
+                        foundNewStudent.id
+                    );
+
+            if (studentError) {
+                throw studentError;
+            }
+
+
+            /*
+             * Create payment record.
+             */
+            const { error: paymentError } =
+                await supabaseClient
+                    .from("payments")
+                    .insert({
+                        student_id: foundNewStudent.id,
+                        receipt_image: paymentPath,
+                        status: "pending"
+                    });
+
+            if (paymentError) {
+                throw paymentError;
+            }
+
+
+            /*
+             * Keep academicPath in browser memory for now.
+             * The database currently has no column for it.
+             */
+            console.log(
+                "Academic document uploaded:",
+                academicPath
+            );
+
+
+            showStatus(
+                "Registration submitted successfully. The school will review your information and payment.",
+                "success"
+            );
+
+            button.disabled = true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Registration could not be submitted. Please try again.",
+                "error"
+            );
+
+            button.disabled = false;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       RETURNING STUDENT SUBMISSION
+    ========================================================= */
+
+    async function submitReturningRegistration() {
+
+        clearStatus();
+
+        if (!foundReturningStudent) {
+
+            showStatus(
+                "Please search for your Student ID first.",
+                "error"
+            );
+
+            return;
+        }
+
+        const paymentFile =
+            document
+                .getElementById("returningPaymentReceipt")
+                .files[0];
+
+        if (!paymentFile) {
+
+            showStatus(
+                "Please upload the payment receipt.",
+                "error"
+            );
+
+            return;
+        }
+
+        const button =
+            document.getElementById(
+                "returningSubmitButton"
+            );
+
+        button.disabled = true;
+
+        try {
+
+            const paymentPath =
+                await uploadFile(
+                    paymentFile,
+                    "students/" +
+                    foundReturningStudent.id +
+                    "/payments"
+                );
+
+
+            /*
+             * Update student registration/payment state.
+             */
+            const { error: studentError } =
+                await supabaseClient
+                    .from("students")
+                    .update({
+                        registration_status: "submitted",
+                        payment_receipt_image: paymentPath,
+                        payment_status: "pending",
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq(
+                        "id",
+                        foundReturningStudent.id
+                    );
+
+            if (studentError) {
+                throw studentError;
+            }
+
+
+            /*
+             * Create payment record.
+             */
+            const { error: paymentError } =
+                await supabaseClient
+                    .from("payments")
+                    .insert({
+                        student_id:
+                            foundReturningStudent.id,
+
+                        receipt_image:
+                            paymentPath,
+
+                        status:
+                            "pending"
+                    });
+
+            if (paymentError) {
+                throw paymentError;
+            }
+
+
+            showStatus(
+                "Registration submitted successfully. The school will review your payment.",
+                "success"
+            );
+
+            button.disabled = true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Registration could not be submitted. Please try again.",
+                "error"
+            );
+
+            button.disabled = false;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
 
     function goHome() {
-        window.location.href = "index.html";
+
+        window.location.href =
+            "index.html";
     }
 
 
     function openStatus() {
-        window.location.href = "status.html";
+
+        window.location.href =
+            "status.html";
     }
 
+
+    /* =========================================================
+       START
+    ========================================================= */
 
     lucide.createIcons();
 
