@@ -11,647 +11,635 @@
 
 <style>
 :root {
-    --navy: #071a2b;
-    --navy-light: #102a43;
-    --sky: #168aad;
-    --sky-light: #e8f7fb;
-    --green: #176b45;
-    --green-light: #edf8f2;
-    --background: #f4f8fb;
-    --surface: #ffffff;
-    --border: #d9e2ec;
-    --text: #102a43;
-    --muted: #627d98;
-    --danger: #b42318;
-    --danger-light: #fef3f2;
+    --navy:#071a2b;
+    --navy-light:#102a43;
+    --sky:#168aad;
+    --sky-light:#e8f7fb;
+    --green:#176b45;
+    --green-light:#edf8f2;
+    --background:#f4f8fb;
+    --surface:#ffffff;
+    --border:#d9e2ec;
+    --text:#102a43;
+    --muted:#627d98;
+    --danger:#b42318;
+    --danger-light:#fef3f2;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html,
 body {
-    min-height: 100%;
+    min-height:100%;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--background);
-    color: var(--text);
-    user-select: none;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--background);
+    color:var(--text);
+    user-select:none;
 }
 
 input,
 select,
 textarea {
-    user-select: text;
+    user-select:text;
 }
 
 button,
 input,
 select {
-    font: inherit;
+    font:inherit;
 }
 
 button {
-    cursor: pointer;
+    cursor:pointer;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
+/* SIDEBAR */
 
 .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 250px;
-    background: var(--navy);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-    overflow-y: auto;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:250px;
+    background:var(--navy);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    z-index:1000;
+    overflow-y:auto;
 }
 
 .brand {
-    padding: 23px 20px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding:23px 20px;
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .brand-title {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    font-size: 18px;
-    font-weight: 700;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    font-size:18px;
+    font-weight:700;
 }
 
 .brand-icon {
-    width: 39px;
-    height: 39px;
-    border-radius: 10px;
-    background: var(--sky);
-    display: grid;
-    place-items: center;
+    width:39px;
+    height:39px;
+    border-radius:10px;
+    background:var(--sky);
+    display:grid;
+    place-items:center;
 }
 
 .brand small {
-    display: block;
-    margin-left: 50px;
-    margin-top: 5px;
-    color: #9db0c2;
-    font-size: 11px;
+    display:block;
+    margin-left:50px;
+    margin-top:5px;
+    color:#9db0c2;
+    font-size:11px;
 }
 
 .nav {
-    padding: 17px 12px;
+    padding:17px 12px;
 }
 
 .nav a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    margin-bottom: 5px;
-    border-radius: 8px;
-    color: #aebdcc;
-    text-decoration: none;
-    font-size: 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin-bottom:5px;
+    border-radius:8px;
+    color:#aebdcc;
+    text-decoration:none;
+    font-size:14px;
 }
 
 .nav a:hover {
-    background: rgba(255,255,255,.06);
-    color: white;
+    background:rgba(255,255,255,.06);
+    color:white;
 }
 
 .nav a.active {
-    background: rgba(22,138,173,.17);
-    color: white;
-    border-left: 3px solid var(--sky);
+    background:rgba(22,138,173,.17);
+    color:white;
+    border-left:3px solid var(--sky);
 }
 
 .sidebar-bottom {
-    margin-top: auto;
-    padding: 15px;
-    border-top: 1px solid rgba(255,255,255,.08);
+    margin-top:auto;
+    padding:15px;
+    border-top:1px solid rgba(255,255,255,.08);
 }
 
 .staff-info {
-    background: rgba(255,255,255,.05);
-    border-radius: 9px;
-    padding: 12px;
-    margin-bottom: 10px;
+    background:rgba(255,255,255,.05);
+    border-radius:9px;
+    padding:12px;
+    margin-bottom:10px;
 }
 
 .staff-label {
-    color: #8498aa;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .6px;
+    color:#8498aa;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.6px;
 }
 
 .staff-name {
-    margin-top: 4px;
-    font-size: 13px;
-    font-weight: 600;
-    color: white;
-    word-break: break-word;
+    margin-top:4px;
+    font-size:13px;
+    font-weight:600;
+    color:white;
+    word-break:break-word;
 }
 
 .logout-btn {
-    width: 100%;
-    height: 40px;
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 8px;
-    background: transparent;
-    color: #c6d2dd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    width:100%;
+    height:40px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;
+    background:transparent;
+    color:#c6d2dd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
 }
 
 .logout-btn:hover {
-    background: rgba(255,255,255,.07);
+    background:rgba(255,255,255,.07);
 }
 
-/* =========================
-   MAIN
-========================= */
+/* MAIN */
 
 .main {
-    margin-left: 250px;
-    min-height: 100vh;
+    margin-left:250px;
+    min-height:100vh;
 }
 
 .topbar {
-    height: 70px;
-    background: white;
-    border-bottom: 1px solid var(--border);
-    padding: 0 27px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    height:70px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    padding:0 27px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .page-title {
-    font-size: 21px;
-    font-weight: 700;
+    font-size:21px;
+    font-weight:700;
 }
 
 .page-subtitle {
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 4px;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:4px;
 }
 
 .class-count {
-    background: var(--sky-light);
-    color: var(--sky);
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
+    background:var(--sky-light);
+    color:var(--sky);
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
 }
 
 .content {
-    padding: 25px;
+    padding:25px;
 }
 
-/* =========================
-   ALERT
-========================= */
+/* ALERT */
 
 .alert {
-    display: none;
-    padding: 12px 14px;
-    border-radius: 9px;
-    margin-bottom: 17px;
-    font-size: 13px;
-    align-items: center;
-    gap: 9px;
+    display:none;
+    padding:12px 14px;
+    border-radius:9px;
+    margin-bottom:17px;
+    font-size:13px;
+    align-items:center;
+    gap:9px;
 }
 
 .alert.show {
-    display: flex;
+    display:flex;
 }
 
 .alert.success {
-    background: var(--green-light);
-    color: var(--green);
-    border: 1px solid #b7e2c8;
+    background:var(--green-light);
+    color:var(--green);
+    border:1px solid #b7e2c8;
 }
 
 .alert.error {
-    background: var(--danger-light);
-    color: var(--danger);
-    border: 1px solid #fecdca;
+    background:var(--danger-light);
+    color:var(--danger);
+    border:1px solid #fecdca;
 }
 
 .alert.info {
-    background: var(--sky-light);
-    color: #08728f;
-    border: 1px solid #c4e6ee;
+    background:var(--sky-light);
+    color:#08728f;
+    border:1px solid #c4e6ee;
 }
 
-/* =========================
-   TOOLBAR
-========================= */
+/* TOOLBAR */
 
 .toolbar {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 18px;
-    display: flex;
-    gap: 9px;
-    align-items: center;
-    flex-wrap: wrap;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:18px;
+    display:flex;
+    gap:9px;
+    align-items:center;
+    flex-wrap:wrap;
 }
 
 .search-box {
-    flex: 1;
-    min-width: 220px;
-    position: relative;
+    flex:1;
+    min-width:220px;
+    position:relative;
 }
 
 .search-box svg {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 17px;
-    color: #8495a5;
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    width:17px;
+    color:#8495a5;
 }
 
 .search-box input {
-    width: 100%;
-    height: 40px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0 12px 0 38px;
-    outline: none;
-    background: white;
+    width:100%;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:0 12px 0 38px;
+    outline:none;
+    background:white;
 }
 
 .search-box input:focus {
-    border-color: var(--sky);
+    border-color:var(--sky);
 }
 
 .filter-select {
-    height: 40px;
-    min-width: 145px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0 11px;
-    background: white;
-    outline: none;
+    height:40px;
+    min-width:145px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:0 11px;
+    background:white;
+    outline:none;
 }
 
 .btn {
-    height: 40px;
-    border: 0;
-    border-radius: 8px;
-    padding: 0 14px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 700;
+    height:40px;
+    border:0;
+    border-radius:8px;
+    padding:0 14px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:700;
 }
 
 .btn-primary {
-    background: var(--navy);
-    color: white;
+    background:var(--navy);
+    color:white;
 }
 
 .btn-primary:hover {
-    background: var(--navy-light);
+    background:var(--navy-light);
 }
 
 .btn-secondary {
-    background: #edf2f6;
-    color: #405365;
+    background:#edf2f6;
+    color:#405365;
 }
 
 .btn-secondary:hover {
-    background: #e2e8ed;
+    background:#e2e8ed;
 }
 
-/* =========================
-   TABLE
-========================= */
+.btn:disabled {
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+/* TABLE */
 
 .table-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
 }
 
 .table-header {
-    padding: 17px 18px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding:17px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
 
 .table-title {
-    font-size: 15px;
-    font-weight: 700;
+    font-size:15px;
+    font-weight:700;
 }
 
 .table-count {
-    color: var(--muted);
-    font-size: 12px;
+    color:var(--muted);
+    font-size:12px;
 }
 
 .table-wrap {
-    overflow-x: auto;
+    overflow-x:auto;
 }
 
 table {
-    width: 100%;
-    min-width: 850px;
-    border-collapse: collapse;
+    width:100%;
+    min-width:850px;
+    border-collapse:collapse;
 }
 
 th {
-    background: #f7f9fb;
-    color: #627588;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .35px;
-    text-align: left;
-    padding: 12px 15px;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
+    background:#f7f9fb;
+    color:#627588;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.35px;
+    text-align:left;
+    padding:12px 15px;
+    border-bottom:1px solid var(--border);
+    white-space:nowrap;
 }
 
 td {
-    padding: 13px 15px;
-    border-bottom: 1px solid #edf1f4;
-    font-size: 13px;
-    white-space: nowrap;
+    padding:13px 15px;
+    border-bottom:1px solid #edf1f4;
+    font-size:13px;
+    white-space:nowrap;
 }
 
 tbody tr:hover {
-    background: #fafcff;
+    background:#fafcff;
 }
 
 .student-name {
-    font-weight: 700;
-    color: #1b2b3c;
+    font-weight:700;
+    color:#1b2b3c;
 }
 
 .muted {
-    color: var(--muted);
+    color:var(--muted);
 }
 
 .badge {
-    display: inline-flex;
-    padding: 5px 9px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
+    display:inline-flex;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
 }
 
 .badge-new {
-    background: #e8f6fc;
-    color: #08759c;
+    background:#e8f6fc;
+    color:#08759c;
 }
 
 .badge-returning {
-    background: #f0ecff;
-    color: #6848b4;
+    background:#f0ecff;
+    color:#6848b4;
 }
 
 .actions {
-    display: flex;
-    gap: 5px;
+    display:flex;
+    gap:5px;
 }
 
 .icon-btn {
-    width: 32px;
-    height: 32px;
-    border: 1px solid var(--border);
-    background: white;
-    border-radius: 7px;
-    color: #617486;
-    display: grid;
-    place-items: center;
+    width:32px;
+    height:32px;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:7px;
+    color:#617486;
+    display:grid;
+    place-items:center;
 }
 
 .icon-btn:hover {
-    color: var(--sky);
-    background: #f4f8fa;
+    color:var(--sky);
+    background:#f4f8fa;
 }
 
 .icon-btn.delete:hover {
-    color: var(--danger);
-    background: var(--danger-light);
+    color:var(--danger);
+    background:var(--danger-light);
 }
 
-/* =========================
-   EMPTY STATE
-========================= */
+/* EMPTY */
 
 .empty-state {
-    padding: 60px 20px;
-    text-align: center;
-    color: var(--muted);
+    padding:60px 20px;
+    text-align:center;
+    color:var(--muted);
 }
 
 .empty-icon {
-    width: 50px;
-    height: 50px;
-    margin: 0 auto 13px;
-    border-radius: 12px;
-    background: #eef4f8;
-    color: #8093a4;
-    display: grid;
-    place-items: center;
+    width:50px;
+    height:50px;
+    margin:0 auto 13px;
+    border-radius:12px;
+    background:#eef4f8;
+    color:#8093a4;
+    display:grid;
+    place-items:center;
 }
 
 .empty-title {
-    color: #3b4b5b;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 5px;
+    color:#3b4b5b;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:5px;
 }
 
 .empty-text {
-    font-size: 12px;
+    font-size:12px;
+    line-height:1.5;
 }
 
-/* =========================
-   MODAL
-========================= */
+/* MODAL */
 
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(4,15,25,.55);
-    z-index: 2000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
+    position:fixed;
+    inset:0;
+    background:rgba(4,15,25,.55);
+    z-index:2000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
 }
 
 .modal-overlay.show {
-    display: flex;
+    display:flex;
 }
 
 .modal {
-    width: 100%;
-    max-width: 520px;
-    max-height: 90vh;
-    overflow-y: auto;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    width:100%;
+    max-width:520px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:14px;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
 }
 
 .modal-header {
-    padding: 18px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding:18px 20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
 
 .modal-title {
-    font-size: 17px;
-    font-weight: 700;
+    font-size:17px;
+    font-weight:700;
 }
 
 .close-btn {
-    width: 34px;
-    height: 34px;
-    border: 0;
-    border-radius: 8px;
-    background: #f1f4f6;
-    color: #657688;
-    display: grid;
-    place-items: center;
+    width:34px;
+    height:34px;
+    border:0;
+    border-radius:8px;
+    background:#f1f4f6;
+    color:#657688;
+    display:grid;
+    place-items:center;
 }
 
 .modal-body {
-    padding: 20px;
+    padding:20px;
 }
 
 .form-group {
-    margin-bottom: 17px;
+    margin-bottom:17px;
 }
 
 .form-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: #3e5061;
-    margin-bottom: 7px;
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color:#3e5061;
+    margin-bottom:7px;
 }
 
 .form-label span {
-    color: var(--danger);
+    color:var(--danger);
 }
 
 .form-control {
-    width: 100%;
-    height: 42px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0 12px;
-    background: white;
-    outline: none;
+    width:100%;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:0 12px;
+    background:white;
+    outline:none;
 }
 
 .form-control:focus {
-    border-color: var(--sky);
-    box-shadow: 0 0 0 3px rgba(22,138,173,.08);
+    border-color:var(--sky);
+    box-shadow:0 0 0 3px rgba(22,138,173,.08);
 }
 
 .form-help {
-    margin-top: 6px;
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.45;
+    margin-top:6px;
+    font-size:11px;
+    color:var(--muted);
+    line-height:1.45;
 }
 
 .modal-footer {
-    padding: 15px 20px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: flex-end;
-    gap: 9px;
+    padding:15px 20px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:flex-end;
+    gap:9px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
-@media (max-width: 700px) {
+@media (max-width:700px) {
 
     .sidebar {
-        display: none;
+        display:none;
     }
 
     .main {
-        margin-left: 0;
+        margin-left:0;
     }
 
     .topbar {
-        height: 65px;
-        padding: 0 15px;
+        height:65px;
+        padding:0 15px;
     }
 
     .page-title {
-        font-size: 18px;
+        font-size:18px;
     }
 
     .content {
-        padding: 13px;
+        padding:13px;
     }
 
     .toolbar {
-        padding: 11px;
+        padding:11px;
     }
 
     .search-box {
-        width: 100%;
-        min-width: 100%;
-        flex-basis: 100%;
+        width:100%;
+        min-width:100%;
+        flex-basis:100%;
     }
 
     .filter-select {
-        flex: 1;
-        min-width: 0;
+        flex:1;
+        min-width:0;
     }
 
     .toolbar .btn {
-        flex: 1;
+        flex:1;
     }
 
     .class-count {
-        display: none;
+        display:none;
     }
 }
 
-/* =========================
-   PRINT
-========================= */
+/* PRINT */
 
 @media print {
 
@@ -661,37 +649,37 @@ tbody tr:hover {
     .alert,
     .actions,
     .modal-overlay {
-        display: none !important;
+        display:none !important;
     }
 
     .main {
-        margin-left: 0;
+        margin-left:0;
     }
 
     .content {
-        padding: 0;
+        padding:0;
     }
 
     .table-card {
-        border: 0;
+        border:0;
     }
 
     .table-header {
-        border: 0;
+        border:0;
     }
 
     table {
-        min-width: 0;
+        min-width:0;
     }
 
     th,
     td {
-        padding: 8px;
-        font-size: 10px;
+        padding:8px;
+        font-size:10px;
     }
 
     body {
-        background: white;
+        background:white;
     }
 }
 </style>
@@ -699,28 +687,18 @@ tbody tr:hover {
 
 <body>
 
-<!-- =========================
-     SIDEBAR
-========================= -->
-
 <aside class="sidebar">
 
     <div class="brand">
-
         <div class="brand-title">
-
             <div class="brand-icon">
                 <i data-lucide="graduation-cap"></i>
             </div>
-
             School System
-
         </div>
 
         <small>Staff Management</small>
-
     </div>
-
 
     <nav class="nav">
 
@@ -741,7 +719,6 @@ tbody tr:hover {
 
     </nav>
 
-
     <div class="sidebar-bottom">
 
         <div class="staff-info">
@@ -750,25 +727,15 @@ tbody tr:hover {
                 Logged in as
             </div>
 
-            <div
-                class="staff-name"
-                id="staffName"
-            >
+            <div class="staff-name" id="staffName">
                 Staff
             </div>
 
         </div>
 
-
-        <button
-            class="logout-btn"
-            id="logoutBtn"
-        >
-
+        <button class="logout-btn" id="logoutBtn">
             <i data-lucide="log-out"></i>
-
             Sign Out
-
         </button>
 
     </div>
@@ -776,16 +743,11 @@ tbody tr:hover {
 </aside>
 
 
-<!-- =========================
-     MAIN
-========================= -->
-
 <main class="main">
 
     <header class="topbar">
 
         <div>
-
             <div class="page-title">
                 Students
             </div>
@@ -793,19 +755,10 @@ tbody tr:hover {
             <div class="page-subtitle">
                 Manage students assigned to your classes
             </div>
-
         </div>
 
-
-        <div>
-
-            <div
-                class="class-count"
-                id="classCount"
-            >
-                0 classes
-            </div>
-
+        <div class="class-count" id="classCount">
+            0 classes
         </div>
 
     </header>
@@ -813,19 +766,11 @@ tbody tr:hover {
 
     <section class="content">
 
-        <div
-            class="alert"
-            id="alertBox"
-        >
-
+        <div class="alert" id="alertBox">
             <i data-lucide="info"></i>
-
             <span id="alertText"></span>
-
         </div>
 
-
-        <!-- TOOLBAR -->
 
         <div class="toolbar">
 
@@ -842,57 +787,32 @@ tbody tr:hover {
             </div>
 
 
-            <select
-                id="classFilter"
-                class="filter-select"
-            >
-
+            <select id="classFilter" class="filter-select">
                 <option value="all">
                     All Classes
                 </option>
-
             </select>
 
 
-            <button
-                class="btn btn-secondary"
-                id="refreshBtn"
-            >
-
+            <button class="btn btn-secondary" id="refreshBtn">
                 <i data-lucide="refresh-cw"></i>
-
                 Refresh
-
             </button>
 
 
-            <button
-                class="btn btn-secondary"
-                id="printBtn"
-            >
-
+            <button class="btn btn-secondary" id="printBtn">
                 <i data-lucide="printer"></i>
-
                 Prepare for Print
-
             </button>
 
 
-            <button
-                class="btn btn-primary"
-                id="addStudentBtn"
-            >
-
+            <button class="btn btn-primary" id="addStudentBtn">
                 <i data-lucide="user-plus"></i>
-
                 Add Student
-
             </button>
 
         </div>
 
-
-        <!-- STUDENT TABLE -->
 
         <div class="table-card">
 
@@ -902,10 +822,7 @@ tbody tr:hover {
                     Student List
                 </div>
 
-                <div
-                    class="table-count"
-                    id="studentCount"
-                >
+                <div class="table-count" id="studentCount">
                     0 students
                 </div>
 
@@ -919,40 +836,27 @@ tbody tr:hover {
                     <thead>
 
                         <tr>
-
                             <th>#</th>
-
                             <th>Full Name</th>
-
                             <th>Administration Number</th>
-
                             <th>Student ID</th>
-
                             <th>Class</th>
-
                             <th>Type</th>
-
                             <th>Registration</th>
-
                             <th>Actions</th>
-
                         </tr>
 
                     </thead>
 
-
                     <tbody id="studentTableBody">
 
                         <tr>
-
                             <td colspan="8">
 
                                 <div class="empty-state">
 
                                     <div class="empty-icon">
-
                                         <i data-lucide="loader-circle"></i>
-
                                     </div>
 
                                     <div class="empty-title">
@@ -962,7 +866,6 @@ tbody tr:hover {
                                 </div>
 
                             </td>
-
                         </tr>
 
                     </tbody>
@@ -978,35 +881,18 @@ tbody tr:hover {
 </main>
 
 
-<!-- =========================
-     ADD / EDIT MODAL
-========================= -->
-
-<div
-    class="modal-overlay"
-    id="studentModal"
->
+<div class="modal-overlay" id="studentModal">
 
     <div class="modal">
 
         <div class="modal-header">
 
-            <div
-                class="modal-title"
-                id="modalTitle"
-            >
+            <div class="modal-title" id="modalTitle">
                 Add Student
             </div>
 
-
-            <button
-                class="close-btn"
-                id="closeModal"
-                type="button"
-            >
-
+            <button class="close-btn" id="closeModal" type="button">
                 <i data-lucide="x"></i>
-
             </button>
 
         </div>
@@ -1016,26 +902,15 @@ tbody tr:hover {
 
             <div class="modal-body">
 
-                <input
-                    type="hidden"
-                    id="editingStudentId"
-                >
+                <input type="hidden" id="editingStudentId">
 
-
-                <!-- ADMINISTRATION NUMBER -->
 
                 <div class="form-group">
 
-                    <label
-                        class="form-label"
-                        for="administrationNumber"
-                    >
-
+                    <label class="form-label" for="administrationNumber">
                         Administration Number
                         <span>*</span>
-
                     </label>
-
 
                     <input
                         type="text"
@@ -1046,31 +921,19 @@ tbody tr:hover {
                         required
                     >
 
-
                     <div class="form-help">
-
-                        The student will later use this number
-                        to find their record during registration.
-
+                        The student will later use this number to find their record during registration.
                     </div>
 
                 </div>
 
 
-                <!-- FULL NAME -->
-
                 <div class="form-group">
 
-                    <label
-                        class="form-label"
-                        for="fullName"
-                    >
-
+                    <label class="form-label" for="fullName">
                         Full Name
                         <span>*</span>
-
                     </label>
-
 
                     <input
                         type="text"
@@ -1084,20 +947,12 @@ tbody tr:hover {
                 </div>
 
 
-                <!-- CLASS -->
-
                 <div class="form-group">
 
-                    <label
-                        class="form-label"
-                        for="classSelect"
-                    >
-
+                    <label class="form-label" for="classSelect">
                         Assign to Class
                         <span>*</span>
-
                     </label>
-
 
                     <select
                         class="form-control"
@@ -1111,13 +966,8 @@ tbody tr:hover {
 
                     </select>
 
-
                     <div class="form-help">
-
-                        Class placement is handled by staff.
-                        The student will provide their personal
-                        information during registration.
-
+                        Class placement is handled by staff. The student provides personal information during registration.
                     </div>
 
                 </div>
@@ -1135,17 +985,13 @@ tbody tr:hover {
                     Cancel
                 </button>
 
-
                 <button
                     type="submit"
                     class="btn btn-primary"
                     id="saveStudentBtn"
                 >
-
                     <i data-lucide="save"></i>
-
                     Save Student
-
                 </button>
 
             </div>
@@ -1181,15 +1027,12 @@ const supabaseClient =
 ========================================================= */
 
 let currentTeacherId = null;
-
 let currentTeacherUsername = "";
 
 let assignedClasses = [];
-
 let grades = [];
 
 let allStudents = [];
-
 let studentRoster = [];
 
 
@@ -1253,9 +1096,7 @@ const saveStudentBtn =
 function refreshIcons() {
 
     if (window.lucide) {
-
         lucide.createIcons();
-
     }
 
 }
@@ -1265,27 +1106,19 @@ function refreshIcons() {
    ALERT
 ========================================================= */
 
-function showAlert(
-    message,
-    type = "info"
-) {
+function showAlert(message, type = "info") {
 
-    alertText.textContent =
-        message;
+    alertText.textContent = message;
 
     alertBox.className =
         "alert show " + type;
-
 
     const oldIcon =
         alertBox.querySelector("svg");
 
     if (oldIcon) {
-
         oldIcon.remove();
-
     }
-
 
     const iconName =
         type === "success"
@@ -1293,7 +1126,6 @@ function showAlert(
             : type === "error"
                 ? "circle-alert"
                 : "info";
-
 
     const icon =
         document.createElement("i");
@@ -1307,31 +1139,17 @@ function showAlert(
 
     refreshIcons();
 
-
-    clearTimeout(
-        window.alertTimer
-    );
-
+    clearTimeout(window.alertTimer);
 
     window.alertTimer =
-        setTimeout(
-            () => {
-
-                alertBox.classList.remove(
-                    "show"
-                );
-
-            },
-            5000
-        );
-
+        setTimeout(() => {
+            alertBox.classList.remove("show");
+        }, 5000);
 }
 
 
 /* =========================================================
-   AUTHENTICATION
-   IMPORTANT:
-   LOGIN.HTML USES sessionStorage
+   AUTH
 ========================================================= */
 
 function checkStaffLogin() {
@@ -1341,18 +1159,15 @@ function checkStaffLogin() {
             "staff_authenticated"
         );
 
-
     const teacherId =
         sessionStorage.getItem(
             "staff_teacher_id"
         );
 
-
     const username =
         sessionStorage.getItem(
             "staff_teacher_username"
         );
-
 
     console.log(
         "STAFF SESSION:",
@@ -1363,7 +1178,6 @@ function checkStaffLogin() {
         }
     );
 
-
     if (
         authenticated !== "true" ||
         !teacherId
@@ -1373,39 +1187,31 @@ function checkStaffLogin() {
             "login.html";
 
         return false;
-
     }
-
 
     currentTeacherId =
         Number(teacherId);
 
-
     currentTeacherUsername =
         username || "";
-
 
     staffName.textContent =
         currentTeacherUsername ||
         "Staff";
 
-
     return true;
-
 }
 
 
 /* =========================================================
    LOGOUT
-   IMPORTANT:
-   USE sessionStorage
 ========================================================= */
 
 document
     .getElementById("logoutBtn")
     .addEventListener(
         "click",
-        function () {
+        () => {
 
             sessionStorage.removeItem(
                 "staff_authenticated"
@@ -1419,10 +1225,8 @@ document
                 "staff_teacher_username"
             );
 
-
             window.location.href =
                 "login.html";
-
         }
     );
 
@@ -1439,36 +1243,29 @@ async function loadGrades() {
     } =
         await supabaseClient
             .from("grades")
-            .select("*")
+            .select(
+                "id,name,student_type"
+            )
             .order("id");
 
-
     if (error) {
-
-        console.error(
-            "GRADE LOAD ERROR:",
-            error
+        throw new Error(
+            "Could not load grades: " +
+            error.message
         );
-
-        throw error;
-
     }
 
-
-    grades =
-        data || [];
-
+    grades = data || [];
 }
 
 
 /* =========================================================
-   LOAD ASSIGNED CLASSES
+   LOAD TEACHER CLASSES
 ========================================================= */
 
 async function loadAssignedClasses() {
 
     assignedClasses = [];
-
 
     const {
         data: assignments,
@@ -1484,16 +1281,12 @@ async function loadAssignedClasses() {
                 currentTeacherId
             );
 
-
     if (assignmentError) {
 
-        console.error(
-            "TEACHER CLASS ERROR:",
-            assignmentError
+        throw new Error(
+            "Could not load teacher class assignments: " +
+            assignmentError.message
         );
-
-        throw assignmentError;
-
     }
 
 
@@ -1505,15 +1298,21 @@ async function loadAssignedClasses() {
         updateClassControls();
 
         return;
-
     }
 
 
     const classIds =
-        assignments.map(
-            item =>
-                item.class_id
-        );
+        assignments
+            .map(item => Number(item.class_id))
+            .filter(Number.isFinite);
+
+
+    if (classIds.length === 0) {
+
+        updateClassControls();
+
+        return;
+    }
 
 
     const {
@@ -1522,7 +1321,9 @@ async function loadAssignedClasses() {
     } =
         await supabaseClient
             .from("classes")
-            .select("*")
+            .select(
+                "id,name,grade_id,school_year_id,is_active"
+            )
             .in(
                 "id",
                 classIds
@@ -1535,22 +1336,17 @@ async function loadAssignedClasses() {
 
     if (classError) {
 
-        console.error(
-            "CLASS LOAD ERROR:",
-            classError
+        throw new Error(
+            "Could not load assigned classes: " +
+            classError.message
         );
-
-        throw classError;
-
     }
 
 
     assignedClasses =
         classes || [];
 
-
     updateClassControls();
-
 }
 
 
@@ -1560,84 +1356,191 @@ async function loadAssignedClasses() {
 
 function updateClassControls() {
 
+    const count =
+        assignedClasses.length;
+
     classCount.textContent =
-        assignedClasses.length +
+        count +
         (
-            assignedClasses.length === 1
+            count === 1
                 ? " class"
                 : " classes"
         );
 
 
     classFilter.innerHTML =
-        `
-        <option value="all">
-            All Classes
-        </option>
-        `;
-
+        `<option value="all">All Classes</option>`;
 
     classSelect.innerHTML =
-        `
-        <option value="">
-            Select class
-        </option>
-        `;
+        `<option value="">Select class</option>`;
 
 
-    const sortedClasses =
+    const sorted =
         assignedClasses
             .slice()
             .sort(
-                (a, b) =>
+                (a,b) =>
                     String(a.name)
                         .localeCompare(
                             String(b.name),
                             undefined,
                             {
-                                numeric: true
+                                numeric:true
                             }
                         )
             );
 
 
-    sortedClasses.forEach(
-        cls => {
+    sorted.forEach(cls => {
 
-            const filterOption =
-                document.createElement(
-                    "option"
-                );
+        const filterOption =
+            document.createElement("option");
 
-            filterOption.value =
-                String(cls.id);
+        filterOption.value =
+            String(cls.id);
 
-            filterOption.textContent =
-                cls.name;
+        filterOption.textContent =
+            cls.name;
 
-            classFilter.appendChild(
-                filterOption
+        classFilter.appendChild(
+            filterOption
+        );
+
+
+        const classOption =
+            document.createElement("option");
+
+        classOption.value =
+            String(cls.id);
+
+        classOption.textContent =
+            cls.name;
+
+        classSelect.appendChild(
+            classOption
+        );
+
+    });
+}
+
+
+/* =========================================================
+   LOAD ALL STUDENTS
+========================================================= */
+
+async function loadAllStudents() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("students")
+            .select(`
+                id,
+                student_id,
+                full_name,
+                administration_number,
+                student_type,
+                registration_status,
+                payment_status,
+                created_at,
+                updated_at
+            `)
+            .order(
+                "id",
+                {
+                    ascending:false
+                }
             );
 
 
-            const classOption =
-                document.createElement(
-                    "option"
-                );
+    if (error) {
 
-            classOption.value =
-                String(cls.id);
+        throw new Error(
+            "Could not load students: " +
+            error.message
+        );
+    }
 
-            classOption.textContent =
-                cls.name;
 
-            classSelect.appendChild(
-                classOption
-            );
+    allStudents =
+        data || [];
 
-        }
+
+    console.log(
+        "STUDENTS LOADED:",
+        allStudents
     );
+}
 
+
+/* =========================================================
+   LOAD ROSTER
+========================================================= */
+
+async function loadStudentRoster() {
+
+    studentRoster = [];
+
+
+    if (
+        assignedClasses.length === 0
+    ) {
+
+        return;
+    }
+
+
+    const classIds =
+        assignedClasses
+            .map(cls => Number(cls.id))
+            .filter(Number.isFinite);
+
+
+    if (classIds.length === 0) {
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("class_roster")
+            .select(
+                "id,student_id,class_id,student_number"
+            )
+            .in(
+                "class_id",
+                classIds
+            )
+            .order(
+                "student_number",
+                {
+                    ascending:true
+                }
+            );
+
+
+    if (error) {
+
+        throw new Error(
+            "Could not load class roster: " +
+            error.message
+        );
+    }
+
+
+    studentRoster =
+        data || [];
+
+
+    console.log(
+        "ROSTER LOADED:",
+        studentRoster
+    );
 }
 
 
@@ -1662,115 +1565,27 @@ async function loadStudents() {
         </tr>
     `;
 
-
     refreshIcons();
 
 
-    /* -----------------------------------------
-       LOAD STUDENT RECORDS
-    ----------------------------------------- */
+    /*
+       Load both sides of the relationship
+       independently, then match IDs locally.
+    */
 
-    const {
-        data: students,
-        error: studentError
-    } =
-        await supabaseClient
-            .from("students")
-            .select("*")
-            .order(
-                "id",
-                {
-                    ascending: false
-                }
-            );
+    await loadAllStudents();
 
-
-    if (studentError) {
-
-        console.error(
-            "STUDENT LOAD ERROR:",
-            studentError
-        );
-
-        throw studentError;
-
-    }
-
-
-    allStudents =
-        students || [];
-
-
-    /* -----------------------------------------
-       LOAD ROSTER
-    ----------------------------------------- */
-
-    studentRoster = [];
-
-
-    if (
-        assignedClasses.length > 0
-    ) {
-
-        const classIds =
-            assignedClasses.map(
-                cls =>
-                    cls.id
-            );
-
-
-        const {
-            data: roster,
-            error: rosterError
-        } =
-            await supabaseClient
-                .from("class_roster")
-                .select(
-                    "id,student_id,class_id,student_number"
-                )
-                .in(
-                    "class_id",
-                    classIds
-                );
-
-
-        if (rosterError) {
-
-            console.error(
-                "ROSTER LOAD ERROR:",
-                rosterError
-            );
-
-            /*
-               Don't completely destroy
-               the page if roster loading
-               has a problem.
-            */
-
-            studentRoster = [];
-
-        } else {
-
-            studentRoster =
-                roster || [];
-
-        }
-
-    }
-
+    await loadStudentRoster();
 
     renderStudents();
-
 }
 
 
 /* =========================================================
-   GET CLASS NAME
+   CLASS LOOKUP
 ========================================================= */
 
-function getClassName(
-    classId
-) {
+function getClassName(classId) {
 
     const cls =
         assignedClasses.find(
@@ -1779,21 +1594,57 @@ function getClassName(
                 Number(classId)
         );
 
-
     return cls
         ? cls.name
         : "Unassigned";
-
 }
 
 
 /* =========================================================
-   GET GRADE
+   STUDENT ROSTER LOOKUP
 ========================================================= */
 
-function getGradeForClass(
-    classId
-) {
+function getStudentRoster(studentId) {
+
+    return studentRoster.find(
+        item =>
+            Number(item.student_id) ===
+            Number(studentId)
+    ) || null;
+}
+
+
+function getStudentClassId(studentId) {
+
+    const roster =
+        getStudentRoster(studentId);
+
+    return roster
+        ? Number(roster.class_id)
+        : null;
+}
+
+
+/* =========================================================
+   STUDENT TYPE
+========================================================= */
+
+function getStudentType(student) {
+
+    if (
+        student &&
+        student.student_type
+    ) {
+
+        return student.student_type;
+    }
+
+
+    const classId =
+        getStudentClassId(
+            student.id
+        );
+
 
     const cls =
         assignedClasses.find(
@@ -1804,71 +1655,15 @@ function getGradeForClass(
 
 
     if (!cls) {
-
-        return null;
-
+        return "new";
     }
-
-
-    return grades.find(
-        grade =>
-            Number(grade.id) ===
-            Number(cls.grade_id)
-    ) || null;
-
-}
-
-
-/* =========================================================
-   GET STUDENT CLASS
-========================================================= */
-
-function getStudentClassId(
-    studentId
-) {
-
-    const roster =
-        studentRoster.find(
-            item =>
-                Number(item.student_id) ===
-                Number(studentId)
-        );
-
-
-    return roster
-        ? roster.class_id
-        : null;
-
-}
-
-
-/* =========================================================
-   GET STUDENT TYPE
-========================================================= */
-
-function getStudentType(
-    student
-) {
-
-    if (
-        student &&
-        student.student_type
-    ) {
-
-        return student.student_type;
-
-    }
-
-
-    const classId =
-        getStudentClassId(
-            student.id
-        );
 
 
     const grade =
-        getGradeForClass(
-            classId
+        grades.find(
+            item =>
+                Number(item.id) ===
+                Number(cls.grade_id)
         );
 
 
@@ -1878,28 +1673,20 @@ function getStudentType(
     )
         ? grade.student_type
         : "new";
-
 }
 
 
 /* =========================================================
-   GET VISIBLE STUDENTS
+   VISIBLE STUDENTS
 ========================================================= */
 
 function getVisibleStudents() {
-
-    /*
-       Staff only sees students that
-       are connected to one of their
-       assigned classes.
-    */
 
     if (
         assignedClasses.length === 0
     ) {
 
         return [];
-
     }
 
 
@@ -1912,33 +1699,71 @@ function getVisibleStudents() {
         );
 
 
-    return allStudents.filter(
-        student => {
+    return allStudents.filter(student => {
 
-            const classId =
-                getStudentClassId(
-                    student.id
-                );
-
-
-            return (
-                classId !== null &&
-                assignedClassIds.has(
-                    Number(classId)
-                )
+        const classId =
+            getStudentClassId(
+                student.id
             );
 
-        }
-    );
 
+        return (
+            classId !== null &&
+            assignedClassIds.has(
+                Number(classId)
+            )
+        );
+    });
 }
 
 
 /* =========================================================
-   RENDER STUDENTS
+   RENDER
 ========================================================= */
 
 function renderStudents() {
+
+    if (
+        assignedClasses.length === 0
+    ) {
+
+        studentCount.textContent =
+            "0 students";
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="8">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            <i data-lucide="school"></i>
+                        </div>
+
+                        <div class="empty-title">
+                            No classes assigned
+                        </div>
+
+                        <div class="empty-text">
+                            This staff account has not been assigned a class yet.
+                            Ask the administrator to assign a class.
+                        </div>
+
+                    </div>
+
+                </td>
+            </tr>
+        `;
+
+        refreshIcons();
+
+        return;
+    }
+
+
+    let students =
+        getVisibleStudents();
+
 
     const search =
         searchInput.value
@@ -1950,72 +1775,52 @@ function renderStudents() {
         classFilter.value;
 
 
-    let students =
-        getVisibleStudents();
-
-
-    /* SEARCH */
-
     if (search) {
 
         students =
-            students.filter(
-                student => {
+            students.filter(student => {
 
-                    const name =
-                        String(
-                            student.full_name || ""
-                        ).toLowerCase();
+                const name =
+                    String(
+                        student.full_name || ""
+                    ).toLowerCase();
 
+                const admin =
+                    String(
+                        student.administration_number || ""
+                    ).toLowerCase();
 
-                    const admin =
-                        String(
-                            student.administration_number || ""
-                        ).toLowerCase();
-
-
-                    const studentId =
-                        String(
-                            student.student_id || ""
-                        ).toLowerCase();
+                const studentId =
+                    String(
+                        student.student_id || ""
+                    ).toLowerCase();
 
 
-                    return (
-                        name.includes(search) ||
-                        admin.includes(search) ||
-                        studentId.includes(search)
-                    );
-
-                }
-            );
-
+                return (
+                    name.includes(search) ||
+                    admin.includes(search) ||
+                    studentId.includes(search)
+                );
+            });
     }
 
-
-    /* CLASS FILTER */
 
     if (
         selectedClass !== "all"
     ) {
 
         students =
-            students.filter(
-                student => {
+            students.filter(student => {
 
-                    const classId =
+                return (
+                    String(
                         getStudentClassId(
                             student.id
-                        );
-
-
-                    return (
-                        String(classId) ===
-                        String(selectedClass)
-                    );
-
-                }
-            );
-
+                        )
+                    ) ===
+                    String(selectedClass)
+                );
+            });
     }
 
 
@@ -2035,6 +1840,7 @@ function renderStudents() {
         tableBody.innerHTML = `
             <tr>
                 <td colspan="8">
+
                     <div class="empty-state">
 
                         <div class="empty-icon">
@@ -2046,26 +1852,25 @@ function renderStudents() {
                         </div>
 
                         <div class="empty-text">
-                            Students added to your assigned classes will appear here.
+                            No student in your assigned classes matches the current list or search.
                         </div>
 
                     </div>
+
                 </td>
             </tr>
         `;
 
-
         refreshIcons();
 
         return;
-
     }
 
 
     tableBody.innerHTML =
         students
             .map(
-                (student, index) =>
+                (student,index) =>
                     createStudentRow(
                         student,
                         index + 1
@@ -2075,12 +1880,11 @@ function renderStudents() {
 
 
     refreshIcons();
-
 }
 
 
 /* =========================================================
-   CREATE STUDENT ROW
+   CREATE ROW
 ========================================================= */
 
 function createStudentRow(
@@ -2121,6 +1925,12 @@ function createStudentRow(
         type === "returning"
             ? "badge-returning"
             : "badge-new";
+
+
+    const registrationClass =
+        registration === "approved"
+            ? "badge-new"
+            : "badge-returning";
 
 
     return `
@@ -2167,11 +1977,7 @@ function createStudentRow(
             </td>
 
             <td>
-                <span class="badge ${
-                    registration === "approved"
-                        ? "badge-new"
-                        : "badge-returning"
-                }">
+                <span class="badge ${registrationClass}">
                     ${escapeHtml(
                         capitalize(
                             registration
@@ -2192,7 +1998,6 @@ function createStudentRow(
                         <i data-lucide="pencil"></i>
                     </button>
 
-
                     <button
                         class="icon-btn delete"
                         title="Delete student"
@@ -2207,7 +2012,6 @@ function createStudentRow(
 
         </tr>
     `;
-
 }
 
 
@@ -2215,32 +2019,14 @@ function createStudentRow(
    ESCAPE HTML
 ========================================================= */
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
     return String(value)
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 }
 
 
@@ -2248,26 +2034,19 @@ function escapeHtml(
    CAPITALIZE
 ========================================================= */
 
-function capitalize(
-    value
-) {
+function capitalize(value) {
 
     if (!value) {
-
         return "";
-
     }
-
 
     const text =
         String(value);
-
 
     return (
         text.charAt(0).toUpperCase() +
         text.slice(1)
     );
-
 }
 
 
@@ -2308,25 +2087,152 @@ async function generateStudentId() {
 
 
         if (error) {
-
             throw error;
-
         }
 
 
         if (!data) {
-
             return generated;
-
         }
-
     }
 
 
     throw new Error(
         "Unable to generate a unique Student ID. Please try again."
     );
+}
 
+
+/* =========================================================
+   CREATE ROSTER ENTRY
+========================================================= */
+
+async function createRosterEntry(
+    studentId,
+    classId
+) {
+
+    /*
+       Check for existing roster entry.
+    */
+
+    const {
+        data: existing,
+        error: existingError
+    } =
+        await supabaseClient
+            .from("class_roster")
+            .select(
+                "id,student_id,class_id,student_number"
+            )
+            .eq(
+                "student_id",
+                studentId
+            )
+            .maybeSingle();
+
+
+    if (existingError) {
+        throw existingError;
+    }
+
+
+    if (existing) {
+
+        if (
+            Number(existing.class_id) !==
+            Number(classId)
+        ) {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from("class_roster")
+                    .update({
+                        class_id:Number(classId)
+                    })
+                    .eq(
+                        "id",
+                        existing.id
+                    );
+
+
+            if (error) {
+                throw error;
+            }
+        }
+
+        return;
+    }
+
+
+    /*
+       Find the next number in the class.
+    */
+
+    const {
+        data: roster,
+        error: rosterError
+    } =
+        await supabaseClient
+            .from("class_roster")
+            .select("student_number")
+            .eq(
+                "class_id",
+                classId
+            )
+            .order(
+                "student_number",
+                {
+                    ascending:false
+                }
+            )
+            .limit(1);
+
+
+    if (rosterError) {
+        throw rosterError;
+    }
+
+
+    let nextNumber = 1;
+
+
+    if (
+        roster &&
+        roster.length > 0 &&
+        roster[0].student_number != null
+    ) {
+
+        nextNumber =
+            Number(
+                roster[0].student_number
+            ) + 1;
+    }
+
+
+    const {
+        error: insertError
+    } =
+        await supabaseClient
+            .from("class_roster")
+            .insert({
+                student_id:Number(studentId),
+                class_id:Number(classId),
+                student_number:nextNumber
+            });
+
+
+    if (insertError) {
+
+        console.error(
+            "ROSTER INSERT ERROR:",
+            insertError
+        );
+
+        throw insertError;
+    }
 }
 
 
@@ -2336,49 +2242,29 @@ async function generateStudentId() {
 
 function openAddModal() {
 
-    editingStudentId.value =
-        "";
-
+    editingStudentId.value = "";
 
     modalTitle.textContent =
         "Add Student";
 
+    administrationNumber.value = "";
+    fullName.value = "";
+    classSelect.value = "";
+
+    saveStudentBtn.disabled = false;
 
     saveStudentBtn.innerHTML = `
         <i data-lucide="save"></i>
         Save Student
     `;
 
-
-    administrationNumber.value =
-        "";
-
-
-    fullName.value =
-        "";
-
-
-    classSelect.value =
-        "";
-
-
-    studentModal.classList.add(
-        "show"
-    );
-
+    studentModal.classList.add("show");
 
     refreshIcons();
 
-
-    setTimeout(
-        () => {
-
-            administrationNumber.focus();
-
-        },
-        100
-    );
-
+    setTimeout(() => {
+        administrationNumber.focus();
+    },100);
 }
 
 
@@ -2388,44 +2274,33 @@ function openAddModal() {
 
 function closeModal() {
 
-    studentModal.classList.remove(
-        "show"
-    );
-
+    studentModal.classList.remove("show");
 
     studentForm.reset();
 
-
-    editingStudentId.value =
-        "";
-
+    editingStudentId.value = "";
 }
 
 
 /* =========================================================
-   ADD / EDIT STUDENT
+   SAVE STUDENT
 ========================================================= */
 
 studentForm.addEventListener(
     "submit",
-    async function(event) {
+    async event => {
 
         event.preventDefault();
 
 
         const adminNumber =
-            administrationNumber.value
-                .trim();
-
+            administrationNumber.value.trim();
 
         const name =
-            fullName.value
-                .trim();
-
+            fullName.value.trim();
 
         const selectedClassId =
             classSelect.value;
-
 
         const editingId =
             editingStudentId.value;
@@ -2439,7 +2314,6 @@ studentForm.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -2451,7 +2325,6 @@ studentForm.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -2463,7 +2336,6 @@ studentForm.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -2483,28 +2355,22 @@ studentForm.addEventListener(
             );
 
             return;
-
         }
 
 
-        saveStudentBtn.disabled =
-            true;
-
+        saveStudentBtn.disabled = true;
 
         saveStudentBtn.innerHTML = `
             <i data-lucide="loader-circle"></i>
             Saving...
         `;
 
-
         refreshIcons();
 
 
         try {
 
-            /* =========================================
-               EDIT EXISTING STUDENT
-            ========================================= */
+            /* EDIT */
 
             if (editingId) {
 
@@ -2514,24 +2380,20 @@ studentForm.addEventListener(
                 } =
                     await supabaseClient
                         .from("students")
-                        .select(
-                            "id,full_name"
-                        )
+                        .select("id,full_name")
                         .eq(
                             "administration_number",
                             adminNumber
                         )
                         .neq(
                             "id",
-                            editingId
+                            Number(editingId)
                         )
                         .maybeSingle();
 
 
                 if (duplicateError) {
-
                     throw duplicateError;
-
                 }
 
 
@@ -2540,135 +2402,54 @@ studentForm.addEventListener(
                     throw new Error(
                         "That administration number already belongs to another student."
                     );
-
                 }
 
 
                 const {
-                    error: updateError
+                    error:updateError
                 } =
                     await supabaseClient
                         .from("students")
                         .update({
-
                             administration_number:
                                 adminNumber,
-
                             full_name:
                                 name,
-
                             updated_at:
                                 new Date()
                                     .toISOString()
-
                         })
                         .eq(
                             "id",
-                            editingId
+                            Number(editingId)
                         );
 
 
                 if (updateError) {
-
                     throw updateError;
-
                 }
 
 
-                /*
-                   Find existing roster entry.
-                */
-
-                const existingRoster =
-                    studentRoster.find(
-                        roster =>
-                            Number(
-                                roster.student_id
-                            ) ===
-                            Number(
-                                editingId
-                            )
-                    );
-
-
-                if (existingRoster) {
-
-                    if (
-                        Number(
-                            existingRoster.class_id
-                        ) !==
-                        Number(
-                            selectedClassId
-                        )
-                    ) {
-
-                        const {
-                            error:
-                                rosterUpdateError
-                        } =
-                            await supabaseClient
-                                .from(
-                                    "class_roster"
-                                )
-                                .update({
-
-                                    class_id:
-                                        Number(
-                                            selectedClassId
-                                        )
-
-                                })
-                                .eq(
-                                    "id",
-                                    existingRoster.id
-                                );
-
-
-                        if (
-                            rosterUpdateError
-                        ) {
-
-                            throw rosterUpdateError;
-
-                        }
-
-                    }
-
-                } else {
-
-                    await createRosterEntry(
-                        Number(editingId),
-                        Number(selectedClassId)
-                    );
-
-                }
+                await createRosterEntry(
+                    Number(editingId),
+                    Number(selectedClassId)
+                );
 
 
                 closeModal();
-
 
                 showAlert(
                     "Student updated successfully.",
                     "success"
                 );
 
-
                 await loadStudents();
 
-
                 return;
-
             }
 
 
-            /* =========================================
-               ADD NEW STUDENT
-            ========================================= */
-
-
-            /*
-               Check administration number.
-            */
+            /* ADD */
 
             const {
                 data: existingStudent,
@@ -2676,9 +2457,7 @@ studentForm.addEventListener(
             } =
                 await supabaseClient
                     .from("students")
-                    .select(
-                        "id,full_name"
-                    )
+                    .select("id,full_name")
                     .eq(
                         "administration_number",
                         adminNumber
@@ -2687,9 +2466,7 @@ studentForm.addEventListener(
 
 
             if (existingError) {
-
                 throw existingError;
-
             }
 
 
@@ -2698,21 +2475,14 @@ studentForm.addEventListener(
                 throw new Error(
                     `Administration number ${adminNumber} already belongs to ${existingStudent.full_name}.`
                 );
-
             }
 
-
-            /*
-               Determine new/returning from grade.
-            */
 
             const grade =
                 grades.find(
                     item =>
                         Number(item.id) ===
-                        Number(
-                            selectedClass.grade_id
-                        )
+                        Number(selectedClass.grade_id)
                 );
 
 
@@ -2723,18 +2493,9 @@ studentForm.addEventListener(
                     : "new";
 
 
-            /*
-               Generate Student ID.
-            */
-
             const generatedStudentId =
                 await generateStudentId();
 
-
-            /*
-               Insert only the information
-               staff is supposed to provide.
-            */
 
             const studentData = {
 
@@ -2763,7 +2524,7 @@ studentForm.addEventListener(
 
 
             const {
-                error: insertError
+                error:insertError
             } =
                 await supabaseClient
                     .from("students")
@@ -2773,24 +2534,17 @@ studentForm.addEventListener(
 
 
             if (insertError) {
-
-                console.error(
-                    "STUDENT INSERT ERROR:",
-                    insertError
-                );
-
                 throw insertError;
-
             }
 
 
             /*
-               Confirm the student really exists.
+               Find the newly created student.
             */
 
             const {
-                data: insertedStudent,
-                error: findStudentError
+                data:insertedStudent,
+                error:findError
             } =
                 await supabaseClient
                     .from("students")
@@ -2804,45 +2558,36 @@ studentForm.addEventListener(
                     .maybeSingle();
 
 
-            if (findStudentError) {
-
-                throw findStudentError;
-
+            if (findError) {
+                throw findError;
             }
 
 
             if (!insertedStudent) {
 
                 throw new Error(
-                    "Student was saved but could not be found again."
+                    "Student was saved, but the database could not return the new student record."
                 );
-
             }
 
 
             console.log(
-                "INSERTED STUDENT:",
+                "NEW STUDENT:",
                 insertedStudent
             );
 
 
             /*
-               Add student to class roster.
+               Create class roster entry.
             */
 
             await createRosterEntry(
-                insertedStudent.id,
+                Number(insertedStudent.id),
                 Number(selectedClassId)
             );
 
 
-            /*
-               Close only after everything
-               succeeded.
-            */
-
             closeModal();
-
 
             showAlert(
                 `${name} was added successfully.`,
@@ -2851,7 +2596,8 @@ studentForm.addEventListener(
 
 
             /*
-               Reload the actual database data.
+               Reload both student records
+               and roster.
             */
 
             await loadStudents();
@@ -2875,11 +2621,9 @@ studentForm.addEventListener(
             ) {
 
                 if (
-                    String(
-                        error.message
-                    ).includes(
-                        "administration"
-                    )
+                    String(error.message)
+                        .toLowerCase()
+                        .includes("administration")
                 ) {
 
                     message =
@@ -2888,10 +2632,8 @@ studentForm.addEventListener(
                 } else {
 
                     message =
-                        "A duplicate record already exists.";
-
+                        "A duplicate roster or student record already exists.";
                 }
-
             }
 
 
@@ -2903,181 +2645,17 @@ studentForm.addEventListener(
 
         } finally {
 
-            saveStudentBtn.disabled =
-                false;
-
+            saveStudentBtn.disabled = false;
 
             saveStudentBtn.innerHTML = `
                 <i data-lucide="save"></i>
                 Save Student
             `;
 
-
             refreshIcons();
-
         }
-
     }
 );
-
-
-/* =========================================================
-   CREATE CLASS ROSTER ENTRY
-========================================================= */
-
-async function createRosterEntry(
-    studentId,
-    classId
-) {
-
-    /*
-       Check whether student already
-       has a roster entry.
-    */
-
-    const {
-        data: existing,
-        error: existingError
-    } =
-        await supabaseClient
-            .from("class_roster")
-            .select(
-                "id,student_id,class_id,student_number"
-            )
-            .eq(
-                "student_id",
-                studentId
-            )
-            .maybeSingle();
-
-
-    if (existingError) {
-
-        throw existingError;
-
-    }
-
-
-    if (existing) {
-
-        if (
-            Number(existing.class_id) !==
-            Number(classId)
-        ) {
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("class_roster")
-                    .update({
-
-                        class_id:
-                            classId
-
-                    })
-                    .eq(
-                        "id",
-                        existing.id
-                    );
-
-
-            if (error) {
-
-                throw error;
-
-            }
-
-        }
-
-
-        return;
-
-    }
-
-
-    /*
-       Get highest student number
-       currently in this class.
-    */
-
-    const {
-        data: roster,
-        error: rosterError
-    } =
-        await supabaseClient
-            .from("class_roster")
-            .select(
-                "student_number"
-            )
-            .eq(
-                "class_id",
-                classId
-            )
-            .order(
-                "student_number",
-                {
-                    ascending: false
-                }
-            )
-            .limit(1);
-
-
-    if (rosterError) {
-
-        throw rosterError;
-
-    }
-
-
-    let nextNumber = 1;
-
-
-    if (
-        roster &&
-        roster.length > 0 &&
-        roster[0].student_number
-    ) {
-
-        nextNumber =
-            Number(
-                roster[0].student_number
-            ) + 1;
-
-    }
-
-
-    const {
-        error: insertRosterError
-    } =
-        await supabaseClient
-            .from("class_roster")
-            .insert({
-
-                student_id:
-                    studentId,
-
-                class_id:
-                    classId,
-
-                student_number:
-                    nextNumber
-
-            });
-
-
-    if (insertRosterError) {
-
-        console.error(
-            "ROSTER INSERT ERROR:",
-            insertRosterError
-        );
-
-        throw insertRosterError;
-
-    }
-
-}
 
 
 /* =========================================================
@@ -3085,7 +2663,7 @@ async function createRosterEntry(
 ========================================================= */
 
 window.editStudent =
-    async function(studentId) {
+    function(studentId) {
 
         const student =
             allStudents.find(
@@ -3103,7 +2681,6 @@ window.editStudent =
             );
 
             return;
-
         }
 
 
@@ -3116,9 +2693,21 @@ window.editStudent =
         editingStudentId.value =
             student.id;
 
-
         modalTitle.textContent =
             "Edit Student";
+
+        administrationNumber.value =
+            student.administration_number ||
+            "";
+
+        fullName.value =
+            student.full_name ||
+            "";
+
+        classSelect.value =
+            classId
+                ? String(classId)
+                : "";
 
 
         saveStudentBtn.innerHTML = `
@@ -3127,29 +2716,9 @@ window.editStudent =
         `;
 
 
-        administrationNumber.value =
-            student.administration_number ||
-            "";
-
-
-        fullName.value =
-            student.full_name ||
-            "";
-
-
-        classSelect.value =
-            classId
-                ? String(classId)
-                : "";
-
-
-        studentModal.classList.add(
-            "show"
-        );
-
+        studentModal.classList.add("show");
 
         refreshIcons();
-
     };
 
 
@@ -3169,9 +2738,7 @@ window.deleteStudent =
 
 
         if (!student) {
-
             return;
-
         }
 
 
@@ -3182,57 +2749,51 @@ window.deleteStudent =
 
 
         if (!confirmed) {
-
             return;
-
         }
 
 
         try {
 
             /*
-               Delete roster first.
+               Remove roster first.
             */
 
             const {
-                error: rosterError
+                error:rosterError
             } =
                 await supabaseClient
                     .from("class_roster")
                     .delete()
                     .eq(
                         "student_id",
-                        studentId
+                        Number(studentId)
                     );
 
 
             if (rosterError) {
-
                 throw rosterError;
-
             }
 
 
             /*
-               Delete student.
+               Remove student.
             */
 
             const {
-                error: studentError
+                error:studentError
             } =
                 await supabaseClient
                     .from("students")
                     .delete()
                     .eq(
                         "id",
-                        studentId
+                        Number(studentId)
                     );
 
 
             if (studentError) {
-
                 throw studentError;
-
             }
 
 
@@ -3252,20 +2813,17 @@ window.deleteStudent =
                 error
             );
 
-
             showAlert(
                 error.message ||
                 "Unable to delete student.",
                 "error"
             );
-
         }
-
     };
 
 
 /* =========================================================
-   SEARCH / FILTER
+   SEARCH
 ========================================================= */
 
 searchInput.addEventListener(
@@ -3281,7 +2839,7 @@ classFilter.addEventListener(
 
 
 /* =========================================================
-   ADD BUTTON
+   BUTTONS
 ========================================================= */
 
 document
@@ -3292,15 +2850,11 @@ document
     );
 
 
-/* =========================================================
-   REFRESH BUTTON
-========================================================= */
-
 document
     .getElementById("refreshBtn")
     .addEventListener(
         "click",
-        async function() {
+        async () => {
 
             try {
 
@@ -3325,31 +2879,23 @@ document
                     "Unable to refresh students.",
                     "error"
                 );
-
             }
-
         }
     );
 
-
-/* =========================================================
-   PRINT
-========================================================= */
 
 document
     .getElementById("printBtn")
     .addEventListener(
         "click",
-        function() {
-
+        () => {
             window.print();
-
         }
     );
 
 
 /* =========================================================
-   CLOSE MODAL
+   MODAL
 ========================================================= */
 
 document
@@ -3370,7 +2916,7 @@ document
 
 studentModal.addEventListener(
     "click",
-    function(event) {
+    event => {
 
         if (
             event.target ===
@@ -3378,9 +2924,7 @@ studentModal.addEventListener(
         ) {
 
             closeModal();
-
         }
-
     }
 );
 
@@ -3391,15 +2935,8 @@ studentModal.addEventListener(
 
 async function initialize() {
 
-    /*
-       Check the SAME sessionStorage
-       values created by login.html.
-    */
-
     if (!checkStaffLogin()) {
-
         return;
-
     }
 
 
@@ -3410,6 +2947,7 @@ async function initialize() {
         await loadAssignedClasses();
 
         await loadStudents();
+
 
     } catch (error) {
 
@@ -3457,9 +2995,7 @@ async function initialize() {
 
 
         refreshIcons();
-
     }
-
 }
 
 
