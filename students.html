@@ -44,8 +44,6 @@ button{
     cursor:pointer;
 }
 
-/* SIDEBAR */
-
 .sidebar{
     position:fixed;
     left:0;
@@ -151,8 +149,6 @@ button{
     color:white;
 }
 
-/* OVERLAY */
-
 .overlay{
     display:none;
     position:fixed;
@@ -161,14 +157,10 @@ button{
     z-index:900;
 }
 
-/* MAIN */
-
 .main{
     margin-left:260px;
     min-height:100vh;
 }
-
-/* TOPBAR */
 
 .topbar{
     height:76px;
@@ -228,15 +220,11 @@ button{
     margin-top:2px;
 }
 
-/* CONTENT */
-
 .content{
     padding:26px;
     max-width:1500px;
     margin:auto;
 }
-
-/* STATS */
 
 .stats{
     display:grid;
@@ -277,8 +265,6 @@ button{
     margin-top:3px;
 }
 
-/* SECTION */
-
 .section{
     background:white;
     border:1px solid #e3e9f0;
@@ -312,8 +298,6 @@ button{
     flex-wrap:wrap;
 }
 
-/* BUTTONS */
-
 .btn{
     border:0;
     border-radius:8px;
@@ -345,8 +329,6 @@ button{
     background:#e2e8f0;
 }
 
-/* FILTERS */
-
 .filters{
     padding:15px 20px;
     display:grid;
@@ -377,8 +359,6 @@ button{
     border-color:#38bdf8;
     box-shadow:0 0 0 3px rgba(14,165,233,.1);
 }
-
-/* TABLE */
 
 .table-wrap{
     width:100%;
@@ -436,8 +416,6 @@ tbody tr:hover{
     color:#0369a1;
 }
 
-/* BADGES */
-
 .badge{
     display:inline-flex;
     align-items:center;
@@ -467,8 +445,6 @@ tbody tr:hover{
     color:#a16207;
 }
 
-/* EMPTY */
-
 .empty{
     padding:50px 20px;
     text-align:center;
@@ -497,8 +473,6 @@ tbody tr:hover{
 .empty-text{
     font-size:12px;
 }
-
-/* MODAL */
 
 .modal{
     position:fixed;
@@ -595,8 +569,6 @@ tbody tr:hover{
     margin-bottom:15px;
 }
 
-/* TOAST */
-
 .toast{
     position:fixed;
     right:20px;
@@ -622,8 +594,6 @@ tbody tr:hover{
 .toast.error{
     border-left:4px solid #ef4444;
 }
-
-/* PRINT */
 
 @media print{
 
@@ -656,8 +626,6 @@ tbody tr:hover{
         min-width:0;
     }
 }
-
-/* MOBILE */
 
 @media(max-width:950px){
 
@@ -1213,10 +1181,6 @@ tbody tr:hover{
 
 <script>
 
-/* =========================================================
-   SUPABASE
-========================================================= */
-
 const SUPABASE_URL =
     "https://goongxvoooiwsesqoptz.supabase.co";
 
@@ -1230,10 +1194,6 @@ const supabaseClient =
     );
 
 
-/* =========================================================
-   DATA
-========================================================= */
-
 let teacherId = null;
 let currentTeacher = null;
 
@@ -1246,10 +1206,6 @@ let roster = [];
 
 let editingStudentId = null;
 
-
-/* =========================================================
-   HELPERS
-========================================================= */
 
 function esc(value){
 
@@ -1389,10 +1345,6 @@ function getMyStudents(){
 }
 
 
-/* =========================================================
-   GENERATE STUDENT ID
-========================================================= */
-
 async function generateStudentId(){
 
     for(let attempt = 0; attempt < 10; attempt++){
@@ -1442,10 +1394,6 @@ async function generateStudentId(){
 }
 
 
-/* =========================================================
-   SESSION
-========================================================= */
-
 function getStaffSession(){
 
     const authenticated =
@@ -1479,10 +1427,6 @@ function getStaffSession(){
 
 }
 
-
-/* =========================================================
-   LOAD TEACHER
-========================================================= */
 
 async function loadTeacher(){
 
@@ -1532,10 +1476,6 @@ async function loadTeacher(){
 }
 
 
-/* =========================================================
-   LOAD ASSIGNMENTS
-========================================================= */
-
 async function loadAssignments(){
 
     const {
@@ -1559,10 +1499,6 @@ async function loadAssignments(){
 
 }
 
-
-/* =========================================================
-   LOAD CLASSES
-========================================================= */
 
 async function loadClasses(){
 
@@ -1600,10 +1536,6 @@ async function loadClasses(){
 }
 
 
-/* =========================================================
-   LOAD GRADES
-========================================================= */
-
 async function loadGrades(){
 
     const {
@@ -1625,10 +1557,6 @@ async function loadGrades(){
 }
 
 
-/* =========================================================
-   LOAD STUDENTS
-========================================================= */
-
 async function loadStudents(){
 
     const {
@@ -1649,10 +1577,6 @@ async function loadStudents(){
 
 }
 
-
-/* =========================================================
-   LOAD ROSTER
-========================================================= */
 
 async function loadRoster(){
 
@@ -1691,10 +1615,6 @@ async function loadRoster(){
 
 }
 
-
-/* =========================================================
-   LOAD EVERYTHING
-========================================================= */
 
 async function loadAllData(){
 
@@ -1737,10 +1657,6 @@ async function loadAllData(){
 }
 
 
-/* =========================================================
-   STATS
-========================================================= */
-
 function updateStats(){
 
     const myStudents =
@@ -1779,10 +1695,6 @@ function updateStats(){
 
 }
 
-
-/* =========================================================
-   FILTERS
-========================================================= */
 
 function populateClassFilters(){
 
@@ -1857,10 +1769,6 @@ function populateStudentClassSelect(){
 
 }
 
-
-/* =========================================================
-   RENDER STUDENTS
-========================================================= */
 
 function renderStudents(){
 
@@ -2130,10 +2038,6 @@ function renderStudents(){
 }
 
 
-/* =========================================================
-   OPEN ADD STUDENT
-========================================================= */
-
 function openAddStudent(){
 
     editingStudentId =
@@ -2159,10 +2063,6 @@ function openAddStudent(){
 }
 
 
-/* =========================================================
-   CLEAR FORM
-========================================================= */
-
 function clearStudentForm(){
 
     document
@@ -2185,10 +2085,6 @@ function clearStudentForm(){
 
 }
 
-
-/* =========================================================
-   EDIT STUDENT
-========================================================= */
 
 function openEditStudent(id){
 
@@ -2253,10 +2149,6 @@ function openEditStudent(id){
 
 }
 
-
-/* =========================================================
-   SAVE STUDENT
-========================================================= */
 
 async function saveStudent(){
 
@@ -2532,18 +2424,51 @@ async function saveStudent(){
             };
 
 
-            /*
-             * DIAGNOSTIC INSERT
-             *
-             * If Supabase rejects this request,
-             * show the exact Supabase error details.
-             */
+            /* ==========================================
+               TEMPORARY BROWSER ROLE DIAGNOSTIC
+            ========================================== */
+
+            const {
+                data: myRole,
+                error: roleError
+            } =
+                await supabaseClient
+                    .rpc(
+                        "get_my_supabase_role"
+                    );
+
+            alert(
+                "Browser Supabase role:\n\n" +
+                JSON.stringify(
+                    {
+                        myRole,
+                        roleError
+                    },
+                    null,
+                    2
+                )
+            );
+
+            if(roleError){
+
+                console.error(
+                    "ROLE CHECK ERROR:",
+                    roleError
+                );
+
+                return;
+
+            }
+
+
+            /* ==========================================
+               STUDENT INSERT DIAGNOSTIC
+            ========================================== */
 
             console.log(
                 "Student insert payload:",
                 studentData
             );
-
 
             const {
                 data,
@@ -2557,14 +2482,12 @@ async function saveStudent(){
                     .select()
                     .single();
 
-
             if(error){
 
                 console.error(
                     "SUPABASE STUDENT INSERT ERROR:",
                     error
                 );
-
 
                 alert(
                     "SUPABASE STUDENT INSERT ERROR\n\n" +
@@ -2582,23 +2505,19 @@ async function saveStudent(){
                     (error.hint || "none")
                 );
 
-
                 throw error;
 
             }
-
 
             console.log(
                 "Student inserted successfully:",
                 data
             );
 
-
             await createRosterEntry(
                 data.id,
                 classId
             );
-
 
             showToast(
                 "Student added successfully."
@@ -2606,11 +2525,9 @@ async function saveStudent(){
 
         }
 
-
         closeModals();
 
         await loadAllData();
-
 
     }catch(error){
 
@@ -2618,12 +2535,6 @@ async function saveStudent(){
             "Save student error:",
             error
         );
-
-
-        /*
-         * Avoid showing a second generic toast
-         * after the detailed diagnostic alert.
-         */
 
         if(
             error &&
@@ -2648,7 +2559,6 @@ async function saveStudent(){
 
         }
 
-
     }finally{
 
         button.disabled =
@@ -2668,10 +2578,6 @@ async function saveStudent(){
 
 }
 
-
-/* =========================================================
-   CREATE ROSTER ENTRY
-========================================================= */
 
 async function createRosterEntry(
     studentId,
@@ -2741,10 +2647,6 @@ async function createRosterEntry(
 
 }
 
-
-/* =========================================================
-   VIEW STUDENT
-========================================================= */
 
 function viewStudent(id){
 
@@ -2926,20 +2828,12 @@ function detail(
 }
 
 
-/* =========================================================
-   PRINT
-========================================================= */
-
 function preparePrint(){
 
     window.print();
 
 }
 
-
-/* =========================================================
-   EVENT LISTENERS
-========================================================= */
 
 document
     .getElementById(
@@ -3256,10 +3150,6 @@ document.addEventListener(
     }
 );
 
-
-/* =========================================================
-   START
-========================================================= */
 
 lucide.createIcons();
 
