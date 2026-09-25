@@ -2276,10 +2276,6 @@ async function saveStudent(){
 
     try{
 
-        /* ==========================================
-           EDIT EXISTING STUDENT
-        ========================================== */
-
         if(editingStudentId){
 
             const studentData = {
@@ -2367,10 +2363,6 @@ async function saveStudent(){
 
         }else{
 
-            /* ==========================================
-               ADD NEW STUDENT
-            ========================================== */
-
             const {
                 data:
                     existingStudent,
@@ -2425,7 +2417,7 @@ async function saveStudent(){
 
 
             /* ==========================================
-               TEMPORARY BROWSER ROLE DIAGNOSTIC
+               BROWSER ROLE DIAGNOSTIC
             ========================================== */
 
             const {
@@ -2462,7 +2454,7 @@ async function saveStudent(){
 
 
             /* ==========================================
-               STUDENT INSERT DIAGNOSTIC
+               INSERT WITHOUT SELECT
             ========================================== */
 
             console.log(
@@ -2471,16 +2463,13 @@ async function saveStudent(){
             );
 
             const {
-                data,
                 error
             } =
                 await supabaseClient
                     .from("students")
                     .insert(
                         studentData
-                    )
-                    .select()
-                    .single();
+                    );
 
             if(error){
 
@@ -2509,15 +2498,50 @@ async function saveStudent(){
 
             }
 
-            console.log(
-                "Student inserted successfully:",
-                data
-            );
+
+            /*
+             * We don't use returned student data anymore.
+             * Find the newly created student using its generated ID.
+             */
+
+            const {
+                data: insertedStudent,
+                error: findStudentError
+            } =
+                await supabaseClient
+                    .from("students")
+                    .select("id,student_id")
+                    .eq(
+                        "student_id",
+                        generatedStudentId
+                    )
+                    .maybeSingle();
+
+            if(findStudentError){
+
+                console.error(
+                    "STUDENT LOOKUP ERROR:",
+                    findStudentError
+                );
+
+                throw findStudentError;
+
+            }
+
+            if(!insertedStudent){
+
+                throw new Error(
+                    "Student was inserted, but the newly created record could not be found."
+                );
+
+            }
+
 
             await createRosterEntry(
-                data.id,
+                insertedStudent.id,
                 classId
             );
+
 
             showToast(
                 "Student added successfully."
