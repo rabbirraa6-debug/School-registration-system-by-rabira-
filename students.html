@@ -742,12 +742,9 @@ tbody tr:hover{
 
 <div class="overlay" id="overlay"></div>
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar" id="sidebar">
 
     <div class="logo">
-
         <div class="logo-icon">
             <i data-lucide="school"></i>
         </div>
@@ -756,7 +753,6 @@ tbody tr:hover{
             School Management
             <span>Staff Portal</span>
         </div>
-
     </div>
 
     <nav class="nav">
@@ -780,19 +776,13 @@ tbody tr:hover{
     <div class="sidebar-bottom">
 
         <button class="logout" id="logoutBtn">
-
             <i data-lucide="log-out"></i>
-
             Logout
-
         </button>
 
     </div>
 
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
@@ -801,9 +791,7 @@ tbody tr:hover{
         <div style="display:flex;align-items:center;gap:10px;">
 
             <button class="menu-btn" id="menuBtn">
-
                 <i data-lucide="menu"></i>
-
             </button>
 
             <div>
@@ -819,7 +807,6 @@ tbody tr:hover{
             </div>
 
         </div>
-
 
         <div class="profile">
 
@@ -846,10 +833,7 @@ tbody tr:hover{
 
     </header>
 
-
     <div class="content">
-
-        <!-- STATS -->
 
         <div class="stats">
 
@@ -876,7 +860,6 @@ tbody tr:hover{
 
             </div>
 
-
             <div class="stat">
 
                 <div class="stat-icon">
@@ -899,7 +882,6 @@ tbody tr:hover{
                 </div>
 
             </div>
-
 
             <div class="stat">
 
@@ -926,9 +908,6 @@ tbody tr:hover{
 
         </div>
 
-
-        <!-- STUDENTS -->
-
         <section class="section">
 
             <div class="section-header">
@@ -945,48 +924,35 @@ tbody tr:hover{
 
                 </div>
 
-
                 <div class="header-actions">
 
                     <button
                         class="btn btn-light"
                         id="refreshBtn"
                     >
-
                         <i data-lucide="refresh-cw"></i>
-
                         Refresh
-
                     </button>
-
 
                     <button
                         class="btn btn-light"
                         id="printBtn"
                     >
-
                         <i data-lucide="printer"></i>
-
                         Prepare for Print
-
                     </button>
-
 
                     <button
                         class="btn btn-primary"
                         id="addStudentBtn"
                     >
-
                         <i data-lucide="user-plus"></i>
-
                         Add Student
-
                     </button>
 
                 </div>
 
             </div>
-
 
             <div class="filters">
 
@@ -996,24 +962,19 @@ tbody tr:hover{
                     placeholder="Search student name or administration number..."
                 >
 
-
                 <select
                     class="select"
                     id="classFilter"
                 >
-
                     <option value="all">
                         All My Classes
                     </option>
-
                 </select>
-
 
                 <select
                     class="select"
                     id="statusFilter"
                 >
-
                     <option value="all">
                         All Registration Status
                     </option>
@@ -1033,23 +994,17 @@ tbody tr:hover{
                     <option value="rejected">
                         Rejected
                     </option>
-
                 </select>
-
 
                 <button
                     class="btn btn-light"
                     id="clearFilters"
                 >
-
                     <i data-lucide="x"></i>
-
                     Clear
-
                 </button>
 
             </div>
-
 
             <div class="table-wrap">
 
@@ -1060,30 +1015,22 @@ tbody tr:hover{
                         <tr>
 
                             <th>No.</th>
-
                             <th>Student Name</th>
-
                             <th>Administration No.</th>
-
                             <th>Grade</th>
-
                             <th>Class</th>
-
                             <th>Registration</th>
-
                             <th>Actions</th>
 
                         </tr>
 
                     </thead>
 
-
                     <tbody id="studentTableBody"></tbody>
 
                 </table>
 
             </div>
-
 
             <div
                 class="empty"
@@ -1111,9 +1058,6 @@ tbody tr:hover{
 
 </main>
 
-
-<!-- ADD / EDIT STUDENT MODAL -->
-
 <div
     class="modal"
     id="studentModal"
@@ -1130,18 +1074,14 @@ tbody tr:hover{
                 Add Student
             </div>
 
-
             <button
                 class="close"
                 id="closeStudentModal"
             >
-
                 <i data-lucide="x"></i>
-
             </button>
 
         </div>
-
 
         <div class="modal-body">
 
@@ -1156,7 +1096,6 @@ tbody tr:hover{
                 of their information.
 
             </div>
-
 
             <div class="form-grid">
 
@@ -1175,7 +1114,6 @@ tbody tr:hover{
 
                 </div>
 
-
                 <div class="field full">
 
                     <label>
@@ -1190,7 +1128,6 @@ tbody tr:hover{
                     >
 
                 </div>
-
 
                 <div class="field full">
 
@@ -1215,7 +1152,6 @@ tbody tr:hover{
 
         </div>
 
-
         <div class="modal-footer">
 
             <button
@@ -1225,16 +1161,12 @@ tbody tr:hover{
                 Cancel
             </button>
 
-
             <button
                 class="btn btn-primary"
                 id="saveStudentBtn"
             >
-
                 <i data-lucide="save"></i>
-
                 Save Student
-
             </button>
 
         </div>
@@ -1242,9 +1174,6 @@ tbody tr:hover{
     </div>
 
 </div>
-
-
-<!-- STUDENT DETAILS MODAL -->
 
 <div
     class="modal"
@@ -1259,18 +1188,14 @@ tbody tr:hover{
                 Student Details
             </div>
 
-
             <button
                 class="close"
                 id="closeDetailsModal"
             >
-
                 <i data-lucide="x"></i>
-
             </button>
 
         </div>
-
 
         <div
             class="modal-body"
@@ -1281,12 +1206,10 @@ tbody tr:hover{
 
 </div>
 
-
 <div
     class="toast"
     id="toast"
 ></div>
-
 
 <script>
 
@@ -1468,7 +1391,6 @@ function getMyStudents(){
 
 /* =========================================================
    GENERATE STUDENT ID
-   System-generated; teacher never enters it.
 ========================================================= */
 
 async function generateStudentId(){
@@ -1490,7 +1412,6 @@ async function generateStudentId(){
         const candidate =
             timestamp + random;
 
-
         const {
             data,
             error
@@ -1504,20 +1425,15 @@ async function generateStudentId(){
                 )
                 .maybeSingle();
 
-
         if(error){
             throw error;
         }
 
-
         if(!data){
-
             return candidate;
-
         }
 
     }
-
 
     throw new Error(
         "Unable to generate a unique student ID. Please try again."
@@ -1542,7 +1458,6 @@ function getStaffSession(){
             "staff_teacher_id"
         );
 
-
     if(
         authenticated !== "true" ||
         !storedTeacherId
@@ -1554,7 +1469,6 @@ function getStaffSession(){
         return false;
 
     }
-
 
     teacherId =
         Number(
@@ -1579,15 +1493,12 @@ async function loadTeacher(){
         await supabaseClient
             .rpc("get_teachers");
 
-
     if(error){
         throw error;
     }
 
-
     teachers =
         data || [];
-
 
     currentTeacher =
         teachers.find(
@@ -1600,7 +1511,6 @@ async function loadTeacher(){
                 )
         );
 
-
     if(!currentTeacher){
 
         sessionStorage.clear();
@@ -1611,7 +1521,6 @@ async function loadTeacher(){
         return;
 
     }
-
 
     document
         .getElementById(
@@ -1641,11 +1550,9 @@ async function loadAssignments(){
                 teacherId
             );
 
-
     if(error){
         throw error;
     }
-
 
     assignments =
         data || [];
@@ -1662,7 +1569,6 @@ async function loadClasses(){
     const classIds =
         getAssignedClassIds();
 
-
     if(!classIds.length){
 
         classes = [];
@@ -1670,7 +1576,6 @@ async function loadClasses(){
         return;
 
     }
-
 
     const {
         data,
@@ -1685,11 +1590,9 @@ async function loadClasses(){
             )
             .order("name");
 
-
     if(error){
         throw error;
     }
-
 
     classes =
         data || [];
@@ -1712,11 +1615,9 @@ async function loadGrades(){
             .select("*")
             .order("id");
 
-
     if(error){
         throw error;
     }
-
 
     grades =
         data || [];
@@ -1739,11 +1640,9 @@ async function loadStudents(){
             .select("*")
             .order("full_name");
 
-
     if(error){
         throw error;
     }
-
 
     students =
         data || [];
@@ -1760,7 +1659,6 @@ async function loadRoster(){
     const classIds =
         getAssignedClassIds();
 
-
     if(!classIds.length){
 
         roster = [];
@@ -1768,7 +1666,6 @@ async function loadRoster(){
         return;
 
     }
-
 
     const {
         data,
@@ -1785,11 +1682,9 @@ async function loadRoster(){
                 "student_number"
             );
 
-
     if(error){
         throw error;
     }
-
 
     roster =
         data || [];
@@ -1851,7 +1746,6 @@ function updateStats(){
     const myStudents =
         getMyStudents();
 
-
     document
         .getElementById(
             "studentCount"
@@ -1859,14 +1753,12 @@ function updateStats(){
         .textContent =
         myStudents.length;
 
-
     document
         .getElementById(
             "classCount"
         )
         .textContent =
         classes.length;
-
 
     const pending =
         myStudents.filter(
@@ -1877,7 +1769,6 @@ function updateStats(){
                 ).toLowerCase() ===
                 "pending"
         );
-
 
     document
         .getElementById(
@@ -1900,7 +1791,6 @@ function populateClassFilters(){
             "classFilter"
         );
 
-
     select.innerHTML = `
 
         <option value="all">
@@ -1908,7 +1798,6 @@ function populateClassFilters(){
         </option>
 
     `;
-
 
     classes.forEach(cls => {
 
@@ -1939,7 +1828,6 @@ function populateStudentClassSelect(){
             "studentClass"
         );
 
-
     select.innerHTML = `
 
         <option value="">
@@ -1947,7 +1835,6 @@ function populateStudentClassSelect(){
         </option>
 
     `;
-
 
     classes.forEach(cls => {
 
@@ -1987,7 +1874,6 @@ function renderStudents(){
             "emptyState"
         );
 
-
     const search =
         document
             .getElementById(
@@ -1997,14 +1883,12 @@ function renderStudents(){
             .toLowerCase()
             .trim();
 
-
     const classFilter =
         document
             .getElementById(
                 "classFilter"
             )
             .value;
-
 
     const statusFilter =
         document
@@ -2013,10 +1897,8 @@ function renderStudents(){
             )
             .value;
 
-
     const myStudents =
         getMyStudents();
-
 
     const filtered =
         myStudents.filter(
@@ -2029,7 +1911,6 @@ function renderStudents(){
                     )
                     .toLowerCase();
 
-
                 const adminNumber =
                     String(
                         student.administration_number ||
@@ -2037,18 +1918,15 @@ function renderStudents(){
                     )
                     .toLowerCase();
 
-
                 const matchesSearch =
                     !search ||
                     name.includes(search) ||
                     adminNumber.includes(search);
 
-
                 const studentRoster =
                     getStudentRoster(
                         student.id
                     );
-
 
                 const matchesClass =
                     classFilter === "all" ||
@@ -2060,7 +1938,6 @@ function renderStudents(){
                         String(classFilter)
                     );
 
-
                 const status =
                     String(
                         student.registration_status ||
@@ -2068,11 +1945,9 @@ function renderStudents(){
                     )
                     .toLowerCase();
 
-
                 const matchesStatus =
                     statusFilter === "all" ||
                     status === statusFilter;
-
 
                 return (
                     matchesSearch &&
@@ -2083,9 +1958,7 @@ function renderStudents(){
             }
         );
 
-
     tbody.innerHTML = "";
-
 
     if(!filtered.length){
 
@@ -2096,10 +1969,8 @@ function renderStudents(){
 
     }
 
-
     empty.style.display =
         "none";
-
 
     filtered.forEach(
         (student,index) => {
@@ -2109,14 +1980,12 @@ function renderStudents(){
                     student.id
                 );
 
-
             const cls =
                 studentRoster
                 ? getClass(
                     studentRoster.class_id
                 )
                 : null;
-
 
             const grade =
                 cls
@@ -2125,21 +1994,17 @@ function renderStudents(){
                 )
                 : null;
 
-
             const status =
                 String(
                     student.registration_status ||
                     "pending"
                 );
 
-
             const statusLower =
                 status.toLowerCase();
 
-
             let badge =
                 "badge-gray";
-
 
             if(
                 statusLower ===
@@ -2167,19 +2032,16 @@ function renderStudents(){
 
             }
 
-
             const row =
                 document.createElement(
                     "tr"
                 );
-
 
             row.innerHTML = `
 
                 <td>
                     ${index + 1}
                 </td>
-
 
                 <td>
 
@@ -2191,14 +2053,12 @@ function renderStudents(){
 
                 </td>
 
-
                 <td>
                     ${esc(
                         student.administration_number ||
                         "-"
                     )}
                 </td>
-
 
                 <td>
                     ${esc(
@@ -2208,7 +2068,6 @@ function renderStudents(){
                     )}
                 </td>
 
-
                 <td>
                     ${esc(
                         cls
@@ -2216,7 +2075,6 @@ function renderStudents(){
                         : "-"
                     )}
                 </td>
-
 
                 <td>
 
@@ -2227,7 +2085,6 @@ function renderStudents(){
                     </span>
 
                 </td>
-
 
                 <td>
 
@@ -2243,7 +2100,6 @@ function renderStudents(){
                             <i data-lucide="eye"></i>
 
                         </button>
-
 
                         <button
                             class="icon-btn"
@@ -2262,14 +2118,12 @@ function renderStudents(){
 
             `;
 
-
             tbody.appendChild(
                 row
             );
 
         }
     );
-
 
     lucide.createIcons();
 
@@ -2285,7 +2139,6 @@ function openAddStudent(){
     editingStudentId =
         null;
 
-
     document
         .getElementById(
             "studentModalTitle"
@@ -2293,9 +2146,7 @@ function openAddStudent(){
         .textContent =
         "Add Student";
 
-
     clearStudentForm();
-
 
     document
         .getElementById(
@@ -2320,13 +2171,11 @@ function clearStudentForm(){
         )
         .value = "";
 
-
     document
         .getElementById(
             "administrationNumber"
         )
         .value = "";
-
 
     document
         .getElementById(
@@ -2350,21 +2199,17 @@ function openEditStudent(id){
                 String(id)
         );
 
-
     if(!student){
         return;
     }
-
 
     const studentRoster =
         getStudentRoster(
             student.id
         );
 
-
     editingStudentId =
         student.id;
-
 
     document
         .getElementById(
@@ -2372,7 +2217,6 @@ function openEditStudent(id){
         )
         .textContent =
         "Edit Student";
-
 
     document
         .getElementById(
@@ -2382,7 +2226,6 @@ function openEditStudent(id){
         student.full_name ||
         "";
 
-
     document
         .getElementById(
             "administrationNumber"
@@ -2390,7 +2233,6 @@ function openEditStudent(id){
         .value =
         student.administration_number ||
         "";
-
 
     document
         .getElementById(
@@ -2400,7 +2242,6 @@ function openEditStudent(id){
         studentRoster
         ? studentRoster.class_id
         : "";
-
 
     document
         .getElementById(
@@ -2427,7 +2268,6 @@ async function saveStudent(){
             .value
             .trim();
 
-
     const administrationNumber =
         document
             .getElementById(
@@ -2436,14 +2276,12 @@ async function saveStudent(){
             .value
             .trim();
 
-
     const classId =
         document
             .getElementById(
                 "studentClass"
             )
             .value;
-
 
     if(!administrationNumber){
 
@@ -2462,7 +2300,6 @@ async function saveStudent(){
 
     }
 
-
     if(!name){
 
         showToast(
@@ -2480,7 +2317,6 @@ async function saveStudent(){
 
     }
 
-
     if(!classId){
 
         showToast(
@@ -2492,10 +2328,8 @@ async function saveStudent(){
 
     }
 
-
     const selectedClass =
         getClass(classId);
-
 
     if(!selectedClass){
 
@@ -2508,27 +2342,16 @@ async function saveStudent(){
 
     }
 
-
     const selectedGrade =
         getGrade(
             selectedClass.grade_id
         );
-
-
-    /*
-     * The database requires student_type,
-     * but the teacher does not enter it.
-     *
-     * It is automatically taken from
-     * the selected grade.
-     */
 
     const studentType =
         selectedGrade &&
         selectedGrade.student_type
             ? selectedGrade.student_type
             : null;
-
 
     if(!studentType){
 
@@ -2541,16 +2364,13 @@ async function saveStudent(){
 
     }
 
-
     const button =
         document.getElementById(
             "saveStudentBtn"
         );
 
-
     button.disabled =
         true;
-
 
     button.innerHTML = `
 
@@ -2560,9 +2380,7 @@ async function saveStudent(){
 
     `;
 
-
     lucide.createIcons();
-
 
     try{
 
@@ -2571,16 +2389,6 @@ async function saveStudent(){
         ========================================== */
 
         if(editingStudentId){
-
-            /*
-             * Only update the two fields that
-             * staff are allowed to edit.
-             *
-             * Existing personal information,
-             * student ID, payment information,
-             * and registration information are
-             * preserved.
-             */
 
             const studentData = {
 
@@ -2594,7 +2402,6 @@ async function saveStudent(){
                     studentType
 
             };
-
 
             const {
                 data,
@@ -2612,17 +2419,14 @@ async function saveStudent(){
                     .select()
                     .single();
 
-
             if(error){
                 throw error;
             }
-
 
             const oldRoster =
                 getStudentRoster(
                     editingStudentId
                 );
-
 
             if(oldRoster){
 
@@ -2650,7 +2454,6 @@ async function saveStudent(){
                                 editingStudentId
                             );
 
-
                     if(rosterError){
                         throw rosterError;
                     }
@@ -2666,21 +2469,15 @@ async function saveStudent(){
 
             }
 
-
             showToast(
                 "Student information updated."
             );
-
 
         }else{
 
             /* ==========================================
                ADD NEW STUDENT
             ========================================== */
-
-            /*
-             * Check duplicate administration number.
-             */
 
             const {
                 data:
@@ -2697,11 +2494,9 @@ async function saveStudent(){
                     )
                     .maybeSingle();
 
-
             if(existingError){
                 throw existingError;
             }
-
 
             if(existingStudent){
 
@@ -2714,23 +2509,8 @@ async function saveStudent(){
 
             }
 
-
-            /*
-             * Generate the required Student ID
-             * automatically.
-             */
-
             const generatedStudentId =
                 await generateStudentId();
-
-
-            /*
-             * Only the system-required fields
-             * are inserted.
-             *
-             * Personal information remains empty
-             * until the student registers.
-             */
 
             const studentData = {
 
@@ -2752,6 +2532,19 @@ async function saveStudent(){
             };
 
 
+            /*
+             * DIAGNOSTIC INSERT
+             *
+             * If Supabase rejects this request,
+             * show the exact Supabase error details.
+             */
+
+            console.log(
+                "Student insert payload:",
+                studentData
+            );
+
+
             const {
                 data,
                 error
@@ -2766,14 +2559,40 @@ async function saveStudent(){
 
 
             if(error){
+
+                console.error(
+                    "SUPABASE STUDENT INSERT ERROR:",
+                    error
+                );
+
+
+                alert(
+                    "SUPABASE STUDENT INSERT ERROR\n\n" +
+
+                    "Code: " +
+                    (error.code || "none") +
+
+                    "\n\nMessage:\n" +
+                    (error.message || "none") +
+
+                    "\n\nDetails:\n" +
+                    (error.details || "none") +
+
+                    "\n\nHint:\n" +
+                    (error.hint || "none")
+                );
+
+
                 throw error;
+
             }
 
 
-            /*
-             * Add the student to the selected
-             * teacher-assigned class.
-             */
+            console.log(
+                "Student inserted successfully:",
+                data
+            );
+
 
             await createRosterEntry(
                 data.id,
@@ -2801,18 +2620,39 @@ async function saveStudent(){
         );
 
 
-        showToast(
-            error.message ||
-            "Unable to save student.",
-            "error"
-        );
+        /*
+         * Avoid showing a second generic toast
+         * after the detailed diagnostic alert.
+         */
+
+        if(
+            error &&
+            error.code !== "42501"
+        ){
+
+            showToast(
+                error.message ||
+                "Unable to save student.",
+                "error"
+            );
+
+        }else if(
+            error &&
+            error.code === "42501"
+        ){
+
+            showToast(
+                "Student insert was rejected by Supabase RLS. Check the diagnostic popup.",
+                "error"
+            );
+
+        }
 
 
     }finally{
 
         button.disabled =
             false;
-
 
         button.innerHTML = `
 
@@ -2821,7 +2661,6 @@ async function saveStudent(){
             Save Student
 
         `;
-
 
         lucide.createIcons();
 
@@ -2848,9 +2687,7 @@ async function createRosterEntry(
                 String(classId)
         );
 
-
     let nextNumber = 1;
-
 
     if(classStudents.length){
 
@@ -2869,7 +2706,6 @@ async function createRosterEntry(
                         )
                 );
 
-
         if(numbers.length){
 
             nextNumber =
@@ -2880,7 +2716,6 @@ async function createRosterEntry(
         }
 
     }
-
 
     const {
         error
@@ -2899,7 +2734,6 @@ async function createRosterEntry(
                     nextNumber
 
             });
-
 
     if(error){
         throw error;
@@ -2921,17 +2755,14 @@ function viewStudent(id){
                 String(id)
         );
 
-
     if(!student){
         return;
     }
-
 
     const studentRoster =
         getStudentRoster(
             student.id
         );
-
 
     const cls =
         studentRoster
@@ -2940,14 +2771,12 @@ function viewStudent(id){
         )
         : null;
 
-
     const grade =
         cls
         ? getGrade(
             cls.grade_id
         )
         : null;
-
 
     document
         .getElementById(
@@ -3043,7 +2872,6 @@ function viewStudent(id){
             </div>
 
         `;
-
 
     document
         .getElementById(
@@ -3228,15 +3056,12 @@ document
                     "button[data-action]"
                 );
 
-
             if(!button){
                 return;
             }
 
-
             const id =
                 button.dataset.id;
-
 
             if(
                 button.dataset.action ===
@@ -3246,7 +3071,6 @@ document
                 viewStudent(id);
 
             }
-
 
             if(
                 button.dataset.action ===
