@@ -356,8 +356,7 @@ button{
 }
 
 .input,
-.select,
-.textarea{
+.select{
     width:100%;
     border:1px solid #d8e0e8;
     border-radius:8px;
@@ -373,15 +372,8 @@ button{
     height:39px;
 }
 
-.textarea{
-    min-height:90px;
-    padding:10px 11px;
-    resize:vertical;
-}
-
 .input:focus,
-.select:focus,
-.textarea:focus{
+.select:focus{
     border-color:#38bdf8;
     box-shadow:0 0 0 3px rgba(14,165,233,.1);
 }
@@ -396,7 +388,7 @@ button{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:850px;
+    min-width:750px;
 }
 
 th{
@@ -663,7 +655,6 @@ tbody tr:hover{
     table{
         min-width:0;
     }
-
 }
 
 /* MOBILE */
@@ -710,7 +701,6 @@ tbody tr:hover{
     .filters{
         grid-template-columns:1fr;
     }
-
 }
 
 @media(max-width:600px){
@@ -744,7 +734,6 @@ tbody tr:hover{
     .full{
         grid-column:auto;
     }
-
 }
 </style>
 </head>
@@ -1158,12 +1147,13 @@ tbody tr:hover{
 
             <div class="notice">
 
-                Enter only the student's official
+                Staff only enter the student's official
                 <strong>Administration Number</strong>
                 and
                 <strong>Full Name</strong>.
-                Other personal information will be completed by
-                the student during registration.
+                The student will later use the Administration Number
+                on the public registration page to complete the rest
+                of their information.
 
             </div>
 
@@ -1471,6 +1461,66 @@ function getMyStudents(){
             studentIds.has(
                 String(student.id)
             )
+    );
+
+}
+
+
+/* =========================================================
+   GENERATE STUDENT ID
+   System-generated; teacher never enters it.
+========================================================= */
+
+async function generateStudentId(){
+
+    for(let attempt = 0; attempt < 10; attempt++){
+
+        const timestamp =
+            Date.now()
+                .toString()
+                .slice(-7);
+
+        const random =
+            Math.floor(
+                Math.random() * 1000
+            )
+            .toString()
+            .padStart(3,"0");
+
+        const candidate =
+            timestamp + random;
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("students")
+                .select("id")
+                .eq(
+                    "student_id",
+                    candidate
+                )
+                .maybeSingle();
+
+
+        if(error){
+            throw error;
+        }
+
+
+        if(!data){
+
+            return candidate;
+
+        }
+
+    }
+
+
+    throw new Error(
+        "Unable to generate a unique student ID. Please try again."
     );
 
 }
@@ -2154,8 +2204,7 @@ function renderStudents(){
                     ${esc(
                         grade
                         ? grade.name
-                        : student.grade ||
-                          "-"
+                        : "-"
                     )}
                 </td>
 
@@ -2444,6 +2493,55 @@ async function saveStudent(){
     }
 
 
+    const selectedClass =
+        getClass(classId);
+
+
+    if(!selectedClass){
+
+        showToast(
+            "The selected class could not be found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const selectedGrade =
+        getGrade(
+            selectedClass.grade_id
+        );
+
+
+    /*
+     * The database requires student_type,
+     * but the teacher does not enter it.
+     *
+     * It is automatically taken from
+     * the selected grade.
+     */
+
+    const studentType =
+        selectedGrade &&
+        selectedGrade.student_type
+            ? selectedGrade.student_type
+            : null;
+
+
+    if(!studentType){
+
+        showToast(
+            "The selected class does not have a valid student type.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
     const button =
         document.getElementById(
             "saveStudentBtn"
@@ -2468,39 +2566,35 @@ async function saveStudent(){
 
     try{
 
-        /*
-         * Only these student fields are created
-         * by staff:
-         *
-         * administration_number
-         * full_name
-         *
-         * Registration information is completed
-         * later by the student.
-         */
-
-        const studentData = {
-
-            full_name:
-                name,
-
-            administration_number:
-                administrationNumber,
-
-            registration_status:
-                "pending"
-
-        };
-
-
-        let savedStudent;
-
-
         /* ==========================================
            EDIT EXISTING STUDENT
         ========================================== */
 
         if(editingStudentId){
+
+            /*
+             * Only update the two fields that
+             * staff are allowed to edit.
+             *
+             * Existing personal information,
+             * student ID, payment information,
+             * and registration information are
+             * preserved.
+             */
+
+            const studentData = {
+
+                full_name:
+                    name,
+
+                administration_number:
+                    administrationNumber,
+
+                student_type:
+                    studentType
+
+            };
+
 
             const {
                 data,
@@ -2522,10 +2616,6 @@ async function saveStudent(){
             if(error){
                 throw error;
             }
-
-
-            savedStudent =
-                data;
 
 
             const oldRoster =
@@ -2570,7 +2660,7 @@ async function saveStudent(){
             }else{
 
                 await createRosterEntry(
-                    savedStudent.id,
+                    editingStudentId,
                     classId
                 );
 
@@ -2589,8 +2679,7 @@ async function saveStudent(){
             ========================================== */
 
             /*
-             * Check whether the administration number
-             * already exists before inserting.
+             * Check duplicate administration number.
              */
 
             const {
@@ -2626,6 +2715,43 @@ async function saveStudent(){
             }
 
 
+            /*
+             * Generate the required Student ID
+             * automatically.
+             */
+
+            const generatedStudentId =
+                await generateStudentId();
+
+
+            /*
+             * Only the system-required fields
+             * are inserted.
+             *
+             * Personal information remains empty
+             * until the student registers.
+             */
+
+            const studentData = {
+
+                student_id:
+                    generatedStudentId,
+
+                full_name:
+                    name,
+
+                administration_number:
+                    administrationNumber,
+
+                student_type:
+                    studentType,
+
+                registration_status:
+                    "pending"
+
+            };
+
+
             const {
                 data,
                 error
@@ -2644,12 +2770,13 @@ async function saveStudent(){
             }
 
 
-            savedStudent =
-                data;
-
+            /*
+             * Add the student to the selected
+             * teacher-assigned class.
+             */
 
             await createRosterEntry(
-                savedStudent.id,
+                data.id,
                 classId
             );
 
@@ -2850,7 +2977,7 @@ function viewStudent(id){
                     "Grade",
                     grade
                     ? grade.name
-                    : student.grade || "-"
+                    : "-"
                 )}
 
                 ${detail(
@@ -2862,7 +2989,7 @@ function viewStudent(id){
 
                 ${detail(
                     "Student ID",
-                    student.student_id || "Not assigned yet"
+                    student.student_id || "Not assigned"
                 )}
 
                 ${detail(
@@ -2910,7 +3037,7 @@ function viewStudent(id){
 
                 ${detail(
                     "Payment Status",
-                    student.payment_status || "Not checked"
+                    student.payment_status || "Pending"
                 )}
 
             </div>
