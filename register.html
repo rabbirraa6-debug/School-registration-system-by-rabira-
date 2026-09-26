@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Registration | School Registration System</title>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Student Registration</title>
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         * {
@@ -19,629 +19,311 @@
             padding: 0;
         }
 
-        :root {
-            --navy: #071a2b;
-            --navy-light: #102a43;
-            --sky: #168aad;
-            --sky-light: #e8f7fb;
-            --green: #176b45;
-            --green-light: #e5f6ed;
-            --background: #f4f8fb;
-            --surface: #ffffff;
-            --border: #d9e2ec;
-            --text: #102a43;
-            --muted: #627d98;
-            --danger: #b42318;
-            --danger-light: #fef3f2;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Roboto,
-                Arial,
-                sans-serif;
-
-            background: var(--background);
-            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f8fc;
+            color: #172033;
             min-height: 100vh;
-            padding-bottom: 82px;
+            padding-bottom: 90px;
+            user-select: none;
+        }
+
+        input,
+        textarea,
+        select {
+            user-select: text;
         }
 
         button,
         input,
+        textarea,
         select {
             font: inherit;
         }
 
-        button {
-            cursor: pointer;
-        }
-
-        button:focus-visible,
-        input:focus-visible,
-        select:focus-visible {
-            outline: 3px solid rgba(22, 138, 173, 0.25);
-            outline-offset: 2px;
-        }
-
-        header {
-            background: var(--navy);
+        .topbar {
+            background: #071a33;
             color: white;
-            padding: 18px;
+            padding: 18px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .12);
         }
 
-        .header-inner {
-            max-width: 700px;
+        .topbar-inner {
+            max-width: 900px;
             margin: auto;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .back-button {
-            width: 40px;
-            height: 40px;
-            border: 0;
+        .school-icon {
+            width: 42px;
+            height: 42px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-
+            background: #1688d8;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            flex-shrink: 0;
         }
 
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.15);
+        .topbar h1 {
+            font-size: 20px;
+            font-weight: 700;
         }
 
-        .back-button svg {
-            width: 19px;
-            height: 19px;
-        }
-
-        .header-title h1 {
-            font-size: 18px;
-            line-height: 1.3;
-        }
-
-        .header-title p {
-            margin-top: 2px;
-            color: #b9e8f5;
+        .topbar p {
             font-size: 12px;
+            opacity: .75;
+            margin-top: 3px;
         }
 
-        main {
-            max-width: 700px;
-            margin: auto;
-            padding: 28px 16px;
+        .container {
+            width: min(900px, calc(100% - 28px));
+            margin: 24px auto;
         }
 
-        .page-intro {
-            margin-bottom: 22px;
+        .intro {
+            margin-bottom: 18px;
         }
 
-        .page-intro h2 {
+        .intro h2 {
             font-size: 25px;
-            line-height: 1.25;
-            margin-bottom: 7px;
-            letter-spacing: -0.4px;
+            color: #071a33;
+            margin-bottom: 6px;
         }
 
-        .page-intro p {
-            color: var(--muted);
+        .intro p {
+            color: #667085;
             font-size: 14px;
-            line-height: 1.55;
-        }
-
-        .step-indicator {
-            display: flex;
-            align-items: center;
-            margin-bottom: 22px;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            color: var(--muted);
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .step-number {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: #e8eef3;
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .step.active {
-            color: var(--sky);
-        }
-
-        .step.active .step-number {
-            background: var(--sky);
-            color: white;
-        }
-
-        .step-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-            margin: 0 9px;
+            line-height: 1.5;
         }
 
         .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: white;
+            border: 1px solid #e1e8f0;
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 16px rgba(7, 26, 43, 0.05);
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 5px 18px rgba(18, 42, 66, .05);
         }
 
-        .card-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 17px;
-        }
-
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-
+        .card-title {
             display: flex;
             align-items: center;
-            justify-content: center;
-
-            flex-shrink: 0;
+            gap: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            color: #071a33;
+            margin-bottom: 18px;
         }
 
-        .card-icon.blue {
-            background: var(--sky-light);
-            color: var(--sky);
+        .card-title svg {
+            color: #1688d8;
         }
 
-        .card-icon.green {
-            background: var(--green-light);
-            color: var(--green);
-        }
-
-        .card-icon.navy {
-            background: #e9eef3;
-            color: var(--navy);
-        }
-
-        .card-icon svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .card-title h3 {
-            font-size: 16px;
-            margin-top: 1px;
-        }
-
-        .card-title p {
-            color: var(--muted);
-            font-size: 12px;
-            margin-top: 4px;
-            line-height: 1.4;
-        }
-
-        .type-grid {
+        .type-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
         .type-option {
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            padding: 16px 13px;
-            background: white;
-            text-align: left;
-
-            transition:
-                border-color 0.18s ease,
-                background-color 0.18s ease,
-                box-shadow 0.18s ease;
+            border: 2px solid #d9e3ed;
+            background: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: .2s;
         }
 
         .type-option:hover {
-            border-color: #8ccddd;
+            border-color: #1688d8;
         }
 
-        .type-option.selected {
-            border-color: var(--sky);
-            background: var(--sky-light);
-            box-shadow: 0 0 0 2px rgba(22, 138, 173, 0.08);
+        .type-option.active {
+            border-color: #1688d8;
+            background: #eef8ff;
         }
 
-        .type-option .option-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 9px;
-            background: #eef3f6;
-            color: var(--navy);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            margin-bottom: 11px;
-        }
-
-        .type-option.selected .option-icon {
-            background: white;
-            color: var(--sky);
-        }
-
-        .option-icon svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .type-option h4 {
-            font-size: 14px;
+        .type-option strong {
+            display: block;
+            color: #071a33;
             margin-bottom: 5px;
         }
 
-        .type-option p {
-            color: var(--muted);
-            font-size: 11px;
-            line-height: 1.45;
+        .type-option span {
+            color: #667085;
+            font-size: 12px;
+            line-height: 1.4;
         }
 
-        .form-section {
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 7px;
-            color: var(--text);
-        }
-
-        .required {
-            color: var(--danger);
-        }
-
-        input,
-        select {
-            width: 100%;
-            height: 46px;
-
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: white;
-            color: var(--text);
-
-            padding: 0 13px;
-            font-size: 14px;
-
-            transition:
-                border-color 0.18s ease,
-                box-shadow 0.18s ease;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: var(--sky);
-            box-shadow: 0 0 0 3px rgba(22, 138, 173, 0.09);
-            outline: none;
-        }
-
-        input::placeholder {
-            color: #9fb3c8;
+        .hidden {
+            display: none !important;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 16px;
         }
 
-        .gender-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+        .full {
+            grid-column: 1 / -1;
         }
 
-        .gender-option {
-            height: 46px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: white;
-
+        .field {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 7px;
+        }
 
-            color: var(--text);
+        label {
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
+            color: #344054;
         }
 
-        .gender-option:hover {
-            border-color: #8ccddd;
+        .required {
+            color: #e53935;
         }
 
-        .gender-option.selected {
-            border-color: var(--sky);
-            background: var(--sky-light);
-            color: var(--sky);
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid #ccd6e0;
+            border-radius: 10px;
+            padding: 12px 13px;
+            background: #fff;
+            color: #172033;
+            outline: none;
+            transition: .2s;
         }
 
-        .gender-option svg {
-            width: 17px;
-            height: 17px;
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #1688d8;
+            box-shadow: 0 0 0 3px rgba(22, 136, 216, .1);
+        }
+
+        input[readonly] {
+            background: #f4f7fa;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
         }
 
         .search-row {
             display: flex;
-            gap: 9px;
+            gap: 10px;
         }
 
         .search-row input {
             flex: 1;
         }
 
-        .search-button {
-            height: 46px;
-            min-width: 48px;
-            border: 0;
+        .btn {
+            border: none;
             border-radius: 10px;
-            background: var(--sky);
-            color: white;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .search-button:hover {
-            background: #117a99;
-        }
-
-        .search-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .search-button svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .helper-text {
-            margin-top: 7px;
-            color: var(--muted);
-            font-size: 11px;
-            line-height: 1.45;
-        }
-
-        .upload-box {
-            border: 1px dashed #9fb3c8;
-            border-radius: 12px;
-            padding: 19px 15px;
-            text-align: center;
-            background: #fbfdfe;
-        }
-
-        .upload-icon {
-            width: 38px;
-            height: 38px;
-            margin: 0 auto 9px;
-
-            border-radius: 10px;
-            background: var(--sky-light);
-            color: var(--sky);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .upload-icon svg {
-            width: 19px;
-            height: 19px;
-        }
-
-        .upload-box h4 {
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
-        .upload-box p {
-            color: var(--muted);
-            font-size: 11px;
-            margin-bottom: 11px;
-        }
-
-        .upload-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-
-            background: var(--sky);
-            color: white;
-
-            padding: 9px 13px;
-            border-radius: 8px;
-
-            font-size: 12px;
-            font-weight: 600;
-
+            padding: 12px 17px;
             cursor: pointer;
-        }
-
-        .upload-label:hover {
-            background: #117a99;
-        }
-
-        .upload-label svg {
-            width: 15px;
-            height: 15px;
-        }
-
-        .upload-input {
-            display: none;
-        }
-
-        .file-name {
-            margin-top: 9px;
-            color: var(--green);
-            font-size: 11px;
-            font-weight: 600;
-            word-break: break-word;
-        }
-
-        .found-record {
-            display: none;
-            margin-top: 14px;
-            padding: 12px;
-            border-radius: 10px;
-            background: var(--green-light);
-            border: 1px solid #b8dfca;
-        }
-
-        .found-record.show {
-            display: block;
-        }
-
-        .found-record-title {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            color: var(--green);
-            font-size: 12px;
             font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .found-record-title svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .found-record p {
-            color: #285d45;
-            font-size: 12px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .button {
-            min-height: 46px;
-            border-radius: 10px;
-            border: 1px solid transparent;
-            padding: 11px 16px;
-
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-
-            font-size: 13px;
-            font-weight: 600;
+            transition: .2s;
         }
 
-        .button svg {
-            width: 17px;
-            height: 17px;
-        }
-
-        .button-primary {
-            flex: 1;
-            background: var(--sky);
+        .btn-primary {
+            background: #1688d8;
             color: white;
         }
 
-        .button-primary:hover {
-            background: #117a99;
+        .btn-primary:hover {
+            background: #0c73bb;
         }
 
-        .button-primary:disabled {
-            opacity: 0.65;
+        .btn-secondary {
+            background: #eaf2f8;
+            color: #12395d;
+        }
+
+        .btn-secondary:hover {
+            background: #dceaf4;
+        }
+
+        .btn-success {
+            background: #42a866;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: .55;
             cursor: not-allowed;
         }
 
-        .button-secondary {
-            background: white;
-            border-color: var(--border);
-            color: var(--text);
-        }
-
-        .button-secondary:hover {
-            background: #f7fafc;
-        }
-
-        .notice {
+        .gender-options {
             display: flex;
             gap: 10px;
-            padding: 12px;
-            border-radius: 10px;
-            background: var(--sky-light);
-            color: var(--navy-light);
-            font-size: 11px;
-            line-height: 1.5;
-            margin-bottom: 15px;
         }
 
-        .notice svg {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-            color: var(--sky);
+        .gender-option {
+            flex: 1;
+            border: 1px solid #ccd6e0;
+            border-radius: 10px;
+            padding: 11px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            font-weight: 600;
+        }
+
+        .gender-option.active {
+            background: #eaf7ef;
+            border-color: #42a866;
+            color: #267444;
+        }
+
+        .file-box {
+            border: 1.5px dashed #b9c8d7;
+            border-radius: 12px;
+            padding: 16px;
+            background: #f9fbfd;
+        }
+
+        .file-box input {
+            border: none;
+            padding: 0;
+            background: transparent;
+        }
+
+        .file-help {
+            color: #667085;
+            font-size: 12px;
+            margin-top: 7px;
+            line-height: 1.4;
+        }
+
+        .submit-area {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
         }
 
         .status-message {
-            display: none;
-            padding: 12px;
+            margin-top: 15px;
             border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 12px;
+            padding: 12px 14px;
+            font-size: 13px;
             line-height: 1.5;
+            display: none;
         }
 
         .status-message.show {
@@ -649,127 +331,130 @@
         }
 
         .status-message.success {
-            background: var(--green-light);
-            color: var(--green);
-            border: 1px solid #b8dfca;
+            background: #eaf7ef;
+            border: 1px solid #b9e0c6;
+            color: #21663a;
         }
 
         .status-message.error {
-            background: var(--danger-light);
-            color: var(--danger);
-            border: 1px solid #f0c4c0;
+            background: #fff0f0;
+            border: 1px solid #efbcbc;
+            color: #a32828;
+        }
+
+        .status-message.info {
+            background: #eef7ff;
+            border: 1px solid #bddcf5;
+            color: #185987;
+        }
+
+        .found-box {
+            background: #eef8ff;
+            border: 1px solid #b9daf2;
+            border-radius: 11px;
+            padding: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .found-box.show {
+            display: block;
+        }
+
+        .found-box strong {
+            color: #12395d;
+        }
+
+        .debug-error {
+            margin-top: 8px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #e5b4b4;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 11px;
+            word-break: break-word;
         }
 
         .bottom-nav {
             position: fixed;
-            z-index: 20;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-
-            height: 70px;
-
-            background: rgba(255, 255, 255, 0.97);
-            border-top: 1px solid var(--border);
-
+            height: 72px;
+            background: rgba(255, 255, 255, .97);
+            border-top: 1px solid #dce5ed;
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 8px;
+            z-index: 50;
+            box-shadow: 0 -3px 14px rgba(0, 0, 0, .06);
+        }
 
-            box-shadow: 0 -5px 20px rgba(7, 26, 43, 0.07);
+        .bottom-nav-inner {
+            width: min(600px, 100%);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
         }
 
         .nav-item {
-            width: 90px;
-            height: 54px;
-
-            border: none;
-            border-radius: 11px;
-            background: transparent;
-
-            color: var(--muted);
-
+            text-decoration: none;
+            color: #667085;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             gap: 4px;
-
             font-size: 11px;
             font-weight: 600;
         }
 
-        .nav-item svg {
-            width: 19px;
-            height: 19px;
-        }
-
-        .nav-item:hover {
-            background: #f1f6f9;
-            color: var(--sky);
-        }
-
         .nav-item.active {
-            background: var(--sky-light);
-            color: var(--sky);
+            color: #1688d8;
         }
 
-        @media (min-width: 700px) {
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.5);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
 
-            body {
-                padding-bottom: 25px;
-            }
-
-            main {
-                padding-top: 38px;
-            }
-
-            .bottom-nav {
-                position: static;
-                height: auto;
-                border-top: none;
-                box-shadow: none;
-                background: transparent;
-                padding: 0 20px 20px;
-            }
-
-            .nav-item {
-                width: 105px;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
 
-        @media (max-width: 430px) {
+        @media (max-width: 650px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
 
-            main {
-                padding-left: 13px;
-                padding-right: 13px;
+            .full {
+                grid-column: auto;
+            }
+
+            .type-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .search-row {
+                flex-direction: column;
             }
 
             .card {
                 padding: 17px;
             }
 
-            .type-grid,
-            .form-grid {
-                grid-template-columns: 1fr;
+            .submit-area {
+                display: block;
             }
 
-            .page-intro h2 {
-                font-size: 23px;
-            }
-
-            .step {
-                font-size: 10px;
-            }
-
-            .step-number {
-                width: 26px;
-                height: 26px;
-            }
-
-            .nav-item {
-                width: 80px;
+            .submit-area .btn {
+                width: 100%;
             }
         }
     </style>
@@ -777,162 +462,78 @@
 
 <body>
 
-<header>
-    <div class="header-inner">
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="school-icon">
+            <i data-lucide="graduation-cap"></i>
+        </div>
 
-        <button
-            class="back-button"
-            type="button"
-            onclick="goHome()"
-            aria-label="Back to home"
-        >
-            <i data-lucide="arrow-left"></i>
-        </button>
-
-        <div class="header-title">
+        <div>
             <h1>Student Registration</h1>
             <p>School Registration System</p>
         </div>
-
     </div>
 </header>
 
-<main>
+<main class="container">
 
-    <section class="page-intro">
-        <h2>Begin Registration</h2>
+    <div class="intro">
+        <h2>Register for the School Year</h2>
         <p>
-            Select the type of student registration to continue.
+            Select your student type and complete the required registration information.
         </p>
-    </section>
-
-    <div class="step-indicator">
-
-        <div class="step active">
-            <span class="step-number">1</span>
-            <span>Student Type</span>
-        </div>
-
-        <div class="step-line"></div>
-
-        <div class="step">
-            <span class="step-number">2</span>
-            <span>Information</span>
-        </div>
-
-        <div class="step-line"></div>
-
-        <div class="step">
-            <span class="step-number">3</span>
-            <span>Submit</span>
-        </div>
-
     </div>
 
-    <div
-        class="status-message"
-        id="statusMessage"
-    ></div>
-
+    <!-- Student Type -->
     <section class="card">
-
-        <div class="card-header">
-
-            <div class="card-icon blue">
-                <i data-lucide="graduation-cap"></i>
-            </div>
-
-            <div class="card-title">
-                <h3>Select Student Type</h3>
-                <p>Choose the option that applies to the student.</p>
-            </div>
-
+        <div class="card-title">
+            <i data-lucide="users"></i>
+            Student Type
         </div>
 
-        <div class="type-grid">
+        <div class="type-selector">
 
-            <button
-                class="type-option"
-                id="newStudentOption"
-                type="button"
+            <div
+                class="type-option active"
+                id="newTypeOption"
                 onclick="selectStudentType('new')"
             >
-                <div class="option-icon">
-                    <i data-lucide="user-plus"></i>
-                </div>
-
-                <h4>New Student</h4>
-
-                <p>
-                    Grade 9 students entering the school
-                    for the first time.
-                </p>
-            </button>
-
-            <button
-                class="type-option"
-                id="returningStudentOption"
-                type="button"
-                onclick="selectStudentType('returning')"
-            >
-                <div class="option-icon">
-                    <i data-lucide="user-round-check"></i>
-                </div>
-
-                <h4>Returning Student</h4>
-
-                <p>
-                    Students continuing in Grades 10–12.
-                </p>
-            </button>
-
-        </div>
-
-    </section>
-
-    <!-- NEW STUDENT -->
-
-    <section
-        class="form-section"
-        id="newStudentForm"
-    >
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-icon blue">
-                    <i data-lucide="search"></i>
-                </div>
-
-                <div class="card-title">
-                    <h3>Find Student Record</h3>
-                    <p>
-                        Enter the administration number provided
-                        by the school.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="notice">
-                <i data-lucide="info"></i>
-
+                <strong>New Student</strong>
                 <span>
-                    The student must first be added by an
-                    authorized teacher before registration can begin.
+                    For Grade 9 students registering for the first time.
                 </span>
             </div>
 
-            <div class="form-group">
+            <div
+                class="type-option"
+                id="returningTypeOption"
+                onclick="selectStudentType('returning')"
+            >
+                <strong>Returning Student</strong>
+                <span>
+                    For students already registered in the school.
+                </span>
+            </div>
 
-                <label for="administrationNumber">
-                    Administration Number
-                    <span class="required">*</span>
+        </div>
+    </section>
+
+    <!-- NEW STUDENT -->
+    <section class="card" id="newStudentSection">
+
+        <div class="card-title">
+            <i data-lucide="user-plus"></i>
+            New Student Registration
+        </div>
+
+        <div class="form-grid">
+
+            <div class="field full">
+                <label>
+                    Administration Number <span class="required">*</span>
                 </label>
 
                 <div class="search-row">
-
                     <input
                         type="text"
                         id="administrationNumber"
@@ -941,560 +542,349 @@
                     >
 
                     <button
-                        class="search-button"
-                        id="newSearchButton"
                         type="button"
+                        class="btn btn-primary"
+                        id="searchNewBtn"
                         onclick="searchNewStudent()"
-                        aria-label="Search student"
                     >
                         <i data-lucide="search"></i>
+                        Find Student
                     </button>
-
                 </div>
 
-                <p class="helper-text">
-                    Your administration number is used only
-                    to find your school record.
-                </p>
+                <div
+                    class="status-message"
+                    id="newSearchMessage"
+                ></div>
 
+                <div
+                    class="found-box"
+                    id="newFoundBox"
+                >
+                    <strong>Student found</strong>
+                    <div id="newFoundText"></div>
+                </div>
             </div>
 
-            <div
-                class="found-record"
-                id="newFoundRecord"
-            >
-                <div class="found-record-title">
-                    <i data-lucide="circle-check"></i>
-                    Student record found
-                </div>
+            <div class="field">
+                <label>
+                    Full Name <span class="required">*</span>
+                </label>
 
-                <p id="newFoundRecordText"></p>
+                <input
+                    type="text"
+                    id="newFullName"
+                    placeholder="Student full name"
+                    readonly
+                >
             </div>
 
-        </div>
+            <div class="field">
+                <label>
+                    Date of Birth <span class="required">*</span>
+                </label>
 
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-icon green">
-                    <i data-lucide="user"></i>
-                </div>
-
-                <div class="card-title">
-                    <h3>Student Information</h3>
-                    <p>Confirm the student's required information.</p>
-                </div>
-
+                <input
+                    type="date"
+                    id="newDateOfBirth"
+                >
             </div>
 
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label for="newFullName">
-                        Full Name <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="text"
-                        id="newFullName"
-                        placeholder="Full name"
-                        readonly
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="newDob">
-                        Date of Birth <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="date"
-                        id="newDob"
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
+            <div class="field full">
                 <label>
                     Gender <span class="required">*</span>
                 </label>
 
                 <div class="gender-options">
 
-                    <button
+                    <div
                         class="gender-option"
-                        type="button"
-                        onclick="selectGender(this)"
+                        id="maleOption"
+                        onclick="selectGender('Male')"
                     >
-                        <i data-lucide="user-round"></i>
                         Male
-                    </button>
+                    </div>
 
-                    <button
+                    <div
                         class="gender-option"
-                        type="button"
-                        onclick="selectGender(this)"
+                        id="femaleOption"
+                        onclick="selectGender('Female')"
                     >
-                        <i data-lucide="user-round"></i>
                         Female
-                    </button>
+                    </div>
 
                 </div>
-
             </div>
 
-            <div class="form-group">
-
-                <label for="newAddress">
+            <div class="field full">
+                <label>
                     Address <span class="required">*</span>
                 </label>
 
-                <input
-                    type="text"
+                <textarea
                     id="newAddress"
-                    placeholder="Student's address"
-                >
-
+                    placeholder="Enter student's address"
+                ></textarea>
             </div>
 
-        </div>
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-icon navy">
-                    <i data-lucide="users"></i>
-                </div>
-
-                <div class="card-title">
-                    <h3>Parent / Guardian</h3>
-                    <p>
-                        Provide the primary parent or guardian information.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="guardianName">
-                    Parent / Guardian Name
-                    <span class="required">*</span>
+            <div class="field">
+                <label>
+                    Parent / Guardian <span class="required">*</span>
                 </label>
 
                 <input
                     type="text"
-                    id="guardianName"
-                    placeholder="Full name"
+                    id="newParentGuardian"
+                    placeholder="Parent or guardian name"
                 >
-
             </div>
 
-            <div class="form-group">
-
-                <label for="guardianPhone">
-                    Phone Number
-                    <span class="required">*</span>
+            <div class="field">
+                <label>
+                    Phone Number <span class="required">*</span>
                 </label>
 
                 <input
                     type="tel"
-                    id="guardianPhone"
-                    placeholder="Phone number"
-                    autocomplete="tel"
+                    id="newPhone"
+                    placeholder="Parent/guardian phone number"
                 >
-
             </div>
 
-        </div>
+            <!-- Academic Clearance -->
+            <div class="field full">
 
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-icon blue">
-                    <i data-lucide="file-text"></i>
-                </div>
-
-                <div class="card-title">
-                    <h3>Academic Document</h3>
-                    <p>
-                        Upload the required previous-school document.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="upload-box">
-
-                <div class="upload-icon">
-                    <i data-lucide="file-up"></i>
-                </div>
-
-                <h4>Academic Transcript / Document</h4>
-
-                <p>
-                    Upload a clear image or supported document.
-                </p>
-
-                <label class="upload-label">
-
-                    <i data-lucide="upload"></i>
-                    Choose File
-
-                    <input
-                        class="upload-input"
-                        type="file"
-                        id="academicDocument"
-                        accept="image/*,.pdf"
-                        onchange="showFileName(this, 'academicFileName')"
-                    >
-
+                <label>
+                    Academic Clearance <span class="required">*</span>
                 </label>
 
-                <div
-                    class="file-name"
-                    id="academicFileName"
-                ></div>
-
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-icon green">
-                    <i data-lucide="receipt"></i>
-                </div>
-
-                <div class="card-title">
-                    <h3>Payment Receipt</h3>
-                    <p>
-                        Upload proof of registration payment.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="upload-box">
-
-                <div class="upload-icon">
-                    <i data-lucide="upload-cloud"></i>
-                </div>
-
-                <h4>Payment Receipt</h4>
-
-                <p>
-                    Upload a clear image of the payment receipt.
-                </p>
-
-                <label class="upload-label">
-
-                    <i data-lucide="upload"></i>
-                    Choose File
+                <div class="file-box">
 
                     <input
-                        class="upload-input"
+                        type="file"
+                        id="academicClearance"
+                        accept="image/*,.pdf"
+                    >
+
+                    <div class="file-help">
+                        Upload the student's academic clearance document.
+                        Accepted formats: images or PDF.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Payment Receipt -->
+            <div class="field full">
+
+                <label>
+                    Payment Receipt <span class="required">*</span>
+                </label>
+
+                <div class="file-box">
+
+                    <input
                         type="file"
                         id="newPaymentReceipt"
                         accept="image/*,.pdf"
-                        onchange="showFileName(this, 'newPaymentFileName')"
                     >
 
-                </label>
+                    <div class="file-help">
+                        Upload the registration payment receipt.
+                        Accepted formats: images or PDF.
+                    </div>
 
-                <div
-                    class="file-name"
-                    id="newPaymentFileName"
-                ></div>
+                </div>
 
             </div>
 
         </div>
 
-        <div class="form-actions">
+        <div class="submit-area">
 
             <button
-                class="button button-secondary"
                 type="button"
-                onclick="goHome()"
-            >
-                <i data-lucide="arrow-left"></i>
-                Back
-            </button>
-
-            <button
-                class="button button-primary"
-                id="newSubmitButton"
-                type="button"
+                class="btn btn-success"
+                id="newSubmitBtn"
                 onclick="submitNewRegistration()"
             >
-                Continue
-                <i data-lucide="arrow-right"></i>
+                <i data-lucide="send"></i>
+                Submit Registration
             </button>
 
         </div>
+
+        <div
+            class="status-message"
+            id="newSubmitMessage"
+        ></div>
 
     </section>
 
-    <!-- RETURNING STUDENT -->
 
+    <!-- RETURNING STUDENT -->
     <section
-        class="form-section"
-        id="returningStudentForm"
+        class="card hidden"
+        id="returningStudentSection"
     >
 
-        <div class="card">
+        <div class="card-title">
+            <i data-lucide="user-check"></i>
+            Returning Student Registration
+        </div>
 
-            <div class="card-header">
+        <div class="form-grid">
 
-                <div class="card-icon blue">
-                    <i data-lucide="search"></i>
-                </div>
+            <div class="field full">
 
-                <div class="card-title">
-                    <h3>Find Student Record</h3>
-                    <p>
-                        Enter the student's existing Student ID.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="notice">
-
-                <i data-lucide="info"></i>
-
-                <span>
-                    Returning students only need to find their
-                    existing record and submit the new payment receipt.
-                </span>
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="studentId">
-                    Student ID
-                    <span class="required">*</span>
+                <label>
+                    Student ID <span class="required">*</span>
                 </label>
 
                 <div class="search-row">
 
                     <input
                         type="text"
-                        id="studentId"
+                        id="returningStudentId"
                         placeholder="Enter Student ID"
                         autocomplete="off"
                     >
 
                     <button
-                        class="search-button"
-                        id="returningSearchButton"
                         type="button"
+                        class="btn btn-primary"
+                        id="searchReturningBtn"
                         onclick="searchReturningStudent()"
-                        aria-label="Search student"
                     >
                         <i data-lucide="search"></i>
+                        Find Student
                     </button>
 
                 </div>
 
-                <p class="helper-text">
-                    Enter the Student ID provided by the school.
-                </p>
+                <div
+                    class="status-message"
+                    id="returningSearchMessage"
+                ></div>
 
-            </div>
-
-            <div
-                class="found-record"
-                id="returningFoundRecord"
-            >
-
-                <div class="found-record-title">
-                    <i data-lucide="circle-check"></i>
-                    Student record found
-                </div>
-
-                <p id="returningFoundRecordText"></p>
-
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-icon green">
-                    <i data-lucide="user-check"></i>
-                </div>
-
-                <div class="card-title">
-                    <h3>Student Record</h3>
-                    <p>
-                        Your existing information will appear here
-                        after the record is found.
-                    </p>
+                <div
+                    class="found-box"
+                    id="returningFoundBox"
+                >
+                    <strong>Student found</strong>
+                    <div id="returningFoundText"></div>
                 </div>
 
             </div>
 
-            <div class="form-grid">
+            <div class="field">
 
-                <div class="form-group">
+                <label>Student Name</label>
 
-                    <label for="returningName">
-                        Student Name
-                    </label>
+                <input
+                    type="text"
+                    id="returningStudentName"
+                    readonly
+                    placeholder="Student name"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>Current Grade</label>
+
+                <input
+                    type="text"
+                    id="returningGrade"
+                    readonly
+                    placeholder="Current grade"
+                >
+
+            </div>
+
+            <div class="field full">
+
+                <label>
+                    Payment Receipt <span class="required">*</span>
+                </label>
+
+                <div class="file-box">
 
                     <input
-                        type="text"
-                        id="returningName"
-                        placeholder="Student name"
-                        readonly
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="returningGrade">
-                        Current Grade
-                    </label>
-
-                    <input
-                        type="text"
-                        id="returningGrade"
-                        placeholder="Grade"
-                        readonly
-                    >
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-icon green">
-                    <i data-lucide="receipt"></i>
-                </div>
-
-                <div class="card-title">
-                    <h3>Payment Receipt</h3>
-                    <p>
-                        Upload the payment receipt for the new school year.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="upload-box">
-
-                <div class="upload-icon">
-                    <i data-lucide="upload-cloud"></i>
-                </div>
-
-                <h4>Payment Receipt</h4>
-
-                <p>
-                    Upload a clear image of the payment receipt.
-                </p>
-
-                <label class="upload-label">
-
-                    <i data-lucide="upload"></i>
-                    Choose File
-
-                    <input
-                        class="upload-input"
                         type="file"
                         id="returningPaymentReceipt"
                         accept="image/*,.pdf"
-                        onchange="showFileName(this, 'returningPaymentFileName')"
                     >
 
-                </label>
+                    <div class="file-help">
+                        Upload the registration payment receipt.
+                    </div>
 
-                <div
-                    class="file-name"
-                    id="returningPaymentFileName"
-                ></div>
+                </div>
 
             </div>
 
         </div>
 
-        <div class="form-actions">
+        <div class="submit-area">
 
             <button
-                class="button button-secondary"
                 type="button"
-                onclick="goHome()"
-            >
-                <i data-lucide="arrow-left"></i>
-                Back
-            </button>
-
-            <button
-                class="button button-primary"
-                id="returningSubmitButton"
-                type="button"
+                class="btn btn-success"
+                id="returningSubmitBtn"
                 onclick="submitReturningRegistration()"
             >
+                <i data-lucide="send"></i>
                 Submit Registration
-                <i data-lucide="check"></i>
             </button>
 
         </div>
+
+        <div
+            class="status-message"
+            id="returningSubmitMessage"
+        ></div>
 
     </section>
 
 </main>
 
-<nav class="bottom-nav" aria-label="Main navigation">
 
-    <button
-        class="nav-item"
-        type="button"
-        onclick="goHome()"
-    >
-        <i data-lucide="house"></i>
-        <span>Home</span>
-    </button>
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
 
-    <button
-        class="nav-item active"
-        type="button"
-    >
-        <i data-lucide="file-plus-2"></i>
-        <span>Register</span>
-    </button>
+    <div class="bottom-nav-inner">
 
-    <button
-        class="nav-item"
-        type="button"
-        onclick="openStatus()"
-    >
-        <i data-lucide="search-check"></i>
-        <span>Status</span>
-    </button>
+        <a
+            href="index.html"
+            class="nav-item"
+        >
+            <i data-lucide="home"></i>
+            <span>Home</span>
+        </a>
+
+        <a
+            href="register.html"
+            class="nav-item active"
+        >
+            <i data-lucide="clipboard-pen"></i>
+            <span>Register</span>
+        </a>
+
+        <a
+            href="check-status.html"
+            class="nav-item"
+        >
+            <i data-lucide="search-check"></i>
+            <span>Check Status</span>
+        </a>
+
+    </div>
 
 </nav>
+
 
 <script>
 
@@ -1519,13 +909,17 @@
        STATE
     ========================================================= */
 
-    let selectedStudentType = null;
-
-    let foundNewStudent = null;
-
-    let foundReturningStudent = null;
-
+    let selectedStudentType = "new";
     let selectedGender = "";
+    let newStudentRecord = null;
+    let returningStudentRecord = null;
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    lucide.createIcons();
 
 
     /* =========================================================
@@ -1536,44 +930,34 @@
 
         selectedStudentType = type;
 
+        const newSection =
+            document.getElementById("newStudentSection");
+
+        const returningSection =
+            document.getElementById("returningStudentSection");
+
         const newOption =
-            document.getElementById("newStudentOption");
+            document.getElementById("newTypeOption");
 
         const returningOption =
-            document.getElementById("returningStudentOption");
-
-        const newForm =
-            document.getElementById("newStudentForm");
-
-        const returningForm =
-            document.getElementById("returningStudentForm");
-
-        newOption.classList.remove("selected");
-        returningOption.classList.remove("selected");
-
-        newForm.classList.remove("active");
-        returningForm.classList.remove("active");
-
-        clearStatus();
+            document.getElementById("returningTypeOption");
 
         if (type === "new") {
 
-            newOption.classList.add("selected");
-            newForm.classList.add("active");
+            newSection.classList.remove("hidden");
+            returningSection.classList.add("hidden");
 
+            newOption.classList.add("active");
+            returningOption.classList.remove("active");
+
+        } else {
+
+            newSection.classList.add("hidden");
+            returningSection.classList.remove("hidden");
+
+            newOption.classList.remove("active");
+            returningOption.classList.add("active");
         }
-
-        if (type === "returning") {
-
-            returningOption.classList.add("selected");
-            returningForm.classList.add("active");
-
-        }
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
     }
 
 
@@ -1581,129 +965,176 @@
        GENDER
     ========================================================= */
 
-    function selectGender(button) {
+    function selectGender(gender) {
 
-        const buttons =
-            document.querySelectorAll(".gender-option");
+        selectedGender = gender;
 
-        buttons.forEach(function(item) {
-            item.classList.remove("selected");
-        });
+        document
+            .getElementById("maleOption")
+            .classList.remove("active");
 
-        button.classList.add("selected");
+        document
+            .getElementById("femaleOption")
+            .classList.remove("active");
 
-        selectedGender =
-            button.textContent.trim();
+        if (gender === "Male") {
 
-        if (selectedGender !== "Male" &&
-            selectedGender !== "Female") {
-
-            selectedGender = "";
-        }
-    }
-
-
-    /* =========================================================
-       FILE NAME
-    ========================================================= */
-
-    function showFileName(input, targetId) {
-
-        const target =
-            document.getElementById(targetId);
-
-        if (!target) return;
-
-        if (input.files && input.files.length > 0) {
-
-            target.textContent =
-                input.files[0].name;
+            document
+                .getElementById("maleOption")
+                .classList.add("active");
 
         } else {
 
-            target.textContent = "";
-
+            document
+                .getElementById("femaleOption")
+                .classList.add("active");
         }
     }
 
 
     /* =========================================================
-       STATUS MESSAGE
+       MESSAGE HELPERS
     ========================================================= */
 
-    function showStatus(message, type) {
+    function showMessage(
+        elementId,
+        message,
+        type = "info"
+    ) {
 
-        const box =
-            document.getElementById("statusMessage");
+        const element =
+            document.getElementById(elementId);
 
-        box.textContent = message;
-
-        box.className =
+        element.className =
             "status-message show " + type;
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        element.innerHTML = message;
     }
 
 
-    function clearStatus() {
+    function hideMessage(elementId) {
 
-        const box =
-            document.getElementById("statusMessage");
+        const element =
+            document.getElementById(elementId);
 
-        box.textContent = "";
-
-        box.className =
+        element.className =
             "status-message";
+
+        element.innerHTML = "";
+    }
+
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
     }
 
 
     /* =========================================================
-       NEW STUDENT SEARCH
+       ERROR DISPLAY
+    ========================================================= */
+
+    function showDetailedError(elementId, title, error) {
+
+        const element =
+            document.getElementById(elementId);
+
+        const message =
+            error?.message ||
+            error?.error_description ||
+            String(error);
+
+        const details =
+            error?.details ||
+            "";
+
+        const hint =
+            error?.hint ||
+            "";
+
+        element.className =
+            "status-message show error";
+
+        element.innerHTML = `
+            <strong>${escapeHtml(title)}</strong>
+
+            <div class="debug-error">
+                ${escapeHtml(message)}
+
+                ${
+                    details
+                        ? `<br><br><strong>Details:</strong><br>${escapeHtml(details)}`
+                        : ""
+                }
+
+                ${
+                    hint
+                        ? `<br><br><strong>Hint:</strong><br>${escapeHtml(hint)}`
+                        : ""
+                }
+            </div>
+        `;
+    }
+
+
+    /* =========================================================
+       SEARCH NEW STUDENT
     ========================================================= */
 
     async function searchNewStudent() {
 
-        clearStatus();
-
-        const input =
-            document.getElementById("administrationNumber");
+        const adminNumber =
+            document
+                .getElementById("administrationNumber")
+                .value
+                .trim();
 
         const button =
-            document.getElementById("newSearchButton");
+            document.getElementById("searchNewBtn");
 
-        const administrationNumber =
-            input.value.trim();
+        const foundBox =
+            document.getElementById("newFoundBox");
 
-        if (!administrationNumber) {
+        if (!adminNumber) {
 
-            showStatus(
+            showMessage(
+                "newSearchMessage",
                 "Please enter the administration number.",
                 "error"
             );
-
-            input.focus();
 
             return;
         }
 
         button.disabled = true;
 
-        foundNewStudent = null;
+        button.innerHTML = `
+            <span class="loading"></span>
+            Searching...
+        `;
+
+        hideMessage("newSearchMessage");
+
+        foundBox.classList.remove("show");
 
         try {
 
             const { data, error } =
                 await supabaseClient
                     .from("students")
-                    .select(
-                        "id,student_id,full_name,administration_number,student_type,date_of_birth,gender,address,parent_guardian,phone,registration_status,payment_status"
-                    )
+                    .select("*")
                     .eq(
                         "administration_number",
-                        administrationNumber
+                        adminNumber
                     )
                     .eq(
                         "student_type",
@@ -1717,138 +1148,113 @@
 
             if (!data) {
 
-                document
-                    .getElementById("newFoundRecord")
-                    .classList.remove("show");
+                newStudentRecord = null;
 
-                showStatus(
-                    "No student record was found. Please make sure the administration number is correct and that the school has added the student.",
+                showMessage(
+                    "newSearchMessage",
+                    "No student was found with that administration number. Please make sure the school has added the student first.",
                     "error"
                 );
 
                 return;
             }
 
-            foundNewStudent = data;
+            newStudentRecord = data;
 
             document
                 .getElementById("newFullName")
                 .value = data.full_name || "";
 
-            document
-                .getElementById("newDob")
-                .value = data.date_of_birth || "";
+            foundBox.classList.add("show");
 
             document
-                .getElementById("newAddress")
-                .value = data.address || "";
-
-            document
-                .getElementById("guardianName")
-                .value = data.parent_guardian || "";
-
-            document
-                .getElementById("guardianPhone")
-                .value = data.phone || "";
-
-            selectedGender =
-                data.gender || "";
-
-            document
-                .querySelectorAll(".gender-option")
-                .forEach(function(button) {
-
-                    button.classList.remove("selected");
-
-                    if (
-                        button.textContent.trim() ===
-                        data.gender
-                    ) {
-                        button.classList.add("selected");
+                .getElementById("newFoundText")
+                .innerHTML = `
+                    ${escapeHtml(data.full_name)}
+                    ${
+                        data.student_id
+                            ? ` — Student ID: ${escapeHtml(data.student_id)}`
+                            : ""
                     }
+                `;
 
-                });
-
-            document
-                .getElementById("newFoundRecordText")
-                .textContent =
-                    data.full_name +
-                    " has been found. You can now complete the registration information.";
-
-            document
-                .getElementById("newFoundRecord")
-                .classList.add("show");
-
-            showStatus(
-                "Student record found successfully.",
+            showMessage(
+                "newSearchMessage",
+                "Student found. Please complete the remaining information.",
                 "success"
             );
 
         } catch (error) {
 
-            console.error(error);
-
-            showStatus(
-                "Unable to search for the student. Please try again.",
-                "error"
+            showDetailedError(
+                "newSearchMessage",
+                "Student search failed:",
+                error
             );
 
         } finally {
 
             button.disabled = false;
 
+            button.innerHTML = `
+                <i data-lucide="search"></i>
+                Find Student
+            `;
+
+            lucide.createIcons();
         }
     }
 
 
     /* =========================================================
-       RETURNING STUDENT SEARCH
+       SEARCH RETURNING STUDENT
     ========================================================= */
 
     async function searchReturningStudent() {
 
-        clearStatus();
-
-        const input =
-            document.getElementById("studentId");
+        const studentId =
+            document
+                .getElementById("returningStudentId")
+                .value
+                .trim();
 
         const button =
-            document.getElementById("returningSearchButton");
+            document.getElementById("searchReturningBtn");
 
-        const studentId =
-            input.value.trim();
+        const foundBox =
+            document.getElementById("returningFoundBox");
 
         if (!studentId) {
 
-            showStatus(
+            showMessage(
+                "returningSearchMessage",
                 "Please enter the Student ID.",
                 "error"
             );
-
-            input.focus();
 
             return;
         }
 
         button.disabled = true;
 
-        foundReturningStudent = null;
+        button.innerHTML = `
+            <span class="loading"></span>
+            Searching...
+        `;
+
+        hideMessage("returningSearchMessage");
+
+        foundBox.classList.remove("show");
 
         try {
 
             const { data, error } =
                 await supabaseClient
                     .from("students")
-                    .select(
-                        "id,student_id,full_name,student_type,registration_status,payment_status"
-                    )
+                    .select("*")
                     .eq(
                         "student_id",
                         studentId
-                    )
-                    .in(
-                        "student_type",
-                        ["returning", "10", "11", "12"]
                     )
                     .maybeSingle();
 
@@ -1858,110 +1264,77 @@
 
             if (!data) {
 
-                document
-                    .getElementById("returningFoundRecord")
-                    .classList.remove("show");
+                returningStudentRecord = null;
 
-                showStatus(
-                    "No returning student record was found. Please check the Student ID.",
+                showMessage(
+                    "returningSearchMessage",
+                    "No student was found with that Student ID.",
                     "error"
                 );
 
                 return;
             }
 
-            foundReturningStudent = data;
-
-            let gradeText = "Returning student";
-
-            const {
-                data: enrollment
-            } =
-                await supabaseClient
-                    .from("student_enrollments")
-                    .select(
-                        "grade_id,school_year_id"
-                    )
-                    .eq(
-                        "student_id",
-                        data.id
-                    )
-                    .order(
-                        "created_at",
-                        { ascending: false }
-                    )
-                    .limit(1)
-                    .maybeSingle();
-
-            if (enrollment && enrollment.grade_id) {
-
-                const { data: grade } =
-                    await supabaseClient
-                        .from("grades")
-                        .select("name,code")
-                        .eq(
-                            "id",
-                            enrollment.grade_id
-                        )
-                        .maybeSingle();
-
-                if (grade) {
-
-                    gradeText =
-                        grade.name ||
-                        grade.code ||
-                        gradeText;
-
-                }
-            }
+            returningStudentRecord = data;
 
             document
-                .getElementById("returningName")
-                .value =
-                    data.full_name || "";
+                .getElementById("returningStudentName")
+                .value = data.full_name || "";
 
             document
                 .getElementById("returningGrade")
-                .value =
-                    gradeText;
+                .value = data.grade || "";
+
+            foundBox.classList.add("show");
 
             document
-                .getElementById("returningFoundRecordText")
-                .textContent =
-                    data.full_name +
-                    " has been found. You can now upload the payment receipt.";
+                .getElementById("returningFoundText")
+                .innerHTML = `
+                    ${escapeHtml(data.full_name)}
+                    ${
+                        data.grade
+                            ? ` — Grade ${escapeHtml(data.grade)}`
+                            : ""
+                    }
+                `;
 
-            document
-                .getElementById("returningFoundRecord")
-                .classList.add("show");
-
-            showStatus(
-                "Student record found successfully.",
+            showMessage(
+                "returningSearchMessage",
+                "Student found. Upload the payment receipt to continue.",
                 "success"
             );
 
         } catch (error) {
 
-            console.error(error);
-
-            showStatus(
-                "Unable to search for the student. Please try again.",
-                "error"
+            showDetailedError(
+                "returningSearchMessage",
+                "Student search failed:",
+                error
             );
 
         } finally {
 
             button.disabled = false;
 
+            button.innerHTML = `
+                <i data-lucide="search"></i>
+                Find Student
+            `;
+
+            lucide.createIcons();
         }
     }
 
 
     /* =========================================================
-       STORAGE UPLOAD
+       UPLOAD FILE
     ========================================================= */
 
-    async function uploadFile(file, folder) {
+    async function uploadFile(
+        file,
+        folder,
+        studentId
+    ) {
 
         if (!file) {
             return null;
@@ -1972,18 +1345,10 @@
                 .replace(/[^a-zA-Z0-9._-]/g, "_");
 
         const uniqueName =
-            Date.now() +
-            "_" +
-            Math.random()
-                .toString(36)
-                .substring(2, 10) +
-            "_" +
-            safeName;
+            `${Date.now()}_${safeName}`;
 
         const path =
-            folder +
-            "/" +
-            uniqueName;
+            `students/${studentId}/${folder}/${uniqueName}`;
 
         const { error } =
             await supabaseClient
@@ -1993,8 +1358,8 @@
                     path,
                     file,
                     {
-                        cacheControl: "3600",
-                        upsert: false
+                        upsert: false,
+                        contentType: file.type || undefined
                     }
                 );
 
@@ -2007,26 +1372,58 @@
 
 
     /* =========================================================
+       INSERT PAYMENT RECORD
+    ========================================================= */
+
+    async function createPaymentRecord(
+        studentId,
+        receiptPath
+    ) {
+
+        const { data, error } =
+            await supabaseClient
+                .from("payments")
+                .insert({
+                    student_id: studentId,
+                    receipt_image: receiptPath,
+                    status: "pending"
+                })
+                .select()
+                .maybeSingle();
+
+        if (error) {
+            throw error;
+        }
+
+        return data;
+    }
+
+
+    /* =========================================================
        NEW STUDENT SUBMISSION
     ========================================================= */
 
     async function submitNewRegistration() {
 
-        clearStatus();
+        const button =
+            document.getElementById("newSubmitBtn");
 
-        if (!foundNewStudent) {
+        hideMessage("newSubmitMessage");
 
-            showStatus(
-                "Please search for your student record first.",
+        if (!newStudentRecord) {
+
+            showMessage(
+                "newSubmitMessage",
+                "Please find your student record first using the administration number.",
                 "error"
             );
 
             return;
         }
 
-        const dob =
+        const dateOfBirth =
             document
-                .getElementById("newDob")
+                .getElementById("newDateOfBirth")
                 .value;
 
         const address =
@@ -2035,21 +1432,21 @@
                 .value
                 .trim();
 
-        const guardianName =
+        const parentGuardian =
             document
-                .getElementById("guardianName")
+                .getElementById("newParentGuardian")
                 .value
                 .trim();
 
-        const guardianPhone =
+        const phone =
             document
-                .getElementById("guardianPhone")
+                .getElementById("newPhone")
                 .value
                 .trim();
 
         const academicFile =
             document
-                .getElementById("academicDocument")
+                .getElementById("academicClearance")
                 .files[0];
 
         const paymentFile =
@@ -2057,9 +1454,11 @@
                 .getElementById("newPaymentReceipt")
                 .files[0];
 
-        if (!dob) {
 
-            showStatus(
+        if (!dateOfBirth) {
+
+            showMessage(
+                "newSubmitMessage",
                 "Please enter the student's date of birth.",
                 "error"
             );
@@ -2069,7 +1468,8 @@
 
         if (!selectedGender) {
 
-            showStatus(
+            showMessage(
+                "newSubmitMessage",
                 "Please select the student's gender.",
                 "error"
             );
@@ -2079,7 +1479,8 @@
 
         if (!address) {
 
-            showStatus(
+            showMessage(
+                "newSubmitMessage",
                 "Please enter the student's address.",
                 "error"
             );
@@ -2087,9 +1488,10 @@
             return;
         }
 
-        if (!guardianName) {
+        if (!parentGuardian) {
 
-            showStatus(
+            showMessage(
+                "newSubmitMessage",
                 "Please enter the parent or guardian name.",
                 "error"
             );
@@ -2097,10 +1499,11 @@
             return;
         }
 
-        if (!guardianPhone) {
+        if (!phone) {
 
-            showStatus(
-                "Please enter the parent or guardian phone number.",
+            showMessage(
+                "newSubmitMessage",
+                "Please enter the parent/guardian phone number.",
                 "error"
             );
 
@@ -2109,8 +1512,9 @@
 
         if (!academicFile) {
 
-            showStatus(
-                "Please upload the academic transcript or previous-school document.",
+            showMessage(
+                "newSubmitMessage",
+                "Please upload the academic clearance.",
                 "error"
             );
 
@@ -2119,7 +1523,8 @@
 
         if (!paymentFile) {
 
-            showStatus(
+            showMessage(
+                "newSubmitMessage",
                 "Please upload the payment receipt.",
                 "error"
             );
@@ -2127,115 +1532,147 @@
             return;
         }
 
-        const button =
-            document.getElementById("newSubmitButton");
 
         button.disabled = true;
+
+        button.innerHTML = `
+            <span class="loading"></span>
+            Submitting...
+        `;
+
 
         try {
 
             /*
-             * Upload payment receipt.
+             * Upload academic clearance
              */
-            const paymentPath =
-                await uploadFile(
-                    paymentFile,
-                    "students/" +
-                    foundNewStudent.id +
-                    "/payments"
-                );
 
+            showMessage(
+                "newSubmitMessage",
+                "Uploading academic clearance...",
+                "info"
+            );
 
-            /*
-             * Upload academic document.
-             *
-             * The current database does not have an academic
-             * document column, so the file is uploaded to
-             * storage separately for now.
-             */
             const academicPath =
                 await uploadFile(
                     academicFile,
-                    "students/" +
-                    foundNewStudent.id +
-                    "/academic"
+                    "academic-clearance",
+                    newStudentRecord.id
                 );
 
 
             /*
-             * Update the student's personal information.
+             * Upload payment receipt
              */
-            const { error: studentError } =
+
+            showMessage(
+                "newSubmitMessage",
+                "Uploading payment receipt...",
+                "info"
+            );
+
+            const paymentPath =
+                await uploadFile(
+                    paymentFile,
+                    "payments",
+                    newStudentRecord.id
+                );
+
+
+            /*
+             * Update student
+             */
+
+            showMessage(
+                "newSubmitMessage",
+                "Saving registration information...",
+                "info"
+            );
+
+            const updateData = {
+                date_of_birth: dateOfBirth,
+                gender: selectedGender,
+                address: address,
+                parent_guardian: parentGuardian,
+                phone: phone,
+                registration_status: "submitted",
+                payment_receipt_image: paymentPath,
+                payment_status: "pending",
+                academic_clearance_image: academicPath
+            };
+
+
+            const { error: updateError } =
                 await supabaseClient
                     .from("students")
-                    .update({
-                        date_of_birth: dob,
-                        gender: selectedGender,
-                        address: address,
-                        parent_guardian: guardianName,
-                        phone: guardianPhone,
-                        registration_status: "submitted",
-                        payment_receipt_image: paymentPath,
-                        payment_status: "pending",
-                        updated_at: new Date().toISOString()
-                    })
+                    .update(updateData)
                     .eq(
                         "id",
-                        foundNewStudent.id
+                        newStudentRecord.id
                     );
 
-            if (studentError) {
-                throw studentError;
+            if (updateError) {
+                throw updateError;
             }
 
 
             /*
-             * Create payment record.
+             * Create payment record
              */
-            const { error: paymentError } =
-                await supabaseClient
-                    .from("payments")
-                    .insert({
-                        student_id: foundNewStudent.id,
-                        receipt_image: paymentPath,
-                        status: "pending"
-                    });
 
-            if (paymentError) {
-                throw paymentError;
-            }
+            showMessage(
+                "newSubmitMessage",
+                "Recording payment information...",
+                "info"
+            );
 
-
-            /*
-             * Keep academicPath in browser memory for now.
-             * The database currently has no column for it.
-             */
-            console.log(
-                "Academic document uploaded:",
-                academicPath
+            await createPaymentRecord(
+                newStudentRecord.id,
+                paymentPath
             );
 
 
-            showStatus(
-                "Registration submitted successfully. The school will review your information and payment.",
+            /*
+             * Success
+             */
+
+            showMessage(
+                "newSubmitMessage",
+                `
+                    <strong>Registration submitted successfully.</strong><br>
+                    Your registration has been sent to the school for review.
+                `,
                 "success"
             );
 
-            button.disabled = true;
+            document
+                .getElementById("newSubmitBtn")
+                .disabled = true;
 
         } catch (error) {
 
-            console.error(error);
-
-            showStatus(
-                "Registration could not be submitted. Please try again.",
-                "error"
+            console.error(
+                "NEW REGISTRATION ERROR:",
+                error
             );
+
+            showDetailedError(
+                "newSubmitMessage",
+                "Registration could not be submitted:",
+                error
+            );
+
+        } finally {
 
             button.disabled = false;
 
-        }
+            button.innerHTML = `
+                <i data-lucide="send"></i>
+                Submit Registration
+            `;
 
+            lucide.createIcons();
+        }
     }
 
 
@@ -2245,12 +1682,16 @@
 
     async function submitReturningRegistration() {
 
-        clearStatus();
+        const button =
+            document.getElementById("returningSubmitBtn");
 
-        if (!foundReturningStudent) {
+        hideMessage("returningSubmitMessage");
 
-            showStatus(
-                "Please search for your Student ID first.",
+        if (!returningStudentRecord) {
+
+            showMessage(
+                "returningSubmitMessage",
+                "Please find your student record first.",
                 "error"
             );
 
@@ -2264,7 +1705,8 @@
 
         if (!paymentFile) {
 
-            showStatus(
+            showMessage(
+                "returningSubmitMessage",
                 "Please upload the payment receipt.",
                 "error"
             );
@@ -2272,70 +1714,89 @@
             return;
         }
 
-        const button =
-            document.getElementById(
-                "returningSubmitButton"
-            );
 
         button.disabled = true;
 
+        button.innerHTML = `
+            <span class="loading"></span>
+            Submitting...
+        `;
+
+
         try {
+
+            /*
+             * Upload payment receipt
+             */
+
+            showMessage(
+                "returningSubmitMessage",
+                "Uploading payment receipt...",
+                "info"
+            );
 
             const paymentPath =
                 await uploadFile(
                     paymentFile,
-                    "students/" +
-                    foundReturningStudent.id +
-                    "/payments"
+                    "payments",
+                    returningStudentRecord.id
                 );
 
 
             /*
-             * Update student registration/payment state.
+             * Update student
              */
-            const { error: studentError } =
+
+            showMessage(
+                "returningSubmitMessage",
+                "Saving registration information...",
+                "info"
+            );
+
+            const { error: updateError } =
                 await supabaseClient
                     .from("students")
                     .update({
                         registration_status: "submitted",
                         payment_receipt_image: paymentPath,
-                        payment_status: "pending",
-                        updated_at: new Date().toISOString()
+                        payment_status: "pending"
                     })
                     .eq(
                         "id",
-                        foundReturningStudent.id
+                        returningStudentRecord.id
                     );
 
-            if (studentError) {
-                throw studentError;
+            if (updateError) {
+                throw updateError;
             }
 
 
             /*
-             * Create payment record.
+             * Create payment record
              */
-            const { error: paymentError } =
-                await supabaseClient
-                    .from("payments")
-                    .insert({
-                        student_id:
-                            foundReturningStudent.id,
 
-                        receipt_image:
-                            paymentPath,
+            showMessage(
+                "returningSubmitMessage",
+                "Recording payment information...",
+                "info"
+            );
 
-                        status:
-                            "pending"
-                    });
-
-            if (paymentError) {
-                throw paymentError;
-            }
+            await createPaymentRecord(
+                returningStudentRecord.id,
+                paymentPath
+            );
 
 
-            showStatus(
-                "Registration submitted successfully. The school will review your payment.",
+            /*
+             * Success
+             */
+
+            showMessage(
+                "returningSubmitMessage",
+                `
+                    <strong>Registration submitted successfully.</strong><br>
+                    Your payment receipt has been sent to the school for review.
+                `,
                 "success"
             );
 
@@ -2343,43 +1804,29 @@
 
         } catch (error) {
 
-            console.error(error);
-
-            showStatus(
-                "Registration could not be submitted. Please try again.",
-                "error"
+            console.error(
+                "RETURNING REGISTRATION ERROR:",
+                error
             );
+
+            showDetailedError(
+                "returningSubmitMessage",
+                "Registration could not be submitted:",
+                error
+            );
+
+        } finally {
 
             button.disabled = false;
 
+            button.innerHTML = `
+                <i data-lucide="send"></i>
+                Submit Registration
+            `;
+
+            lucide.createIcons();
         }
-
     }
-
-
-    /* =========================================================
-       NAVIGATION
-    ========================================================= */
-
-    function goHome() {
-
-        window.location.href =
-            "index.html";
-    }
-
-
-    function openStatus() {
-
-        window.location.href =
-            "status.html";
-    }
-
-
-    /* =========================================================
-       START
-    ========================================================= */
-
-    lucide.createIcons();
 
 </script>
 
