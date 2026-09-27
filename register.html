@@ -466,7 +466,6 @@
     </div>
 </header>
 
-
 <main class="container">
 
     <div class="intro">
@@ -476,7 +475,6 @@
             Select your student type and complete the required registration information.
         </p>
     </div>
-
 
     <!-- STUDENT TYPE -->
 
@@ -501,7 +499,6 @@
                 </span>
             </div>
 
-
             <div
                 class="type-option"
                 id="returningTypeOption"
@@ -518,7 +515,6 @@
 
     </section>
 
-
     <!-- NEW STUDENT -->
 
     <section class="card" id="newStudentSection">
@@ -527,7 +523,6 @@
             <i data-lucide="user-plus"></i>
             New Student Registration
         </div>
-
 
         <div class="form-grid">
 
@@ -559,12 +554,10 @@
 
                 </div>
 
-
                 <div
                     class="status-message"
                     id="newSearchMessage"
                 ></div>
-
 
                 <div
                     class="found-box"
@@ -576,7 +569,6 @@
                 </div>
 
             </div>
-
 
             <div class="field">
 
@@ -594,7 +586,6 @@
 
             </div>
 
-
             <div class="field">
 
                 <label>
@@ -608,7 +599,6 @@
                 >
 
             </div>
-
 
             <div class="field full">
 
@@ -639,7 +629,6 @@
 
             </div>
 
-
             <div class="field full">
 
                 <label>
@@ -653,7 +642,6 @@
                 ></textarea>
 
             </div>
-
 
             <div class="field">
 
@@ -670,7 +658,6 @@
 
             </div>
 
-
             <div class="field">
 
                 <label>
@@ -685,7 +672,6 @@
                 >
 
             </div>
-
 
             <!-- ACADEMIC CLEARANCE -->
 
@@ -712,7 +698,6 @@
                 </div>
 
             </div>
-
 
             <!-- PAYMENT -->
 
@@ -742,7 +727,6 @@
 
         </div>
 
-
         <div class="submit-area">
 
             <button
@@ -757,14 +741,12 @@
 
         </div>
 
-
         <div
             class="status-message"
             id="newSubmitMessage"
         ></div>
 
     </section>
-
 
     <!-- RETURNING STUDENT -->
 
@@ -777,7 +759,6 @@
             <i data-lucide="user-check"></i>
             Returning Student Registration
         </div>
-
 
         <div class="form-grid">
 
@@ -809,26 +790,21 @@
 
                 </div>
 
-
                 <div
                     class="status-message"
                     id="returningSearchMessage"
                 ></div>
 
-
                 <div
                     class="found-box"
                     id="returningFoundBox"
                 >
-
                     <strong>Student found</strong>
 
                     <div id="returningFoundText"></div>
-
                 </div>
 
             </div>
-
 
             <div class="field">
 
@@ -843,7 +819,6 @@
 
             </div>
 
-
             <div class="field">
 
                 <label>Current Grade</label>
@@ -856,7 +831,6 @@
                 >
 
             </div>
-
 
             <div class="field full">
 
@@ -883,7 +857,6 @@
 
         </div>
 
-
         <div class="submit-area">
 
             <button
@@ -898,7 +871,6 @@
 
         </div>
 
-
         <div
             class="status-message"
             id="returningSubmitMessage"
@@ -907,7 +879,6 @@
     </section>
 
 </main>
-
 
 <!-- BOTTOM NAV -->
 
@@ -923,7 +894,6 @@
             <span>Home</span>
         </a>
 
-
         <a
             href="register.html"
             class="nav-item active"
@@ -931,7 +901,6 @@
             <i data-lucide="clipboard-pen"></i>
             <span>Register</span>
         </a>
-
 
         <a
             href="check-status.html"
@@ -944,7 +913,6 @@
     </div>
 
 </nav>
-
 
 <script>
 
@@ -1013,7 +981,6 @@
                 "returningTypeOption"
             );
 
-
         if (type === "new") {
 
             newSection.classList.remove("hidden");
@@ -1052,7 +1019,6 @@
         document
             .getElementById("femaleOption")
             .classList.remove("active");
-
 
         if (gender === "Male") {
 
@@ -1135,19 +1101,16 @@
         const element =
             document.getElementById(elementId);
 
-
         let message =
             error?.message ||
             error?.error_description ||
             String(error);
-
 
         let details =
             error?.details || "";
 
         let hint =
             error?.hint || "";
-
 
         if (
             message === "TypeError: Failed to fetch" ||
@@ -1158,10 +1121,8 @@
                 "Failed to fetch. The browser could not complete the request to Supabase.";
         }
 
-
         element.className =
             "status-message show error";
-
 
         element.innerHTML = `
 
@@ -1213,11 +1174,9 @@
                         limit: 1
                     });
 
-
             if (error) {
                 throw error;
             }
-
 
             return {
                 success: true,
@@ -1250,18 +1209,15 @@
                 .value
                 .trim();
 
-
         const button =
             document.getElementById(
                 "searchNewBtn"
             );
 
-
         const foundBox =
             document.getElementById(
                 "newFoundBox"
             );
-
 
         if (!adminNumber) {
 
@@ -1274,7 +1230,6 @@
             return;
         }
 
-
         button.disabled = true;
 
         button.innerHTML = `
@@ -1282,16 +1237,13 @@
             Searching...
         `;
 
-
         hideMessage(
             "newSearchMessage"
         );
 
-
         foundBox.classList.remove(
             "show"
         );
-
 
         try {
 
@@ -1312,11 +1264,9 @@
                     )
                     .maybeSingle();
 
-
             if (error) {
                 throw error;
             }
-
 
             if (!data) {
 
@@ -1331,9 +1281,7 @@
                 return;
             }
 
-
             newStudentRecord = data;
-
 
             document
                 .getElementById(
@@ -1342,11 +1290,9 @@
                 .value =
                     data.full_name || "";
 
-
             foundBox.classList.add(
                 "show"
             );
-
 
             document
                 .getElementById(
@@ -1361,13 +1307,11 @@
                     }
                 `;
 
-
             showMessage(
                 "newSearchMessage",
                 "Student found. Please complete the remaining information.",
                 "success"
             );
-
 
         } catch (error) {
 
@@ -1406,18 +1350,15 @@
                 .value
                 .trim();
 
-
         const button =
             document.getElementById(
                 "searchReturningBtn"
             );
 
-
         const foundBox =
             document.getElementById(
                 "returningFoundBox"
             );
-
 
         if (!studentId) {
 
@@ -1430,7 +1371,6 @@
             return;
         }
 
-
         button.disabled = true;
 
         button.innerHTML = `
@@ -1438,16 +1378,13 @@
             Searching...
         `;
 
-
         hideMessage(
             "returningSearchMessage"
         );
 
-
         foundBox.classList.remove(
             "show"
         );
-
 
         try {
 
@@ -1464,11 +1401,9 @@
                     )
                     .maybeSingle();
 
-
             if (error) {
                 throw error;
             }
-
 
             if (!data) {
 
@@ -1484,9 +1419,7 @@
                 return;
             }
 
-
             returningStudentRecord = data;
-
 
             document
                 .getElementById(
@@ -1495,7 +1428,6 @@
                 .value =
                     data.full_name || "";
 
-
             document
                 .getElementById(
                     "returningGrade"
@@ -1503,11 +1435,9 @@
                 .value =
                     data.grade || "";
 
-
             foundBox.classList.add(
                 "show"
             );
-
 
             document
                 .getElementById(
@@ -1522,13 +1452,11 @@
                     }
                 `;
 
-
             showMessage(
                 "returningSearchMessage",
                 "Student found. Upload the payment receipt to continue.",
                 "success"
             );
-
 
         } catch (error) {
 
@@ -1569,7 +1497,6 @@
             );
         }
 
-
         const safeName =
             file.name
                 .replace(
@@ -1577,20 +1504,16 @@
                     "_"
                 );
 
-
         const uniqueName =
             `${Date.now()}_${safeName}`;
 
-
         const path =
             `students/${studentId}/${folder}/${uniqueName}`;
-
 
         console.log(
             "Uploading:",
             path
         );
-
 
         try {
 
@@ -1614,20 +1537,16 @@
                         }
                     );
 
-
             if (error) {
                 throw error;
             }
-
 
             console.log(
                 "Upload successful:",
                 data
             );
 
-
             return path;
-
 
         } catch (error) {
 
@@ -1643,6 +1562,11 @@
 
     /* =========================================================
        CREATE PAYMENT
+       
+       IMPORTANT:
+       Do NOT use .select() here.
+       The anon role can INSERT payments, but there is
+       currently no SELECT policy on the payments table.
     ========================================================= */
 
     async function createPaymentRecord(
@@ -1656,9 +1580,7 @@
             receiptPath
         );
 
-
         const {
-            data,
             error
         } =
             await supabaseClient
@@ -1672,17 +1594,13 @@
 
                     status:
                         "pending"
-                })
-                .select()
-                .maybeSingle();
-
+                });
 
         if (error) {
             throw error;
         }
 
-
-        return data;
+        return true;
     }
 
 
@@ -1697,11 +1615,9 @@
                 "newSubmitBtn"
             );
 
-
         hideMessage(
             "newSubmitMessage"
         );
-
 
         if (!newStudentRecord) {
 
@@ -1714,14 +1630,12 @@
             return;
         }
 
-
         const dateOfBirth =
             document
                 .getElementById(
                     "newDateOfBirth"
                 )
                 .value;
-
 
         const address =
             document
@@ -1731,7 +1645,6 @@
                 .value
                 .trim();
 
-
         const parentGuardian =
             document
                 .getElementById(
@@ -1739,7 +1652,6 @@
                 )
                 .value
                 .trim();
-
 
         const phone =
             document
@@ -1749,7 +1661,6 @@
                 .value
                 .trim();
 
-
         const academicFile =
             document
                 .getElementById(
@@ -1757,14 +1668,12 @@
                 )
                 .files[0];
 
-
         const paymentFile =
             document
                 .getElementById(
                     "newPaymentReceipt"
                 )
                 .files[0];
-
 
         if (!dateOfBirth) {
 
@@ -1777,7 +1686,6 @@
             return;
         }
 
-
         if (!selectedGender) {
 
             showMessage(
@@ -1788,7 +1696,6 @@
 
             return;
         }
-
 
         if (!address) {
 
@@ -1801,7 +1708,6 @@
             return;
         }
 
-
         if (!parentGuardian) {
 
             showMessage(
@@ -1812,7 +1718,6 @@
 
             return;
         }
-
 
         if (!phone) {
 
@@ -1825,7 +1730,6 @@
             return;
         }
 
-
         if (!academicFile) {
 
             showMessage(
@@ -1836,7 +1740,6 @@
 
             return;
         }
-
 
         if (!paymentFile) {
 
@@ -1849,14 +1752,12 @@
             return;
         }
 
-
         button.disabled = true;
 
         button.innerHTML = `
             <span class="loading"></span>
             Testing connection...
         `;
-
 
         try {
 
@@ -1870,7 +1771,6 @@
                 "info"
             );
 
-
             await testStorageConnection();
 
 
@@ -1883,16 +1783,13 @@
                 Uploading clearance...
             `;
 
-
             showMessage(
                 "newSubmitMessage",
                 "Uploading academic clearance...",
                 "info"
             );
 
-
             let academicPath;
-
 
             try {
 
@@ -1925,16 +1822,13 @@
                 Uploading receipt...
             `;
 
-
             showMessage(
                 "newSubmitMessage",
                 "Uploading payment receipt...",
                 "info"
             );
 
-
             let paymentPath;
-
 
             try {
 
@@ -1967,13 +1861,11 @@
                 Saving registration...
             `;
 
-
             showMessage(
                 "newSubmitMessage",
                 "Saving registration information...",
                 "info"
             );
-
 
             const {
                 error: updateError
@@ -2013,7 +1905,6 @@
                         newStudentRecord.id
                     );
 
-
             if (updateError) {
 
                 showDetailedError(
@@ -2036,13 +1927,11 @@
                 Recording payment...
             `;
 
-
             showMessage(
                 "newSubmitMessage",
                 "Recording payment information...",
                 "info"
             );
-
 
             try {
 
@@ -2077,9 +1966,7 @@
                 "success"
             );
 
-
             button.disabled = true;
-
 
         } catch (error) {
 
@@ -2123,11 +2010,9 @@
                 "returningSubmitBtn"
             );
 
-
         hideMessage(
             "returningSubmitMessage"
         );
-
 
         if (!returningStudentRecord) {
 
@@ -2140,14 +2025,12 @@
             return;
         }
 
-
         const paymentFile =
             document
                 .getElementById(
                     "returningPaymentReceipt"
                 )
                 .files[0];
-
 
         if (!paymentFile) {
 
@@ -2160,14 +2043,12 @@
             return;
         }
 
-
         button.disabled = true;
 
         button.innerHTML = `
             <span class="loading"></span>
             Testing connection...
         `;
-
 
         try {
 
@@ -2181,7 +2062,6 @@
                 "info"
             );
 
-
             await testStorageConnection();
 
 
@@ -2194,16 +2074,13 @@
                 Uploading receipt...
             `;
 
-
             showMessage(
                 "returningSubmitMessage",
                 "Uploading payment receipt...",
                 "info"
             );
 
-
             let paymentPath;
-
 
             try {
 
@@ -2236,13 +2113,11 @@
                 Saving registration...
             `;
 
-
             showMessage(
                 "returningSubmitMessage",
                 "Saving registration information...",
                 "info"
             );
-
 
             const {
                 error: updateError
@@ -2263,7 +2138,6 @@
                         "id",
                         returningStudentRecord.id
                     );
-
 
             if (updateError) {
 
@@ -2287,6 +2161,11 @@
                 Recording payment...
             `;
 
+            showMessage(
+                "returningSubmitMessage",
+                "Recording payment information...",
+                "info"
+            );
 
             try {
 
@@ -2321,9 +2200,7 @@
                 "success"
             );
 
-
             button.disabled = true;
-
 
         } catch (error) {
 
