@@ -1,885 +1,1044 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Students Management | School Registration System</title>
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root {
-    --navy:#071a2b;
-    --navy-light:#102a43;
-    --sky:#168aad;
-    --sky-light:#e8f7fb;
-    --green:#176b45;
-    --green-light:#edf8f2;
-    --background:#f4f8fb;
-    --surface:#ffffff;
-    --border:#d9e2ec;
-    --text:#102a43;
-    --muted:#627d98;
-    --danger:#b42318;
-    --danger-light:#fef3f2;
-}
-
-* {
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,
-body {
-    min-height:100%;
-}
-
-body {
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--background);
-    color:var(--text);
-    user-select:none;
-}
-
-input,
-select,
-textarea {
-    user-select:text;
-}
-
-button,
-input,
-select {
-    font:inherit;
-}
-
-button {
-    cursor:pointer;
-}
-
-/* SIDEBAR */
-
-.sidebar {
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:250px;
-    background:var(--navy);
-    color:white;
-    display:flex;
-    flex-direction:column;
-    z-index:1000;
-    overflow-y:auto;
-}
-
-.brand {
-    padding:23px 20px;
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.brand-title {
-    display:flex;
-    align-items:center;
-    gap:11px;
-    font-size:18px;
-    font-weight:700;
-}
-
-.brand-icon {
-    width:39px;
-    height:39px;
-    border-radius:10px;
-    background:var(--sky);
-    display:grid;
-    place-items:center;
-}
-
-.brand small {
-    display:block;
-    margin-left:50px;
-    margin-top:5px;
-    color:#9db0c2;
-    font-size:11px;
-}
-
-.nav {
-    padding:17px 12px;
-}
-
-.nav a {
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px 14px;
-    margin-bottom:5px;
-    border-radius:8px;
-    color:#aebdcc;
-    text-decoration:none;
-    font-size:14px;
-}
-
-.nav a:hover {
-    background:rgba(255,255,255,.06);
-    color:white;
-}
-
-.nav a.active {
-    background:rgba(22,138,173,.17);
-    color:white;
-    border-left:3px solid var(--sky);
-}
-
-.sidebar-bottom {
-    margin-top:auto;
-    padding:15px;
-    border-top:1px solid rgba(255,255,255,.08);
-}
-
-.staff-info {
-    background:rgba(255,255,255,.05);
-    border-radius:9px;
-    padding:12px;
-    margin-bottom:10px;
-}
-
-.staff-label {
-    color:#8498aa;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.6px;
-}
-
-.staff-name {
-    margin-top:4px;
-    font-size:13px;
-    font-weight:600;
-    color:white;
-    word-break:break-word;
-}
-
-.logout-btn {
-    width:100%;
-    height:40px;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:8px;
-    background:transparent;
-    color:#c6d2dd;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-}
-
-.logout-btn:hover {
-    background:rgba(255,255,255,.07);
-}
-
-/* MAIN */
-
-.main {
-    margin-left:250px;
-    min-height:100vh;
-}
-
-.topbar {
-    height:70px;
-    background:white;
-    border-bottom:1px solid var(--border);
-    padding:0 27px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-.page-title {
-    font-size:21px;
-    font-weight:700;
-}
-
-.page-subtitle {
-    color:var(--muted);
-    font-size:12px;
-    margin-top:4px;
-}
-
-.class-count {
-    background:var(--sky-light);
-    color:var(--sky);
-    padding:8px 12px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:700;
-}
-
-.content {
-    padding:25px;
-}
-
-/* ALERT */
-
-.alert {
-    display:none;
-    padding:12px 14px;
-    border-radius:9px;
-    margin-bottom:17px;
-    font-size:13px;
-    align-items:center;
-    gap:9px;
-}
-
-.alert.show {
-    display:flex;
-}
-
-.alert.success {
-    background:var(--green-light);
-    color:var(--green);
-    border:1px solid #b7e2c8;
-}
-
-.alert.error {
-    background:var(--danger-light);
-    color:var(--danger);
-    border:1px solid #fecdca;
-}
-
-.alert.info {
-    background:var(--sky-light);
-    color:#08728f;
-    border:1px solid #c4e6ee;
-}
-
-/* TOOLBAR */
-
-.toolbar {
-    background:white;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:14px;
-    margin-bottom:18px;
-    display:flex;
-    gap:9px;
-    align-items:center;
-    flex-wrap:wrap;
-}
-
-.search-box {
-    flex:1;
-    min-width:220px;
-    position:relative;
-}
-
-.search-box svg {
-    position:absolute;
-    left:12px;
-    top:50%;
-    transform:translateY(-50%);
-    width:17px;
-    color:#8495a5;
-}
-
-.search-box input {
-    width:100%;
-    height:40px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:0 12px 0 38px;
-    outline:none;
-    background:white;
-}
-
-.search-box input:focus {
-    border-color:var(--sky);
-}
-
-.filter-select {
-    height:40px;
-    min-width:145px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:0 11px;
-    background:white;
-    outline:none;
-}
-
-.btn {
-    height:40px;
-    border:0;
-    border-radius:8px;
-    padding:0 14px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    font-size:13px;
-    font-weight:700;
-}
-
-.btn-primary {
-    background:var(--navy);
-    color:white;
-}
-
-.btn-primary:hover {
-    background:var(--navy-light);
-}
-
-.btn-secondary {
-    background:#edf2f6;
-    color:#405365;
-}
-
-.btn-secondary:hover {
-    background:#e2e8ed;
-}
-
-.btn:disabled {
-    opacity:.65;
-    cursor:not-allowed;
-}
-
-/* TABLE */
-
-.table-card {
-    background:white;
-    border:1px solid var(--border);
-    border-radius:12px;
-    overflow:hidden;
-}
-
-.table-header {
-    padding:17px 18px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.table-title {
-    font-size:15px;
-    font-weight:700;
-}
-
-.table-count {
-    color:var(--muted);
-    font-size:12px;
-}
-
-.table-wrap {
-    overflow-x:auto;
-}
-
-table {
-    width:100%;
-    min-width:850px;
-    border-collapse:collapse;
-}
-
-th {
-    background:#f7f9fb;
-    color:#627588;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:.35px;
-    text-align:left;
-    padding:12px 15px;
-    border-bottom:1px solid var(--border);
-    white-space:nowrap;
-}
-
-td {
-    padding:13px 15px;
-    border-bottom:1px solid #edf1f4;
-    font-size:13px;
-    white-space:nowrap;
-}
-
-tbody tr:hover {
-    background:#fafcff;
-}
-
-.student-name {
-    font-weight:700;
-    color:#1b2b3c;
-}
-
-.muted {
-    color:var(--muted);
-}
-
-.badge {
-    display:inline-flex;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:700;
-}
-
-.badge-new {
-    background:#e8f6fc;
-    color:#08759c;
-}
-
-.badge-returning {
-    background:#f0ecff;
-    color:#6848b4;
-}
-
-.actions {
-    display:flex;
-    gap:5px;
-}
-
-.icon-btn {
-    width:32px;
-    height:32px;
-    border:1px solid var(--border);
-    background:white;
-    border-radius:7px;
-    color:#617486;
-    display:grid;
-    place-items:center;
-}
-
-.icon-btn:hover {
-    color:var(--sky);
-    background:#f4f8fa;
-}
-
-.icon-btn.delete:hover {
-    color:var(--danger);
-    background:var(--danger-light);
-}
-
-/* EMPTY */
-
-.empty-state {
-    padding:60px 20px;
-    text-align:center;
-    color:var(--muted);
-}
-
-.empty-icon {
-    width:50px;
-    height:50px;
-    margin:0 auto 13px;
-    border-radius:12px;
-    background:#eef4f8;
-    color:#8093a4;
-    display:grid;
-    place-items:center;
-}
-
-.empty-title {
-    color:#3b4b5b;
-    font-size:14px;
-    font-weight:700;
-    margin-bottom:5px;
-}
-
-.empty-text {
-    font-size:12px;
-    line-height:1.5;
-}
-
-/* MODAL */
-
-.modal-overlay {
-    position:fixed;
-    inset:0;
-    background:rgba(4,15,25,.55);
-    z-index:2000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:18px;
-}
-
-.modal-overlay.show {
-    display:flex;
-}
-
-.modal {
-    width:100%;
-    max-width:520px;
-    max-height:90vh;
-    overflow-y:auto;
-    background:white;
-    border-radius:14px;
-    box-shadow:0 20px 60px rgba(0,0,0,.2);
-}
-
-.modal-header {
-    padding:18px 20px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.modal-title {
-    font-size:17px;
-    font-weight:700;
-}
-
-.close-btn {
-    width:34px;
-    height:34px;
-    border:0;
-    border-radius:8px;
-    background:#f1f4f6;
-    color:#657688;
-    display:grid;
-    place-items:center;
-}
-
-.modal-body {
-    padding:20px;
-}
-
-.form-group {
-    margin-bottom:17px;
-}
-
-.form-label {
-    display:block;
-    font-size:12px;
-    font-weight:700;
-    color:#3e5061;
-    margin-bottom:7px;
-}
-
-.form-label span {
-    color:var(--danger);
-}
-
-.form-control {
-    width:100%;
-    height:42px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:0 12px;
-    background:white;
-    outline:none;
-}
-
-.form-control:focus {
-    border-color:var(--sky);
-    box-shadow:0 0 0 3px rgba(22,138,173,.08);
-}
-
-.form-help {
-    margin-top:6px;
-    font-size:11px;
-    color:var(--muted);
-    line-height:1.45;
-}
-
-.modal-footer {
-    padding:15px 20px;
-    border-top:1px solid var(--border);
-    display:flex;
-    justify-content:flex-end;
-    gap:9px;
-}
-
-/* MOBILE */
-
-@media (max-width:700px) {
-
-    .sidebar {
-        display:none;
-    }
-
-    .main {
-        margin-left:0;
-    }
-
-    .topbar {
-        height:65px;
-        padding:0 15px;
-    }
-
-    .page-title {
-        font-size:18px;
-    }
-
-    .content {
-        padding:13px;
-    }
-
-    .toolbar {
-        padding:11px;
-    }
-
-    .search-box {
-        width:100%;
-        min-width:100%;
-        flex-basis:100%;
-    }
-
-    .filter-select {
-        flex:1;
-        min-width:0;
-    }
-
-    .toolbar .btn {
-        flex:1;
-    }
-
-    .class-count {
-        display:none;
-    }
-}
-
-/* PRINT */
-
-@media print {
-
-    .sidebar,
-    .topbar,
-    .toolbar,
-    .alert,
-    .actions,
-    .modal-overlay {
-        display:none !important;
-    }
-
-    .main {
-        margin-left:0;
-    }
-
-    .content {
-        padding:0;
-    }
-
-    .table-card {
-        border:0;
-    }
-
-    .table-header {
-        border:0;
-    }
-
-    table {
-        min-width:0;
-    }
-
-    th,
-    td {
-        padding:8px;
-        font-size:10px;
-    }
-
-    body {
-        background:white;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Students Management</title>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            background: #0b1f3a;
+            color: white;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: #38bdf8;
+            color: #06233f;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 15px;
+        }
+
+        .brand-text span {
+            display: block;
+            color: #94a9c7;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .nav {
+            padding: 18px 12px;
+        }
+
+        .nav-title {
+            font-size: 10px;
+            color: #7f96b6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 10px 8px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #b7c7dd;
+            text-decoration: none;
+            padding: 11px 12px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,.07);
+            color: white;
+        }
+
+        .nav a.active {
+            background: #16456f;
+            color: white;
+        }
+
+        .nav a i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 18px;
+            left: 12px;
+            right: 12px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: 0;
+            background: rgba(255,255,255,.06);
+            color: #b7c7dd;
+            padding: 11px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,.12);
+            color: white;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e3e9f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+        }
+
+        .page-title h1 {
+            font-size: 21px;
+            color: #10213b;
+        }
+
+        .page-title p {
+            font-size: 12px;
+            color: #7b8798;
+            margin-top: 4px;
+        }
+
+        .staff-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .staff-avatar {
+            width: 36px;
+            height: 36px;
+            background: #e0f2fe;
+            color: #0369a1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .staff-info strong {
+            font-size: 13px;
+            display: block;
+        }
+
+        .staff-info span {
+            font-size: 11px;
+            color: #8995a6;
+        }
+
+        .content {
+            padding: 26px;
+        }
+
+        /* TOOLBAR */
+
+        .toolbar {
+            background: white;
+            border: 1px solid #e1e7ef;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 17px;
+            color: #8b98aa;
+        }
+
+        .search-box input {
+            width: 270px;
+            height: 38px;
+            border: 1px solid #d7dfe9;
+            border-radius: 8px;
+            outline: none;
+            padding: 0 12px 0 36px;
+            color: #172033;
+        }
+
+        .search-box input:focus,
+        select:focus,
+        input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56,189,248,.12);
+        }
+
+        .filter-select {
+            height: 38px;
+            border: 1px solid #d7dfe9;
+            border-radius: 8px;
+            padding: 0 10px;
+            background: white;
+            color: #344054;
+            outline: none;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 8px;
+            padding: 9px 13px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .btn i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-primary {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0284c7;
+        }
+
+        .btn-green {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-green:hover {
+            background: #15803d;
+        }
+
+        .btn-red {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-red:hover {
+            background: #b91c1c;
+        }
+
+        .btn-gray {
+            background: #eef2f7;
+            color: #344054;
+        }
+
+        .btn-gray:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-small {
+            padding: 7px 9px;
+            font-size: 12px;
+        }
+
+        /* TABLE */
+
+        .table-card {
+            background: white;
+            border: 1px solid #e1e7ef;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e7ecf2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-header strong {
+            font-size: 14px;
+        }
+
+        .student-count {
+            font-size: 12px;
+            color: #7c899a;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #637083;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e4e9f0;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #edf1f5;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: #fbfdff;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #172033;
+        }
+
+        .student-id {
+            font-family: monospace;
+            color: #526174;
+        }
+
+        .muted {
+            color: #8a96a6;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .badge-submitted {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .badge-approved {
+            background: #ecfdf3;
+            color: #15803d;
+        }
+
+        .badge-rejected {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #dce3eb;
+            background: white;
+            color: #506078;
+            border-radius: 7px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            background: #f1f5f9;
+            color: #0f6da6;
+        }
+
+        .icon-btn.review {
+            color: #0284c7;
+            border-color: #bae6fd;
+            background: #f0f9ff;
+        }
+
+        .icon-btn.delete {
+            color: #dc2626;
+        }
+
+        /* MODAL */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 500;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            width: min(720px, 100%);
+            max-height: 92vh;
+            overflow-y: auto;
+            border-radius: 14px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.2);
+        }
+
+        .modal.large {
+            width: min(900px, 100%);
+        }
+
+        .modal-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5eaf0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 2;
+        }
+
+        .modal-header h2 {
+            font-size: 17px;
+            color: #10213b;
+        }
+
+        .modal-header p {
+            color: #8a96a6;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            width: 34px;
+            height: 34px;
+            border: 0;
+            border-radius: 7px;
+            background: #f1f5f9;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e5eaf0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #435169;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d7dfe9;
+            border-radius: 8px;
+            padding: 0 11px;
+            outline: none;
+            background: white;
+            color: #172033;
+        }
+
+        /* REVIEW */
+
+        .review-top {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            border: 1px solid #e3e9f1;
+            border-radius: 9px;
+            padding: 12px;
+            background: #fafcff;
+        }
+
+        .info-box small {
+            display: block;
+            color: #8591a2;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-box strong {
+            font-size: 13px;
+            color: #1e293b;
+            word-break: break-word;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #10213b;
+            margin: 22px 0 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e6ebf1;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 10px 20px;
+        }
+
+        .detail-item {
+            padding: 9px 0;
+            border-bottom: 1px solid #f0f3f7;
+        }
+
+        .detail-item small {
+            display: block;
+            color: #8b97a7;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .detail-item strong {
+            font-size: 13px;
+            color: #334155;
+            word-break: break-word;
+        }
+
+        .documents {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 15px;
+        }
+
+        .document-card {
+            border: 1px solid #dfe6ee;
+            border-radius: 11px;
+            overflow: hidden;
+            background: #fafcff;
+        }
+
+        .document-card-header {
+            padding: 12px;
+            border-bottom: 1px solid #e3e9f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .document-card-header strong {
+            font-size: 12px;
+        }
+
+        .document-preview {
+            height: 260px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .document-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .no-document {
+            text-align: center;
+            color: #8995a6;
+            font-size: 12px;
+            padding: 20px;
+        }
+
+        .document-footer {
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid #e3e9f1;
+        }
+
+        .decision-box {
+            border: 1px solid #dfe6ee;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 15px;
+        }
+
+        .decision-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .decision-header strong {
+            font-size: 13px;
+        }
+
+        .decision-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #8995a6;
+        }
+
+        .empty-state i {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state strong {
+            display: block;
+            color: #526174;
+            margin-bottom: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 45px;
+            color: #7c899a;
+        }
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #10213b;
+            color: white;
+            padding: 13px 16px;
+            border-radius: 9px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.18);
+            font-size: 13px;
+            z-index: 1000;
+            display: none;
+            max-width: 350px;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .toast.success {
+            background: #15803d;
+        }
+
+        .toast.error {
+            background: #b91c1c;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .brand {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .brand-text,
+            .nav-title,
+            .nav a span,
+            .logout-btn span {
+                display: none;
+            }
+
+            .nav a {
+                justify-content: center;
+                padding: 12px;
+            }
+
+            .logout-btn {
+                justify-content: center;
+            }
+
+            .main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .review-top {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .staff-info div {
+                display: none;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .toolbar {
+                align-items: stretch;
+            }
+
+            .toolbar-left {
+                width: 100%;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .form-grid,
+            .details-grid,
+            .documents {
+                grid-template-columns: 1fr;
+            }
+
+            .review-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .modal-overlay {
+                padding: 8px;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<aside class="sidebar">
+<div class="app">
 
-    <div class="brand">
-        <div class="brand-title">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
             <div class="brand-icon">
                 <i data-lucide="graduation-cap"></i>
             </div>
-            School System
+
+            <div class="brand-text">
+                <strong>School Portal</strong>
+                <span>Staff Management</span>
+            </div>
         </div>
 
-        <small>Staff Management</small>
-    </div>
+        <nav class="nav">
 
-    <nav class="nav">
+            <div class="nav-title">Main</div>
 
-        <a href="teacher.html">
-            <i data-lucide="layout-dashboard"></i>
-            Dashboard
-        </a>
+            <a href="students.html" class="active">
+                <i data-lucide="users"></i>
+                <span>Students</span>
+            </a>
 
-        <a href="students.html" class="active">
-            <i data-lucide="users"></i>
-            Students
-        </a>
+            <a href="registrations.html">
+                <i data-lucide="clipboard-check"></i>
+                <span>Registrations</span>
+            </a>
 
-        <a href="registrations.html">
-            <i data-lucide="clipboard-list"></i>
-            Registrations
-        </a>
+            <div class="nav-title" style="margin-top:20px;">Account</div>
 
-    </nav>
+            <a href="login.html">
+                <i data-lucide="log-in"></i>
+                <span>Login</span>
+            </a>
 
-    <div class="sidebar-bottom">
+        </nav>
 
-        <div class="staff-info">
-
-            <div class="staff-label">
-                Logged in as
-            </div>
-
-            <div class="staff-name" id="staffName">
-                Staff
-            </div>
-
+        <div class="sidebar-bottom">
+            <button class="logout-btn" onclick="logout()">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </button>
         </div>
 
-        <button class="logout-btn" id="logoutBtn">
-            <i data-lucide="log-out"></i>
-            Sign Out
-        </button>
+    </aside>
 
-    </div>
+    <!-- MAIN -->
+    <main class="main">
 
-</aside>
+        <header class="topbar">
 
-
-<main class="main">
-
-    <header class="topbar">
-
-        <div>
             <div class="page-title">
-                Students
+                <h1>Students</h1>
+                <p>Manage students assigned to your classes</p>
             </div>
 
-            <div class="page-subtitle">
-                Manage students assigned to your classes
-            </div>
-        </div>
+            <div class="staff-info">
 
-        <div class="class-count" id="classCount">
-            0 classes
-        </div>
-
-    </header>
-
-
-    <section class="content">
-
-        <div class="alert" id="alertBox">
-            <i data-lucide="info"></i>
-            <span id="alertText"></span>
-        </div>
-
-
-        <div class="toolbar">
-
-            <div class="search-box">
-
-                <i data-lucide="search"></i>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search by name, administration number or student ID..."
-                >
-
-            </div>
-
-
-            <select id="classFilter" class="filter-select">
-                <option value="all">
-                    All Classes
-                </option>
-            </select>
-
-
-            <button class="btn btn-secondary" id="refreshBtn">
-                <i data-lucide="refresh-cw"></i>
-                Refresh
-            </button>
-
-
-            <button class="btn btn-secondary" id="printBtn">
-                <i data-lucide="printer"></i>
-                Prepare for Print
-            </button>
-
-
-            <button class="btn btn-primary" id="addStudentBtn">
-                <i data-lucide="user-plus"></i>
-                Add Student
-            </button>
-
-        </div>
-
-
-        <div class="table-card">
-
-            <div class="table-header">
-
-                <div class="table-title">
-                    Student List
+                <div class="staff-avatar">
+                    <i data-lucide="user"></i>
                 </div>
 
-                <div class="table-count" id="studentCount">
-                    0 students
+                <div>
+                    <strong id="staffUsername">Staff</strong>
+                    <span>Teacher</span>
                 </div>
 
             </div>
 
+        </header>
 
-            <div class="table-wrap">
+        <section class="content">
 
-                <table>
+            <!-- TOOLBAR -->
+            <div class="toolbar">
 
-                    <thead>
+                <div class="toolbar-left">
 
-                        <tr>
-                            <th>#</th>
-                            <th>Full Name</th>
-                            <th>Administration Number</th>
-                            <th>Student ID</th>
-                            <th>Class</th>
-                            <th>Type</th>
-                            <th>Registration</th>
-                            <th>Actions</th>
-                        </tr>
+                    <div class="search-box">
+                        <i data-lucide="search"></i>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search student..."
+                            oninput="renderStudents()"
+                        >
+                    </div>
 
-                    </thead>
+                    <select
+                        id="classFilter"
+                        class="filter-select"
+                        onchange="renderStudents()"
+                    >
+                        <option value="">All assigned classes</option>
+                    </select>
 
-                    <tbody id="studentTableBody">
+                    <select
+                        id="statusFilter"
+                        class="filter-select"
+                        onchange="renderStudents()"
+                    >
+                        <option value="">All registration statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="submitted">Submitted</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
 
-                        <tr>
-                            <td colspan="8">
+                </div>
 
-                                <div class="empty-state">
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <i data-lucide="user-plus"></i>
+                    Add Student
+                </button>
 
-                                    <div class="empty-icon">
-                                        <i data-lucide="loader-circle"></i>
-                                    </div>
+            </div>
 
-                                    <div class="empty-title">
+            <!-- TABLE -->
+            <div class="table-card">
+
+                <div class="table-header">
+                    <strong>Student Records</strong>
+                    <span class="student-count" id="studentCount">
+                        0 students
+                    </span>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Student ID</th>
+                                <th>Administration No.</th>
+                                <th>Class</th>
+                                <th>Type</th>
+                                <th>Registration</th>
+                                <th>Payment</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="studentsTableBody">
+
+                            <tr>
+                                <td colspan="8">
+                                    <div class="loading">
                                         Loading students...
                                     </div>
+                                </td>
+                            </tr>
 
-                                </div>
+                        </tbody>
 
-                            </td>
-                        </tr>
+                    </table>
 
-                    </tbody>
-
-                </table>
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
+    </main>
 
-</main>
+</div>
 
+
+<!-- ADD / EDIT STUDENT MODAL -->
 
 <div class="modal-overlay" id="studentModal">
 
@@ -887,2125 +1046,2009 @@ tbody tr:hover {
 
         <div class="modal-header">
 
-            <div class="modal-title" id="modalTitle">
-                Add Student
+            <div>
+                <h2 id="studentModalTitle">Add Student</h2>
+                <p>Enter the student's basic school record</p>
             </div>
 
-            <button class="close-btn" id="closeModal" type="button">
+            <button class="close-btn" onclick="closeStudentModal()">
                 <i data-lucide="x"></i>
             </button>
 
         </div>
 
+        <div class="modal-body">
 
-        <form id="studentForm">
-
-            <div class="modal-body">
+            <form id="studentForm">
 
                 <input type="hidden" id="editingStudentId">
 
+                <div class="form-grid">
 
-                <div class="form-group">
+                    <div class="form-group">
+                        <label>Administration Number</label>
+                        <input
+                            type="text"
+                            id="administrationNumber"
+                            required
+                        >
+                    </div>
 
-                    <label class="form-label" for="administrationNumber">
-                        Administration Number
-                        <span>*</span>
-                    </label>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input
+                            type="text"
+                            id="fullName"
+                            required
+                        >
+                    </div>
 
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="administrationNumber"
-                        placeholder="Enter administration number"
-                        autocomplete="off"
-                        required
-                    >
+                    <div class="form-group">
+                        <label>Class</label>
 
-                    <div class="form-help">
-                        The student will later use this number to find their record during registration.
+                        <select id="studentClass" required>
+                            <option value="">Select class</option>
+                        </select>
+
                     </div>
 
                 </div>
 
+            </form>
 
-                <div class="form-group">
+        </div>
 
-                    <label class="form-label" for="fullName">
-                        Full Name
-                        <span>*</span>
-                    </label>
+        <div class="modal-footer">
 
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="fullName"
-                        placeholder="Enter student's full name"
-                        autocomplete="off"
-                        required
-                    >
+            <button
+                class="btn btn-gray"
+                onclick="closeStudentModal()"
+            >
+                Cancel
+            </button>
 
-                </div>
+            <button
+                class="btn btn-primary"
+                onclick="saveStudent()"
+            >
+                <i data-lucide="save"></i>
+                Save Student
+            </button>
 
-
-                <div class="form-group">
-
-                    <label class="form-label" for="classSelect">
-                        Assign to Class
-                        <span>*</span>
-                    </label>
-
-                    <select
-                        class="form-control"
-                        id="classSelect"
-                        required
-                    >
-
-                        <option value="">
-                            Select class
-                        </option>
-
-                    </select>
-
-                    <div class="form-help">
-                        Class placement is handled by staff. The student provides personal information during registration.
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    id="cancelBtn"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                    id="saveStudentBtn"
-                >
-                    <i data-lucide="save"></i>
-                    Save Student
-                </button>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
 
 </div>
 
 
+<!-- REVIEW MODAL -->
+
+<div class="modal-overlay" id="reviewModal">
+
+    <div class="modal large">
+
+        <div class="modal-header">
+
+            <div>
+                <h2>Review Registration</h2>
+                <p id="reviewSubtitle">
+                    Review submitted student information and documents
+                </p>
+            </div>
+
+            <button class="close-btn" onclick="closeReviewModal()">
+                <i data-lucide="x"></i>
+            </button>
+
+        </div>
+
+        <div class="modal-body" id="reviewBody">
+
+            <div class="loading">
+                Loading registration...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
 <script>
 
-/* =========================================================
-   SUPABASE
-========================================================= */
+    /* =========================================================
+       SUPABASE
+    ========================================================= */
 
-const SUPABASE_URL =
-    "https://goongxvoooiwsesqoptz.supabase.co";
+    const SUPABASE_URL =
+        "https://goongxvoooiwsesqoptz.supabase.co";
 
-const SUPABASE_KEY =
-    "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
+    const SUPABASE_KEY =
+        "sb_publishable_3c2Q-C0yO0k3MQeT0z2y0Q_-IKV7Eug";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let currentTeacherId = null;
-let currentTeacherUsername = "";
-
-let assignedClasses = [];
-let grades = [];
-
-let allStudents = [];
-let studentRoster = [];
-
-
-/* =========================================================
-   DOM
-========================================================= */
-
-const alertBox =
-    document.getElementById("alertBox");
-
-const alertText =
-    document.getElementById("alertText");
-
-const staffName =
-    document.getElementById("staffName");
-
-const classCount =
-    document.getElementById("classCount");
-
-const studentCount =
-    document.getElementById("studentCount");
-
-const tableBody =
-    document.getElementById("studentTableBody");
-
-const classFilter =
-    document.getElementById("classFilter");
-
-const searchInput =
-    document.getElementById("searchInput");
-
-const studentModal =
-    document.getElementById("studentModal");
-
-const studentForm =
-    document.getElementById("studentForm");
-
-const modalTitle =
-    document.getElementById("modalTitle");
-
-const administrationNumber =
-    document.getElementById("administrationNumber");
-
-const fullName =
-    document.getElementById("fullName");
-
-const classSelect =
-    document.getElementById("classSelect");
-
-const editingStudentId =
-    document.getElementById("editingStudentId");
-
-const saveStudentBtn =
-    document.getElementById("saveStudentBtn");
-
-
-/* =========================================================
-   ICONS
-========================================================= */
-
-function refreshIcons() {
-
-    if (window.lucide) {
-        lucide.createIcons();
-    }
-
-}
-
-
-/* =========================================================
-   ALERT
-========================================================= */
-
-function showAlert(message, type = "info") {
-
-    alertText.textContent = message;
-
-    alertBox.className =
-        "alert show " + type;
-
-    const oldIcon =
-        alertBox.querySelector("svg");
-
-    if (oldIcon) {
-        oldIcon.remove();
-    }
-
-    const iconName =
-        type === "success"
-            ? "circle-check"
-            : type === "error"
-                ? "circle-alert"
-                : "info";
-
-    const icon =
-        document.createElement("i");
-
-    icon.setAttribute(
-        "data-lucide",
-        iconName
-    );
-
-    alertBox.prepend(icon);
-
-    refreshIcons();
-
-    clearTimeout(window.alertTimer);
-
-    window.alertTimer =
-        setTimeout(() => {
-            alertBox.classList.remove("show");
-        }, 5000);
-}
-
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-function checkStaffLogin() {
-
-    const authenticated =
-        sessionStorage.getItem(
-            "staff_authenticated"
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
         );
 
-    const teacherId =
-        sessionStorage.getItem(
-            "staff_teacher_id"
-        );
 
-    const username =
-        sessionStorage.getItem(
-            "staff_teacher_username"
-        );
+    /* =========================================================
+       GLOBAL DATA
+    ========================================================= */
 
-    console.log(
-        "STAFF SESSION:",
-        {
-            authenticated,
-            teacherId,
-            username
+    let allStudents = [];
+    let allClasses = [];
+    let allTeacherAssignments = [];
+    let allPayments = [];
+
+    let currentTeacherId = null;
+    let currentReviewStudent = null;
+
+
+    /* =========================================================
+       SESSION
+    ========================================================= */
+
+    function checkSession() {
+
+        const authenticated =
+            sessionStorage.getItem("staff_authenticated");
+
+        if (authenticated !== "true") {
+            window.location.href = "login.html";
+            return false;
         }
-    );
 
-    if (
-        authenticated !== "true" ||
-        !teacherId
-    ) {
+        currentTeacherId =
+            Number(
+                sessionStorage.getItem("staff_teacher_id")
+            );
 
-        window.location.href =
-            "login.html";
+        const username =
+            sessionStorage.getItem("staff_teacher_username");
 
+        document.getElementById("staffUsername")
+            .textContent = username || "Staff";
+
+        return true;
+    }
+
+
+    function logout() {
+
+        sessionStorage.removeItem("staff_authenticated");
+        sessionStorage.removeItem("staff_teacher_id");
+        sessionStorage.removeItem("staff_teacher_username");
+
+        sessionStorage.removeItem("teacher_authenticated");
+        sessionStorage.removeItem("teacher_id");
+        sessionStorage.removeItem("teacher_username");
+
+        window.location.href = "login.html";
+    }
+
+
+    /* =========================================================
+       HELPERS
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    function showToast(message, type = "") {
+
+        const toast =
+            document.getElementById("toast");
+
+        toast.textContent = message;
+
+        toast.className = "toast show " + type;
+
+        setTimeout(() => {
+            toast.className = "toast";
+        }, 3500);
+    }
+
+
+    function statusBadge(status) {
+
+        const value = status || "pending";
+
+        const label =
+            value.charAt(0).toUpperCase() +
+            value.slice(1);
+
+        return `
+            <span class="badge badge-${escapeHtml(value)}">
+                ${escapeHtml(label)}
+            </span>
+        `;
+    }
+
+
+    function getClassName(classId) {
+
+        const item =
+            allClasses.find(
+                c => Number(c.id) === Number(classId)
+            );
+
+        return item ? item.name : "—";
+    }
+
+
+    function getStudentClass(studentId) {
+
+        const roster =
+            allTeacherAssignments.find(
+                r => Number(r.student_id) === Number(studentId)
+            );
+
+        if (!roster) {
+            return "—";
+        }
+
+        return roster.class_name ||
+               getClassName(roster.class_id) ||
+               "—";
+    }
+
+
+    function getLatestPayment(studentId) {
+
+        return allPayments.find(
+            p => Number(p.student_id) === Number(studentId)
+        ) || null;
+    }
+
+
+    /* =========================================================
+       LOAD GRADES
+    ========================================================= */
+
+    async function loadGrades() {
+
+        const { data, error } =
+            await supabaseClient
+                .from("grades")
+                .select("*")
+                .order("id");
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        window.allGrades = data || [];
+    }
+
+
+    /* =========================================================
+       LOAD CLASSES
+    ========================================================= */
+
+    async function loadClasses() {
+
+        const { data, error } =
+            await supabaseClient
+                .from("classes")
+                .select("*")
+                .eq("is_active", true)
+                .order("id");
+
+        if (error) {
+            console.error(error);
+            showToast(
+                "Could not load classes: " + error.message,
+                "error"
+            );
+            return;
+        }
+
+        allClasses = data || [];
+
+        populateClassFilters();
+    }
+
+
+    /* =========================================================
+       LOAD TEACHER ASSIGNMENTS
+    ========================================================= */
+
+    async function loadTeacherAssignments() {
+
+        if (!currentTeacherId) {
+            allTeacherAssignments = [];
+            return;
+        }
+
+        const { data: assignments, error } =
+            await supabaseClient
+                .from("teacher_classes")
+                .select("id, teacher_id, class_id")
+                .eq("teacher_id", currentTeacherId);
+
+        if (error) {
+            console.error(error);
+            showToast(
+                "Could not load teacher classes: " + error.message,
+                "error"
+            );
+            return;
+        }
+
+        allTeacherAssignments = [];
+
+        for (const assignment of (assignments || [])) {
+
+            const classInfo =
+                allClasses.find(
+                    c => Number(c.id) === Number(assignment.class_id)
+                );
+
+            allTeacherAssignments.push({
+                ...assignment,
+                class_name: classInfo
+                    ? classInfo.name
+                    : "Unknown class"
+            });
+        }
+
+        populateClassFilters();
+    }
+
+
+    /* =========================================================
+       LOAD STUDENTS
+    ========================================================= */
+
+    async function loadAllStudents() {
+
+        const { data, error } =
+            await supabaseClient
+                .from("students")
+                .select(`
+                    id,
+                    student_id,
+                    full_name,
+                    administration_number,
+                    student_type,
+                    date_of_birth,
+                    gender,
+                    address,
+                    parent_guardian,
+                    phone,
+                    registration_status,
+                    payment_receipt_image,
+                    academic_clearance_image,
+                    payment_status,
+                    created_at,
+                    updated_at
+                `)
+                .order("id", { ascending: false });
+
+        if (error) {
+
+            console.error(error);
+
+            showToast(
+                "Could not load students: " + error.message,
+                "error"
+            );
+
+            return;
+        }
+
+        allStudents = data || [];
+
+        renderStudents();
+    }
+
+
+    /* =========================================================
+       LOAD PAYMENTS
+    ========================================================= */
+
+    async function loadPayments() {
+
+        if (!allStudents.length) {
+            allPayments = [];
+            return;
+        }
+
+        const studentIds =
+            allStudents.map(student => student.id);
+
+        const { data, error } =
+            await supabaseClient
+                .from("payments")
+                .select(`
+                    id,
+                    student_id,
+                    receipt_image,
+                    status,
+                    created_at,
+                    updated_at
+                `)
+                .in("student_id", studentIds)
+                .order("id", { ascending: false });
+
+        if (error) {
+
+            console.error("Payments load error:", error);
+
+            allPayments = [];
+
+            return;
+        }
+
+        /*
+         * Keep only the latest payment for each student.
+         */
+        const latest = new Map();
+
+        for (const payment of (data || [])) {
+
+            const studentId =
+                Number(payment.student_id);
+
+            if (!latest.has(studentId)) {
+                latest.set(studentId, payment);
+            }
+        }
+
+        allPayments =
+            Array.from(latest.values());
+    }
+
+
+    /* =========================================================
+       LOAD EVERYTHING
+    ========================================================= */
+
+    async function loadData() {
+
+        document.getElementById("studentsTableBody").innerHTML = `
+            <tr>
+                <td colspan="8">
+                    <div class="loading">
+                        Loading students...
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        await loadGrades();
+        await loadClasses();
+        await loadTeacherAssignments();
+        await loadAllStudents();
+        await loadPayments();
+
+        renderStudents();
+    }
+
+
+    /* =========================================================
+       CLASS FILTERS
+    ========================================================= */
+
+    function populateClassFilters() {
+
+        const classFilter =
+            document.getElementById("classFilter");
+
+        const studentClass =
+            document.getElementById("studentClass");
+
+        const assignedClassIds =
+            allTeacherAssignments.map(
+                a => Number(a.class_id)
+            );
+
+        const assignedClasses =
+            allClasses.filter(
+                c => assignedClassIds.includes(Number(c.id))
+            );
+
+        classFilter.innerHTML = `
+            <option value="">All assigned classes</option>
+        `;
+
+        studentClass.innerHTML = `
+            <option value="">Select class</option>
+        `;
+
+        assignedClasses.forEach(classItem => {
+
+            classFilter.innerHTML += `
+                <option value="${classItem.id}">
+                    ${escapeHtml(classItem.name)}
+                </option>
+            `;
+
+            studentClass.innerHTML += `
+                <option value="${classItem.id}">
+                    ${escapeHtml(classItem.name)}
+                </option>
+            `;
+        });
+    }
+
+
+    /* =========================================================
+       FILTER STUDENTS BY ASSIGNED CLASSES
+    ========================================================= */
+
+    function getAssignedStudentIds() {
+
+        const assignedClassIds =
+            allTeacherAssignments.map(
+                a => Number(a.class_id)
+            );
+
+        return allTeacherAssignments
+            .map(item => Number(item.student_id))
+            .filter(Boolean);
+    }
+
+
+    function studentBelongsToTeacher(studentId) {
+
+        const assignedClassIds =
+            allTeacherAssignments.map(
+                a => Number(a.class_id)
+            );
+
+        /*
+         * Look in class_roster assignments stored inside
+         * allTeacherAssignments when available.
+         */
+        const assignment =
+            allTeacherAssignments.find(
+                a => Number(a.student_id) === Number(studentId)
+            );
+
+        if (assignment) {
+            return true;
+        }
+
+        /*
+         * If the student does not yet have a roster record,
+         * do not show them as assigned.
+         */
         return false;
     }
 
-    currentTeacherId =
-        Number(teacherId);
 
-    currentTeacherUsername =
-        username || "";
+    /* =========================================================
+       RENDER TABLE
+    ========================================================= */
 
-    staffName.textContent =
-        currentTeacherUsername ||
-        "Staff";
+    function renderStudents() {
 
-    return true;
-}
+        const tbody =
+            document.getElementById("studentsTableBody");
+
+        const search =
+            document.getElementById("searchInput")
+                .value
+                .trim()
+                .toLowerCase();
+
+        const classFilter =
+            document.getElementById("classFilter").value;
+
+        const statusFilter =
+            document.getElementById("statusFilter").value;
+
+        /*
+         * Teacher assignments table normally contains class
+         * assignments, not student assignments.
+         *
+         * Load class_roster here so filtering can be done
+         * correctly.
+         */
+        renderAssignedStudents(search, classFilter, statusFilter);
+    }
 
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+    async function renderAssignedStudents(
+        search,
+        classFilter,
+        statusFilter
+    ) {
 
-document
-    .getElementById("logoutBtn")
-    .addEventListener(
-        "click",
-        () => {
+        const tbody =
+            document.getElementById("studentsTableBody");
 
-            sessionStorage.removeItem(
-                "staff_authenticated"
+        /*
+         * Get roster records for assigned classes.
+         */
+        const assignedClassIds =
+            allTeacherAssignments.map(
+                a => Number(a.class_id)
             );
 
-            sessionStorage.removeItem(
-                "staff_teacher_id"
-            );
+        if (!assignedClassIds.length) {
 
-            sessionStorage.removeItem(
-                "staff_teacher_username"
-            );
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <div class="empty-state">
+                            <i data-lucide="users"></i>
+                            <strong>No classes assigned</strong>
+                            <span>You have not been assigned a class yet.</span>
+                        </div>
+                    </td>
+                </tr>
+            `;
 
-            window.location.href =
-                "login.html";
+            document.getElementById("studentCount")
+                .textContent = "0 students";
+
+            lucide.createIcons();
+
+            return;
         }
-    );
 
+        const { data: roster, error } =
+            await supabaseClient
+                .from("class_roster")
+                .select(`
+                    id,
+                    student_id,
+                    class_id,
+                    student_number,
+                    full_name,
+                    administration_number
+                `)
+                .in("class_id", assignedClassIds);
 
-/* =========================================================
-   LOAD GRADES
-========================================================= */
+        if (error) {
 
-async function loadGrades() {
+            console.error(error);
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("grades")
-            .select(
-                "id,name,student_type"
-            )
-            .order("id");
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <div class="empty-state">
+                            <strong>Could not load class roster</strong>
+                            <span>${escapeHtml(error.message)}</span>
+                        </div>
+                    </td>
+                </tr>
+            `;
 
-    if (error) {
-        throw new Error(
-            "Could not load grades: " +
-            error.message
-        );
-    }
+            return;
+        }
 
-    grades = data || [];
-}
+        const rosterMap =
+            new Map();
 
-
-/* =========================================================
-   LOAD TEACHER CLASSES
-========================================================= */
-
-async function loadAssignedClasses() {
-
-    assignedClasses = [];
-
-    const {
-        data: assignments,
-        error: assignmentError
-    } =
-        await supabaseClient
-            .from("teacher_classes")
-            .select(
-                "id,teacher_id,class_id"
-            )
-            .eq(
-                "teacher_id",
-                currentTeacherId
+        (roster || []).forEach(item => {
+            rosterMap.set(
+                Number(item.student_id),
+                item
             );
+        });
 
-    if (assignmentError) {
+        const visibleStudents =
+            allStudents.filter(student => {
 
-        throw new Error(
-            "Could not load teacher class assignments: " +
-            assignmentError.message
-        );
-    }
+                const rosterItem =
+                    rosterMap.get(Number(student.id));
 
-
-    if (
-        !assignments ||
-        assignments.length === 0
-    ) {
-
-        updateClassControls();
-
-        return;
-    }
-
-
-    const classIds =
-        assignments
-            .map(item => Number(item.class_id))
-            .filter(Number.isFinite);
-
-
-    if (classIds.length === 0) {
-
-        updateClassControls();
-
-        return;
-    }
-
-
-    const {
-        data: classes,
-        error: classError
-    } =
-        await supabaseClient
-            .from("classes")
-            .select(
-                "id,name,grade_id,school_year_id,is_active"
-            )
-            .in(
-                "id",
-                classIds
-            )
-            .eq(
-                "is_active",
-                true
-            );
-
-
-    if (classError) {
-
-        throw new Error(
-            "Could not load assigned classes: " +
-            classError.message
-        );
-    }
-
-
-    assignedClasses =
-        classes || [];
-
-    updateClassControls();
-}
-
-
-/* =========================================================
-   CLASS CONTROLS
-========================================================= */
-
-function updateClassControls() {
-
-    const count =
-        assignedClasses.length;
-
-    classCount.textContent =
-        count +
-        (
-            count === 1
-                ? " class"
-                : " classes"
-        );
-
-
-    classFilter.innerHTML =
-        `<option value="all">All Classes</option>`;
-
-    classSelect.innerHTML =
-        `<option value="">Select class</option>`;
-
-
-    const sorted =
-        assignedClasses
-            .slice()
-            .sort(
-                (a,b) =>
-                    String(a.name)
-                        .localeCompare(
-                            String(b.name),
-                            undefined,
-                            {
-                                numeric:true
-                            }
-                        )
-            );
-
-
-    sorted.forEach(cls => {
-
-        const filterOption =
-            document.createElement("option");
-
-        filterOption.value =
-            String(cls.id);
-
-        filterOption.textContent =
-            cls.name;
-
-        classFilter.appendChild(
-            filterOption
-        );
-
-
-        const classOption =
-            document.createElement("option");
-
-        classOption.value =
-            String(cls.id);
-
-        classOption.textContent =
-            cls.name;
-
-        classSelect.appendChild(
-            classOption
-        );
-
-    });
-}
-
-
-/* =========================================================
-   LOAD ALL STUDENTS
-========================================================= */
-
-async function loadAllStudents() {
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("students")
-            .select(`
-                id,
-                student_id,
-                full_name,
-                administration_number,
-                student_type,
-                registration_status,
-                payment_status,
-                created_at,
-                updated_at
-            `)
-            .order(
-                "id",
-                {
-                    ascending:false
+                if (!rosterItem) {
+                    return false;
                 }
-            );
 
-
-    if (error) {
-
-        throw new Error(
-            "Could not load students: " +
-            error.message
-        );
-    }
-
-
-    allStudents =
-        data || [];
-
-
-    console.log(
-        "STUDENTS LOADED:",
-        allStudents
-    );
-}
-
-
-/* =========================================================
-   LOAD ROSTER
-========================================================= */
-
-async function loadStudentRoster() {
-
-    studentRoster = [];
-
-
-    if (
-        assignedClasses.length === 0
-    ) {
-
-        return;
-    }
-
-
-    const classIds =
-        assignedClasses
-            .map(cls => Number(cls.id))
-            .filter(Number.isFinite);
-
-
-    if (classIds.length === 0) {
-        return;
-    }
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("class_roster")
-            .select(
-                "id,student_id,class_id,student_number"
-            )
-            .in(
-                "class_id",
-                classIds
-            )
-            .order(
-                "student_number",
-                {
-                    ascending:true
+                if (
+                    classFilter &&
+                    Number(rosterItem.class_id) !==
+                    Number(classFilter)
+                ) {
+                    return false;
                 }
+
+                if (
+                    statusFilter &&
+                    student.registration_status !==
+                    statusFilter
+                ) {
+                    return false;
+                }
+
+                if (search) {
+
+                    const combined = `
+                        ${student.full_name || ""}
+                        ${student.student_id || ""}
+                        ${student.administration_number || ""}
+                        ${rosterItem.full_name || ""}
+                        ${rosterItem.administration_number || ""}
+                    `.toLowerCase();
+
+                    if (!combined.includes(search)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+        /*
+         * Store roster information directly on student objects
+         * for table/review use.
+         */
+        visibleStudents.forEach(student => {
+            student.__roster = rosterMap.get(Number(student.id));
+        });
+
+        document.getElementById("studentCount")
+            .textContent =
+            `${visibleStudents.length} student${visibleStudents.length === 1 ? "" : "s"}`;
+
+        if (!visibleStudents.length) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <div class="empty-state">
+                            <i data-lucide="search-x"></i>
+                            <strong>No students found</strong>
+                            <span>No student matches the current filters.</span>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            lucide.createIcons();
+
+            return;
+        }
+
+        tbody.innerHTML =
+            visibleStudents.map(student => {
+
+                const payment =
+                    getLatestPayment(student.id);
+
+                const paymentStatus =
+                    student.payment_status ||
+                    (payment ? payment.status : "pending");
+
+                const className =
+                    student.__roster?.class_name ||
+                    getClassName(student.__roster?.class_id) ||
+                    "—";
+
+                return `
+                    <tr>
+
+                        <td>
+                            <div class="student-name">
+                                ${escapeHtml(student.full_name)}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="student-id">
+                                ${escapeHtml(student.student_id || "—")}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                student.administration_number || "—"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(className)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                student.student_type || "—"
+                            )}
+                        </td>
+
+                        <td>
+                            ${statusBadge(
+                                student.registration_status
+                            )}
+                        </td>
+
+                        <td>
+                            ${statusBadge(paymentStatus)}
+                        </td>
+
+                        <td>
+                            <div class="actions">
+
+                                <button
+                                    class="icon-btn review"
+                                    title="Review registration"
+                                    onclick="openReviewModal(${student.id})"
+                                >
+                                    <i data-lucide="eye"></i>
+                                </button>
+
+                                <button
+                                    class="icon-btn"
+                                    title="Edit student"
+                                    onclick="openEditModal(${student.id})"
+                                >
+                                    <i data-lucide="pencil"></i>
+                                </button>
+
+                                <button
+                                    class="icon-btn delete"
+                                    title="Delete student"
+                                    onclick="deleteStudent(${student.id})"
+                                >
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+
+        lucide.createIcons();
+    }
+
+
+    /* =========================================================
+       ADD STUDENT
+    ========================================================= */
+
+    function openAddModal() {
+
+        document.getElementById("studentModalTitle")
+            .textContent = "Add Student";
+
+        document.getElementById("editingStudentId")
+            .value = "";
+
+        document.getElementById("administrationNumber")
+            .value = "";
+
+        document.getElementById("fullName")
+            .value = "";
+
+        document.getElementById("studentClass")
+            .value = "";
+
+        document.getElementById("studentModal")
+            .classList.add("show");
+    }
+
+
+    function openEditModal(studentId) {
+
+        const student =
+            allStudents.find(
+                s => Number(s.id) === Number(studentId)
             );
 
+        if (!student) {
+            showToast("Student not found", "error");
+            return;
+        }
 
-    if (error) {
+        document.getElementById("studentModalTitle")
+            .textContent = "Edit Student";
 
-        throw new Error(
-            "Could not load class roster: " +
-            error.message
-        );
+        document.getElementById("editingStudentId")
+            .value = student.id;
+
+        document.getElementById("administrationNumber")
+            .value =
+            student.administration_number || "";
+
+        document.getElementById("fullName")
+            .value =
+            student.full_name || "";
+
+        document.getElementById("studentClass")
+            .value =
+            student.__roster?.class_id || "";
+
+        document.getElementById("studentModal")
+            .classList.add("show");
     }
 
 
-    studentRoster =
-        data || [];
+    function closeStudentModal() {
 
-
-    console.log(
-        "ROSTER LOADED:",
-        studentRoster
-    );
-}
-
-
-/* =========================================================
-   LOAD STUDENTS
-========================================================= */
-
-async function loadStudents() {
-
-    tableBody.innerHTML = `
-        <tr>
-            <td colspan="8">
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <i data-lucide="loader-circle"></i>
-                    </div>
-                    <div class="empty-title">
-                        Loading students...
-                    </div>
-                </div>
-            </td>
-        </tr>
-    `;
-
-    refreshIcons();
-
-
-    /*
-       Load both sides of the relationship
-       independently, then match IDs locally.
-    */
-
-    await loadAllStudents();
-
-    await loadStudentRoster();
-
-    renderStudents();
-}
-
-
-/* =========================================================
-   CLASS LOOKUP
-========================================================= */
-
-function getClassName(classId) {
-
-    const cls =
-        assignedClasses.find(
-            item =>
-                Number(item.id) ===
-                Number(classId)
-        );
-
-    return cls
-        ? cls.name
-        : "Unassigned";
-}
-
-
-/* =========================================================
-   STUDENT ROSTER LOOKUP
-========================================================= */
-
-function getStudentRoster(studentId) {
-
-    return studentRoster.find(
-        item =>
-            Number(item.student_id) ===
-            Number(studentId)
-    ) || null;
-}
-
-
-function getStudentClassId(studentId) {
-
-    const roster =
-        getStudentRoster(studentId);
-
-    return roster
-        ? Number(roster.class_id)
-        : null;
-}
-
-
-/* =========================================================
-   STUDENT TYPE
-========================================================= */
-
-function getStudentType(student) {
-
-    if (
-        student &&
-        student.student_type
-    ) {
-
-        return student.student_type;
+        document.getElementById("studentModal")
+            .classList.remove("show");
     }
 
 
-    const classId =
-        getStudentClassId(
-            student.id
-        );
+    /* =========================================================
+       SAVE STUDENT
+    ========================================================= */
 
+    async function saveStudent() {
 
-    const cls =
-        assignedClasses.find(
-            item =>
-                Number(item.id) ===
-                Number(classId)
-        );
+        const editingId =
+            document.getElementById("editingStudentId")
+                .value;
 
+        const administrationNumber =
+            document.getElementById("administrationNumber")
+                .value.trim();
 
-    if (!cls) {
-        return "new";
-    }
-
-
-    const grade =
-        grades.find(
-            item =>
-                Number(item.id) ===
-                Number(cls.grade_id)
-        );
-
-
-    return (
-        grade &&
-        grade.student_type
-    )
-        ? grade.student_type
-        : "new";
-}
-
-
-/* =========================================================
-   VISIBLE STUDENTS
-========================================================= */
-
-function getVisibleStudents() {
-
-    if (
-        assignedClasses.length === 0
-    ) {
-
-        return [];
-    }
-
-
-    const assignedClassIds =
-        new Set(
-            assignedClasses.map(
-                cls =>
-                    Number(cls.id)
-            )
-        );
-
-
-    return allStudents.filter(student => {
+        const fullName =
+            document.getElementById("fullName")
+                .value.trim();
 
         const classId =
-            getStudentClassId(
-                student.id
+            document.getElementById("studentClass")
+                .value;
+
+        if (!administrationNumber ||
+            !fullName ||
+            !classId) {
+
+            showToast(
+                "Please complete all fields.",
+                "error"
             );
 
+            return;
+        }
 
-        return (
-            classId !== null &&
-            assignedClassIds.has(
-                Number(classId)
-            )
-        );
-    });
-}
+        if (editingId) {
 
+            const { error } =
+                await supabaseClient
+                    .from("students")
+                    .update({
+                        administration_number:
+                            administrationNumber,
+                        full_name:
+                            fullName,
+                        updated_at:
+                            new Date().toISOString()
+                    })
+                    .eq("id", editingId);
 
-/* =========================================================
-   RENDER
-========================================================= */
+            if (error) {
 
-function renderStudents() {
-
-    if (
-        assignedClasses.length === 0
-    ) {
-
-        studentCount.textContent =
-            "0 students";
-
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="8">
-
-                    <div class="empty-state">
-
-                        <div class="empty-icon">
-                            <i data-lucide="school"></i>
-                        </div>
-
-                        <div class="empty-title">
-                            No classes assigned
-                        </div>
-
-                        <div class="empty-text">
-                            This staff account has not been assigned a class yet.
-                            Ask the administrator to assign a class.
-                        </div>
-
-                    </div>
-
-                </td>
-            </tr>
-        `;
-
-        refreshIcons();
-
-        return;
-    }
-
-
-    let students =
-        getVisibleStudents();
-
-
-    const search =
-        searchInput.value
-            .trim()
-            .toLowerCase();
-
-
-    const selectedClass =
-        classFilter.value;
-
-
-    if (search) {
-
-        students =
-            students.filter(student => {
-
-                const name =
-                    String(
-                        student.full_name || ""
-                    ).toLowerCase();
-
-                const admin =
-                    String(
-                        student.administration_number || ""
-                    ).toLowerCase();
-
-                const studentId =
-                    String(
-                        student.student_id || ""
-                    ).toLowerCase();
-
-
-                return (
-                    name.includes(search) ||
-                    admin.includes(search) ||
-                    studentId.includes(search)
+                showToast(
+                    "Could not update student: " +
+                    error.message,
+                    "error"
                 );
-            });
-    }
 
+                return;
+            }
 
-    if (
-        selectedClass !== "all"
-    ) {
+            /*
+             * Update class roster.
+             */
+            const { data: existingRoster } =
+                await supabaseClient
+                    .from("class_roster")
+                    .select("id")
+                    .eq("student_id", editingId)
+                    .limit(1);
 
-        students =
-            students.filter(student => {
+            if (existingRoster &&
+                existingRoster.length) {
 
-                return (
-                    String(
-                        getStudentClassId(
-                            student.id
-                        )
-                    ) ===
-                    String(selectedClass)
+                await supabaseClient
+                    .from("class_roster")
+                    .update({
+                        class_id: Number(classId),
+                        full_name: fullName,
+                        administration_number:
+                            administrationNumber
+                    })
+                    .eq(
+                        "id",
+                        existingRoster[0].id
+                    );
+            }
+
+            showToast(
+                "Student updated successfully.",
+                "success"
+            );
+
+        } else {
+
+            /*
+             * New staff-created student.
+             * Personal registration information remains empty
+             * until the student completes public registration.
+             */
+
+            const studentId =
+                await createStudentRecord(
+                    administrationNumber,
+                    fullName
                 );
-            });
-    }
 
+            if (!studentId) {
+                return;
+            }
 
-    studentCount.textContent =
-        students.length +
-        (
-            students.length === 1
-                ? " student"
-                : " students"
-        );
-
-
-    if (
-        students.length === 0
-    ) {
-
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="8">
-
-                    <div class="empty-state">
-
-                        <div class="empty-icon">
-                            <i data-lucide="users"></i>
-                        </div>
-
-                        <div class="empty-title">
-                            No students found
-                        </div>
-
-                        <div class="empty-text">
-                            No student in your assigned classes matches the current list or search.
-                        </div>
-
-                    </div>
-
-                </td>
-            </tr>
-        `;
-
-        refreshIcons();
-
-        return;
-    }
-
-
-    tableBody.innerHTML =
-        students
-            .map(
-                (student,index) =>
-                    createStudentRow(
-                        student,
-                        index + 1
+            /*
+             * Determine next student number for class.
+             */
+            const { data: rosterRows } =
+                await supabaseClient
+                    .from("class_roster")
+                    .select("student_number")
+                    .eq("class_id", Number(classId))
+                    .order(
+                        "student_number",
+                        { ascending: false }
                     )
-            )
-            .join("");
+                    .limit(1);
 
+            const nextNumber =
+                rosterRows &&
+                rosterRows.length &&
+                rosterRows[0].student_number
+                    ? Number(
+                        rosterRows[0].student_number
+                    ) + 1
+                    : 1;
 
-    refreshIcons();
-}
+            const { error: rosterError } =
+                await supabaseClient
+                    .from("class_roster")
+                    .insert({
+                        student_id: studentId,
+                        class_id: Number(classId),
+                        student_number: nextNumber,
+                        full_name: fullName,
+                        administration_number:
+                            administrationNumber
+                    });
 
+            if (rosterError) {
 
-/* =========================================================
-   CREATE ROW
-========================================================= */
+                showToast(
+                    "Student created but class assignment failed: " +
+                    rosterError.message,
+                    "error"
+                );
 
-function createStudentRow(
-    student,
-    number
-) {
+                return;
+            }
 
-    const classId =
-        getStudentClassId(
-            student.id
-        );
+            showToast(
+                "Student added successfully.",
+                "success"
+            );
+        }
 
+        closeStudentModal();
 
-    const className =
-        getClassName(
-            classId
-        );
-
-
-    const type =
-        getStudentType(
-            student
-        );
-
-
-    const registration =
-        student.registration_status ||
-        "pending";
-
-
-    const typeLabel =
-        type === "returning"
-            ? "Returning"
-            : "New";
-
-
-    const typeClass =
-        type === "returning"
-            ? "badge-returning"
-            : "badge-new";
-
-
-    const registrationClass =
-        registration === "approved"
-            ? "badge-new"
-            : "badge-returning";
-
-
-    return `
-        <tr>
-
-            <td>
-                ${number}
-            </td>
-
-            <td>
-                <div class="student-name">
-                    ${escapeHtml(
-                        student.full_name || ""
-                    )}
-                </div>
-            </td>
-
-            <td>
-                ${escapeHtml(
-                    student.administration_number ||
-                    "—"
-                )}
-            </td>
-
-            <td>
-                ${escapeHtml(
-                    student.student_id ||
-                    "—"
-                )}
-            </td>
-
-            <td>
-                <strong>
-                    ${escapeHtml(
-                        className
-                    )}
-                </strong>
-            </td>
-
-            <td>
-                <span class="badge ${typeClass}">
-                    ${typeLabel}
-                </span>
-            </td>
-
-            <td>
-                <span class="badge ${registrationClass}">
-                    ${escapeHtml(
-                        capitalize(
-                            registration
-                        )
-                    )}
-                </span>
-            </td>
-
-            <td>
-
-                <div class="actions">
-
-                    <button
-                        class="icon-btn"
-                        title="Edit student"
-                        onclick="editStudent(${student.id})"
-                    >
-                        <i data-lucide="pencil"></i>
-                    </button>
-
-                    <button
-                        class="icon-btn delete"
-                        title="Delete student"
-                        onclick="deleteStudent(${student.id})"
-                    >
-                        <i data-lucide="trash-2"></i>
-                    </button>
-
-                </div>
-
-            </td>
-
-        </tr>
-    `;
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value) {
-
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
-
-/* =========================================================
-   CAPITALIZE
-========================================================= */
-
-function capitalize(value) {
-
-    if (!value) {
-        return "";
+        await loadData();
     }
 
-    const text =
-        String(value);
 
-    return (
-        text.charAt(0).toUpperCase() +
-        text.slice(1)
-    );
-}
-
-
-/* =========================================================
-   GENERATE STUDENT ID
-========================================================= */
-
-async function generateStudentId() {
-
-    for (
-        let attempt = 0;
-        attempt < 20;
-        attempt++
+    async function createStudentRecord(
+        administrationNumber,
+        fullName
     ) {
 
-        const generated =
-            String(
-                Math.floor(
-                    1000000000 +
-                    Math.random() *
-                    9000000000
-                )
+        /*
+         * Generate a simple student ID.
+         * The database student id remains the primary key.
+         */
+        const studentId =
+            "ST" +
+            Date.now().toString().slice(-8);
+
+        const { data, error } =
+            await supabaseClient
+                .from("students")
+                .insert({
+                    student_id: studentId,
+                    full_name: fullName,
+                    administration_number:
+                        administrationNumber,
+                    student_type: "new",
+                    registration_status: "pending",
+                    payment_status: "pending"
+                })
+                .select("id")
+                .single();
+
+        if (error) {
+
+            showToast(
+                "Could not create student: " +
+                error.message,
+                "error"
             );
 
+            return null;
+        }
+
+        return data.id;
+    }
+
+
+    /* =========================================================
+       DELETE STUDENT
+    ========================================================= */
+
+    async function deleteStudent(studentId) {
+
+        const student =
+            allStudents.find(
+                s => Number(s.id) === Number(studentId)
+            );
+
+        if (!student) {
+            return;
+        }
+
+        const confirmed =
+            confirm(
+                `Delete ${student.full_name || "this student"}?`
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+        /*
+         * Delete class roster first.
+         */
+        await supabaseClient
+            .from("class_roster")
+            .delete()
+            .eq("student_id", studentId);
+
+        /*
+         * Delete payment records.
+         */
+        await supabaseClient
+            .from("payments")
+            .delete()
+            .eq("student_id", studentId);
+
+        const { error } =
+            await supabaseClient
+                .from("students")
+                .delete()
+                .eq("id", studentId);
+
+        if (error) {
+
+            showToast(
+                "Could not delete student: " +
+                error.message,
+                "error"
+            );
+
+            return;
+        }
+
+        showToast(
+            "Student deleted successfully.",
+            "success"
+        );
+
+        await loadData();
+    }
+
+
+    /* =========================================================
+       REVIEW MODAL
+    ========================================================= */
+
+    async function openReviewModal(studentId) {
+
+        const student =
+            allStudents.find(
+                s => Number(s.id) === Number(studentId)
+            );
+
+        if (!student) {
+            showToast("Student not found.", "error");
+            return;
+        }
+
+        currentReviewStudent = student;
+
+        document.getElementById("reviewModal")
+            .classList.add("show");
+
+        document.getElementById("reviewBody").innerHTML = `
+            <div class="loading">
+                <i data-lucide="loader-circle"></i>
+                <div style="margin-top:8px;">
+                    Loading submitted documents...
+                </div>
+            </div>
+        `;
+
+        lucide.createIcons();
+
+        await renderReview(student);
+    }
+
+
+    function closeReviewModal() {
+
+        document.getElementById("reviewModal")
+            .classList.remove("show");
+
+        currentReviewStudent = null;
+    }
+
+
+    async function renderReview(student) {
+
+        const payment =
+            getLatestPayment(student.id);
+
+        let academicUrl = null;
+        let paymentUrl = null;
+
+        if (student.academic_clearance_image) {
+
+            academicUrl =
+                await createSignedFileUrl(
+                    student.academic_clearance_image
+                );
+        }
+
+        const paymentPath =
+            payment?.receipt_image ||
+            student.payment_receipt_image ||
+            null;
+
+        if (paymentPath) {
+
+            paymentUrl =
+                await createSignedFileUrl(
+                    paymentPath
+                );
+        }
+
+        const className =
+            student.__roster?.class_name ||
+            getClassName(student.__roster?.class_id) ||
+            "—";
+
+        const paymentStatus =
+            student.payment_status ||
+            payment?.status ||
+            "pending";
+
+        document.getElementById("reviewSubtitle")
+            .textContent =
+            `${student.full_name || "Student"} • ${student.student_id || "No ID"}`;
+
+        document.getElementById("reviewBody")
+            .innerHTML = `
+
+            <!-- BASIC INFO -->
+
+            <div class="review-top">
+
+                <div class="info-box">
+                    <small>Name</small>
+                    <strong>
+                        ${escapeHtml(student.full_name || "—")}
+                    </strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Student ID</small>
+                    <strong>
+                        ${escapeHtml(student.student_id || "—")}
+                    </strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Class</small>
+                    <strong>
+                        ${escapeHtml(className)}
+                    </strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Student Type</small>
+                    <strong>
+                        ${escapeHtml(student.student_type || "—")}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="section-title">
+                Student Information
+            </div>
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+                    <small>Administration Number</small>
+                    <strong>
+                        ${escapeHtml(
+                            student.administration_number || "—"
+                        )}
+                    </strong>
+                </div>
+
+                <div class="detail-item">
+                    <small>Date of Birth</small>
+                    <strong>
+                        ${escapeHtml(
+                            student.date_of_birth || "—"
+                        )}
+                    </strong>
+                </div>
+
+                <div class="detail-item">
+                    <small>Gender</small>
+                    <strong>
+                        ${escapeHtml(
+                            student.gender || "—"
+                        )}
+                    </strong>
+                </div>
+
+                <div class="detail-item">
+                    <small>Phone</small>
+                    <strong>
+                        ${escapeHtml(
+                            student.phone || "—"
+                        )}
+                    </strong>
+                </div>
+
+                <div class="detail-item">
+                    <small>Parent / Guardian</small>
+                    <strong>
+                        ${escapeHtml(
+                            student.parent_guardian || "—"
+                        )}
+                    </strong>
+                </div>
+
+                <div class="detail-item">
+                    <small>Address</small>
+                    <strong>
+                        ${escapeHtml(
+                            student.address || "—"
+                        )}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <!-- DOCUMENTS -->
+
+            <div class="section-title">
+                Submitted Documents
+            </div>
+
+            <div class="documents">
+
+                <!-- ACADEMIC -->
+
+                <div class="document-card">
+
+                    <div class="document-card-header">
+
+                        <strong>
+                            Academic Clearance
+                        </strong>
+
+                        ${
+                            student.academic_clearance_image
+                            ? `
+                                <span class="badge badge-approved">
+                                    Submitted
+                                </span>
+                              `
+                            : `
+                                <span class="badge badge-pending">
+                                    Not submitted
+                                </span>
+                              `
+                        }
+
+                    </div>
+
+                    <div class="document-preview">
+
+                        ${
+                            academicUrl
+                            ? renderDocumentPreview(
+                                academicUrl,
+                                student.academic_clearance_image
+                              )
+                            : `
+                                <div class="no-document">
+                                    <i data-lucide="file-x"></i>
+                                    <div>
+                                        No academic clearance uploaded.
+                                    </div>
+                                </div>
+                              `
+                        }
+
+                    </div>
+
+                    ${
+                        academicUrl
+                        ? `
+                            <div class="document-footer">
+
+                                <a
+                                    href="${escapeHtml(academicUrl)}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn btn-gray btn-small"
+                                >
+                                    <i data-lucide="external-link"></i>
+                                    Open
+                                </a>
+
+                            </div>
+                          `
+                        : ""
+                    }
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div class="document-card">
+
+                    <div class="document-card-header">
+
+                        <strong>
+                            Payment Receipt
+                        </strong>
+
+                        ${
+                            paymentPath
+                            ? statusBadge(paymentStatus)
+                            : `
+                                <span class="badge badge-pending">
+                                    Not submitted
+                                </span>
+                              `
+                        }
+
+                    </div>
+
+                    <div class="document-preview">
+
+                        ${
+                            paymentUrl
+                            ? renderDocumentPreview(
+                                paymentUrl,
+                                paymentPath
+                              )
+                            : `
+                                <div class="no-document">
+                                    <i data-lucide="receipt"></i>
+                                    <div>
+                                        No payment receipt uploaded.
+                                    </div>
+                                </div>
+                              `
+                        }
+
+                    </div>
+
+                    ${
+                        paymentUrl
+                        ? `
+                            <div class="document-footer">
+
+                                <a
+                                    href="${escapeHtml(paymentUrl)}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn btn-gray btn-small"
+                                >
+                                    <i data-lucide="external-link"></i>
+                                    Open
+                                </a>
+
+                            </div>
+                          `
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- REGISTRATION DECISION -->
+
+            <div class="section-title">
+                Registration Decision
+            </div>
+
+            <div class="decision-box">
+
+                <div class="decision-header">
+
+                    <strong>
+                        Current registration status
+                    </strong>
+
+                    ${statusBadge(
+                        student.registration_status
+                    )}
+
+                </div>
+
+                <div class="decision-buttons">
+
+                    <button
+                        class="btn btn-green"
+                        onclick="updateRegistrationStatus(
+                            ${student.id},
+                            'approved'
+                        )"
+                    >
+                        <i data-lucide="check"></i>
+                        Approve Registration
+                    </button>
+
+                    <button
+                        class="btn btn-red"
+                        onclick="updateRegistrationStatus(
+                            ${student.id},
+                            'rejected'
+                        )"
+                    >
+                        <i data-lucide="x"></i>
+                        Reject Registration
+                    </button>
+
+                    <button
+                        class="btn btn-gray"
+                        onclick="updateRegistrationStatus(
+                            ${student.id},
+                            'pending'
+                        )"
+                    >
+                        <i data-lucide="clock-3"></i>
+                        Set Pending
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT DECISION -->
+
+            <div class="decision-box">
+
+                <div class="decision-header">
+
+                    <strong>
+                        Payment decision
+                    </strong>
+
+                    ${statusBadge(paymentStatus)}
+
+                </div>
+
+                ${
+                    payment
+                    ? `
+                        <div class="decision-buttons">
+
+                            <button
+                                class="btn btn-green"
+                                onclick="updatePaymentStatus(
+                                    ${student.id},
+                                    ${payment.id},
+                                    'approved'
+                                )"
+                            >
+                                <i data-lucide="badge-check"></i>
+                                Approve Payment
+                            </button>
+
+                            <button
+                                class="btn btn-red"
+                                onclick="updatePaymentStatus(
+                                    ${student.id},
+                                    ${payment.id},
+                                    'rejected'
+                                )"
+                            >
+                                <i data-lucide="badge-x"></i>
+                                Reject Payment
+                            </button>
+
+                            <button
+                                class="btn btn-gray"
+                                onclick="updatePaymentStatus(
+                                    ${student.id},
+                                    ${payment.id},
+                                    'pending'
+                                )"
+                            >
+                                <i data-lucide="clock-3"></i>
+                                Set Pending
+                            </button>
+
+                        </div>
+                    `
+                    : `
+                        <div class="muted">
+                            No payment record is available yet.
+                        </div>
+                    `
+                }
+
+            </div>
+
+        `;
+
+        lucide.createIcons();
+    }
+
+
+    /* =========================================================
+       SIGNED URL
+    ========================================================= */
+
+    async function createSignedFileUrl(path) {
+
+        if (!path) {
+            return null;
+        }
+
+        /*
+         * Some old records may already contain a full URL.
+         */
+        if (
+            path.startsWith("http://") ||
+            path.startsWith("https://")
+        ) {
+            return path;
+        }
 
         const {
             data,
             error
         } =
             await supabaseClient
-                .from("students")
-                .select("id")
-                .eq(
-                    "student_id",
-                    generated
-                )
-                .maybeSingle();
-
+                .storage
+                .from("payment-receipts")
+                .createSignedUrl(
+                    path,
+                    60 * 10
+                );
 
         if (error) {
-            throw error;
-        }
 
-
-        if (!data) {
-            return generated;
-        }
-    }
-
-
-    throw new Error(
-        "Unable to generate a unique Student ID. Please try again."
-    );
-}
-
-
-/* =========================================================
-   CREATE ROSTER ENTRY
-========================================================= */
-
-async function createRosterEntry(
-    studentId,
-    classId
-) {
-
-    /*
-       Check for existing roster entry.
-    */
-
-    const {
-        data: existing,
-        error: existingError
-    } =
-        await supabaseClient
-            .from("class_roster")
-            .select(
-                "id,student_id,class_id,student_number"
-            )
-            .eq(
-                "student_id",
-                studentId
-            )
-            .maybeSingle();
-
-
-    if (existingError) {
-        throw existingError;
-    }
-
-
-    if (existing) {
-
-        if (
-            Number(existing.class_id) !==
-            Number(classId)
-        ) {
-
-            const {
+            console.error(
+                "Signed URL error:",
                 error
-            } =
-                await supabaseClient
-                    .from("class_roster")
-                    .update({
-                        class_id:Number(classId)
-                    })
-                    .eq(
-                        "id",
-                        existing.id
-                    );
+            );
 
-
-            if (error) {
-                throw error;
-            }
+            return null;
         }
 
-        return;
+        return data?.signedUrl || null;
     }
 
 
-    /*
-       Find the next number in the class.
-    */
+    /* =========================================================
+       DOCUMENT PREVIEW
+    ========================================================= */
 
-    const {
-        data: roster,
-        error: rosterError
-    } =
-        await supabaseClient
-            .from("class_roster")
-            .select("student_number")
-            .eq(
-                "class_id",
-                classId
-            )
-            .order(
-                "student_number",
-                {
-                    ascending:false
-                }
-            )
-            .limit(1);
+    function renderDocumentPreview(url, path) {
 
+        const lower =
+            String(path || "").toLowerCase();
 
-    if (rosterError) {
-        throw rosterError;
+        const isImage =
+            lower.endsWith(".jpg") ||
+            lower.endsWith(".jpeg") ||
+            lower.endsWith(".png") ||
+            lower.endsWith(".gif") ||
+            lower.endsWith(".webp") ||
+            lower.endsWith(".bmp");
+
+        const isPdf =
+            lower.endsWith(".pdf");
+
+        if (isImage) {
+
+            return `
+                <img
+                    src="${escapeHtml(url)}"
+                    alt="Submitted document"
+                >
+            `;
+        }
+
+        if (isPdf) {
+
+            return `
+                <iframe
+                    src="${escapeHtml(url)}"
+                    title="Submitted PDF"
+                ></iframe>
+            `;
+        }
+
+        return `
+            <div class="no-document">
+                <i data-lucide="file"></i>
+
+                <div style="margin-top:8px;">
+                    File submitted
+                </div>
+
+                <a
+                    href="${escapeHtml(url)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="
+                        display:inline-block;
+                        margin-top:10px;
+                        color:#0284c7;
+                        text-decoration:none;
+                        font-weight:600;
+                    "
+                >
+                    Open file
+                </a>
+            </div>
+        `;
     }
 
 
-    let nextNumber = 1;
+    /* =========================================================
+       REGISTRATION APPROVE / REJECT
+    ========================================================= */
 
-
-    if (
-        roster &&
-        roster.length > 0 &&
-        roster[0].student_number != null
+    async function updateRegistrationStatus(
+        studentId,
+        status
     ) {
 
-        nextNumber =
-            Number(
-                roster[0].student_number
-            ) + 1;
-    }
+        const student =
+            allStudents.find(
+                s => Number(s.id) === Number(studentId)
+            );
 
+        if (!student) {
+            showToast(
+                "Student not found.",
+                "error"
+            );
+            return;
+        }
 
-    const {
-        error: insertError
-    } =
-        await supabaseClient
-            .from("class_roster")
-            .insert({
-                student_id:Number(studentId),
-                class_id:Number(classId),
-                student_number:nextNumber
-            });
+        const actionText =
+            status === "approved"
+                ? "approve"
+                : status === "rejected"
+                    ? "reject"
+                    : "set this registration to pending";
 
+        if (
+            !confirm(
+                `Are you sure you want to ${actionText} for ${student.full_name}?`
+            )
+        ) {
+            return;
+        }
 
-    if (insertError) {
+        const { error } =
+            await supabaseClient
+                .from("students")
+                .update({
+                    registration_status: status,
+                    updated_at:
+                        new Date().toISOString()
+                })
+                .eq("id", studentId);
 
-        console.error(
-            "ROSTER INSERT ERROR:",
-            insertError
+        if (error) {
+
+            showToast(
+                "Could not update registration: " +
+                error.message,
+                "error"
+            );
+
+            return;
+        }
+
+        showToast(
+            `Registration ${status}.`,
+            "success"
         );
 
-        throw insertError;
+        await loadAllStudents();
+        await loadPayments();
+
+        const updatedStudent =
+            allStudents.find(
+                s => Number(s.id) === Number(studentId)
+            );
+
+        if (updatedStudent) {
+            currentReviewStudent = updatedStudent;
+            await renderReview(updatedStudent);
+        }
+
+        renderStudents();
     }
-}
 
 
-/* =========================================================
-   OPEN ADD MODAL
-========================================================= */
+    /* =========================================================
+       PAYMENT APPROVE / REJECT
+    ========================================================= */
 
-function openAddModal() {
+    async function updatePaymentStatus(
+        studentId,
+        paymentId,
+        status
+    ) {
 
-    editingStudentId.value = "";
+        const actionText =
+            status === "approved"
+                ? "approve"
+                : status === "rejected"
+                    ? "reject"
+                    : "set to pending";
 
-    modalTitle.textContent =
-        "Add Student";
+        if (
+            !confirm(
+                `Are you sure you want to ${actionText} this payment?`
+            )
+        ) {
+            return;
+        }
 
-    administrationNumber.value = "";
-    fullName.value = "";
-    classSelect.value = "";
+        /*
+         * Update the payment record.
+         */
+        const { error: paymentError } =
+            await supabaseClient
+                .from("payments")
+                .update({
+                    status: status,
+                    updated_at:
+                        new Date().toISOString()
+                })
+                .eq("id", paymentId);
 
-    saveStudentBtn.disabled = false;
+        if (paymentError) {
 
-    saveStudentBtn.innerHTML = `
-        <i data-lucide="save"></i>
-        Save Student
-    `;
+            console.error(
+                "Payment update error:",
+                paymentError
+            );
 
-    studentModal.classList.add("show");
-
-    refreshIcons();
-
-    setTimeout(() => {
-        administrationNumber.focus();
-    },100);
-}
-
-
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
-
-function closeModal() {
-
-    studentModal.classList.remove("show");
-
-    studentForm.reset();
-
-    editingStudentId.value = "";
-}
-
-
-/* =========================================================
-   SAVE STUDENT
-========================================================= */
-
-studentForm.addEventListener(
-    "submit",
-    async event => {
-
-        event.preventDefault();
-
-
-        const adminNumber =
-            administrationNumber.value.trim();
-
-        const name =
-            fullName.value.trim();
-
-        const selectedClassId =
-            classSelect.value;
-
-        const editingId =
-            editingStudentId.value;
-
-
-        if (!adminNumber) {
-
-            showAlert(
-                "Administration number is required.",
+            showToast(
+                "Could not update payment: " +
+                paymentError.message,
                 "error"
             );
 
             return;
         }
 
+        /*
+         * Keep students.payment_status synchronized.
+         */
+        const { error: studentError } =
+            await supabaseClient
+                .from("students")
+                .update({
+                    payment_status: status,
+                    updated_at:
+                        new Date().toISOString()
+                })
+                .eq("id", studentId);
 
-        if (!name) {
+        if (studentError) {
 
-            showAlert(
-                "Full name is required.",
+            showToast(
+                "Payment updated, but student payment status could not be synchronized: " +
+                studentError.message,
                 "error"
             );
 
-            return;
+        } else {
+
+            showToast(
+                `Payment ${status}.`,
+                "success"
+            );
         }
 
+        await loadAllStudents();
+        await loadPayments();
 
-        if (!selectedClassId) {
-
-            showAlert(
-                "Please select a class.",
-                "error"
+        const updatedStudent =
+            allStudents.find(
+                s => Number(s.id) === Number(studentId)
             );
 
-            return;
+        if (updatedStudent) {
+
+            currentReviewStudent =
+                updatedStudent;
+
+            await renderReview(
+                updatedStudent
+            );
         }
 
-
-        const selectedClass =
-            assignedClasses.find(
-                cls =>
-                    String(cls.id) ===
-                    String(selectedClassId)
-            );
+        renderStudents();
+    }
 
 
-        if (!selectedClass) {
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
 
-            showAlert(
-                "You are not assigned to that class.",
-                "error"
-            );
+    document.addEventListener(
+        "DOMContentLoaded",
+        async () => {
 
-            return;
-        }
-
-
-        saveStudentBtn.disabled = true;
-
-        saveStudentBtn.innerHTML = `
-            <i data-lucide="loader-circle"></i>
-            Saving...
-        `;
-
-        refreshIcons();
-
-
-        try {
-
-            /* EDIT */
-
-            if (editingId) {
-
-                const {
-                    data: duplicate,
-                    error: duplicateError
-                } =
-                    await supabaseClient
-                        .from("students")
-                        .select("id,full_name")
-                        .eq(
-                            "administration_number",
-                            adminNumber
-                        )
-                        .neq(
-                            "id",
-                            Number(editingId)
-                        )
-                        .maybeSingle();
-
-
-                if (duplicateError) {
-                    throw duplicateError;
-                }
-
-
-                if (duplicate) {
-
-                    throw new Error(
-                        "That administration number already belongs to another student."
-                    );
-                }
-
-
-                const {
-                    error:updateError
-                } =
-                    await supabaseClient
-                        .from("students")
-                        .update({
-                            administration_number:
-                                adminNumber,
-                            full_name:
-                                name,
-                            updated_at:
-                                new Date()
-                                    .toISOString()
-                        })
-                        .eq(
-                            "id",
-                            Number(editingId)
-                        );
-
-
-                if (updateError) {
-                    throw updateError;
-                }
-
-
-                await createRosterEntry(
-                    Number(editingId),
-                    Number(selectedClassId)
-                );
-
-
-                closeModal();
-
-                showAlert(
-                    "Student updated successfully.",
-                    "success"
-                );
-
-                await loadStudents();
-
+            if (!checkSession()) {
                 return;
             }
 
+            lucide.createIcons();
 
-            /* ADD */
+            await loadData();
 
-            const {
-                data: existingStudent,
-                error: existingError
-            } =
-                await supabaseClient
-                    .from("students")
-                    .select("id,full_name")
-                    .eq(
-                        "administration_number",
-                        adminNumber
-                    )
-                    .maybeSingle();
-
-
-            if (existingError) {
-                throw existingError;
-            }
-
-
-            if (existingStudent) {
-
-                throw new Error(
-                    `Administration number ${adminNumber} already belongs to ${existingStudent.full_name}.`
-                );
-            }
-
-
-            const grade =
-                grades.find(
-                    item =>
-                        Number(item.id) ===
-                        Number(selectedClass.grade_id)
-                );
-
-
-            const studentType =
-                grade &&
-                grade.student_type
-                    ? grade.student_type
-                    : "new";
-
-
-            const generatedStudentId =
-                await generateStudentId();
-
-
-            const studentData = {
-
-                student_id:
-                    generatedStudentId,
-
-                full_name:
-                    name,
-
-                administration_number:
-                    adminNumber,
-
-                student_type:
-                    studentType,
-
-                registration_status:
-                    "pending"
-
-            };
-
-
-            console.log(
-                "ADDING STUDENT:",
-                studentData
-            );
-
-
-            const {
-                error:insertError
-            } =
-                await supabaseClient
-                    .from("students")
-                    .insert(
-                        studentData
-                    );
-
-
-            if (insertError) {
-                throw insertError;
-            }
-
-
-            /*
-               Find the newly created student.
-            */
-
-            const {
-                data:insertedStudent,
-                error:findError
-            } =
-                await supabaseClient
-                    .from("students")
-                    .select(
-                        "id,student_id,full_name,administration_number"
-                    )
-                    .eq(
-                        "student_id",
-                        generatedStudentId
-                    )
-                    .maybeSingle();
-
-
-            if (findError) {
-                throw findError;
-            }
-
-
-            if (!insertedStudent) {
-
-                throw new Error(
-                    "Student was saved, but the database could not return the new student record."
-                );
-            }
-
-
-            console.log(
-                "NEW STUDENT:",
-                insertedStudent
-            );
-
-
-            /*
-               Create class roster entry.
-            */
-
-            await createRosterEntry(
-                Number(insertedStudent.id),
-                Number(selectedClassId)
-            );
-
-
-            closeModal();
-
-            showAlert(
-                `${name} was added successfully.`,
-                "success"
-            );
-
-
-            /*
-               Reload both student records
-               and roster.
-            */
-
-            await loadStudents();
-
-
-        } catch (error) {
-
-            console.error(
-                "SAVE STUDENT ERROR:",
-                error
-            );
-
-
-            let message =
-                error.message ||
-                "Unable to save student.";
-
-
-            if (
-                error.code === "23505"
-            ) {
-
-                if (
-                    String(error.message)
-                        .toLowerCase()
-                        .includes("administration")
-                ) {
-
-                    message =
-                        "That administration number already exists.";
-
-                } else {
-
-                    message =
-                        "A duplicate roster or student record already exists.";
-                }
-            }
-
-
-            showAlert(
-                message,
-                "error"
-            );
-
-
-        } finally {
-
-            saveStudentBtn.disabled = false;
-
-            saveStudentBtn.innerHTML = `
-                <i data-lucide="save"></i>
-                Save Student
-            `;
-
-            refreshIcons();
-        }
-    }
-);
-
-
-/* =========================================================
-   EDIT STUDENT
-========================================================= */
-
-window.editStudent =
-    function(studentId) {
-
-        const student =
-            allStudents.find(
-                item =>
-                    Number(item.id) ===
-                    Number(studentId)
-            );
-
-
-        if (!student) {
-
-            showAlert(
-                "Student could not be found.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        const classId =
-            getStudentClassId(
-                student.id
-            );
-
-
-        editingStudentId.value =
-            student.id;
-
-        modalTitle.textContent =
-            "Edit Student";
-
-        administrationNumber.value =
-            student.administration_number ||
-            "";
-
-        fullName.value =
-            student.full_name ||
-            "";
-
-        classSelect.value =
-            classId
-                ? String(classId)
-                : "";
-
-
-        saveStudentBtn.innerHTML = `
-            <i data-lucide="save"></i>
-            Save Changes
-        `;
-
-
-        studentModal.classList.add("show");
-
-        refreshIcons();
-    };
-
-
-/* =========================================================
-   DELETE STUDENT
-========================================================= */
-
-window.deleteStudent =
-    async function(studentId) {
-
-        const student =
-            allStudents.find(
-                item =>
-                    Number(item.id) ===
-                    Number(studentId)
-            );
-
-
-        if (!student) {
-            return;
-        }
-
-
-        const confirmed =
-            window.confirm(
-                `Delete ${student.full_name}?\n\nThis will remove the student from the student database.`
-            );
-
-
-        if (!confirmed) {
-            return;
-        }
-
-
-        try {
-
-            /*
-               Remove roster first.
-            */
-
-            const {
-                error:rosterError
-            } =
-                await supabaseClient
-                    .from("class_roster")
-                    .delete()
-                    .eq(
-                        "student_id",
-                        Number(studentId)
-                    );
-
-
-            if (rosterError) {
-                throw rosterError;
-            }
-
-
-            /*
-               Remove student.
-            */
-
-            const {
-                error:studentError
-            } =
-                await supabaseClient
-                    .from("students")
-                    .delete()
-                    .eq(
-                        "id",
-                        Number(studentId)
-                    );
-
-
-            if (studentError) {
-                throw studentError;
-            }
-
-
-            showAlert(
-                "Student deleted successfully.",
-                "success"
-            );
-
-
-            await loadStudents();
-
-
-        } catch (error) {
-
-            console.error(
-                "DELETE STUDENT ERROR:",
-                error
-            );
-
-            showAlert(
-                error.message ||
-                "Unable to delete student.",
-                "error"
-            );
-        }
-    };
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-searchInput.addEventListener(
-    "input",
-    renderStudents
-);
-
-
-classFilter.addEventListener(
-    "change",
-    renderStudents
-);
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-document
-    .getElementById("addStudentBtn")
-    .addEventListener(
-        "click",
-        openAddModal
-    );
-
-
-document
-    .getElementById("refreshBtn")
-    .addEventListener(
-        "click",
-        async () => {
-
-            try {
-
-                await loadAssignedClasses();
-
-                await loadStudents();
-
-                showAlert(
-                    "Student list refreshed.",
-                    "success"
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "REFRESH ERROR:",
-                    error
-                );
-
-                showAlert(
-                    error.message ||
-                    "Unable to refresh students.",
-                    "error"
-                );
-            }
+            lucide.createIcons();
         }
     );
-
-
-document
-    .getElementById("printBtn")
-    .addEventListener(
-        "click",
-        () => {
-            window.print();
-        }
-    );
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-document
-    .getElementById("closeModal")
-    .addEventListener(
-        "click",
-        closeModal
-    );
-
-
-document
-    .getElementById("cancelBtn")
-    .addEventListener(
-        "click",
-        closeModal
-    );
-
-
-studentModal.addEventListener(
-    "click",
-    event => {
-
-        if (
-            event.target ===
-            studentModal
-        ) {
-
-            closeModal();
-        }
-    }
-);
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-async function initialize() {
-
-    if (!checkStaffLogin()) {
-        return;
-    }
-
-
-    try {
-
-        await loadGrades();
-
-        await loadAssignedClasses();
-
-        await loadStudents();
-
-
-    } catch (error) {
-
-        console.error(
-            "INITIALIZATION ERROR:",
-            error
-        );
-
-
-        tableBody.innerHTML = `
-            <tr>
-
-                <td colspan="8">
-
-                    <div class="empty-state">
-
-                        <div class="empty-icon">
-                            <i data-lucide="circle-alert"></i>
-                        </div>
-
-                        <div class="empty-title">
-                            Unable to load students
-                        </div>
-
-                        <div class="empty-text">
-                            ${escapeHtml(
-                                error.message ||
-                                "Please refresh the page."
-                            )}
-                        </div>
-
-                    </div>
-
-                </td>
-
-            </tr>
-        `;
-
-
-        showAlert(
-            error.message ||
-            "Unable to load student data.",
-            "error"
-        );
-
-
-        refreshIcons();
-    }
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-refreshIcons();
-
-initialize();
 
 </script>
 
